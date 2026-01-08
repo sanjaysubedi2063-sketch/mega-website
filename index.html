@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanjay | Mega Interactive Website</title>
+
+<!-- SEO META TAGS -->
+<meta name="description" content="Download my app and explore my mega interactive website with projects, friends, blog posts, and skills. Created by Sanjay Subedi.">
+<meta name="keywords" content="Sanjay, app, download, portfolio, projects, web development, HTML, CSS, JavaScript">
+<meta name="author" content="Sanjay Subedi">
+<meta name="robots" content="index, follow">
+
+<style>
+/* RESET */
+* {margin:0; padding:0; box-sizing:border-box; font-family: Arial, Helvetica, sans-serif; scroll-behavior:smooth;}
+body {background:#f4f6f8; color:#333;}
+a {text-decoration:none;}
+
+/* NAVBAR */
+nav{position:fixed;top:0;width:100%;background:#1e293b;padding:15px 0;text-align:center;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,0.3);}
+nav a{color:white;margin:0 15px;font-weight:bold;transition:0.3s;}
+nav a:hover{color:#38bdf8;}
+
+/* HERO */
+.hero{height:100vh;background:linear-gradient(to right,#0f172a,#1e293b);color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20px;}
+.hero h1{font-size:3.5rem;}
+.hero p{margin-top:15px;font-size:1.3rem;}
+.hero button{margin-top:25px;padding:14px 35px;font-size:16px;border:none;background:#38bdf8;color:black;border-radius:5px;cursor:pointer;transition:0.3s;}
+.hero button:hover{background:#0ea5e9;}
+
+/* SECTIONS */
+section{padding:100px 10%; margin-top:60px;}
+section h2{text-align:center;margin-bottom:50px;font-size:2.5rem;color:#1e293b;}
+section p{line-height:1.7;text-align:center;font-size:1.1rem;}
+
+/* CARDS */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-top:50px;}
+.card{background:white;padding:30px;border-radius:15px;box-shadow:0 10px 20px rgba(0,0,0,0.1);text-align:center;transition:transform 0.3s, box-shadow 0.3s;}
+.card:hover{transform:translateY(-15px); box-shadow:0 15px 25px rgba(0,0,0,0.2);}
+.card h3{margin-bottom:15px;color:#0f172a;}
+.card p{font-size:1rem;}
+
+/* SKILLS */
+.skills{display:flex;flex-wrap:wrap;justify-content:center;gap:15px;}
+.skill{background:#1e293b;color:white;padding:12px 25px;border-radius:25px;font-size:1rem;transition:0.3s;}
+.skill:hover{background:#38bdf8;color:black;}
+
+/* PROJECTS */
+.projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-top:50px;}
+.project-card{background:white;border-radius:15px;overflow:hidden;box-shadow:0 10px 20px rgba(0,0,0,0.1);transition: transform 0.3s;}
+.project-card:hover{transform:translateY(-15px);}
+.project-card img{width:100%;height:150px;object-fit:cover;}
+.project-card h3{padding:15px;font-size:1.2rem;color:#0f172a;}
+.project-card p{padding:0 15px 15px 15px;font-size:1rem;}
+
+/* FRIENDS */
+.friends{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px;margin-top:40px;}
+.friend-card{background:white;padding:25px;border-radius:15px;box-shadow:0 10px 20px rgba(0,0,0,0.1);text-align:center;transition:transform 0.3s;}
+.friend-card:hover{transform: translateY(-15px);}
+.friend-card img{width:120px;height:120px;border-radius:50%;margin-bottom:15px;}
+.friend-card h3{margin-bottom:10px;}
+.friend-card p{font-size:0.95rem;}
+
+/* BLOG */
+.blogs{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-top:40px;}
+.blog-card{background:white;border-radius:15px;padding:25px;box-shadow:0 10px 20px rgba(0,0,0,0.1);transition: transform 0.3s;}
+.blog-card:hover{transform: translateY(-10px);}
+.blog-card h3{margin-bottom:10px;}
+.blog-card p{font-size:1rem;}
+
+/* TESTIMONIALS */
+.testimonials{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-top:40px;}
+.testimonial-card{background:#1e293b;color:white;padding:25px;border-radius:15px;text-align:center;box-shadow:0 10px 20px rgba(0,0,0,0.2);}
+.testimonial-card p{font-style:italic;margin-bottom:15px;}
+.testimonial-card h3{font-weight:bold;}
+
+/* DOWNLOAD APP */
+#download {text-align:center;}
+#download button{padding:15px 30px;background:#38bdf8;color:black;border:none;border-radius:5px;font-size:16px;cursor:pointer;transition:0.3s;}
+#download button:hover{background:#0ea5e9;}
+
+/* CONTACT FORM */
+form{max-width:600px;margin:0 auto;}
+input, textarea{width:100%;padding:14px;margin:12px 0;border:1px solid #ccc;border-radius:5px;font-size:1rem;}
+form button{width:100%;padding:14px;background:#1e293b;color:white;border:none;border-radius:5px;font-size:1rem;cursor:pointer;}
+form button:hover{background:#0f172a;}
+
+/* FOOTER */
+footer{background:#020617;color:white;text-align:center;padding:30px;margin-top:50px;}
+footer a{color:#38bdf8;text-decoration:none;}
+
+/* RESPONSIVE HERO */
+@media(max-width:768px){.hero h1{font-size:2.5rem;}.hero p{font-size:1rem;}}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+<a href="#home">Home</a>
+<a href="#about">About</a>
+<a href="#services">Services</a>
+<a href="#skills">Skills</a>
+<a href="#projects">Projects</a>
+<a href="#friends">Friends</a>
+<a href="#blog">Blog</a>
+<a href="#testimonials">Testimonials</a>
+<a href="#download">Download App</a>
+<a href="#contact">Contact</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="home">
+<h1>Hello, I'm Sanjay</h1>
+<p>Welcome to my Mega Interactive Website</p>
+<button onclick="scrollToSection('about')">Get Started</button>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+<h2>About Me</h2>
+<p>I am a student learning web development using HTML, CSS, and JavaScript. This website demonstrates large-scale interactive content.</p>
+<p>I enjoy creating clean, responsive, and visually appealing web layouts for practice and portfolio projects.</p>
+<p>This mega-page includes projects, skills, friends, blogs, testimonials, and a downloadable app section for visitors.</p>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+<h2>Services</h2>
+<div class="cards">
+<div class="card"><h3>Web Design</h3><p>Modern responsive websites using HTML, CSS, and JS.</p></div>
+<div class="card"><h3>Student Projects</h3><p>Guidance on school and college programming assignments.</p></div>
+<div class="card"><h3>Learning Support</h3><p>Beginner-friendly tutorials and step-by-step guides.</p></div>
+<div class="card"><h3>UI/UX Design</h3><p>Designing user-friendly and clean interfaces.</p></div>
+<div class="card"><h3>Programming Help</h3><p>Assistance in Python, JavaScript, and other languages.</p></div>
+<div class="card"><h3>Web Animations</h3><p>Adding interactivity and animations for better UX.</p></div>
+</div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+<h2>Skills</h2>
+<div class="skills">
+<div class="skill">HTML</div>
+<div class="skill">CSS</div>
+<div class="skill">JavaScript</div>
+<div class="skill">Python</div>
+<div class="skill">VS Code</div>
+<div class="skill">Responsive Design</div>
+<div class="skill">UI/UX</div>
+<div class="skill">Git/GitHub</div>
+<div class="skill">Project Management</div>
+<div class="skill">Team Collaboration</div>
+</div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+<h2>Projects</h2>
+<div class="projects">
+<div class="project-card"><img src="https://picsum.photos/300/150?random=1" alt="Project 1"><h3>Portfolio Website</h3><p>Personal portfolio showcasing skills and projects.</p></div>
+<div class="project-card"><img src="https://picsum.photos/300/150?random=2" alt="Project 2"><h3>Blog Website</h3><p>Simple blog with posts, categories, and comments.</p></div>
+<div class="project-card"><img src="https://picsum.photos/300/150?random=3" alt="Project 3"><h3>Todo App</h3><p>Manage daily tasks with JS and local storage.</p></div>
+<div class="project-card"><img src="https://picsum.photos/300/150?random=4" alt="Project 4"><h3>Weather App</h3><p>Displays live weather using OpenWeather API.</p></div>
+<div class="project-card"><img src="https://picsum.photos/300/150?random=5" alt="Project 5"><h3>Quiz App</h3><p>Interactive multiple-choice quizzes for practice.</p></div>
+<div class="project-card"><img src="https://picsum.photos/300/150?random=6" alt="Project 6"><h3>Calculator</h3><p>Basic web calculator built with JS.</p></div>
+</div>
+</section>
+
+<!-- FRIENDS -->
+<section id="friends">
+<h2>Friends / Contacts</h2>
+<div class="friends">
+<div class="friend-card"><img src="https://randomuser.me/api/portraits/men/10.jpg" alt="Friend 1"><h3>Ramesh</h3><p>Classmate / Web Enthusiast</p></div>
+<div class="friend-card"><img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Friend 2"><h3>Sita</h3><p>Friend / Designer</p></div>
+<div class="friend-card"><img src="https://randomuser.me/api/portraits/men/15.jpg" alt="Friend 3"><h3>Hari</h3><p>Peer / Programmer</p></div>
+<div class="friend-card"><img src="https://randomuser.me/api/portraits/women/20.jpg" alt="Friend 4"><h3>Gita</h3><p>Schoolmate / Artist</p></div>
+</div>
+</section>
+
+<!-- DOWNLOAD APP -->
+<section id="download">
+<h2>Download My App</h2>
+<p>Click below to download my app. Compatible with Android.</p>
+<a href="MyApp.apk" download><button>Download App</button></a>
+<p>Or scan QR code to download on mobile:</p>
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://yourwebsite.com/MyApp.apk" alt="QR Code">
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+<h2>Contact Me</h2>
+<form>
+<input type="text" placeholder="Your Name">
+<input type="email" placeholder="Your Email">
+<input type="text" placeholder="Subject">
+<textarea rows="6" placeholder="Your Message"></textarea>
+<button type="submit">Send Message</button>
+</form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<p>© 2026 Sanjay | Mega Interactive Website | Made with ❤️</p>
+</footer>
+
+<script>
+function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+</script>
+
+</body>
+</html>
