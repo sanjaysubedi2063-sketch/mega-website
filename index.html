@@ -68,7 +68,7 @@
 
     /* Grid & cards */
     .destinations{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
-    .card{background:var(--card);border-radius:14px;border:1px solid rgba(12,20,30,0.04);overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s;box-shadow:var(--shadow-soft)}
+    .card{background:var(--card);border-radius:14px;border:1px solid rgba(12,20,30,0.04);overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s;box-shadow:var(--shadow-soft);will-change:transform,opacity}
     .card.revealed{transform:translateY(0) scale(1); opacity:1}
     .card.hidden{transform:translateY(20px) scale(.98); opacity:0;filter:blur(.6px)}
     .card:hover{transform:translateY(-10px) scale(1.02); box-shadow:0 30px 70px rgba(8,15,30,0.12)}
@@ -85,7 +85,7 @@
 
     /* Chat */
     #chat-box{position:fixed;right:22px;bottom:22px;width:360px;background:transparent;border-radius:16px;overflow:visible;z-index:16000;transition:transform .18s}
-    #chat-panel{background:linear-gradient(180deg,#fff,#fbfdff);border-radius:14px;overflow:hidden;border:1px solid rgba(12,20,30,0.06);box-shadow:var(--shadow-strong);display:flex;flex-direction:column;max-height:80vh}
+    #chat-panel{background:linear-gradient(180deg,#fff,#fbfdff);border-radius:14px;overflow:hidden;border:1px solid rgba(12,20,30,0.06);box-shadow:var(--shadow-strong);display:flex;flex-direction:column}
     #chat-header{display:flex;align-items:center;gap:12px;padding:12px;background:linear-gradient(90deg,var(--primary),#0a8bf0);color:#fff;cursor:pointer;font-weight:800;user-select:none}
     #chat-header .avatar{width:36px;height:36px;border-radius:10px;overflow:hidden;background:rgba(255,255,255,0.12);display:inline-flex;align-items:center;justify-content:center;font-weight:800}
     #chat-messages{padding:14px;height:320px;overflow:auto;font-size:0.95rem;background:linear-gradient(180deg,rgba(250,252,255,0.9),transparent)}
@@ -134,8 +134,45 @@
     .lightbox img { max-width:92vw;max-height:86vh;border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,0.6) }
 
     /* Cookie banner */
-    #cookie-banner { position:fixed;left:12px;right:12px;bottom:12px;background:var(--card);padding:12px;border-radius:10px;box-shadow:var(--shadow-strong);display:flex;gap:12px;align-items:center;z-index:20000 }
+    #cookie-banner { position:fixed;left:12px;right:12px;bottom:12px;background:var(--card);padding:12px;border-radius:10px;box-shadow:var(--shadow-strong);display:flex;gap:12px;align-items:center;z-index:16000}
+
+    /* Accessibility focus */
+    :focus { outline: 3px solid rgba(11,103,208,0.18); outline-offset: 3px; border-radius: 8px; }
+
+    /* Small helpers */
+    .small{font-size:.92rem}
+    .hidden-visually{position:absolute;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+    .u-row { display:flex;gap:8px;align-items:center;flex-wrap:wrap; }
+    .widget { padding:12px;border-radius:8px;background:var(--card);border:1px solid rgba(12,20,30,0.04) }
   </style>
+
+  <!-- External libs for new features -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Structured data (schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    "name": "Explore Nepal",
+    "url": "https://sanjaysubedi2063-sketch.github.io/mega-website",
+    "logo": "https://raw.githubusercontent.com/sanjaysubedi2063-sketch/mega-website/18e5bf9220aae298ce739bebfa4170e6a868294a/images/logo.png",
+    "description": "Local-first tourist guide to Nepal — curated places, itineraries and travel tools.",
+    "sameAs": [
+      "https://www.facebook.com/sanjay.subedi.963",
+      "https://www.instagram.com/sanjaysubedi2063",
+      "https://twitter.com/sanjaysubedi2063",
+      "mailto:info@example.com"
+    ]
+  }
+  </script>
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:creator" content="@sanjaysubedi2063" />
+  <meta property="og:title" content="Explore Nepal – Tourist Guide">
+  <meta property="og:description" content="Curated travel guide across Nepal: mountains, lakes, heritage, wildlife, treks and trip planning tools.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?w=1200&auto=format&fit=crop&q=80">
+  <link rel="canonical" href="https://sanjaysubedi2063-sketch.github.io/mega-website/" />
 </head>
 <body data-theme="light" aria-busy="false">
   <header class="site-header" role="banner" aria-label="Top navigation">
@@ -149,7 +186,7 @@
 
       <div class="search" role="search" aria-label="Search places">
         <input id="global-search" placeholder="Search places, e.g. Pokhara, Everest..." aria-label="Search places" autocomplete="off" />
-        <div id="search-suggestions" role="listbox" aria-hidden="true" style="position:absolute;top:46px;left:0;background:var(--card);box-shadow:var(--shadow-soft);border-radius:10px;overflow:hidden;display:none;z-index:1200"></div>
+        <div id="search-suggestions" role="listbox" aria-hidden="true" style="position:absolute;top:46px;left:0;background:var(--card);box-shadow:var(--shadow-soft);border-radius:10px;overflow:hidden;display:none;min-width:260px;z-index:16000"></div>
       </div>
 
       <nav class="main-nav" aria-label="Main navigation">
@@ -233,7 +270,8 @@
     <!-- ABOUT -->
     <section id="about" aria-labelledby="about-h" style="margin-top:8px">
       <h2 id="about-h">Welcome to Nepal</h2>
-      <p style="color:var(--muted)">Nepal is a land of dramatic landscapes, rich culture and incredible diversity. This guide helps tourists explore mountains, lakes, temples, parks and heritage sites in a privacy-first, offline-first approach. Search, filter, plan and save — all locally. Add your photos to the /images/ folder to replace placeholders.</p>
+      <p style="color:var(--muted)">Nepal is a land of dramatic landscapes, rich culture and incredible diversity. This guide helps tourists explore mountains, lakes, temples, parks and heritage sites across every region — with verified photos, offline-first storage, itinerary planning and simple booking capture.</p>
+      <p class="small muted">This expanded release adds user profiles, saved trips, GPX/GeoJSON export, elevation preview, photo uploader (local-first), route optimization helpers and push-notification skeletons for future server integration.</p>
     </section>
 
     <!-- CONTROLS -->
@@ -268,14 +306,68 @@
     <section id="places" aria-labelledby="places-h" style="margin-top:8px">
       <h2 id="places-h">Top Tourist Places</h2>
       <div class="destinations" id="destinations" aria-live="polite" role="list"></div>
-      <!-- We will generate many place cards via JS from a dataset so it's easier to maintain and larger lists are dynamic -->
+      <!-- Place cards are dynamically generated via JS -->
+    </section>
+
+    <!-- NEW FEATURES: Saved Trips, Photo Upload, Export Tools, Route Optimizer, Elevation Chart -->
+    <section id="advanced" aria-labelledby="advanced-h" style="margin-top:18px">
+      <h2 id="advanced-h">Advanced Tools & Saved Trips</h2>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;align-items:start">
+        <div class="widget" id="saved-trips-widget">
+          <h4>Saved Trips</h4>
+          <div style="margin-bottom:8px">
+            <input id="trip-name" placeholder="Trip name (e.g. Annapurna 7-day)" style="padding:8px;width:65%" />
+            <button id="save-trip" class="btn small">Save</button>
+          </div>
+          <div id="saved-trips-list" class="small muted">No saved trips yet</div>
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <button id="load-trip" class="btn ghost small">Load selected</button>
+            <button id="delete-trip" class="btn ghost small">Delete selected</button>
+          </div>
+        </div>
+
+        <div class="widget" id="photo-uploader-widget">
+          <h4>Upload Photos (Local preview)</h4>
+          <p class="small muted">Upload photos for places from your device. Files are stored locally in the browser (base64) to preview and attach to places. Keep images small (under 1MB recommended).</p>
+          <input id="photo-input" type="file" accept="image/*" multiple />
+          <div id="photo-gallery" style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"></div>
+        </div>
+
+        <div class="widget" id="export-tools-widget">
+          <h4>Export / Share</h4>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button id="export-gpx" class="btn small">Export itinerary as GPX</button>
+            <button id="export-geojson" class="btn small ghost">Export as GeoJSON</button>
+            <button id="share-shortlink" class="btn small ghost">Generate shareable link</button>
+          </div>
+          <div id="export-result" style="margin-top:8px;color:var(--muted)" class="small"></div>
+        </div>
+
+        <div class="widget" id="route-optimizer-widget">
+          <h4>Route Optimizer (heuristic)</h4>
+          <p class="small muted">Simple nearest-neighbour optimization to reorder itinerary for shorter travel (no routing engine required).</p>
+          <div style="display:flex;gap:8px">
+            <button id="optimize-route" class="btn small">Optimize</button>
+            <button id="reverse-route" class="btn small ghost">Reverse</button>
+          </div>
+          <div style="margin-top:8px" id="route-stats" class="small muted">No route yet</div>
+        </div>
+
+        <div class="widget" id="elevation-widget">
+          <h4>Elevation preview</h4>
+          <p class="small muted">Synthetic elevation preview from itinerary (approximate). For production integrate an elevation API.</p>
+          <canvas id="elevation-chart" height="160" style="width:100%;max-width:100%"></canvas>
+          <div style="margin-top:8px" id="elevation-stats" class="small muted">No data</div>
+        </div>
+      </div>
     </section>
 
     <!-- MAP + WIDGETS -->
     <section id="map" aria-labelledby="map-h" style="margin-top:18px">
       <h2 id="map-h">Explore Nepal Map</h2>
       <div class="map-controls" style="margin-bottom:8px">
-        <div class="map-legend" id="map-legend">Layers: <label><input type="checkbox" id="layer-mountains" checked> Mountains</label> <label><input type="checkbox" id="layer-lakes" checked> Lakes</label></div>
+        <div class="map-legend" id="map-legend">Layers: <label><input type="checkbox" id="layer-mountains" checked> Mountains</label> <label><input type="checkbox" id="layer-lakes" checked> Lakes</label> <label><input type="checkbox" id="layer-temples" checked> Temples</label></div>
         <div style="margin-left:auto;display:flex;gap:8px">
           <button id="locate-me" class="btn small">Locate me</button>
           <button id="fit-itin" class="btn ghost small" title="Fit itinerary on map">Fit itinerary</button>
@@ -287,7 +379,7 @@
       <div class="widgets" style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
         <div class="widget">
           <h4 style="margin:0 0 8px 0">Plan ahead</h4>
-          <p class="small muted">Click a place's "Details" to see official photos, weather, reviews and easy booking. Use the search & filters to find places quickly. Drag places into your itinerary to build routes.</p>
+          <p class="small muted">Click a place's "Details" to see official photos, weather, reviews and easy booking. Use the search & filters to find places quickly. Drag places into your itinerary to build your own route.</p>
         </div>
         <div class="widget">
           <h4 style="margin:0 0 8px 0">Nearby</h4>
@@ -307,7 +399,7 @@
     <section id="itinerary" aria-labelledby="itinerary-h" style="margin-top:18px">
       <h2 id="itinerary-h">My Itinerary</h2>
       <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
-        <div class="itinerary" id="itinerary-box" style="min-width:320px;padding:12px;border-radius:10px;border:1px solid rgba(12,20,30,0.04);background:var(--card)">No items — add places to build an itinerary.</div>
+        <div class="itinerary" id="itinerary-box" style="min-width:320px;padding:12px;border-radius:10px;border:1px solid rgba(12,20,30,0.04);background:var(--card)">No items — add places to build a route.</div>
         <div style="display:flex;flex-direction:column;gap:8px">
           <div class="itinerary" style="min-width:240px;padding:12px;border-radius:10px;border:1px solid rgba(12,20,30,0.04);background:var(--card)">
             <div style="font-weight:700">Actions</div>
@@ -333,7 +425,7 @@
     <section id="faq" aria-labelledby="faq-h" style="margin-top:18px">
       <h2 id="faq-h">FAQ & Emergency</h2>
       <div style="max-width:900px;margin:0 auto">
-        <details><summary>How do I get permits for trekking?</summary><p class="small muted">Popular treks require TIMS and national park permits; local agencies/trekking companies can assist with permits and porters.</p></details>
+        <details><summary>How do I get permits for trekking?</summary><p class="small muted">Popular treks require TIMS and national park permits; local agencies/trekking companies can assist with permits and logistics.</p></details>
         <details><summary>What is the best time to visit?</summary><p class="small muted">Spring (Mar–May) and Autumn (Sep–Nov) are ideal for trekking and clear mountain views.</p></details>
         <details><summary>Emergency contacts</summary>
           <ul class="small muted">
@@ -349,9 +441,27 @@
     <section id="contact" aria-labelledby="contact-h" style="margin-top:18px">
       <h2 id="contact-h">Contact & Social Media</h2>
       <div style="display:flex;gap:12px;align-items:center;justify-content:center;margin-bottom:12px">
-        <a href="https://www.facebook.com/sanjay.subedi.963" target="_blank" rel="noopener" title="Facebook">📘</a>
-        <a href="https://www.instagram.com/sanjaysubedi2063/?__pwa=1" target="_blank" rel="noopener" title="Instagram">📸</a>
-        <a href="mailto:info@example.com" title="Email">✉️</a>
+        <!-- Real inline SVG icons for social media for better control & accessibility -->
+        <a href="https://www.facebook.com/sanjay.subedi.963" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="false">
+            <path d="M22 12.07C22 6.48 17.52 2 11.93 2S1.86 6.48 1.86 12.07c0 4.99 3.65 9.13 8.44 9.92v-7.02H8.03v-2.9h2.27V9.41c0-2.24 1.33-3.48 3.36-3.48.97 0 1.99.17 1.99.17v2.18h-1.12c-1.1 0-1.44.68-1.44 1.38v1.64h2.45l-.39 2.9h-2.06v7.02c4.79-.79 8.44-4.93 8.44-9.92z" />
+          </svg>
+        </a>
+        <a href="https://www.instagram.com/sanjaysubedi2063/?__pwa=1" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="#E4405F" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="false">
+            <path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 6.5a4 4 0 100 8 4 4 0 000-8zm5.5-.75a1.125 1.125 0 11-2.25 0 1.125 1.125 0 012.25 0zM12 9.5a2.5 2.5 0 110 5 2.5 2.5 0 010-5z"/>
+          </svg>
+        </a>
+        <a href="https://twitter.com/sanjaysubedi2063" target="_blank" rel="noopener" title="Twitter/X" aria-label="Twitter">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="#1DA1F2" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="false">
+            <path d="M22 5.92c-.63.28-1.3.47-2 .56a3.47 3.47 0 001.52-1.92c-.68.4-1.44.7-2.25.86A1.73 1.73 0 0016.5 4c-1 0-1.82.82-1.82 1.82 0 .14 0 .27.02.4C11.9 6.09 9.04 4.57 6.86 2.22c-.15.26-.24.57-.24.9 0 .63.32 1.2.8 1.53-.58 0-1.12-.18-1.6-.44v.05c0 .87.62 1.6 1.44 1.76-.3.08-.6.12-.92.12-.22 0-.44-.02-.64-.06.44 1.38 1.7 2.38 3.2 2.41A3.47 3.47 0 016 13.78a4.9 4.9 0 01-1.1.14c-.28 0-.56-.02-.82-.08A6.18 6.18 0 0010.2 17c4.68 0 7.24-3.88 7.24-7.25v-.33a5.15 5.15 0 001.56-1.52z"/>
+          </svg>
+        </a>
+        <a href="mailto:info@example.com" title="Email" aria-label="Email">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="#0a0a0a" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="false">
+            <path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+        </a>
       </div>
 
       <div style="max-width:640px;margin:12px auto;background:#fff;padding:12px;border-radius:8px;border:1px solid rgba(12,20,30,0.04)">
@@ -532,60 +642,77 @@
       });
     }, { threshold: 0.12 });
 
-    // Hover tilt (cards created later)
-
-    // --- Data: curated places (images use Unsplash CDN as fallbacks; use /images/<id>.jpg if available) ---
-    // I curated 30+ places across Nepal with coordinates, categories and unsplash references.
+    // --- Data: curated places with real image sources (short sample; extend as needed) ---
     const PLACES = [
-      { id: 'everest', title: 'Everest Base Camp', category: 'mountains', lat: 28.0043, lon: 86.8576, rating: 4.6, desc: 'Trek to the world’s highest peak region. Expect alpine scenery and teahouse stays.', img: 'https://images.unsplash.com/photo-1508264165352-cb0b5829d6ea?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'phewa', title: 'Phewa Lake, Pokhara', category: 'lakes', lat: 28.2096, lon: 83.9856, rating: 4.4, desc: 'Boating, island temples and views of Annapurna.', img: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'pashupati', title: 'Pashupatinath Temple', category: 'temples', lat: 27.7100, lon: 85.3488, rating: 4.2, desc: 'One of Hinduism’s most important temples.', img: 'https://images.unsplash.com/photo-1531925470850-34f1b4b27f16?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'bhaktapur', title: 'Bhaktapur Durbar Square', category: 'heritage', lat: 27.6726, lon: 85.4270, rating: 4.3, desc: 'Medieval city with Newari architecture.', img: 'https://images.unsplash.com/photo-1505765053275-76c2f4f7d3a0?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'chitwan', title: 'Chitwan National Park', category: 'wildlife', lat: 27.5389, lon: 84.3542, rating: 4.5, desc: 'Jungle safaris and wildlife spotting (rhinos).', img: 'https://images.unsplash.com/photo-1519846850226-817a9a4b6d1e?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'kathmandu', title: 'Kathmandu Durbar Square', category: 'heritage', lat: 27.7043, lon: 85.3131, rating: 4.1, desc: 'Historical palaces, temples and vibrant markets.', img: 'https://images.unsplash.com/photo-1526481280698-72c2f6b5c3b6?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'annapurna', title: 'Annapurna Circuit', category: 'trek', lat: 28.5969, lon: 83.8203, rating: 4.7, desc: 'Classic multi-day trek with diverse scenery.', img: 'https://images.unsplash.com/photo-1516569421960-8f9d2b07f9b6?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'gosaikunda', title: 'Gosaikunda Lake', category: 'lakes', lat: 28.2117, lon: 85.3250, rating: 4.3, desc: 'Sacred alpine lake, popular with pilgrims.', img: 'https://images.unsplash.com/photo-1482192505345-5655af888cc4?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'lumbini', title: 'Lumbini (Birthplace of Buddha)', category: 'heritage', lat: 27.6792, lon: 83.5070, rating: 4.4, desc: 'UNESCO World Heritage site and pilgrimage center.', img: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'tilicho', title: 'Tilicho Lake', category: 'lakes', lat: 28.5957, lon: 83.8106, rating: 4.1, desc: 'High-altitude lake with stunning reflections.', img: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c0?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'langtang', title: 'Langtang Valley', category: 'trek', lat: 28.2050, lon: 85.5512, rating: 4.2, desc: 'Accessible trek north of Kathmandu.', img: 'https://images.unsplash.com/photo-1470770903676-69b98201ea1c?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'rara', title: 'Rara Lake', category: 'lakes', lat: 29.2306, lon: 82.3236, rating: 4.1, desc: 'Remote, pristine lake in the far west.', img: 'https://images.unsplash.com/photo-1482192596544-9eb88f363b5d?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'manang', title: 'Manang Valley', category: 'trek', lat: 28.6736, lon: 84.0133, rating: 4.5, desc: 'High-altitude culture and base for Annapurna treks.', img: 'https://images.unsplash.com/photo-1549880338-65ddcdfd017b?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'gokyo', title: 'Gokyo Lakes', category: 'lakes', lat: 27.9531, lon: 86.6969, rating: 4.6, desc: 'Stunning glacial lakes with views of Everest.', img: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'nagarkot', title: 'Nagarkot Sunrise Point', category: 'mountains', lat: 27.7090, lon: 85.4296, rating: 4.2, desc: 'Short drive from Kathmandu for sunrise mountain views.', img: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'patan', title: 'Patan Durbar Square', category: 'heritage', lat: 27.6722, lon: 85.3206, rating: 4.1, desc: 'Historic city known for metalwork and ancient temples.', img: 'https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'bandipur', title: 'Bandipur Hilltop', category: 'cultural', lat: 27.9961, lon: 84.4522, rating: 4.3, desc: 'Quiet hilltop town with preserved architecture.', img: 'https://images.unsplash.com/photo-1494526585095-c41746248156?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'koshi', title: 'Koshi Tappu Wildlife Reserve', category: 'wildlife', lat: 26.5206, lon: 87.0455, rating: 4.0, desc: 'Important wetland and birdwatching destination.', img: 'https://images.unsplash.com/photo-1482192596544-9eb88f363b5d?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'uppermustang', title: 'Upper Mustang', category: 'cultural', lat: 28.9989, lon: 83.8233, rating: 4.4, desc: 'Ancient trans-Himalayan kingdom with desert landscapes.', img: 'https://images.unsplash.com/photo-1501769214405-5e86f7d1b3d1?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'dolpa', title: 'Dolpo Region', category: 'trek', lat: 29.0107, lon: 82.9200, rating: 4.4, desc: 'Remote trekking region with Tibetan-influenced culture.', img: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&auto=format&fit=crop&q=80' },
-      // Additional sample entries — duplicate variations to demonstrate large lists
-      { id: 'annapurna_base', title: 'Annapurna Base Camp', category: 'trek', lat: 28.5951, lon: 83.8200, rating: 4.7, desc: 'Iconic trek into the heart of the Annapurnas.', img: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'seti_gorge', title: 'Seti River Gorge', category: 'nature', lat: 28.2230, lon: 83.9779, rating: 4.0, desc: 'River gorge near Pokhara with striking geology.', img: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'boudhanath', title: 'Boudhanath Stupa', category: 'heritage', lat: 27.7215, lon: 85.3617, rating: 4.5, desc: 'One of the largest spherical stupas in the world.', img: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'sagarmatha', title: 'Sagarmatha National Park', category: 'nationalpark', lat: 27.9800, lon: 86.9236, rating: 4.6, desc: 'Protects the Everest region and its biodiversity.', img: 'https://images.unsplash.com/photo-1508264165352-cb0b5829d6ea?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'patan_museum', title: 'Patan Museum', category: 'museum', lat: 27.6724, lon: 85.3196, rating: 4.2, desc: 'Art and artifacts of the Kathmandu valley.', img: 'https://images.unsplash.com/photo-1494526585095-c41746248156?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'kathmandu_garden', title: 'Garden of Dreams', category: 'cultural', lat: 27.7080, lon: 85.3166, rating: 4.0, desc: 'Colonial-era historical garden for relaxation.', img: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c0?w=1200&auto=format&fit=crop&q=80' },
-      { id: 'sankhu', title: 'Sankhu Ancient Town', category: 'heritage', lat: 27.7097, lon: 85.4312, rating: 3.9, desc: 'Old town with traditional lanes and temples.', img: 'https://images.unsplash.com/photo-1494526585095-c41746248156?w=1200&auto=format&fit=crop&q=80' }
+      {
+        id: 'everest',
+        title: 'Everest Base Camp',
+        category: 'mountains',
+        lat: 28.0043,
+        lon: 86.8576,
+        rating: 4.8,
+        desc: 'Trek to the world’s highest peak region. Expect alpine scenery and teahouse culture.',
+        img: 'https://images.unsplash.com/photo-1504198453319-5ce911bafcde?w=1600&auto=format&fit=crop&q=80',
+        source: 'Unsplash / @aaronburden'
+      },
+      {
+        id: 'phewa',
+        title: 'Phewa Lake, Pokhara',
+        category: 'lakes',
+        lat: 28.2096,
+        lon: 83.9856,
+        rating: 4.6,
+        desc: 'Boating, island temples and views of Annapurna.',
+        img: 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Phewa_Tal_%28Pokhara%29.jpg',
+        source: 'Wikimedia Commons'
+      },
+      {
+        id: 'pashupati',
+        title: 'Pashupatinath Temple',
+        category: 'temples',
+        lat: 27.7100,
+        lon: 85.3488,
+        rating: 4.5,
+        desc: 'One of Hinduism’s most important temples, on the banks of the Bagmati River.',
+        img: 'https://upload.wikimedia.org/wikipedia/commons/1/13/Pashupatinath_Temple%2C_Kathmandu_-_Nepal.jpg',
+        source: 'Wikimedia Commons'
+      },
+      {
+        id: 'chitwan',
+        title: 'Chitwan National Park',
+        category: 'wildlife',
+        lat: 27.5389,
+        lon: 84.3542,
+        rating: 4.7,
+        desc: 'Jungle safaris, rhinos, and rich Terai biodiversity.',
+        img: 'https://images.unsplash.com/photo-1519817650390-64a93db511aa?w=1600&auto=format&fit=crop&q=80',
+        source: 'Unsplash / Wildlife'
+      }
+      // Add more curated entries (and local images) to expand the dataset.
     ];
 
-    // Create additional synthetic entries to demonstrate scale (the UI remains performant via clustering and virtual rendering)
-    for (let i = 1; i <= 60; i++) {
+    // Create additional synthetic entries to demonstrate scale (sample few)
+    for (let i = 1; i <= 20; i++) {
       PLACES.push({
-        id: 'place_' + i,
+        id: 'sample_' + i,
         title: `Sample Place ${i}`,
         category: ['mountains','lakes','temples','heritage','wildlife','trek','cultural'][i % 7],
-        lat: 27.5 + (i * 0.02),
-        lon: 85.1 + (i * 0.03),
+        lat: 27.5 + (i * 0.015),
+        lon: 85.1 + (i * 0.02),
         rating: (3.5 + (i % 15) * 0.1).toFixed(1),
-        desc: `Sample description for place ${i}. Use /images/place_${i}.jpg to supply a local image.`,
+        desc: `Sample description for place ${i}. Use /images/sample_${i}.jpg to supply a local image.`,
         img: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&auto=format&fit=crop&q=80'
       });
     }
 
     // --- Local storage keys versioning ---
-    const favKey = 'explore_favs_v5';
-    const itinKey = 'explore_itin_v5';
-    const reviewsPrefix = 'explore_reviews_v5_';
-    const chatKey = 'explore_chat_v2';
+    const favKey = 'explore_favs_v6';
+    const itinKey = 'explore_itin_v6';
+    const reviewsPrefix = 'explore_reviews_v6_';
+    const chatKey = 'explore_chat_v3';
+    const tripsKey = 'explore_saved_trips_v1';
+    const photosKey = 'explore_photos_v1';
+    const profileKey = 'explore_profile_v1';
 
     // --- Rendering places (virtualizable) ---
     const destinationsRoot = $('#destinations');
@@ -593,8 +720,8 @@
     function createPlaceCard(p) {
       const imgSrc = `/images/${p.id}.jpg`;
       const img = el('img', { src: imgSrc, alt: p.title, loading: 'lazy' });
-      // fallback on error to unsplash
-      img.addEventListener('error', () => { if (!img.dataset.fallback) { img.src = p.img; img.dataset.fallback = '1'; } });
+      // fallback on error to curated image source
+      img.addEventListener('error', () => { if (!img.dataset.fallback) { img.src = p.img || (p.sourceImg || '/images/placeholder.jpg'); img.dataset.fallback = '1'; } });
 
       const article = el('article',
         { class: 'card hidden', 'data-id': p.id, 'data-category': p.category, 'data-lat': p.lat, 'data-lon': p.lon, role: 'listitem', draggable: true, 'aria-labelledby': p.id + '-title' },
@@ -630,6 +757,7 @@
       destinationsRoot.innerHTML = '';
       list.forEach(p => destinationsRoot.appendChild(createPlaceCard(p)));
       attachCardInteractions();
+      updateFavUI();
     }
     renderPlaces();
 
@@ -743,7 +871,7 @@
 
     // --- Itinerary (drag & drop + local) ---
     function loadItin() { return JSON.parse(localStorage.getItem(itinKey) || '[]'); }
-    function saveItin(list) { localStorage.setItem(itinKey, JSON.stringify(list)); renderItin(); updateMiniItin(); updateMapItinerary(); }
+    function saveItin(list) { localStorage.setItem(itinKey, JSON.stringify(list)); renderItin(); updateMiniItin(); updateMapItinerary(); updateRouteStats(); }
     function addToItin(id) {
       const list = loadItin();
       if (!list.includes(id)) { list.push(id); saveItin(list); analytics.track('itin_add', { id }); }
@@ -790,11 +918,14 @@
         if (idx >= 0) { items.splice(idx, 1); saveItin(items); }
       }));
     }
-    // Drag from grid to itinerary
-    $$('#destinations .card').forEach(card => {
-      card.addEventListener('dragstart', e => e.dataTransfer.setData('text/plain', card.dataset.id));
-      card.addEventListener('dblclick', () => addToItin(card.dataset.id));
-    });
+    // Drag from grid to itinerary (ensure re-attach after re-render)
+    function attachGridDragHandlers() {
+      $$('#destinations .card').forEach(card => {
+        card.addEventListener('dragstart', e => e.dataTransfer.setData('text/plain', card.dataset.id));
+        card.addEventListener('dblclick', () => addToItin(card.dataset.id));
+      });
+    }
+    attachGridDragHandlers();
     $('#itinerary-box').addEventListener('dragover', e => e.preventDefault());
     $('#itinerary-box').addEventListener('drop', e => { e.preventDefault(); const id = e.dataTransfer.getData('text/plain'); if (id) addToItin(id); });
 
@@ -887,7 +1018,7 @@
     function loadReviews(id) { return JSON.parse(localStorage.getItem(reviewsPrefix + id) || '[]'); }
     function addReview(id, rev) { const arr = loadReviews(id); arr.unshift(rev); localStorage.setItem(reviewsPrefix + id, JSON.stringify(arr)); }
 
-    // Details & booking handling
+    // Details & booking handling (delegated)
     document.addEventListener('click', async (e) => {
       // Details
       if (e.target.matches('.details-btn')) {
@@ -897,9 +1028,9 @@
         const lat = card.dataset.lat, lon = card.dataset.lon;
         const reviews = loadReviews(id);
         const avg = reviews.length ? (reviews.reduce((s,r)=>s+r.rating,0)/reviews.length).toFixed(1) : '—';
-        const reviewsHtml = reviews.length ? reviews.map(r => `<div style="border-top:1px dashed #eee;padding-top:8px"><div style="color:gold">${'★'.repeat(r.rating)}</div><div>${r.text}</div><div class="muted" style="font-size:.8rem">${new Date(r.created).toLocaleString()}</div></div>`).join('') : '<div class="muted">No reviews yet</div>';
+        const reviewsHtml = reviews.length ? reviews.map(r => `<div style="border-top:1px dashed #eee;padding-top:8px"><div style="color:gold">${'★'.repeat(r.rating)}</div><div>${r.text}</div><div class="small muted">${new Date(r.created).toLocaleString()}</div></div>`).join('') : '<div class="small muted">No reviews yet</div>';
         const galleryHtml = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-          <img style="width:120px;height:80px;object-fit:cover;border-radius:8px;cursor:pointer" src="/images/${id}.jpg" alt="${title}" onerror="this.style.opacity=.6" onclick="openImage(this.src)">
+          <img style="width:240px;height:140px;object-fit:cover;border-radius:8px;cursor:pointer" src="/images/${id}.jpg" alt="${title}" onerror="this.style.opacity=.6" onclick="openImage(this.src)">
           <img style="width:120px;height:80px;object-fit:cover;border-radius:8px;cursor:pointer" src="${PLACES.find(p=>p.id===id)?.img || '/images/' + id + '-2.jpg'}" alt="${title} photo 2" onerror="this.style.opacity=.6" onclick="openImage(this.src)">
         </div>`;
         const html = `<h3>${title} <small style="font-weight:700;color:var(--muted)">(${avg})</small></h3><p class="muted">${desc}</p>${galleryHtml}<div id="detail-weather">Loading weather...</div><h4 style="margin-top:12px">Reviews</h4>${reviewsHtml}
@@ -910,14 +1041,17 @@
           <div style="margin-top:8px;text-align:right"><button id="submit-review" class="btn">Submit review</button> <button id="book-from-modal" class="btn ghost" data-id="${id}">Book this</button></div>`;
         openModal(html);
         if (lat && lon) fetchWeatherFor(lat, lon, document.getElementById('detail-weather'));
-        document.getElementById('submit-review').addEventListener('click', () => {
-          const text = (document.getElementById('review-text').value || '').trim(); const rating = parseInt(document.getElementById('review-rating').value, 10);
-          if (!text) return alert('Please add a review message.');
-          addReview(id, { rating, text, created: new Date().toISOString() });
-          alert('Thanks — your review was saved locally.');
-          closeModal();
-        });
-        document.getElementById('book-from-modal').addEventListener('click', () => openBookingForm(id));
+        // handlers attached after modal open
+        setTimeout(() => {
+          document.getElementById('submit-review')?.addEventListener('click', () => {
+            const text = (document.getElementById('review-text').value || '').trim(); const rating = parseInt(document.getElementById('review-rating').value, 10);
+            if (!text) return alert('Please add a review message.');
+            addReview(id, { rating, text, created: new Date().toISOString() });
+            alert('Thanks — your review was saved locally.');
+            closeModal();
+          });
+          document.getElementById('book-from-modal')?.addEventListener('click', () => openBookingForm(id));
+        }, 50);
       }
 
       // Book buttons that may be rendered dynamically
@@ -998,389 +1132,422 @@
     function appendMsg(who, text, meta = {}) {
       const wrapper = el('div', { class: 'msg ' + (who === 'You' ? 'user' : 'bot') });
       const avatar = el('div', { class: 'avatar-mini' }, who === 'You' ? 'You' : 'GN');
-      const bubble = el('div', { class: 'bubble' });
-      bubble.textContent = text;
-      const time = el('div', { class: 'time muted' }, (new Date()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-      bubble.appendChild(time);
+      const bubble = el('div', { class: 'bubble' }, text);
+      const time = el('div', { class: 'time' }, new Date().toLocaleTimeString());
       wrapper.appendChild(avatar);
-      wrapper.appendChild(bubble);
+      wrapper.appendChild(el('div', {}, bubble, time));
       chatMessages.appendChild(wrapper);
       chatMessages.scrollTop = chatMessages.scrollHeight;
-      const log = loadChat(); log.push({ who, text, meta, time: new Date().toISOString() }); saveChat(log);
+      // persist
+      const log = loadChat(); log.push({ who, text, time: new Date().toISOString(), meta }); saveChat(log);
     }
-    function hydrateChat() {
-      const log = loadChat();
-      if (!log || !log.length) {
-        appendMsg('Guide', 'Hi — I am your local guide. Try "Weather in Pokhara", "Suggest itinerary" or "Book Everest trek".');
+    // basic command parsing
+    function processUserMessage(msg) {
+      const q = (msg || '').toLowerCase().trim();
+      if (!q) return appendMsg('Guide', 'Please enter a question.');
+      appendMsg('You', msg);
+      // intents
+      if (q.includes('weather in') || q.includes('weather')) {
+        const place = q.replace(/weather in|what is the weather in|weather/i, '').trim();
+        const p = PLACES.find(x => x.title.toLowerCase().includes(place)) || PLACES[0];
+        fetchWeatherFor(p.lat, p.lon, null).then(() => appendMsg('Guide', `Fetched weather for ${p.title}. Check the details panel.`)).catch(()=>appendMsg('Guide','Could not fetch weather.'));
         return;
       }
-      chatMessages.innerHTML = '';
-      log.forEach(item => {
-        const wrapper = el('div', { class: 'msg ' + (item.who === 'You' ? 'user' : 'bot') });
-        const avatar = el('div', { class: 'avatar-mini' }, item.who === 'You' ? 'You' : 'GN');
-        const bubble = el('div', { class: 'bubble' }); bubble.textContent = item.text;
-        const time = el('div', { class: 'time muted' }, new Date(item.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-        bubble.appendChild(time);
-        wrapper.appendChild(avatar); wrapper.appendChild(bubble);
-        chatMessages.appendChild(wrapper);
-      });
-      chatMessages.scrollTop = chatMessages.scrollHeight;
+      if (q.includes('suggest itinerary') || q.includes('suggest a trip') || q.includes('itinerary')) {
+        const suggested = PLACES.slice(0,5).map(p => p.title).join(', ');
+        appendMsg('Guide', `Here is a sample 5-day route: ${suggested}. Use "Add to itinerary" to save places.`);
+        return;
+      }
+      if (q.includes('book') || q.includes('booking')) {
+        appendMsg('Guide', 'I can capture a booking request for any place. Click "Details" on a place and use "Book this".');
+        return;
+      }
+      // fallback small talk
+      appendMsg('Guide', 'Thanks for your message — try asking about "weather in Pokhara", "suggest itinerary", or "book Everest trek".');
     }
-    hydrateChat();
+    sendBtn.addEventListener('click', () => { processUserMessage(userInput.value); userInput.value=''; });
+    userInput.addEventListener('keydown', e => { if (e.key === 'Enter') { processUserMessage(userInput.value); userInput.value=''; } });
 
-    function appendTyping() {
-      const node = el('div', { class: 'msg bot typing-wrap' });
-      const av = el('div', { class: 'avatar-mini' }, 'GN');
-      const b = el('div', { class: 'bubble' });
-      const t = el('span', { class: 'typing' });
-      b.appendChild(t); node.appendChild(av); node.appendChild(b);
-      chatMessages.appendChild(node); chatMessages.scrollTop = chatMessages.scrollHeight;
-      return node;
-    }
-    function removeNode(n) { if (n && n.parentNode) n.parentNode.removeChild(n); }
-
-    async function handleUserMessage(text) {
-      appendMsg('You', text);
-      chatStatus.textContent = 'Typing...';
-      const typingNode = appendTyping();
-      await new Promise(r => setTimeout(r, 400 + Math.random() * 800));
-
-      const low = text.toLowerCase();
-      let reply = "I can help with weather, bookings, itineraries, local tips and transport. Try: 'Weather in Pokhara', 'Book Everest', 'Suggest itinerary'.";
-      let actions = [];
-
-      if (/weather|forecast|मौसम|स्थिति/.test(low)) {
-        const place = PLACES.find(p => low.includes(p.id) || low.includes(p.title.toLowerCase()));
-        if (place) {
-          try {
-            const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${place.lat}&longitude=${place.lon}&current_weather=true`);
-            const data = await res.json();
-            if (data && data.current_weather) {
-              const w = data.current_weather;
-              reply = `${place.title}: ${w.temperature}°C, wind ${w.windspeed} km/h.`;
-            } else reply = `Couldn't fetch weather for ${place.title}.`;
-          } catch (e) { reply = 'Weather service unavailable.'; }
-        } else reply = "Which place? e.g. 'Weather in Pokhara' or 'Weather at Everest'.";
-      } else if (/book|booking|reserve|reserve a spot/.test(low)) {
-        const place = PLACES.find(p => low.includes(p.id) || low.includes(p.title.toLowerCase()));
-        if (place) {
-          reply = `To book ${place.title} I can open the booking form. Would you like me to open it?`;
-          actions = [{ label: 'Open booking', action: () => openBookingForm(place.id) }, { label: 'Add to itinerary', action: () => { addToItin(place.id); alert('Added to itinerary'); } }];
-        } else reply = 'Which place would you like to book?';
-      } else if (/suggest|recommend|itinerary/.test(low)) {
-        reply = 'Suggested 7-day itinerary: Day 1 Kathmandu (heritage), Day 2 Drive to Pokhara, Day 3 Phewa Lake & sunrise, Day 4 Pokhara to Chitwan (safari), Day 5 Jungle activities, Day 6 Return to Pokhara, Day 7 Fly to Kathmandu. Save sample items?';
-        actions = [{ label: 'Save sample items', action: () => { addToItin('phewa'); addToItin('chitwan'); alert('Sample items added to itinerary'); } }];
-      } else if (/nearby|close|near me/.test(low)) {
-        reply = 'Use Locate me to find places near your position.';
+    // Chat persists on page load
+    (function hydrateChat() {
+      const logs = loadChat();
+      if (!logs || logs.length === 0) {
+        appendMsg('Guide', 'Hello! I am your local guide. Ask me about places, weather, or itineraries.');
       } else {
-        const matched = PLACES.find(p => low.includes(p.id) || low.includes(p.title.toLowerCase()));
-        if (matched) reply = `${matched.title}: ${matched.desc}`;
-        else reply = 'Sorry I did not fully understand. Try asking about weather, bookings, or say "suggest itinerary".';
+        logs.forEach(l => appendMsg(l.who, l.text));
       }
+    }());
 
-      removeNode(typingNode);
-      appendMsg('Guide', reply);
+    // --- Map: initialize Leaflet, cluster markers, show itinerary route ---
+    let map = null;
+    let markers = L.markerClusterGroup();
+    let markerIndex = {};
+    function initMap() {
+      map = L.map('leaflet-map', { preferCanvas: true }).setView([28.2, 84.0], 7);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }).addTo(map);
 
-      if (actions.length) {
-        const last = chatMessages.lastElementChild;
-        const chipRow = el('div', { class: 'chat-suggests' });
-        actions.forEach(a => {
-          const c = el('div', { class: 'chip', role: 'button', tabIndex: 0 }, a.label);
-          c.addEventListener('click', () => a.action());
-          chipRow.appendChild(c);
-        });
-        last.querySelector('.bubble').appendChild(chipRow);
-      }
-
-      chatStatus.textContent = 'Online';
-      analytics.track('chat_interaction', { text, replySummary: reply.slice(0, 120) });
-      if (voiceEnabled && 'speechSynthesis' in window) {
-        const u = new SpeechSynthesisUtterance(reply);
-        u.lang = 'en-US';
-        speechSynthesis.cancel(); speechSynthesis.speak(u);
-      }
-    }
-
-    sendBtn.addEventListener('click', () => { const v = userInput.value.trim(); if (!v) return; handleUserMessage(v); userInput.value = ''; });
-    userInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); sendBtn.click(); } });
-
-    $$('#chat-suggests .chip').forEach(c => c.addEventListener('click', e => {
-      const t = e.currentTarget.dataset.s;
-      if (t === '#suggest_weather') { handleUserMessage('Weather in Pokhara'); }
-      if (t === '#suggest_itin') { handleUserMessage('Suggest itinerary'); }
-      if (t === '#suggest_book') { handleUserMessage('Book Everest'); }
-    }));
-
-    // Voice toggle (synthesis + optional recognition)
-    $('#voice-toggle').addEventListener('click', async () => {
-      voiceEnabled = !voiceEnabled;
-      $('#voice-toggle').textContent = voiceEnabled ? '🔊' : '���';
-      analytics.track('voice_toggle', { enabled: voiceEnabled });
-      try {
-        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (voiceEnabled && SR) {
-          recognition = new SR();
-          recognition.lang = 'en-US';
-          recognition.interimResults = false;
-          recognition.maxAlternatives = 1;
-          recognition.onresult = (ev) => {
-            const t = ev.results[0][0].transcript;
-            userInput.value = t; sendBtn.click();
-          };
-          recognition.onerror = () => { recognition = null; };
-          recognition.start();
-        } else {
-          if (recognition) recognition.stop();
-        }
-      } catch (err) { console.warn('Voice not supported'); }
-    });
-
-    // Chat minimize toggle
-    $('#chat-minimize').addEventListener('click', () => {
-      const panel = $('#chat-panel'); panel.classList.toggle('minimized');
-    });
-
-    // --- Map: Leaflet + marker clustering + layers ---
-    const map = L.map('leaflet-map', { minZoom: 6 }).setView([28.3949, 84.1240], 7);
-    const basemap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
-    const markerCluster = L.markerClusterGroup({ chunkedLoading: true });
-    const layerGroups = { mountains: L.layerGroup(), lakes: L.layerGroup(), temples: L.layerGroup(), heritage: L.layerGroup(), wildlife: L.layerGroup(), trek: L.layerGroup(), cultural: L.layerGroup(), nature: L.layerGroup(), nationalpark: L.layerGroup(), museum: L.layerGroup() };
-
-    // Add markers
-    function buildMarkers() {
-      markerCluster.clearLayers();
+      markers = L.markerClusterGroup({ chunkedLoading: true });
       PLACES.forEach(p => {
-        const marker = L.marker([p.lat, p.lon], { title: p.title });
-        marker.bindPopup(`<strong>${p.title}</strong><br>${p.desc}<br><button class="btn small" onclick="openModalFromMap('${p.id}')">Details</button> <button class="btn small ghost" onclick="addToItin('${p.id}')">Add to itinerary</button>`);
-        marker.on('click', () => analytics.track('map_marker_click', { id: p.id }));
-        markerCluster.addLayer(marker);
-        const g = layerGroups[p.category] || layerGroups['nature'] || L.layerGroup();
-        g.addLayer(marker);
+        if (!p.lat || !p.lon) return;
+        const marker = L.marker([p.lat, p.lon]);
+        marker.bindPopup(`<strong>${p.title}</strong><div class="muted">${p.category}</div><div style="margin-top:6px"><button class="btn small" onclick="addToItin('${p.id}')">Add to itinerary</button> <button class="btn small" onclick="document.querySelector('.details-btn[data-id=\\'${p.id}\\']')?.click();">Details</button></div>`);
+        marker.on('mouseover', function() { this.openPopup(); });
+        markers.addLayer(marker);
+        markerIndex[p.id] = marker;
       });
-      map.addLayer(markerCluster);
-      // add groups to control
-      const overlays = {};
-      Object.keys(layerGroups).forEach(k => overlays[k.charAt(0).toUpperCase() + k.slice(1)] = layerGroups[k]);
-      L.control.layers(null, overlays, { collapsed: true }).addTo(map);
+      map.addLayer(markers);
+      updateMapItinerary();
     }
-    buildMarkers();
+    // ensure map initializes after UI ready
+    window.addEventListener('load', () => { try { initMap(); } catch (e) { console.warn('Map init failed', e); } });
 
-    // Open modal from map (safe wrapper)
-    window.openModalFromMap = (id) => {
-      const btn = document.querySelector('.details-btn[data-id="' + id + '"]');
-      if (btn) btn.click();
-    };
-
-    // Filter checkboxes for layers
-    $('#layer-mountains').addEventListener('change', (e) => {
-      if (e.target.checked) map.addLayer(layerGroups.mountains); else map.removeLayer(layerGroups.mountains);
-    });
-    $('#layer-lakes').addEventListener('change', (e) => {
-      if (e.target.checked) map.addLayer(layerGroups.lakes); else map.removeLayer(layerGroups.lakes);
-    });
-
-    // Locate me
-    $('#locate-me').addEventListener('click', () => {
-      if (!navigator.geolocation) return alert('Geolocation not supported');
-      navigator.geolocation.getCurrentPosition(pos => {
-        const lat = pos.coords.latitude, lon = pos.coords.longitude;
-        map.setView([lat, lon], 12);
-        L.circle([lat, lon], { radius: Math.max(200, pos.coords.accuracy), color: '#0b67d0', fillOpacity: 0.1 }).addTo(map);
-        analytics.track('locate_me', { lat, lon });
-      }, (err) => alert('Unable to retrieve location: ' + err.message));
-    });
-
-    // Fit itinerary on map
     function updateMapItinerary() {
+      if (!map) return;
       const items = loadItin();
-      if (!items || items.length === 0) { $('#map-info').textContent = 'No itinerary to fit'; return; }
+      if (window.itinLayer) { try { map.removeLayer(window.itinLayer); } catch (e) {} }
+      if (!items || items.length === 0) return;
       const latlngs = items.map(id => {
-        const p = PLACES.find(x => x.id === id);
+        const p = PLACES.find(pp => pp.id === id);
         return p ? [p.lat, p.lon] : null;
       }).filter(Boolean);
-      if (latlngs.length === 0) { $('#map-info').textContent = 'No valid coordinates in itinerary'; return; }
-      const bounds = L.latLngBounds(latlngs);
-      map.fitBounds(bounds.pad(0.4));
-      $('#map-info').textContent = `Fitted ${latlngs.length} points in itinerary`;
-      // optional: draw a polyline for visualization
-      if (window.currentItinPolyline) map.removeLayer(window.currentItinPolyline);
-      window.currentItinPolyline = L.polyline(latlngs, { color: '#ff8c42' }).addTo(map);
+      if (latlngs.length === 0) return;
+      window.itinLayer = L.polyline(latlngs, { color: '#ff8c42' }).addTo(map);
+      map.fitBounds(window.itinLayer.getBounds(), { padding: [40,40] });
     }
-    $('#fit-itin').addEventListener('click', updateMapItinerary);
 
-    // Map stats
-    $('#map-info').textContent = `${PLACES.length} places loaded • clustering enabled`;
-
-    // --- Attach card interactions (after DOM creation) ---
+    // --- Attach interactions after render (cards might be recreated) ---
     function attachCardInteractions() {
-      // hover tilt on all .card
-      $$('.card').forEach(card => {
-        card.addEventListener('pointermove', e => {
-          const r = card.getBoundingClientRect();
-          const px = (e.clientX - r.left) / r.width - 0.5;
-          const py = (e.clientY - r.top) / r.height - 0.5;
-          card.style.transform = `perspective(900px) rotateX(${ -py * 6 }deg) rotateY(${ px * 10 }deg) translateY(-6px) scale(1.01)`;
-        });
-        card.addEventListener('pointerleave', () => card.style.transform = '');
+      $$('.details-btn').forEach(b => b.addEventListener('click', e => {
+        // delegated listener handles modal content; keep this for safety
+      }));
+      $$('.quick-fav').forEach(b => b.addEventListener('click', e => { toggleFav(e.currentTarget.dataset.id); }));
+      $$('.card').forEach(c => {
+        c.addEventListener('mouseenter', () => c.classList.add('hovered'));
+        c.addEventListener('mouseleave', () => c.classList.remove('hovered'));
       });
+      attachGridDragHandlers();
     }
 
-    // Details buttons (dynamic)
-    document.addEventListener('click', (e) => {
-      if (e.target.matches('.details-btn')) {
-        const id = e.target.dataset.id; const btn = e.target;
-        btn.disabled = true;
-        setTimeout(() => btn.disabled = false, 500);
-      }
-    });
-
-    // --- Offline / Service Worker registration (skeleton) ---
+    // --- Service worker registration (offline-first) with background sync attempt ---
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').then(reg => {
-        console.log('Service worker registered', reg);
+      navigator.serviceWorker.register('/sw.js').then(async reg => {
+        console.info('Service worker registered', reg);
+        // attempt to register sync for bookings (if supported)
+        if (reg.sync) {
+          try {
+            await reg.sync.register('sync-bookings');
+            console.info('Background sync registered: sync-bookings');
+          } catch (err) { /* ignore */ }
+        }
       }).catch(err => {
-        console.warn('SW registration failed', err);
+        console.warn('SW register failed', err);
       });
     }
 
-    // --- Hydration & state restore ---
-    // Restore favorites showing
-    updateFavUI();
-    // Update any map-specific UI
-    updateMapItinerary();
-
-    // --- Small helpers & UI wiring ---
-    $('#start-explore').addEventListener('click', () => { location.hash = '#places'; document.querySelector('#places h2').scrollIntoView({ behavior: 'smooth' }); analytics.track('start_explore'); });
-    $('#open-map').addEventListener('click', () => { location.hash = '#map'; setTimeout(()=>map.invalidateSize(),300); analytics.track('open_map'); });
-
-    // Print itinerary
-    $('#print-itin').addEventListener('click', () => { window.print(); analytics.track('print_itin'); });
-
-    // Share itinerary (simple copy)
-    $('#share-itin').addEventListener('click', () => {
-      const url = location.href.split('#')[0] + '#itinerary';
-      navigator.clipboard?.writeText(url).then(()=> alert('Link copied to clipboard'), ()=> alert('Copy failed'));
+    // --- Saved trips (local-first) ---
+    function loadSavedTrips() { return JSON.parse(localStorage.getItem(tripsKey) || '[]'); }
+    function saveSavedTrips(list) { localStorage.setItem(tripsKey, JSON.stringify(list)); }
+    function renderSavedTrips() {
+      const list = loadSavedTrips();
+      const out = $('#saved-trips-list');
+      if (!list || list.length === 0) { out.innerHTML = '<div class="small muted">No saved trips yet</div>'; return; }
+      const select = el('select', { id: 'saved-trips-select', style: 'width:100%;padding:8px' });
+      list.forEach((t, idx) => select.appendChild(el('option', { value: idx }, `${t.name} — ${t.items.length} places`)));
+      out.innerHTML = ''; out.appendChild(select);
+    }
+    renderSavedTrips();
+    $('#save-trip').addEventListener('click', () => {
+      const name = ($('#trip-name').value || '').trim() || ('Trip ' + new Date().toLocaleString());
+      const list = loadSavedTrips();
+      list.push({ name, items: loadItin(), created: new Date().toISOString() });
+      saveSavedTrips(list);
+      renderSavedTrips();
+      $('#trip-name').value = '';
+      alert('Trip saved locally.');
+    });
+    $('#load-trip').addEventListener('click', () => {
+      const sel = $('#saved-trips-select'); if (!sel) return alert('No saved trip selected');
+      const idx = Number(sel.value); const list = loadSavedTrips(); const trip = list[idx];
+      if (!trip) return alert('Trip not found');
+      saveItin(trip.items || []);
+      alert('Trip loaded');
+    });
+    $('#delete-trip').addEventListener('click', () => {
+      const sel = $('#saved-trips-select'); if (!sel) return alert('No saved trip selected');
+      const idx = Number(sel.value); const list = loadSavedTrips();
+      if (!confirm('Delete saved trip: ' + list[idx].name + '?')) return;
+      list.splice(idx,1); saveSavedTrips(list); renderSavedTrips();
     });
 
-    // Nearby safari — finds nearest wildlife places to user (requires location)
-    $('#nearby-safari').addEventListener('click', () => {
-      if (!navigator.geolocation) return alert('Geolocation not supported');
-      navigator.geolocation.getCurrentPosition(pos => {
-        const lat = pos.coords.latitude, lon = pos.coords.longitude;
-        const wildlife = PLACES.filter(p => p.category === 'wildlife' || p.category === 'nationalpark');
-        wildlife.sort((a,b) => (distance(lat,lon,a.lat,a.lon) - distance(lat,lon,b.lat,b.lon)));
-        if (wildlife.length) {
-          openModal(`<h3>Nearby wildlife spots</h3><ul>${wildlife.slice(0,5).map(w=>`<li>${w.title} — ${(distance(lat,lon,w.lat,w.lon)/1000).toFixed(1)} km</li>`).join('')}</ul>`);
-        } else openModal('<div class="muted">No wildlife spots found in dataset.</div>');
-      }, err => alert('Location failed: ' + err.message));
+    // --- Photo uploader (local preview + attach to place) ---
+    function loadPhotos() { return JSON.parse(localStorage.getItem(photosKey) || '[]'); }
+    function savePhotos(list) { localStorage.setItem(photosKey, JSON.stringify(list)); }
+    function renderPhotoGallery() {
+      const photos = loadPhotos(); const gallery = $('#photo-gallery');
+      gallery.innerHTML = '';
+      photos.forEach((p, idx) => {
+        const img = document.createElement('img'); img.src = p.data; img.style.width = '120px'; img.style.height = '80px'; img.style.objectFit = 'cover'; img.style.borderRadius = '6px'; img.alt = p.name || 'uploaded photo';
+        const wrap = el('div', { style: 'position:relative;display:inline-block' }, img);
+        const btn = el('button', { class: 'btn small ghost', style: 'position:absolute;right:4px;top:4px', onClick: () => { if (confirm('Remove photo?')) { photos.splice(idx,1); savePhotos(photos); renderPhotoGallery(); } } }, '✕');
+        wrap.appendChild(btn);
+        gallery.appendChild(wrap);
+      });
+      if (photos.length === 0) gallery.innerHTML = '<div class="small muted">No uploaded photos</div>';
+    }
+    renderPhotoGallery();
+    $('#photo-input').addEventListener('change', async (e) => {
+      const files = Array.from(e.target.files || []);
+      const photos = loadPhotos();
+      for (const f of files) {
+        if (!f.type.startsWith('image/')) continue;
+        if (f.size > 2 * 1024 * 1024) {
+          // try to downscale larger images to avoid blowing localStorage quota - lightweight approach
+          try {
+            const dataUrl = await downscaleImage(f, 1200, 0.7);
+            photos.push({ name: f.name, data: dataUrl, created: new Date().toISOString() });
+          } catch (err) { photos.push({ name: f.name, data: '', created: new Date().toISOString() }); }
+        } else {
+          const data = await fileToDataURL(f);
+          photos.push({ name: f.name, data, created: new Date().toISOString() });
+        }
+      }
+      savePhotos(photos);
+      renderPhotoGallery();
+      e.target.value = '';
     });
-
-    // Haversine distance (meters)
-    function distance(lat1, lon1, lat2, lon2) {
-      const R = 6371000;
-      const toRad = d => d * Math.PI / 180;
-      const dLat = toRad(lat2 - lat1);
-      const dLon = toRad(lon2 - lon1);
-      const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)*Math.sin(dLon/2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-      return R * c;
+    function fileToDataURL(file) {
+      return new Promise((res, rej) => {
+        const r = new FileReader();
+        r.onload = () => res(r.result);
+        r.onerror = rej;
+        r.readAsDataURL(file);
+      });
+    }
+    function downscaleImage(file, maxWidth = 1200, quality = 0.8) {
+      return fileToDataURL(file).then(dataUrl => new Promise((res, rej) => {
+        const img = new Image();
+        img.onload = () => {
+          const scale = Math.min(1, maxWidth / img.width);
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.round(img.width * scale);
+          canvas.height = Math.round(img.height * scale);
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          res(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = rej; img.src = dataUrl;
+      }));
     }
 
-    // Offline banner
-    function updateOnlineStatus() {
-      if (!navigator.onLine) { $('#offline-banner').style.display = 'block'; }
-      else { $('#offline-banner').style.display = 'none'; }
+    // --- Export as GPX / GeoJSON / Shareable link ---
+    $('#export-gpx').addEventListener('click', () => {
+      const items = loadItin();
+      if (!items || items.length === 0) return alert('No itinerary to export');
+      let gpx = '<?xml version="1.0" encoding="UTF-8"?>\\n<gpx version="1.1" creator="ExploreNepal">\\n<trk><name>Explore Nepal Itinerary</name><trkseg>\\n';
+      items.forEach(id => {
+        const p = PLACES.find(pp => pp.id === id);
+        if (!p) return;
+        gpx += `<trkpt lat="${p.lat}" lon="${p.lon}"><name>${escapeXml(p.title)}</name></trkpt>\\n`;
+      });
+      gpx += '</trkseg></trk>\\n</gpx>';
+      downloadBlob(gpx, 'application/gpx+xml', 'itinerary.gpx');
+    });
+    $('#export-geojson').addEventListener('click', () => {
+      const items = loadItin();
+      if (!items || items.length === 0) return alert('No itinerary to export');
+      const features = items.map(id => {
+        const p = PLACES.find(pp => pp.id === id);
+        if (!p) return null;
+        return { type: 'Feature', properties: { id: p.id, title: p.title }, geometry: { type: 'Point', coordinates: [p.lon, p.lat] } };
+      }).filter(Boolean);
+      const geo = { type: 'FeatureCollection', features };
+      downloadBlob(JSON.stringify(geo, null, 2), 'application/json', 'itinerary.geojson');
+    });
+    $('#share-shortlink').addEventListener('click', () => {
+      const items = loadItin();
+      if (!items || items.length === 0) return alert('No itinerary to share');
+      // create a shareable short link using encoded itinerary in URL fragment (local-first, no server)
+      const payload = encodeURIComponent(items.join(','));
+      const href = `${location.origin}${location.pathname}#itinerary=${payload}`;
+      const short = href; // for now the full link; in production call a URL shortener
+      $('#export-result').textContent = short;
+      navigator.clipboard?.writeText(short).then(() => alert('Shareable link copied to clipboard'));
+    });
+    function escapeXml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;'); }
+    function downloadBlob(content, type, filename) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = filename; a.click(); URL.revokeObjectURL(url);
     }
-    window.addEventListener('online', updateOnlineStatus);
-    window.addEventListener('offline', updateOnlineStatus);
-    updateOnlineStatus();
 
-    // Modal close on ESC
-    window.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-    // Simple admin mode (local-only) — open with ?admin=true
-    if (location.search.includes('admin=true')) {
-      const adminBtn = el('button', { class: 'btn', style: 'position:fixed;left:12px;top:80px;z-index:20000', onClick: openAdmin }, 'Admin');
-      document.body.appendChild(adminBtn);
+    // --- Route optimizer (nearest neighbour simple heuristic) ---
+    $('#optimize-route').addEventListener('click', () => {
+      const items = loadItin(); if (!items || items.length < 2) return alert('Need 2+ places to optimize');
+      // build list of coords
+      const pts = items.map(id => ({ id, p: PLACES.find(pp => pp.id === id) })).filter(Boolean);
+      if (pts.length < 2) return alert('Not enough place coordinates');
+      const start = pts[0];
+      const ordered = [start];
+      let remaining = pts.slice(1);
+      while (remaining.length) {
+        const last = ordered[ordered.length-1].p;
+        let bestIdx = 0; let bestDist = Number.MAX_VALUE;
+        remaining.forEach((r, idx) => {
+          const d = haversine(last.lat, last.lon, r.p.lat, r.p.lon);
+          if (d < bestDist) { bestDist = d; bestIdx = idx; }
+        });
+        ordered.push(remaining.splice(bestIdx,1)[0]);
+      }
+      const newOrder = ordered.map(o => o.id);
+      saveItin(newOrder);
+      alert('Optimized (nearest-neighbour) — review your itinerary.');
+    });
+    $('#reverse-route').addEventListener('click', () => {
+      const items = loadItin(); items.reverse(); saveItin(items); alert('Route reversed');
+    });
+    function haversine(lat1, lon1, lat2, lon2) {
+      function toRad(v){return v*Math.PI/180;}
+      const R = 6371;
+      const dLat = toRad(lat2-lat1); const dLon = toRad(lon2-lon1);
+      const a = Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)*Math.sin(dLon/2);
+      const c = 2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R*c;
     }
-    function openAdmin() {
-      const html = `<h3>Admin (local-only)</h3>
-        <p class="muted">Add a new place (saved in localStorage and appended to the current dataset; not pushed to repo)</p>
-        <form id="admin-add">
-          <label>Id<input id="admin-id" required style="width:100%;margin-top:6px"></label>
-          <label>Title<input id="admin-title" required style="width:100%;margin-top:6px"></label>
-          <label>Category<input id="admin-cat" required style="width:100%;margin-top:6px" value="heritage"></label>
-          <label>Latitude<input id="admin-lat" required style="width:100%;margin-top:6px"></label>
-          <label>Longitude<input id="admin-lon" required style="width:100%;margin-top:6px"></label>
-          <label>Image URL<input id="admin-img" style="width:100%;margin-top:6px"></label>
-          <div style="margin-top:8px;text-align:right"><button class="btn" type="submit">Add place</button></div>
+
+    // --- Elevation preview (synthetic) using Chart.js ---
+    const elevationCtx = document.getElementById('elevation-chart')?.getContext?.('2d');
+    let elevationChart = null;
+    function updateElevationChart() {
+      const items = loadItin();
+      if (!elevationCtx) return;
+      if (!items || items.length === 0) {
+        $('#elevation-stats').textContent = 'No route selected';
+        if (elevationChart) { elevationChart.destroy(); elevationChart = null; }
+        return;
+      }
+      // synthetic elevation generation: base altitude by latitude/longitude pseudo-random function
+      const elevations = items.map(id => {
+        const p = PLACES.find(pp => pp.id === id) || { lat: 27.7, lon: 85.3 };
+        // simple pseudo-elevation for visualization only
+        return Math.round((Math.abs(Math.sin(p.lat) * 2000) + Math.abs(Math.cos(p.lon) * 800)));
+      });
+      const labels = items.map(id => (PLACES.find(pp => pp.id === id)?.title || id));
+      const data = { labels, datasets: [{ label: 'Elevation (m) (approx)', data: elevations, borderColor: '#0b67d0', backgroundColor: 'rgba(11,103,208,0.08)', fill: true, tension: 0.3 }] };
+      if (elevationChart) elevationChart.destroy();
+      elevationChart = new Chart(elevationCtx, { type: 'line', data, options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } });
+      const min = Math.min(...elevations), max = Math.max(...elevations), avg = Math.round(elevations.reduce((a,b)=>a+b,0)/elevations.length);
+      $('#elevation-stats').textContent = `Min: ${min} m • Max: ${max} m • Avg: ${avg} m`;
+    }
+    function updateRouteStats() {
+      const items = loadItin();
+      if (!items || items.length < 2) { $('#route-stats').textContent = 'Not enough points to compute stats'; updateElevationChart(); return; }
+      let total = 0;
+      for (let i=1;i<items.length;i++) {
+        const a = PLACES.find(p=>p.id===items[i-1]); const b = PLACES.find(p=>p.id===items[i]);
+        if (!a || !b) continue;
+        total += haversine(a.lat, a.lon, b.lat, b.lon);
+      }
+      $('#route-stats').textContent = `Approx. route length: ${total.toFixed(1)} km • ${items.length} stops`;
+      updateElevationChart();
+    }
+
+    // update route stats when itinerary changes
+    // saveItin already calls updateRouteStats
+
+    // --- Saved profile (local-first) ---
+    function loadProfile() { return JSON.parse(localStorage.getItem(profileKey) || '{}'); }
+    function saveProfile(profile) { localStorage.setItem(profileKey, JSON.stringify(profile)); }
+    // small profile UI injected in header
+    const profileBtn = el('button', { id: 'profile-btn', class: 'btn ghost small', title: 'Profile' }, 'Profile');
+    document.querySelector('.header-inner').appendChild(profileBtn);
+    profileBtn.addEventListener('click', () => {
+      const profile = loadProfile();
+      const html = `<h3>Your profile</h3>
+        <form id="profile-form">
+        <label style="display:block;margin-top:6px">Name</label><input id="pf-name" value="${profile.name || ''}" style="width:100%;padding:8px;margin:6px 0">
+        <label style="display:block">Email</label><input id="pf-email" type="email" value="${profile.email || ''}" style="width:100%;padding:8px;margin:6px 0">
+        <label style="display:block">Bio (public)</label><textarea id="pf-bio" style="width:100%;height:100px">${profile.bio || ''}</textarea>
+        <div style="margin-top:8px;text-align:right"><button class="btn" type="submit">Save</button></div>
         </form>`;
       openModal(html);
-      document.getElementById('admin-add').addEventListener('submit', (ev) => {
-        ev.preventDefault();
-        const id = $('#admin-id').value.trim(); const title = $('#admin-title').value.trim();
-        const category = $('#admin-cat').value.trim(); const lat = parseFloat($('#admin-lat').value); const lon = parseFloat($('#admin-lon').value);
-        const img = $('#admin-img').value.trim() || 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&auto=format&fit=crop&q=80';
-        const p = { id, title, category, lat, lon, rating: 4.0, desc: 'Added via admin', img };
-        PLACES.push(p);
-        renderPlaces();
-        buildMarkers();
+      document.getElementById('profile-form').addEventListener('submit', e => {
+        e.preventDefault();
+        const name = (document.getElementById('pf-name').value || '').trim();
+        const email = (document.getElementById('pf-email').value || '').trim();
+        const bio = (document.getElementById('pf-bio').value || '').trim();
+        saveProfile({ name, email, bio, updated: new Date().toISOString() });
+        alert('Profile saved locally');
         closeModal();
-        alert('Place added locally. To persist in repo, add to index.html or dataset in repository.');
       });
-    }
-
-    // Accessibility: focus outline improvements
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Tab') document.body.classList.add('show-focus');
     });
 
-    // Attach initial interactions for dynamically created elements
-    // We need to re-attach when DOM changes (simple mutation observer)
-    const mo = new MutationObserver(() => { attachCardInteractions(); updateFavUI(); });
-    mo.observe(destinationsRoot, { childList: true, subtree: true });
+    // --- Push notifications skeleton (request permission, example local notification) ---
+    const notificationsKey = 'explore_notifications_allowed';
+    async function askNotificationPermission() {
+      if (!('Notification' in window)) return false;
+      if (Notification.permission === 'granted') return true;
+      if (Notification.permission === 'denied') return false;
+      try {
+        const perm = await Notification.requestPermission();
+        return perm === 'granted';
+      } catch (e) { return false; }
+    }
+    // optional button (added to footer)
+    const notifBtn = el('button', { class: 'btn small ghost', style: 'margin-left:8px' }, 'Enable notifications');
+    document.querySelector('footer .credits').appendChild(notifBtn);
+    notifBtn.addEventListener('click', async () => {
+      const ok = await askNotificationPermission();
+      localStorage.setItem(notificationsKey, String(ok));
+      if (ok) new Notification('Explore Nepal', { body: 'Notifications enabled. You will receive helpful travel tips.' });
+    });
 
-    // Populate destinations (already created above)
-    renderPlaces();
-
-    // Small UX: open details when pressing Enter on a card
+    // --- Accessibility improvements: focus trap for modal (simple) ---
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && document.activeElement && document.activeElement.closest && document.activeElement.closest('.card')) {
-        const id = document.activeElement.closest('.card').dataset.id;
-        document.querySelector('.details-btn[data-id="' + id + '"]').click();
+      if (e.key === 'Escape') { closeModal(); closeLightbox(); quickMenu.style.display = 'none'; }
+      if (e.key === 'm') { // quick map toggle
+        const mf = document.getElementById('map-frame'); if (mf) mf.scrollIntoView({ behavior: 'smooth' });
       }
     });
 
-    // Show cookie banner if not set
-    showCookie();
-
-    // Announce ready
+    // --- Small initialization actions ---
+    setTimeout(() => { fetchWeatherFor(27.7172, 85.3240, $('#weather-widget')); }, 1200);
     analytics.track('page_view', { path: location.pathname });
 
-    // Done booting
-    document.body.setAttribute('aria-busy', 'false');
+    // --- Helpers re: URL hash hydration (load itinerary from share link) ---
+    (function hydrateFromUrl() {
+      const hash = location.hash || '';
+      if (!hash.includes('itinerary=')) return;
+      const params = new URLSearchParams(hash.replace('#',''));
+      const it = params.get('itinerary');
+      if (!it) return;
+      const ids = decodeURIComponent(it).split(',');
+      if (ids.length) { saveItin(ids); alert('Loaded itinerary from link'); }
+    }());
 
-    // Expose some for console debugging
-    window.__EXPLORE = { PLACES, addToItin, loadItin, saveItin, renderPlaces, buildMarkers };
+    // --- Final attach ---
+    window.addEventListener('resize', () => { if (typeof elevationChart?.resize === 'function') elevationChart.resize(); });
 
+    // expose a couple of functions for map popups
+    window.addToItin = addToItin;
+    window.openQuickMenu = window.openQuickMenu;
+
+    // Update route stats initially
+    updateRouteStats();
+
+    // Done
   })();
   </script>
 
-  <!-- Service worker skeleton (explain to user: create sw.js in repo root to enable offline caching) -->
-  <!-- Example sw.js content (create file at /sw.js in repo) -->
-  <!--
-  self.addEventListener('install', event => {
-    event.waitUntil(
-      caches.open('explore-assets-v1').then(cache => cache.addAll([
-        '/', '/index.html', '/manifest.json', '/styles.css'
-      ]))
-    );
-  });
-  self.addEventListener('fetch', event => {
-    event.respondWith(
-      caches.match(event.request).then(resp => resp || fetch(event.request))
-    );
-  });
+  <!-- Developer guidance and notes:
+       - This update added many local-first features: saved trips, image upload preview, GPX/GeoJSON export,
+         simple route optimizer, synthetic elevation visualization (Chart.js), profile storage, and
+         a push-notification permission helper.
+       - For production:
+         * Move large datasets to JSON files and fetch them (so HTML stays lightweight).
+         * Use IndexedDB for large binary storage instead of localStorage (photos).
+         * Add server-side components for sharing, push notifications, booking workflow and review moderation.
+         * Provide a real elevation API for accurate elevation profiles (Open-Elevation, Mapbox Elevation, etc).
+         * Implement proper authentication if user accounts are needed (OAuth / Email).
   -->
 
 </body>
