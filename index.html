@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanjay Subedi - Portfolio</title>
+    <title>Sanjay's Tourist Guide</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-static@0.251.0/dist/lucide.css">
     <style>
@@ -11,8 +11,8 @@
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            line-height: 1.6;
             color: #333;
+            line-height: 1.6;
         }
         header {
             background: #4a90e2;
@@ -39,6 +39,32 @@
             text-align: center;
             margin-bottom: 40px;
         }
+        .places {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .place-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .place-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .place-card h3 {
+            margin: 10px;
+        }
+        .place-card p {
+            margin: 10px;
+            font-size: 0.9em;
+        }
+        .place-card:hover {
+            transform: scale(1.05);
+        }
         .social-icons {
             display: flex;
             justify-content: center;
@@ -58,31 +84,59 @@
             text-align: center;
             padding: 20px;
         }
+        iframe {
+            width: 100%;
+            height: 400px;
+            border: 0;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Sanjay Subedi</h1>
+        <h1>Sanjay's Tourist Guide</h1>
         <nav>
             <a href="#about">About</a>
-            <a href="#portfolio">Portfolio</a>
+            <a href="#places">Places</a>
+            <a href="#map">Map</a>
             <a href="#contact">Contact</a>
         </nav>
     </header>
 
     <section id="about">
-        <h2>About Me</h2>
-        <p>Hello! I am Sanjay Subedi. I create websites and love making projects more realistic and interactive. This is my personal portfolio site where you can see my work and contact me.</p>
+        <h2>About This Guide</h2>
+        <p>Welcome to Sanjay's Tourist Guide! This website helps travelers explore top destinations, find interesting attractions, and get tips for a smooth journey. Whether you’re looking for sightseeing spots, local cuisine, or travel advice, you’ll find it all here.</p>
     </section>
 
-    <section id="portfolio">
-        <h2>Portfolio</h2>
-        <p>Here you can showcase your projects, images, or anything you want visitors to see. Replace this text with your real projects.</p>
+    <section id="places">
+        <h2>Top Tourist Places</h2>
+        <div class="places">
+            <div class="place-card">
+                <img src="https://source.unsplash.com/400x300/?mountain,nepal" alt="Mountain">
+                <h3>Himalayan Mountains</h3>
+                <p>Explore breathtaking peaks and scenic trekking routes. Ideal for adventure lovers and nature enthusiasts.</p>
+            </div>
+            <div class="place-card">
+                <img src="https://source.unsplash.com/400x300/?temple,nepal" alt="Temple">
+                <h3>Pashupatinath Temple</h3>
+                <p>Visit one of the holiest Hindu temples in Nepal. Experience culture, spirituality, and historic architecture.</p>
+            </div>
+            <div class="place-card">
+                <img src="https://source.unsplash.com/400x300/?lake,nepal" alt="Lake">
+                <h3>Pokhara Lakes</h3>
+                <p>Relax by serene lakes surrounded by mountains. Ideal for boating, photography, and peaceful retreats.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="map">
+        <h2>Tourist Map</h2>
+        <p>Find locations of major tourist spots in Nepal:</p>
+        <iframe src="https://www.google.com/maps/d/embed?mid=1A2B3C4D5E6F" allowfullscreen></iframe>
     </section>
 
     <section id="contact">
-        <h2>Contact Me</h2>
-        <p>You can reach me via email or follow me on my social media profiles.</p>
+        <h2>Contact & Social Media</h2>
+        <p>If you have questions or travel suggestions, you can reach me via social media:</p>
         <div class="social-icons">
             <a href="https://www.facebook.com/sanjay.subedi.963" target="_blank" title="Facebook">
                 <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-facebook" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
