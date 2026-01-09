@@ -1,239 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Explore Nepal – Tourist Guide</title>
+<meta name="description" content="Explore Nepal — guide to mountains, lakes, parks, temples, tours, and travel tips." />
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="/manifest.json">
 <style>
-/* ================= Base Styles ================= */
-body, html {
-  margin:0; padding:0;
-  font-family:'Roboto',sans-serif;
-  scroll-behavior:smooth;
-  background:#f7f7f7;
-  color:#333;
-}
-header {
-  background: linear-gradient(90deg,#0066cc,#0099ff);
-  color:white;
-  padding:20px 0;
-  position:sticky;
-  top:0;
-  z-index:1000;
-}
-header h1{margin:0;font-size:2.4em;text-align:center;}
-nav {
-  display:flex;
-  justify-content:center;
-  gap:15px;
-  flex-wrap:wrap;
-  margin-top:10px;
-}
-nav a {
-  color:white;
-  text-decoration:none;
-  font-weight:600;
-}
-nav a:hover{text-decoration:underline;}
-section {padding:50px 20px;max-width:1200px;margin:auto;}
-section h2{text-align:center;margin-bottom:25px;font-size:2em;color:#333;}
-.destinations {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:25px;
-  padding-top:20px;
-}
-.card {
-  border:1px solid #ccc;
-  border-radius:10px;
-  overflow:hidden;
-  background:white;
-  transition:transform 0.3s, box-shadow 0.3s;
-}
-.card:hover {transform:scale(1.03); box-shadow:0 8px 25px rgba(0,0,0,0.2);}
-.card img {width:100%;height:200px;object-fit:cover;}
-.card .info {padding:15px;}
-.card .info h3{margin:10px 0;font-size:1.2em;font-weight:700;color:#0055aa;}
-.card .info p{margin:0;color:#444;}
-.social-icons {
-  display:flex;
-  justify-content:center;
-  gap:30px;
-  margin-top:20px;
-}
-.social-icons a {color:#333;font-size:2em;text-decoration:none;}
-.social-icons a:hover {color:#4a90e2;}
-footer {background:#222;color:white;text-align:center;padding:25px 10px;font-size:0.9em;}
-.map-container {width:100%;height:400px;margin-top:20px; border-radius:10px;overflow:hidden;}
-
-/* ================ Chat Box ================ */
-#chat-box {
-  position: fixed; bottom:20px; right:20px;
-  width:300px; max-height:400px;
-  background:white; border:2px solid #0066cc;
-  border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.3);
-  display:flex; flex-direction:column; overflow:hidden; z-index:10000;
-}
-#chat-header {background:#0066cc;color:white;padding:10px;text-align:center;font-weight:700;cursor:pointer;}
-#chat-messages {flex:1;padding:10px;overflow-y:auto;font-size:0.9em;}
-#chat-input {display:flex;border-top:1px solid #ccc;}
-#chat-input input {flex:1;padding:8px;border:none;outline:none;font-size:0.9em;}
-#chat-input button {background:#0066cc;color:white;border:none;padding:8px 12px;cursor:pointer;}
-#chat-input button:hover {background:#004999;}
-
-/* ================ Language Toggle ================ */
-#lang-toggle {
-  position: fixed; top:25px; right:25px;
-  padding:8px 12px; background:#ffcc00;
-  border:none; border-radius:5px; cursor:pointer;
-  font-weight:700; z-index:1000;
-}
-
-/* ================ Filter Buttons ================ */
-.filter-btns {
-  text-align:center; margin-bottom:25px;
-}
-.filter-btns button {
-  padding:8px 15px; margin:0 5px;
-  border:none; border-radius:5px;
-  background:#0066cc; color:white; cursor:pointer;
-  font-weight:600; transition:background 0.3s;
-}
-.filter-btns button:hover {background:#004999;}
-.filter-btns button.active {background:#ff9900;}
+  :root{--primary:#0066cc;--accent:#ff9900;--muted:#6b6b6b}
+  html,body{margin:0;padding:0;font-family:'Roboto',sans-serif;background:#f7f7f7;color:#222}
+  .container{max-width:1200px;margin:0 auto;padding:18px}
+  header{background:linear-gradient(90deg,var(--primary),#0099ff);color:#fff;padding:14px 0;position:sticky;top:0;z-index:1000}
+  .header-inner{display:flex;align-items:center;gap:12px;padding:0 12px}
+  header h1{margin:0;font-size:1.35rem}
+  nav{margin-left:auto;display:flex;gap:10px;align-items:center}
+  nav a{color:white;text-decoration:none;font-weight:600}
+  .search input{padding:8px;border-radius:6px;border:none;outline:none}
+  section{background:transparent;padding:20px 0}
+  h2{text-align:center;margin-bottom:12px}
+  .filter-btns{text-align:center;margin-bottom:12px}
+  .filter-btns button{padding:8px 12px;border-radius:6px;border:none;background:var(--primary);color:#fff;margin:4px;cursor:pointer}
+  .filter-btns button.active{background:var(--accent)}
+  .destinations{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+  .card{background:#fff;border-radius:10px;border:1px solid #e6e6e6;overflow:hidden;display:flex;flex-direction:column;transition:transform .18s}
+  .card:hover{transform:translateY(-6px)}
+  .card img{width:100%;height:180px;object-fit:cover}
+  .info{padding:12px;display:flex;flex-direction:column;gap:8px}
+  .meta{display:flex;justify-content:space-between;align-items:center}
+  .btn{background:var(--primary);color:#fff;padding:8px 10px;border-radius:6px;border:none;cursor:pointer;font-weight:700}
+  .btn.secondary{background:#f0f0f0;color:#333}
+  .small{font-size:.9rem;color:var(--muted)}
+  .map-container{height:420px;border-radius:10px;overflow:hidden;border:1px solid #ddd;background:#fff}
+  footer{background:#111;color:#fff;padding:18px;text-align:center;margin-top:18px}
+  .social-icons{display:flex;gap:12px;justify-content:center}
+  #chat-box{position:fixed;right:18px;bottom:18px;width:320px;background:#fff;border:2px solid var(--primary);border-radius:10px;overflow:hidden;z-index:12000;display:flex;flex-direction:column}
+  #chat-header{background:var(--primary);color:#fff;padding:8px;cursor:pointer;font-weight:700}
+  #chat-messages{padding:8px;height:180px;overflow:auto;font-size:0.9rem}
+  #chat-input{display:flex;border-top:1px solid #eee}
+  #chat-input input{flex:1;padding:8px;border:none;outline:none}
+  #chat-input button{padding:8px 10px;border:none;background:var(--primary);color:#fff}
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;padding:18px;z-index:13000}
+  .dialog{background:#fff;border-radius:10px;padding:16px;max-width:680px;width:100%;max-height:85vh;overflow:auto}
+  .favorites{display:flex;gap:8px;flex-wrap:wrap}
+  .fav-pill{background:#ffefc4;padding:6px 8px;border-radius:20px;border:1px solid #e6c97a}
+  .itinerary{background:#fff;padding:12px;border-radius:8px;border:1px solid #eee}
+  .faq{max-width:900px;margin:0 auto}
+  @media (max-width:720px){nav{display:none}}
 </style>
 </head>
 <body>
-
 <header>
-  <h1 id="site-title">Explore Nepal 🇳🇵</h1>
-  <nav>
-    <a href="#about">About Nepal</a>
-    <a href="#places">Top Places</a>
-    <a href="#wildlife">Wildlife & Nature</a>
-    <a href="#culture">Culture & Heritage</a>
-    <a href="#tours">Tour Packages</a>
-    <a href="#map">Nepal Map</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  <div class="header-inner container" role="banner">
+    <h1 id="site-title">Explore Nepal 🇳🇵</h1>
+    <div class="search" role="search">
+      <input id="global-search" placeholder="Search places, e.g. Pokhara, Everest..." aria-label="Search places">
+    </div>
+    <nav aria-label="Main navigation">
+      <a href="#about">About</a>
+      <a href="#places">Places</a>
+      <a href="#tours">Tours</a>
+      <a href="#map">Map</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
 </header>
 
-<button id="lang-toggle">नेपाली</button>
+<main class="container" role="main">
 
-<!-- About Section -->
-<section id="about">
-  <h2 class="lang" data-en="Welcome to Nepal" data-ne="नेपालमा स्वागत छ">Welcome to Nepal</h2>
-  <p class="lang" data-en="Nepal is a land of dramatic landscapes, rich culture, and incredible diversity. This guide helps tourists explore mountains, lakes, temples, parks, and heritage sites." data-ne="नेपाल भौगोलिक सुन्दरता, सांस्कृतिक धरोहर र विविधताले भरिएको देश हो। यस मार्गदर्शनले पर्यटकहरूलाई पर्वत, ताल, मन्दिर, निकुञ्ज र सांस्कृतिक स्थलहरू अन्वेषण गर्न मद्दत गर्दछ।">Nepal is a land of dramatic landscapes...</p>
+<!-- ABOUT -->
+<section id="about" aria-labelledby="about-h">
+  <h2 id="about-h" class="lang" data-en="Welcome to Nepal" data-ne="नेपालमा स्वागत छ">Welcome to Nepal</h2>
+  <p class="lang" data-en="Nepal is a land of dramatic landscapes, rich culture, and incredible diversity. This guide helps tourists explore mountains, lakes, temples, parks, and heritage sites." data-ne="नेपाल विविधता, संस्कृति र सुन्दर भू-भागले भरिएको देश हो। यहाँका पर्वत, ताल, मन्दिर र निकुञ्जको बारेमा मार्गदर्शन गर्छ।">
+    Nepal is a land of dramatic landscapes, rich culture, and incredible diversity. This guide helps tourists explore mountains, lakes, temples, parks, and heritage sites.
+  </p>
+  <div class="small">Quick tips: Carry a copy of your passport, respect local customs around temples, and check weather before trekking.</div>
 </section>
 
-<!-- Places Section with Filter -->
-<section id="places">
-  <h2 class="lang" data-en="Top Tourist Places" data-ne="मुख्य पर्यटकीय स्थलहरू">Top Tourist Places</h2>
-  <div class="filter-btns">
-    <button class="active" data-filter="all">All</button>
-    <button data-filter="mountains">Mountains</button>
-    <button data-filter="lakes">Lakes</button>
-    <button data-filter="temples">Temples</button>
-    <button data-filter="heritage">Heritage</button>
-    <button data-filter="wildlife">Wildlife</button>
+<!-- PLACES + FILTER -->
+<section id="places" aria-labelledby="places-h">
+  <h2 id="places-h" class="lang" data-en="Top Tourist Places" data-ne="मुख्य पर्यटकीय स्थलहरू">Top Tourist Places</h2>
+
+  <div style="display:flex;gap:12px;align-items:center;justify-content:center;margin-bottom:12px">
+    <div class="filter-btns" role="toolbar" aria-label="Filter places">
+      <button class="active" data-filter="all">All</button>
+      <button data-filter="mountains">Mountains</button>
+      <button data-filter="lakes">Lakes</button>
+      <button data-filter="temples">Temples</button>
+      <button data-filter="heritage">Heritage</button>
+      <button data-filter="wildlife">Wildlife</button>
+    </div>
+    <div>
+      <button id="view-favs" class="btn secondary" title="View favorites">Favorites (<span id="fav-count">0</span>)</button>
+    </div>
   </div>
-  <div class="destinations">
-    <!-- Mountain Example -->
-    <div class="card" data-category="mountains">
-      <img src="https://source.unsplash.com/500x300/?everest,nepal" alt="Everest">
+
+  <div class="destinations" id="destinations" aria-live="polite">
+    <!-- Cards: include data attributes for lat/lon, id, and category -->
+    <div class="card" data-id="everest" data-category="mountains" data-lat="28.0043" data-lon="86.8576">
+      <img loading="lazy" src="https://source.unsplash.com/600x400/?everest,nepal" alt="Everest">
       <div class="info">
         <h3 class="lang" data-en="Everest Base Camp" data-ne="सगरमाथा आधार शिविर">Everest Base Camp</h3>
-        <p class="lang" data-en="Trek to the world’s highest peak region. Stunning views and adventure." data-ne="विश्वको सबैभन्दा अग्लो शिखरको ट्रेक। अद्भुत दृश्य र साहसिक अनुभव।">Trek to the world’s highest peak region...</p>
+        <p class="lang" data-en="Trek to the world’s highest peak region. Stunning views and adventure." data-ne="विश्वको सबैभन्दा अग्लो शिखरको वरिपरि ट्रेकिंग।">Trek to the world’s highest peak region. Stunning views and adventure.</p>
+        <div class="meta">
+          <div>
+            <button class="btn details-btn" data-id="everest">Details</button>
+            <button class="btn secondary add-fav" data-id="everest">☆ Fav</button>
+            <button class="btn secondary add-itin" data-id="everest">＋ Itinerary</button>
+          </div>
+          <div><span class="small">Rating: <span class="rating" data-id="everest">4.6</span></span></div>
+        </div>
       </div>
     </div>
-    <!-- Lake Example -->
-    <div class="card" data-category="lakes">
-      <img src="https://source.unsplash.com/500x300/?Phewa+Lake,Pokhara" alt="Phewa Lake">
+
+    <div class="card" data-id="phewa" data-category="lakes" data-lat="28.2096" data-lon="83.9856">
+      <img loading="lazy" src="https://source.unsplash.com/600x400/?Phewa+Lake,Pokhara" alt="Phewa Lake">
       <div class="info">
         <h3 class="lang" data-en="Phewa Lake" data-ne="फेवा ताल">Phewa Lake</h3>
-        <p class="lang" data-en="Boating, tranquil scenery, and mountain reflections." data-ne="डुंगा, शान्त वातावरण र पर्वतीय प्रतिबिम्ब।">Boating, tranquil scenery...</p>
+        <p class="lang" data-en="Boating, tranquil scenery, and mountain reflections." data-ne="डुंगा, शान्त वातावरण र पर्वतीय प्रतिबिम्ब।">Boating, tranquil scenery, and mountain reflections.</p>
+        <div class="meta">
+          <div>
+            <button class="btn details-btn" data-id="phewa">Details</button>
+            <button class="btn secondary add-fav" data-id="phewa">☆ Fav</button>
+            <button class="btn secondary add-itin" data-id="phewa">＋ Itinerary</button>
+          </div>
+          <div><span class="small">Rating: <span class="rating" data-id="phewa">4.4</span></span></div>
+        </div>
       </div>
     </div>
-    <!-- Temple Example -->
-    <div class="card" data-category="temples">
-      <img src="https://source.unsplash.com/500x300/?Pashupatinath,temple" alt="Pashupatinath">
+
+    <div class="card" data-id="pashupati" data-category="temples" data-lat="27.7100" data-lon="85.3488">
+      <img loading="lazy" src="https://source.unsplash.com/600x400/?Pashupatinath,temple" alt="Pashupatinath">
       <div class="info">
         <h3 class="lang" data-en="Pashupatinath Temple" data-ne="पशुपतिनाथ मन्दिर">Pashupatinath Temple</h3>
-        <p class="lang" data-en="One of Hinduism’s holiest temples, cultural landmark." data-ne="हिन्दू धर्मको एक पवित्र मन्दिर र सांस्कृतिक स्थल।">One of Hinduism’s holiest temples...</p>
+        <p class="lang" data-en="One of Hinduism’s holiest temples, cultural landmark." data-ne="हिन्दू धर्मको एक पवित्र मन्दिर र सांस्कृतिक स्थल।">One of Hinduism’s holiest temples, cultural landmark.</p>
+        <div class="meta">
+          <div>
+            <button class="btn details-btn" data-id="pashupati">Details</button>
+            <button class="btn secondary add-fav" data-id="pashupati">☆ Fav</button>
+            <button class="btn secondary add-itin" data-id="pashupati">＋ Itinerary</button>
+          </div>
+          <div><span class="small">Rating: <span class="rating" data-id="pashupati">4.2</span></span></div>
+        </div>
       </div>
     </div>
-    <!-- Heritage Example -->
-    <div class="card" data-category="heritage">
-      <img src="https://source.unsplash.com/500x300/?Bhaktapur,Durbar" alt="Bhaktapur">
+
+    <div class="card" data-id="bhaktapur" data-category="heritage" data-lat="27.6726" data-lon="85.4270">
+      <img loading="lazy" src="https://source.unsplash.com/600x400/?Bhaktapur,Durbar" alt="Bhaktapur">
       <div class="info">
-        <h3 class="lang" data-en="Bhaktapur Durbar Square" data-ne="भक्तपुर दरबार स्क्वायर">Bhaktapur Durbar Square</h3>
-        <p class="lang" data-en="Medieval city with beautiful architecture and temples." data-ne="मध्यकालीन शहर सुन्दर वास्तुकला र मन्दिरहरूको साथ।">Medieval city with beautiful architecture...</p>
+        <h3 class="lang" data-en="Bhaktapur Durbar Square" data_ne="भक्तपुर दरबार स्क्वायर">Bhaktapur Durbar Square</h3>
+        <p class="lang" data-en="Medieval city with beautiful architecture and temples." data_ne="मध्यकालीन शहर सुन्दर वास्तुकला र मन्दिरहरू।">Medieval city with beautiful architecture and temples.</p>
+        <div class="meta">
+          <div>
+            <button class="btn details-btn" data-id="bhaktapur">Details</button>
+            <button class="btn secondary add-fav" data-id="bhaktapur">☆ Fav</button>
+            <button class="btn secondary add-itin" data-id="bhaktapur">＋ Itinerary</button>
+          </div>
+          <div><span class="small">Rating: <span class="rating" data-id="bhaktapur">4.3</span></span></div>
+        </div>
       </div>
     </div>
-    <!-- Wildlife Example -->
-    <div class="card" data-category="wildlife">
-      <img src="https://source.unsplash.com/500x300/?Chitwan,National+Park" alt="Chitwan Park">
+
+    <div class="card" data-id="chitwan" data-category="wildlife" data-lat="27.5389" data-lon="84.3542">
+      <img loading="lazy" src="https://source.unsplash.com/600x400/?Chitwan,National+Park" alt="Chitwan Park">
       <div class="info">
-        <h3 class="lang" data-en="Chitwan National Park" data-ne="चितवन राष्ट्रिय निकुञ्ज">Chitwan National Park</h3>
-        <p class="lang" data-en="Jungle safaris, wildlife spotting, rhinos, tigers." data-ne="जंगल सफारी, गैंडा र बाघ हेर्न सकिने स्थान।">Jungle safaris, wildlife spotting...</p>
+        <h3 class="lang" data-en="Chitwan National Park" data_ne="चितवन राष्ट्रिय निकुञ्ज">Chitwan National Park</h3>
+        <p class="lang" data-en="Jungle safaris, wildlife spotting, rhinos, tigers." data_ne="जंगल सफारी, गैंडा र बाघ हेर्न सकिने स्थान।">Jungle safaris, wildlife spotting, rhinos, tigers.</p>
+        <div class="meta">
+          <div>
+            <button class="btn details-btn" data-id="chitwan">Details</button>
+            <button class="btn secondary add-fav" data-id="chitwan">☆ Fav</button>
+            <button class="btn secondary add-itin" data-id="chitwan">＋ Itinerary</button>
+          </div>
+          <div><span class="small">Rating: <span class="rating" data-id="chitwan">4.5</span></span></div>
+        </div>
       </div>
     </div>
+
   </div>
 </section>
 
-<!-- Wildlife & Culture -->
-<section id="wildlife">
-  <h2 class="lang" data-en="Wildlife & Nature" data-ne="वन्यजन्तु र प्रकृति">Wildlife & Nature</h2>
-  <p class="lang" data-en="Lush jungles, alpine lakes, and unique wildlife across Nepal." data-ne="नेपालभर घना जंगल, अल्पाइन ताल र अनौठा वन्यजन्तु।">Lush jungles, alpine lakes...</p>
-</section>
-
-<section id="culture">
-  <h2 class="lang" data-en="Culture & Heritage" data-ne="संस्कृति र धरोहर">Culture & Heritage</h2>
-  <ul>
-    <li class="lang" data-en="Kathmandu Durbar Square – Ancient palace and temples." data-ne="काठमाडौँ दरबार स्क्वायर – प्राचीन दरबार र मन्दिरहरू।">Kathmandu Durbar Square – Ancient palace...</li>
-    <li class="lang" data-en="Swayambhunath – Ancient Buddhist stupa." data-ne="स्वयम्भूनाथ – प्राचीन बौद्ध स्तुप।">Swayambhunath – Ancient Buddhist stupa.</li>
-    <li class="lang" data-en="Patan Durbar Square – Historic arts and architecture." data-ne="पाटन दरबार स्क्वायर – ऐतिहासिक कला र वास्तुकला।">Patan Durbar Square – Historic arts...</li>
-  </ul>
-</section>
-
-<!-- Tour Packages -->
-<section id="tours">
-  <h2 class="lang" data-en="Tour Packages" data-ne="यात्रा प्याकेजहरू">Tour Packages</h2>
+<!-- TOUR PACKAGES -->
+<section id="tours" aria-labelledby="tours-h">
+  <h2 id="tours-h" class="lang" data-en="Tour Packages" data_ne="यात्रा प्याकेजहरू">Tour Packages</h2>
   <div class="destinations">
     <div class="card" data-category="tour">
-      <img src="https://source.unsplash.com/500x300/?Everest,Trek" alt="Everest Trek">
+      <img loading="lazy" src="https://source.unsplash.com/600x400/?Everest,Trek" alt="Everest Trek">
       <div class="info">
-        <h3 class="lang" data-en="Everest Base Camp Trek – 14 Days" data-ne="सगरमाथा आधार शिविर ट्रेक – १४ दिन">Everest Base Camp Trek – 14 Days</h3>
-        <p class="lang" data-en="Experience the Himalayas, Sherpa culture, and breathtaking views." data-ne="हिमालय, शेर्पा संस्कृति र अद्भुत दृश्यहरू अनुभव गर्नुहोस्।">Experience the Himalayas...</p>
+        <h3 class="lang" data-en="Everest Base Camp Trek – 14 Days" data_ne="सगरमाथा आधार शिविर ट्रेक – १४ दिन">Everest Base Camp Trek – 14 Days</h3>
+        <p class="small">Includes guide, permits, accommodation (tea-house), and meals. Difficulty: High.</p>
+        <div style="margin-top:auto;text-align:right"><button class="btn book-btn" data-id="everest">Book Now</button></div>
       </div>
     </div>
     <div class="card" data-category="tour">
-      <img src="https://source.unsplash.com/500x300/?Pokhara,Lake" alt="Pokhara Tour">
+      <img loading="lazy" src="https://source.unsplash.com/600x400/?Pokhara,Lake" alt="Pokhara Tour">
       <div class="info">
-        <h3 class="lang" data-en="Pokhara & Lakes Tour – 3 Days" data-ne="पोखरा र ताल यात्रा – ३ दिन">Pokhara & Lakes Tour – 3 Days</h3>
-        <p class="lang" data-en="Boat rides, waterfalls, and mountain scenery." data-ne="डुंगा यात्रा, झरना र पर्वतीय दृश्य।">Boat rides, waterfalls...</p>
+        <h3 class="lang" data-en="Pokhara & Lakes Tour – 3 Days" data_ne="पोखरा र ताल यात्रा – ३ दिन">Pokhara & Lakes Tour – 3 Days</h3>
+        <p class="small">Boat rides, waterfalls, and mountain scenery. Family friendly.</p>
+        <div style="margin-top:auto;text-align:right"><button class="btn book-btn" data-id="pokhara">Book Now</button></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Map -->
-<section id="map">
-  <h2 class="lang" data-en="Explore Nepal Map" data-ne="नेपालको नक्सा अन्वेषण गर्नुहोस्">Explore Nepal Map</h2>
-  <div class="map-container">
+<!-- MAP + WEATHER + CURRENCY -->
+<section id="map" aria-labelledby="map-h">
+  <h2 id="map-h" class="lang" data-en="Explore Nepal Map" data_ne="नेपालको नक्सा अन्वेषण गर्नुहोस्">Explore Nepal Map</h2>
+  <div class="map-container" id="map-frame">
     <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3539143.873320847!2d80.05813698782329!3d28.166035897137075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3991f1972c2c12a9%3A0xf87f0f0f0f0f0f0f!2sNepal!5e0!3m2!1sen!2snp!4v1600000000000!5m2!1sen!2snp"
-      width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      loading="lazy"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3539143.873320847!2d80.05813698782329!3d28.166035897137075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1"
+      width="100%" height="100%" style="border:0" allowfullscreen="" aria-hidden="false"></iframe>
+  </div>
+
+  <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:12px">
+    <div id="weather-widget" style="min-width:260px;padding:12px;border-radius:8px;border:1px solid #e6e6e6;background:#fff">Loading weather…</div>
+
+    <div style="min-width:260px;padding:12px;border-radius:8px;border:1px solid #e6e6e6;background:#fff">
+      <h4 style="margin:0 0 8px 0">Currency Converter</h4>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input id="cur-amount" type="number" value="1" style="padding:8px;width:90px">
+        <select id="cur-from" style="padding:8px">
+          <option value="USD">USD</option>
+          <option value="NPR" selected>NPR</option>
+          <option value="EUR">EUR</option>
+        </select>
+        <span>→</span>
+        <select id="cur-to" style="padding:8px">
+          <option value="NPR">NPR</option>
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+        </select>
+        <button id="convert-btn" class="btn">Convert</button>
+      </div>
+      <div id="convert-result" class="small" style="margin-top:8px"></div>
+    </div>
+
+    <div style="min-width:260px;padding:12px;border-radius:8px;border:1px solid #e6e6e6;background:#fff">
+      <h4 style="margin:0 0 8px 0">Plan ahead</h4>
+      <p class="small">Click a place's "Details" to see weather, reviews, and booking options. Use the search & filter to find places quickly.</p>
+    </div>
   </div>
 </section>
 
-<!-- Contact -->
-<section id="contact">
-  <h2 class="lang" data-en="Contact & Social Media" data-ne="सम्पर्क र सामाजिक सञ्जाल">Contact & Social Media</h2>
+<!-- ITINERARY -->
+<section id="itinerary" aria-labelledby="itinerary-h">
+  <h2 id="itinerary-h">My Itinerary</h2>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;margin-bottom:12px">
+    <div class="itinerary" id="itinerary-box" style="min-width:320px">No items — add places to build an itinerary.</div>
+    <div>
+      <button id="print-itin" class="btn">Print Itinerary</button>
+      <button id="share-itin" class="btn secondary">Share</button>
+      <button id="clear-itin" class="btn secondary">Clear</button>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" aria-labelledby="faq-h">
+  <h2 id="faq-h">FAQ & Emergency</h2>
+  <div class="faq">
+    <details><summary>How do I get permits for trekking?</summary><p class="small">Popular treks like Everest and Annapurna require TIMS and national park permits; local agencies/trekking companies usually arrange these.</p></details>
+    <details><summary>What is the best time to visit?</summary><p class="small">Spring (Mar–May) and Autumn (Sep–Nov) are ideal for trekking and clear mountain views.</p></details>
+    <details><summary>Emergency contacts</summary>
+      <ul class="small">
+        <li>Police (Nepal): 100</li>
+        <li>Ambulance: 102</li>
+        <li>Tourist Police (Kathmandu): +977-1-425xxxx (example)</li>
+      </ul>
+    </details>
+  </div>
+</section>
+
+<!-- CONTACT / NEWSLETTER -->
+<section id="contact" aria-labelledby="contact-h">
+  <h2 id="contact-h" class="lang" data-en="Contact & Social Media" data_ne="सम्पर्क र सामाजिक सञ्जाल">Contact & Social Media</h2>
   <div class="social-icons">
-    <a href="https://www.facebook.com/sanjay.subedi.963" target="_blank">📘</a>
-    <a href="https://www.instagram.com/sanjaysubedi2063/?__pwa=1" target="_blank">📸</a>
+    <a href="https://www.facebook.com/sanjay.subedi.963" target="_blank" rel="noopener">📘</a>
+    <a href="https://www.instagram.com/sanjaysubedi2063/?__pwa=1" target="_blank" rel="noopener">📸</a>
+    <a href="mailto:info@example.com">✉️</a>
+  </div>
+
+  <div style="max-width:640px;margin:12px auto;background:#fff;padding:12px;border-radius:8px;border:1px solid #eee">
+    <h4 style="margin-top:0">Newsletter</h4>
+    <form id="newsletter">
+      <input type="email" id="newsletter-email" placeholder="Your email" required style="padding:8px;width:65%"> <button class="btn" type="submit">Subscribe</button>
+      <p class="small" id="newsletter-msg" style="margin:8px 0 0 0"></p>
+    </form>
   </div>
 </section>
 
@@ -241,67 +295,260 @@ footer {background:#222;color:white;text-align:center;padding:25px 10px;font-siz
   &copy; 2026 Explore Nepal • Designed by Sanjay Subedi
 </footer>
 
-<!-- ===== Chat Box ===== -->
-<div id="chat-box">
-  <div id="chat-header">Chat with Guide</div>
-  <div id="chat-messages"></div>
+<!-- CHAT -->
+<div id="chat-box" aria-live="polite" aria-label="Chat with guide">
+  <div id="chat-header" role="button" aria-pressed="false">Chat with Guide</div>
+  <div id="chat-messages" role="log" aria-live="polite"></div>
   <div id="chat-input">
-    <input type="text" id="user-input" placeholder="Ask a question...">
+    <input id="user-input" placeholder="Ask a question..." aria-label="Chat input">
     <button id="send-btn">Send</button>
   </div>
 </div>
 
+<!-- Modal root -->
+<div id="modal-root" aria-hidden="true" style="display:none;"></div>
+
 <script>
-// ========== Language Toggle ==========
-const toggleBtn = document.getElementById('lang-toggle');
+// ---------------- Utilities ----------------
+const langToggleLabel = document.createElement('button');
+langToggleLabel.id = 'lang-toggle';
+langToggleLabel.textContent = 'नेपाली';
+langToggleLabel.style = 'position:fixed;top:18px;right:18px;padding:8px 10px;background:#ffcc00;border:none;border-radius:6px;z-index:14000';
+document.body.appendChild(langToggleLabel);
 let currentLang = 'en';
-toggleBtn.addEventListener('click', () => {
-  const elems = document.querySelectorAll('.lang');
-  currentLang = currentLang === 'en' ? 'ne' : 'en';
-  elems.forEach(el => {el.textContent = el.dataset[currentLang];});
-  toggleBtn.textContent = currentLang==='en'?'नेपाली':'English';
+langToggleLabel.addEventListener('click', ()=>{
+  currentLang = currentLang==='en'?'ne':'en';
+  document.querySelectorAll('.lang').forEach(el=>{
+    const v = el.dataset[currentLang];
+    if(v) el.textContent = v;
+  });
+  langToggleLabel.textContent = currentLang==='en'?'नेपाली':'English';
 });
 
-// ========== Filter Buttons ==========
+// --------------- Search & Filter ---------------
+const searchInput = document.getElementById('global-search');
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  document.querySelectorAll('#destinations .card').forEach(card=>{
+    const text = (card.textContent || '').toLowerCase();
+    card.style.display = q === '' || text.includes(q) ? 'block' : 'none';
+  });
+});
+
 const filterBtns = document.querySelectorAll('.filter-btns button');
 const cards = document.querySelectorAll('.destinations .card');
 filterBtns.forEach(btn=>{
-  btn.addEventListener('click',()=>{
+  btn.addEventListener('click', ()=>{
     filterBtns.forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     const filter = btn.dataset.filter;
     cards.forEach(card=>{
-      card.style.display = (filter==='all' || card.dataset.category===filter)?'block':'none';
+      card.style.display = (filter==='all' || card.dataset.category===filter) ? 'block' : 'none';
     });
   });
 });
 
-// ========== Chat Box ==========
-const chatHeader = document.getElementById('chat-header');
-const chatBox = document.getElementById('chat-box');
+// --------------- Favorites ---------------
+const favKey = 'explore_favs';
+function loadFavs(){ return JSON.parse(localStorage.getItem(favKey)||'[]'); }
+function saveFavs(list){ localStorage.setItem(favKey, JSON.stringify(list)); updateFavUI(); }
+function toggleFav(id){
+  const list = loadFavs();
+  const idx = list.indexOf(id);
+  if(idx>=0) list.splice(idx,1); else list.push(id);
+  saveFavs(list);
+}
+function updateFavUI(){
+  const list = loadFavs();
+  document.getElementById('fav-count').textContent = list.length;
+}
+document.addEventListener('click', e=>{
+  if(e.target.matches('.add-fav')){
+    const id = e.target.dataset.id;
+    toggleFav(id);
+    e.target.textContent = loadFavs().includes(id) ? '★ Fav' : '☆ Fav';
+  }
+  if(e.target.matches('#view-favs')){
+    const list = loadFavs();
+    if(list.length===0) return alert('No favorites yet.');
+    const html = '<h3>Favorites</h3><ul>'+list.map(id=>{
+      const card = document.querySelector(`.card[data-id="${id}"]`);
+      return '<li>'+ (card ? card.querySelector('h3').textContent : id) +'</li>';
+    }).join('') + '</ul>';
+    openModal(html);
+  }
+});
+updateFavUI();
+
+// --------------- Itinerary ---------------
+const itinKey = 'explore_itin';
+function loadItin(){ return JSON.parse(localStorage.getItem(itinKey)||'[]'); }
+function saveItin(list){ localStorage.setItem(itinKey, JSON.stringify(list)); renderItin(); }
+function addToItin(id){
+  const list = loadItin();
+  if(!list.includes(id)) list.push(id);
+  saveItin(list);
+}
+function clearItin(){ localStorage.removeItem(itinKey); renderItin(); }
+function renderItin(){
+  const box = document.getElementById('itinerary-box');
+  const list = loadItin();
+  if(list.length===0){ box.innerHTML = 'No items — add places to build an itinerary.'; return; }
+  box.innerHTML = '<ol>'+list.map(id=>{
+    const card = document.querySelector(`.card[data-id="${id}"]`);
+    const title = card ? card.querySelector('h3').textContent : id;
+    return `<li>${title}</li>`;
+  }).join('')+'</ol>';
+}
+document.addEventListener('click', e=>{
+  if(e.target.matches('.add-itin')) addToItin(e.target.dataset.id);
+  if(e.target.matches('#clear-itin')) { if(confirm('Clear itinerary?')) clearItin(); }
+  if(e.target.matches('#print-itin')) { window.print(); }
+  if(e.target.matches('#share-itin')) {
+    const list = loadItin();
+    if(!navigator.share) return alert('Share not supported in this browser.');
+    const text = list.map(id=>document.querySelector(`.card[data-id="${id}"]`).querySelector('h3').textContent).join(', ');
+    navigator.share({title:'My Nepal itinerary', text, url:location.href}).catch(()=>{});
+  }
+});
+renderItin();
+
+// --------------- Chat (basic) ---------------
 const chatMessages = document.getElementById('chat-messages');
 const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
-
-chatHeader.addEventListener('click', ()=>{chatBox.style.height=chatBox.style.height==='400px'?'40px':'400px';});
-
-function appendMessage(sender,text){
-  const msg = document.createElement('div');
-  msg.textContent = `${sender}: ${text}`;
-  chatMessages.appendChild(msg);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
+document.getElementById('chat-header').addEventListener('click', ()=>{
+  const m = document.getElementById('chat-messages');
+  const input = document.getElementById('chat-input');
+  const collapsed = m.style.display === 'none';
+  m.style.display = collapsed ? 'block' : 'none';
+  input.style.display = collapsed ? 'flex' : 'none';
+});
+function appendChat(s,t){ const d=document.createElement('div'); d.textContent = `${s}: ${t}`; chatMessages.appendChild(d); chatMessages.scrollTop = chatMessages.scrollHeight; }
+sendBtn.addEventListener('click', ()=>{ sendChat(); });
+userInput.addEventListener('keydown', e=>{ if(e.key==='Enter') sendChat(); });
+function sendChat(){
+  const t = userInput.value.trim(); if(!t) return;
+  appendChat('You', t); userInput.value='';
+  let reply = 'I am a simple guide bot. Ask about mountains, lakes, parks, or temples.';
+  if(/everest|mountain/i.test(t)) reply='Everest Base Camp and Annapurna are top mountain treks.';
+  else if(/pokhara|lake/i.test(t)) reply='Pokhara offers Phewa Lake, boating, and Annapurna views.';
+  else if(/chitwan|wildlife|park/i.test(t)) reply='Chitwan and Bardiya National Parks are great for wildlife safari.';
+  setTimeout(()=>appendChat('Guide', reply), 500);
 }
 
-sendBtn.addEventListener('click',()=>{
-  const text = userInput.value.trim();
-  if(!text) return;
-  appendMessage('You',text);
-  let reply = 'I am a simple guide bot. Ask about mountains, lakes, parks, or temples.';
-  if(/everest|mountain/i.test(text)) reply='Everest Base Camp and Annapurna are top mountain treks.';
-  else if(/pokhara|lake/i.test(text)) reply='Pokhara offers Phewa Lake, boating, and Annapurna views.';
-  else if(/chitwan|wildlife|park/i.test(text)) reply='Chitwan and Bardiya National Parks are great for wildlife safari.';
-  appendMessage('Guide',reply);
-  userInput.value='';
+// --------------- Modal & Booking & Reviews ---------------
+const modalRoot = document.getElementById('modal-root');
+function openModal(inner){
+  modalRoot.style.display='block'; modalRoot.setAttribute('aria-hidden','false');
+  modalRoot.innerHTML = `<div class="modal"><div class="dialog">${inner}<div style="text-align:right;margin-top:12px"><button id="close-modal" class="btn secondary">Close</button></div></div></div>`;
+  document.getElementById('close-modal').addEventListener('click', closeModal);
+}
+function closeModal(){ modalRoot.style.display='none'; modalRoot.innerHTML=''; modalRoot.setAttribute('aria-hidden','true'); }
+
+function loadReviews(id){ return JSON.parse(localStorage.getItem('reviews_'+id)||'[]'); }
+function addReview(id, rev){ const arr=loadReviews(id); arr.unshift(rev); localStorage.setItem('reviews_'+id, JSON.stringify(arr)); }
+
+document.addEventListener('click', async (e)=>{
+  if(e.target.matches('.details-btn')){
+    const id = e.target.dataset.id;
+    const card = document.querySelector(`.card[data-id="${id}"]`);
+    const title = card.querySelector('h3').textContent;
+    const desc = card.querySelector('p').textContent;
+    const lat = card.dataset.lat, lon = card.dataset.lon;
+    const reviews = loadReviews(id);
+    const reviewsHtml = reviews.length ? reviews.map(r=>`<div style="border-top:1px dashed #eee;padding-top:8px"><div style="color:gold">${'★'.repeat(r.rating)}</div><div>${r.text}</div></div>`).join('') : '<div class="small">No reviews yet.</div>';
+    const html = `<h3>${title}</h3><p>${desc}</p><div id="detail-weather">Loading weather...</div><h4>Reviews</h4>${reviewsHtml}<h4>Leave a review</h4><textarea id="review-text" style="width:100%;height:64px"></textarea><div style="margin-top:8px">Rating: <select id="review-rating"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></div><div style="margin-top:12px"><button id="submit-review" class="btn">Submit Review</button> <button id="book-from-modal" class="btn secondary" data-id="${id}">Book this</button></div>`;
+    openModal(html);
+    fetchWeatherFor(lat,lon, document.getElementById('detail-weather'));
+    document.getElementById('submit-review').addEventListener('click', ()=>{
+      const text = document.getElementById('review-text').value.trim();
+      const rating = parseInt(document.getElementById('review-rating').value,10);
+      if(!text) return alert('Please add a review message.');
+      addReview(id, {rating, text});
+      alert('Thanks — your review was saved locally.');
+      closeModal();
+    });
+    document.getElementById('book-from-modal').addEventListener('click', ev=>openBookingForm(ev.target.dataset.id));
+  }
+
+  if(e.target.matches('.book-btn') || e.target.matches('.book-btn *')){
+    const id = e.target.dataset.id;
+    openBookingForm(id);
+  }
+});
+
+function openBookingForm(id){
+  const card = document.querySelector(`.card[data-id="${id}"]`);
+  const title = card.querySelector('h3').textContent;
+  const html = `<h3>Book: ${title}</h3><form id="booking-form"><label>Name</label><input id="bk-name" required style="width:100%;padding:8px;margin:6px 0"><label>Email</label><input id="bk-email" type="email" required style="width:100%;padding:8px;margin:6px 0"><label>Dates</label><input id="bk-dates" placeholder="e.g. 2026-03-10 to 2026-03-24" style="width:100%;padding:8px;margin:6px 0"><button class="btn" type="submit">Request Booking</button></form>`;
+  openModal(html);
+  document.getElementById('booking-form').addEventListener('submit', e=>{
+    e.preventDefault();
+    const name=document.getElementById('bk-name').value;
+    const email=document.getElementById('bk-email').value;
+    const dates=document.getElementById('bk-dates').value;
+    const bookings = JSON.parse(localStorage.getItem('bookings')||'[]');
+    bookings.push({id,name,email,dates,created:new Date().toISOString()});
+    localStorage.setItem('bookings',JSON.stringify(bookings));
+    alert('Booking request saved locally. We will contact you at ' + email);
+    closeModal();
+  });
+}
+
+// --------------- Weather (Open-Meteo) ---------------
+async function fetchWeatherFor(lat, lon, target){
+  if(!lat || !lon){ target.textContent = 'No coordinates available.'; return;}
+  try{
+    target.textContent = 'Loading weather...';
+    const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+    const data = await res.json();
+    if(data && data.current_weather){
+      const w = data.current_weather;
+      target.innerHTML = `<strong>Current:</strong> ${w.temperature}°C, wind ${w.windspeed} km/h`;
+    } else target.textContent = 'Weather data unavailable.';
+  } catch(err){ target.textContent = 'Failed to load weather.'; }
+}
+fetchWeatherFor(27.7172,85.3240, document.getElementById('weather-widget'));
+
+// --------------- Currency Converter (exchangerate.host) ---------------
+document.getElementById('convert-btn').addEventListener('click', async ()=>{
+  const amount = Number(document.getElementById('cur-amount').value) || 1;
+  const from = document.getElementById('cur-from').value;
+  const to = document.getElementById('cur-to').value;
+  const out = document.getElementById('convert-result');
+  out.textContent = 'Converting…';
+  try{
+    // exchangerate.host is a free no-api-key service
+    const r = await fetch(`https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`);
+    const data = await r.json();
+    if(data && data.result !== undefined) out.textContent = `${amount} ${from} ≈ ${data.result.toFixed(2)} ${to}`;
+    else out.textContent = 'Conversion failed.';
+  }catch(e){ out.textContent = 'Conversion failed.'; }
+});
+
+// --------------- Newsletter ---------------
+document.getElementById('newsletter').addEventListener('submit', e=>{
+  e.preventDefault();
+  const email = document.getElementById('newsletter-email').value;
+  document.getElementById('newsletter-msg').textContent = 'Thanks! Subscribed: ' + email;
+});
+
+// --------------- Modal close on Escape ---------------
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
+// --------------- Service Worker registration ---------------
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/service-worker.js').then(()=>console.log('SW registered')).catch(()=>console.log('SW registration failed'));
+}
+
+// --------------- On load UX ---------------
+document.addEventListener('DOMContentLoaded', ()=> {
+  // set initial favorite button visuals
+  const favs = loadFavs();
+  document.querySelectorAll('.add-fav').forEach(btn=>{
+    btn.textContent = favs.includes(btn.dataset.id) ? '★ Fav' : '☆ Fav';
+  });
 });
 </script>
 
