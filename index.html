@@ -6,68 +6,102 @@
 <title>Explore Nepal – Tourist Guide</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* ===== Base Styles ===== */
-body, html {margin:0;padding:0;font-family:'Roboto',sans-serif;scroll-behavior:smooth;}
-header {background:linear-gradient(90deg,#0066cc,#0099ff);color:white;padding:20px;position:sticky;top:0;z-index:1000;}
-header h1{margin:0;font-size:2.4em;}
-nav {display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
-nav a {color:white;text-decoration:none;font-weight:600;}
+/* ================= Base Styles ================= */
+body, html {
+  margin:0; padding:0;
+  font-family:'Roboto',sans-serif;
+  scroll-behavior:smooth;
+  background:#f7f7f7;
+  color:#333;
+}
+header {
+  background: linear-gradient(90deg,#0066cc,#0099ff);
+  color:white;
+  padding:20px 0;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+header h1{margin:0;font-size:2.4em;text-align:center;}
+nav {
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+nav a {
+  color:white;
+  text-decoration:none;
+  font-weight:600;
+}
 nav a:hover{text-decoration:underline;}
 section {padding:50px 20px;max-width:1200px;margin:auto;}
 section h2{text-align:center;margin-bottom:25px;font-size:2em;color:#333;}
-.destinations {display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;padding-top:20px;}
-.card {border:1px solid #ccc;border-radius:8px;overflow:hidden;font-size:0.95em;transition:transform 0.3s;}
-.card:hover {transform:scale(1.05);}
+.destinations {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:25px;
+  padding-top:20px;
+}
+.card {
+  border:1px solid #ccc;
+  border-radius:10px;
+  overflow:hidden;
+  background:white;
+  transition:transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {transform:scale(1.03); box-shadow:0 8px 25px rgba(0,0,0,0.2);}
 .card img {width:100%;height:200px;object-fit:cover;}
 .card .info {padding:15px;}
 .card .info h3{margin:10px 0;font-size:1.2em;font-weight:700;color:#0055aa;}
 .card .info p{margin:0;color:#444;}
-.social-icons {display:flex;justify-content:center;gap:30px;margin-top:20px;}
+.social-icons {
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  margin-top:20px;
+}
 .social-icons a {color:#333;font-size:2em;text-decoration:none;}
 .social-icons a:hover {color:#4a90e2;}
 footer {background:#222;color:white;text-align:center;padding:25px 10px;font-size:0.9em;}
-.map-container {width:100%;height:400px;margin-top:20px;}
+.map-container {width:100%;height:400px;margin-top:20px; border-radius:10px;overflow:hidden;}
 
-/* ===== Chat Box Styles ===== */
+/* ================ Chat Box ================ */
 #chat-box {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 300px;
-  max-height: 400px;
-  background: white;
-  border: 2px solid #0066cc;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-  z-index:10000;
+  position: fixed; bottom:20px; right:20px;
+  width:300px; max-height:400px;
+  background:white; border:2px solid #0066cc;
+  border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.3);
+  display:flex; flex-direction:column; overflow:hidden; z-index:10000;
 }
 #chat-header {background:#0066cc;color:white;padding:10px;text-align:center;font-weight:700;cursor:pointer;}
 #chat-messages {flex:1;padding:10px;overflow-y:auto;font-size:0.9em;}
 #chat-input {display:flex;border-top:1px solid #ccc;}
-#chat-input input {
-  flex:1;padding:8px;border:none;outline:none;font-size:0.9em;
-}
-#chat-input button {
-  background:#0066cc;color:white;border:none;padding:8px 12px;cursor:pointer;
-}
+#chat-input input {flex:1;padding:8px;border:none;outline:none;font-size:0.9em;}
+#chat-input button {background:#0066cc;color:white;border:none;padding:8px 12px;cursor:pointer;}
 #chat-input button:hover {background:#004999;}
 
-/* ===== Language Toggle ===== */
+/* ================ Language Toggle ================ */
 #lang-toggle {
-  position: fixed;
-  top: 25px;
-  right: 25px;
-  padding: 8px 12px;
-  background:#ffcc00;
-  border:none;
-  border-radius:5px;
-  cursor:pointer;
-  font-weight:700;
-  z-index:1000;
+  position: fixed; top:25px; right:25px;
+  padding:8px 12px; background:#ffcc00;
+  border:none; border-radius:5px; cursor:pointer;
+  font-weight:700; z-index:1000;
 }
+
+/* ================ Filter Buttons ================ */
+.filter-btns {
+  text-align:center; margin-bottom:25px;
+}
+.filter-btns button {
+  padding:8px 15px; margin:0 5px;
+  border:none; border-radius:5px;
+  background:#0066cc; color:white; cursor:pointer;
+  font-weight:600; transition:background 0.3s;
+}
+.filter-btns button:hover {background:#004999;}
+.filter-btns button.active {background:#ff9900;}
 </style>
 </head>
 <body>
@@ -79,6 +113,7 @@ footer {background:#222;color:white;text-align:center;padding:25px 10px;font-siz
     <a href="#places">Top Places</a>
     <a href="#wildlife">Wildlife & Nature</a>
     <a href="#culture">Culture & Heritage</a>
+    <a href="#tours">Tour Packages</a>
     <a href="#map">Nepal Map</a>
     <a href="#contact">Contact</a>
   </nav>
@@ -86,59 +121,114 @@ footer {background:#222;color:white;text-align:center;padding:25px 10px;font-siz
 
 <button id="lang-toggle">नेपाली</button>
 
+<!-- About Section -->
 <section id="about">
   <h2 class="lang" data-en="Welcome to Nepal" data-ne="नेपालमा स्वागत छ">Welcome to Nepal</h2>
-  <p class="lang" data-en="Nepal is a land of dramatic landscapes, rich culture, and incredible diversity. Use this guide to explore top destinations, attractions, and tips for your journey." data-ne="नेपाल भौगोलिक सुन्दरता, सांस्कृतिक धरोहर र विविधताले भरिएको देश हो। यस मार्गदर्शनले तपाईंलाई उत्कृष्ट गन्तव्य र यात्रा टिप्सको जानकारी दिन्छ।">Nepal is a land of dramatic landscapes, rich culture, and incredible diversity. Use this guide to explore top destinations, attractions, and tips for your journey.</p>
+  <p class="lang" data-en="Nepal is a land of dramatic landscapes, rich culture, and incredible diversity. This guide helps tourists explore mountains, lakes, temples, parks, and heritage sites." data-ne="नेपाल भौगोलिक सुन्दरता, सांस्कृतिक धरोहर र विविधताले भरिएको देश हो। यस मार्गदर्शनले पर्यटकहरूलाई पर्वत, ताल, मन्दिर, निकुञ्ज र सांस्कृतिक स्थलहरू अन्वेषण गर्न मद्दत गर्दछ।">Nepal is a land of dramatic landscapes...</p>
 </section>
 
+<!-- Places Section with Filter -->
 <section id="places">
-  <h2 class="lang" data-en="Top Tourist Places in Nepal" data-ne="नेपालका प्रमुख पर्यटकीय स्थलहरू">Top Tourist Places in Nepal</h2>
+  <h2 class="lang" data-en="Top Tourist Places" data-ne="मुख्य पर्यटकीय स्थलहरू">Top Tourist Places</h2>
+  <div class="filter-btns">
+    <button class="active" data-filter="all">All</button>
+    <button data-filter="mountains">Mountains</button>
+    <button data-filter="lakes">Lakes</button>
+    <button data-filter="temples">Temples</button>
+    <button data-filter="heritage">Heritage</button>
+    <button data-filter="wildlife">Wildlife</button>
+  </div>
   <div class="destinations">
+    <!-- Mountain Example -->
     <div class="card" data-category="mountains">
-      <img src="https://source.unsplash.com/500x300/?mountains,nepal,himalayas" alt="Himalayas">
+      <img src="https://source.unsplash.com/500x300/?everest,nepal" alt="Everest">
       <div class="info">
-        <h3 class="lang" data-en="Himalayan Mountain Region" data-ne="हिमालय पर्वतीय क्षेत्र">Himalayan Mountain Region</h3>
-        <p class="lang" data-en="Includes Everest and Annapurna. Perfect for trekking and cultural experiences." data-ne="यसमा सगरमाथा र अन्नपूर्ण समावेश छन्। ट्रेकिङ र सांस्कृतिक अनुभवको लागि उत्तम।">Includes Everest and Annapurna. Perfect for trekking and cultural experiences.</p>
+        <h3 class="lang" data-en="Everest Base Camp" data-ne="सगरमाथा आधार शिविर">Everest Base Camp</h3>
+        <p class="lang" data-en="Trek to the world’s highest peak region. Stunning views and adventure." data-ne="विश्वको सबैभन्दा अग्लो शिखरको ट्रेक। अद्भुत दृश्य र साहसिक अनुभव।">Trek to the world’s highest peak region...</p>
       </div>
     </div>
+    <!-- Lake Example -->
     <div class="card" data-category="lakes">
       <img src="https://source.unsplash.com/500x300/?Phewa+Lake,Pokhara" alt="Phewa Lake">
       <div class="info">
-        <h3 class="lang" data-en="Phewa Lake, Pokhara" data-ne="फेवा ताल, पोखरा">Phewa Lake, Pokhara</h3>
-        <p class="lang" data-en="Tranquil lake with boating and mountain views." data-ne="पोखराको शान्त ताल, डुंगा र पर्वतीय दृश्यहरूको लागि प्रसिद्ध।">Tranquil lake with boating and mountain views.</p>
+        <h3 class="lang" data-en="Phewa Lake" data-ne="फेवा ताल">Phewa Lake</h3>
+        <p class="lang" data-en="Boating, tranquil scenery, and mountain reflections." data-ne="डुंगा, शान्त वातावरण र पर्वतीय प्रतिबिम्ब।">Boating, tranquil scenery...</p>
       </div>
     </div>
+    <!-- Temple Example -->
+    <div class="card" data-category="temples">
+      <img src="https://source.unsplash.com/500x300/?Pashupatinath,temple" alt="Pashupatinath">
+      <div class="info">
+        <h3 class="lang" data-en="Pashupatinath Temple" data-ne="पशुपतिनाथ मन्दिर">Pashupatinath Temple</h3>
+        <p class="lang" data-en="One of Hinduism’s holiest temples, cultural landmark." data-ne="हिन्दू धर्मको एक पवित्र मन्दिर र सांस्कृतिक स्थल।">One of Hinduism’s holiest temples...</p>
+      </div>
+    </div>
+    <!-- Heritage Example -->
+    <div class="card" data-category="heritage">
+      <img src="https://source.unsplash.com/500x300/?Bhaktapur,Durbar" alt="Bhaktapur">
+      <div class="info">
+        <h3 class="lang" data-en="Bhaktapur Durbar Square" data-ne="भक्तपुर दरबार स्क्वायर">Bhaktapur Durbar Square</h3>
+        <p class="lang" data-en="Medieval city with beautiful architecture and temples." data-ne="मध्यकालीन शहर सुन्दर वास्तुकला र मन्दिरहरूको साथ।">Medieval city with beautiful architecture...</p>
+      </div>
+    </div>
+    <!-- Wildlife Example -->
     <div class="card" data-category="wildlife">
-      <img src="https://source.unsplash.com/500x300/?Chitwan+National+Park" alt="Chitwan">
+      <img src="https://source.unsplash.com/500x300/?Chitwan,National+Park" alt="Chitwan Park">
       <div class="info">
         <h3 class="lang" data-en="Chitwan National Park" data-ne="चितवन राष्ट्रिय निकुञ्ज">Chitwan National Park</h3>
-        <p class="lang" data-en="Jungle safaris, wildlife spotting including rhinos and tigers." data-ne="जंगल सफारी, गैंडा र बाघ हेर्न सकिने स्थान।">Jungle safaris, wildlife spotting including rhinos and tigers.</p>
+        <p class="lang" data-en="Jungle safaris, wildlife spotting, rhinos, tigers." data-ne="जंगल सफारी, गैंडा र बाघ हेर्न सकिने स्थान।">Jungle safaris, wildlife spotting...</p>
       </div>
     </div>
-    <!-- Add more cards for temples, heritage, etc. -->
   </div>
 </section>
 
+<!-- Wildlife & Culture -->
 <section id="wildlife">
   <h2 class="lang" data-en="Wildlife & Nature" data-ne="वन्यजन्तु र प्रकृति">Wildlife & Nature</h2>
-  <p class="lang" data-en="Nepal offers lush jungles, lakes, and alpine regions with unique wildlife." data-ne="नेपालले घना जंगल, ताल र अल्पाइन क्षेत्रहरू प्रदान गर्छ जहाँ अनौठा वन्यजन्तु पाइन्छ।">Nepal offers lush jungles, lakes, and alpine regions with unique wildlife.</p>
+  <p class="lang" data-en="Lush jungles, alpine lakes, and unique wildlife across Nepal." data-ne="नेपालभर घना जंगल, अल्पाइन ताल र अनौठा वन्यजन्तु।">Lush jungles, alpine lakes...</p>
 </section>
 
 <section id="culture">
   <h2 class="lang" data-en="Culture & Heritage" data-ne="संस्कृति र धरोहर">Culture & Heritage</h2>
   <ul>
-    <li class="lang" data-en="Kathmandu Durbar Square – Ancient palace and temples." data-ne="काठमाडौँ दरबार स्क्वायर – प्राचीन दरबार र मन्दिरहरू।">Kathmandu Durbar Square – Ancient palace and temples.</li>
+    <li class="lang" data-en="Kathmandu Durbar Square – Ancient palace and temples." data-ne="काठमाडौँ दरबार स्क्वायर – प्राचीन दरबार र मन्दिरहरू।">Kathmandu Durbar Square – Ancient palace...</li>
     <li class="lang" data-en="Swayambhunath – Ancient Buddhist stupa." data-ne="स्वयम्भूनाथ – प्राचीन बौद्ध स्तुप।">Swayambhunath – Ancient Buddhist stupa.</li>
+    <li class="lang" data-en="Patan Durbar Square – Historic arts and architecture." data-ne="पाटन दरबार स्क्वायर – ऐतिहासिक कला र वास्तुकला।">Patan Durbar Square – Historic arts...</li>
   </ul>
 </section>
 
-<section id="map">
-  <h2 class="lang" data-en="Explore Nepal Map" data-ne="नेपालको नक्सा अन्वेषण गर्नुहोस्">Explore Nepal Map</h2>
-  <div class="map-container">
-    <iframe src="https://www.google.com/maps/d/embed?mid=1b5gWs7u3pY7K8Jh7gY5Y5yFpoXw" width="100%" height="100%"></iframe>
+<!-- Tour Packages -->
+<section id="tours">
+  <h2 class="lang" data-en="Tour Packages" data-ne="यात्रा प्याकेजहरू">Tour Packages</h2>
+  <div class="destinations">
+    <div class="card" data-category="tour">
+      <img src="https://source.unsplash.com/500x300/?Everest,Trek" alt="Everest Trek">
+      <div class="info">
+        <h3 class="lang" data-en="Everest Base Camp Trek – 14 Days" data-ne="सगरमाथा आधार शिविर ट्रेक – १४ दिन">Everest Base Camp Trek – 14 Days</h3>
+        <p class="lang" data-en="Experience the Himalayas, Sherpa culture, and breathtaking views." data-ne="हिमालय, शेर्पा संस्कृति र अद्भुत दृश्यहरू अनुभव गर्नुहोस्।">Experience the Himalayas...</p>
+      </div>
+    </div>
+    <div class="card" data-category="tour">
+      <img src="https://source.unsplash.com/500x300/?Pokhara,Lake" alt="Pokhara Tour">
+      <div class="info">
+        <h3 class="lang" data-en="Pokhara & Lakes Tour – 3 Days" data-ne="पोखरा र ताल यात्रा – ३ दिन">Pokhara & Lakes Tour – 3 Days</h3>
+        <p class="lang" data-en="Boat rides, waterfalls, and mountain scenery." data-ne="डुंगा यात्रा, झरना र पर्वतीय दृश्य।">Boat rides, waterfalls...</p>
+      </div>
+    </div>
   </div>
 </section>
 
+<!-- Map -->
+<section id="map">
+  <h2 class="lang" data-en="Explore Nepal Map" data-ne="नेपालको नक्सा अन्वेषण गर्नुहोस्">Explore Nepal Map</h2>
+  <div class="map-container">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3539143.873320847!2d80.05813698782329!3d28.166035897137075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3991f1972c2c12a9%3A0xf87f0f0f0f0f0f0f!2sNepal!5e0!3m2!1sen!2snp!4v1600000000000!5m2!1sen!2snp"
+      width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+  </div>
+</section>
+
+<!-- Contact -->
 <section id="contact">
   <h2 class="lang" data-en="Contact & Social Media" data-ne="सम्पर्क र सामाजिक सञ्जाल">Contact & Social Media</h2>
   <div class="social-icons">
@@ -162,7 +252,7 @@ footer {background:#222;color:white;text-align:center;padding:25px 10px;font-siz
 </div>
 
 <script>
-// ===== Multilingual Toggle =====
+// ========== Language Toggle ==========
 const toggleBtn = document.getElementById('lang-toggle');
 let currentLang = 'en';
 toggleBtn.addEventListener('click', () => {
@@ -172,7 +262,21 @@ toggleBtn.addEventListener('click', () => {
   toggleBtn.textContent = currentLang==='en'?'नेपाली':'English';
 });
 
-// ===== Chat Box =====
+// ========== Filter Buttons ==========
+const filterBtns = document.querySelectorAll('.filter-btns button');
+const cards = document.querySelectorAll('.destinations .card');
+filterBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    filterBtns.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    cards.forEach(card=>{
+      card.style.display = (filter==='all' || card.dataset.category===filter)?'block':'none';
+    });
+  });
+});
+
+// ========== Chat Box ==========
 const chatHeader = document.getElementById('chat-header');
 const chatBox = document.getElementById('chat-box');
 const chatMessages = document.getElementById('chat-messages');
@@ -192,10 +296,10 @@ sendBtn.addEventListener('click',()=>{
   const text = userInput.value.trim();
   if(!text) return;
   appendMessage('You',text);
-  let reply = 'Sorry, I can only give basic info now. Try asking about top places, temples, or parks.';
-  if(/himalaya/i.test(text)) reply='You can visit Everest Base Camp or Annapurna region for trekking adventures.';
-  else if(/pokhara/i.test(text)) reply='Pokhara offers Phewa Lake, boating, and scenic mountain views.';
-  else if(/wildlife|park/i.test(text)) reply='Chitwan and Bardiya National Parks are great for jungle safaris.';
+  let reply = 'I am a simple guide bot. Ask about mountains, lakes, parks, or temples.';
+  if(/everest|mountain/i.test(text)) reply='Everest Base Camp and Annapurna are top mountain treks.';
+  else if(/pokhara|lake/i.test(text)) reply='Pokhara offers Phewa Lake, boating, and Annapurna views.';
+  else if(/chitwan|wildlife|park/i.test(text)) reply='Chitwan and Bardiya National Parks are great for wildlife safari.';
   appendMessage('Guide',reply);
   userInput.value='';
 });
