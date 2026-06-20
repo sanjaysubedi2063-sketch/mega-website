@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MemoryMap – Interactive Memory & Knowledge Graph</title>
+  <meta name="description" content="MemoryMap: Visualize, organize, and connect your memories and knowledge like a living brain." />
+  <meta name="theme-color" content="#6366f1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #8b5cf6;
+      --accent: #ec4899;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --bg-light: #f8fafc;
+      --bg-dark: #0f172a;
+      --surface-light: #ffffff;
+      --surface-dark: #1e293b;
+      --text-light: #1e293b;
+      --text-dark: #f1f5f9;
+      --border-light: #e2e8f0;
+      --border-dark: #334155;
+      --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      --shadow-dark: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    body {
+      font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      background: var(--bg-light);
+      color: var(--text-light);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.dark-mode {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-light);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    body.dark-mode .header {
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom-color: var(--border-dark);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 24px;
+      font-weight: 700;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+    }
+
+    .header-controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-icon {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface-light);
+      border: 1px solid var(--border-light);
+      color: var(--primary);
+    }
+
+    body.dark-mode .btn-icon {
+      background: var(--surface-dark);
+      border-color: var(--border-dark);
+      color: var(--secondary);
+    }
+
+    .btn-icon:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Main Layout */
+    .container {
+      display: grid;
+      grid-template-columns: 300px 1fr 320px;
+      gap: 20px;
+      padding: 20px;
+      height: calc(100vh - 80px);
+      overflow: hidden;
+    }
+
+    @media (max-width: 1400px) {
+      .container {
+        grid-template-columns: 1fr;
+        height: auto;
+        overflow: auto;
+      }
+      .sidebar, .panel {
+        display: none;
+      }
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: var(--surface-light);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    body.dark-mode .sidebar {
+      background: var(--surface-dark);
+      border-color: var(--border-dark);
+    }
+
+    .sidebar-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sidebar-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .sidebar-item {
+      padding: 12px;
+      border-radius: 8px;
+      background: var(--bg-light);
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid transparent;
+    }
+
+    body.dark-mode .sidebar-item {
+      background: rgba(100, 116, 139, 0.1);
+    }
+
+    .sidebar-item:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateX(4px);
+    }
+
+    .sidebar-item.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .sidebar-icon {
+      width: 20px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    /* Canvas Area */
+    .canvas-area {
+      background: var(--surface-light);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: var(--shadow);
+    }
+
+    body.dark-mode .canvas-area {
+      background: var(--surface-dark);
+      border-color: var(--border-dark);
+      box-shadow: var(--shadow-dark);
+    }
+
+    #memoryCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: crosshair;
+    }
+
+    .canvas-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /* Right Panel */
+    .panel {
+      background: var(--surface-light);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    body.dark-mode .panel {
+      background: var(--surface-dark);
+      border-color: var(--border-dark);
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      background: var(--bg-light);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    body.dark-mode .search-box {
+      background: rgba(100, 116, 139, 0.1);
+      border-color: var(--border-dark);
+      color: var(--text-dark);
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .memory-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .memory-item {
+      padding: 12px;
+      background: var(--bg-light);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 13px;
+    }
+
+    body.dark-mode .memory-item {
+      background: rgba(100, 116, 139, 0.1);
+      border-color: var(--border-dark);
+    }
+
+    .memory-item:hover {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: white;
+      transform: translateX(-4px);
+    }
+
+    .memory-item.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .memory-title {
+      font-weight: 600;
+    }
+
+    .memory-date {
+      font-size: 11px;
+      opacity: 0.7;
+    }
+
+    .memory-category {
+      display: inline-block;
+      padding: 2px 6px;
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      width: fit-content;
+    }
+
+    .memory-item.active .memory-category {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      animation: fadeIn 0.3s;
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      background: var(--surface-light);
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      animation: slideUp 0.3s;
+      box-shadow: var(--shadow);
+    }
+
+    body.dark-mode .modal-content {
+      background: var(--surface-dark);
+      box-shadow: var(--shadow-dark);
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .modal-title {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-light);
+    }
+
+    body.dark-mode .modal-close {
+      color: var(--text-dark);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      padding: 12px;
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    body.dark-mode .form-input,
+    body.dark-mode .form-select,
+    body.dark-mode .form-textarea {
+      background: rgba(100, 116, 139, 0.1);
+      border-color: var(--border-dark);
+      color: var(--text-dark);
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .form-actions .btn {
+      flex: 1;
+    }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 16px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      opacity: 0.9;
+      margin-top: 4px;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-light);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+
+    body.dark-mode ::-webkit-scrollbar-thumb {
+      background: var(--border-dark);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--surface-light);
+      padding: 16px 20px;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      animation: slideInUp 0.3s;
+      border-left: 4px solid var(--primary);
+      z-index: 3000;
+    }
+
+    body.dark-mode .toast {
+      background: var(--surface-dark);
+      box-shadow: var(--shadow-dark);
+    }
+
+    @keyframes slideInUp {
+      from {
+        transform: translateY(100px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .toast.success {
+      border-left-color: var(--success);
+    }
+
+    .toast.error {
+      border-left-color: var(--danger);
+    }
+
+    .toast.warning {
+      border-left-color: var(--warning);
+    }
+
+    /* Loading */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid var(--border-light);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Connection Lines Color */
+    .connection-line {
+      stroke: var(--primary);
+      stroke-opacity: 0.3;
+      stroke-width: 2;
+      pointer-events: none;
+    }
+
+    .connection-line.strong {
+      stroke-opacity: 0.6;
+      stroke-width: 3;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+        height: auto;
+        gap: 16px;
+      }
+      .sidebar, .panel {
+        max-height: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="brand" onclick="location.reload()">
+      <div class="brand-icon">🧠</div>
+      <span>MemoryMap</span>
+    </div>
+    <div class="header-controls">
+      <button class="btn btn-primary" onclick="openAddMemoryModal()">+ New Memory</button>
+      <button class="btn btn-icon" onclick="toggleViewMode()" title="Toggle view mode">👁️</button>
+      <button class="btn btn-icon" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
+      <button class="btn btn-icon" onclick="openExportModal()" title="Export">💾</button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">📚 Categories</div>
+        <div class="sidebar-item active" data-filter="all" onclick="filterMemories('all')">
+          <span class="sidebar-icon">⭐</span>
+          <span>All Memories</span>
+        </div>
+        <div class="sidebar-item" data-filter="thought" onclick="filterMemories('thought')">
+          <span class="sidebar-icon">💭</span>
+          <span>Thoughts</span>
+        </div>
+        <div class="sidebar-item" data-filter="skill" onclick="filterMemories('skill')">
+          <span class="sidebar-icon">🎓</span>
+          <span>Skills</span>
+        </div>
+        <div class="sidebar-item" data-filter="experience" onclick="filterMemories('experience')">
+          <span class="sidebar-icon">🎯</span>
+          <span>Experiences</span>
+        </div>
+        <div class="sidebar-item" data-filter="idea" onclick="filterMemories('idea')">
+          <span class="sidebar-icon">💡</span>
+          <span>Ideas</span>
+        </div>
+        <div class="sidebar-item" data-filter="person" onclick="filterMemories('person')">
+          <span class="sidebar-icon">👤</span>
+          <span>People</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">🔧 Tools</div>
+        <div class="sidebar-item" onclick="analyzeSuggestions()">
+          <span class="sidebar-icon">🤖</span>
+          <span>AI Suggestions</span>
+        </div>
+        <div class="sidebar-item" onclick="viewAnalytics()">
+          <span class="sidebar-icon">📊</span>
+          <span>Analytics</span>
+        </div>
+        <div class="sidebar-item" onclick="clearAllData()">
+          <span class="sidebar-icon">🗑️</span>
+          <span>Clear Data</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Canvas Area -->
+    <div class="canvas-area">
+      <canvas id="memoryCanvas"></canvas>
+      <div class="canvas-overlay" id="canvasOverlay"></div>
+    </div>
+
+    <!-- Right Panel -->
+    <aside class="panel">
+      <div class="form-group">
+        <input
+          type="text"
+          class="search-box"
+          id="searchInput"
+          placeholder="🔍 Search memories..."
+          onkeyup="searchMemories(this.value)"
+        />
+      </div>
+
+      <div>
+        <div class="panel-title">🗂️ Memories</div>
+        <div class="memory-list" id="memoryList"></div>
+      </div>
+
+      <div class="stats" id="statsPanel">
+        <div class="stat-card">
+          <div class="stat-value" id="totalMemories">0</div>
+          <div class="stat-label">Total Memories</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="totalConnections">0</div>
+          <div class="stat-label">Connections</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Add Memory Modal -->
+  <div class="modal" id="addMemoryModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Create New Memory</h2>
+        <button class="modal-close" onclick="closeModal('addMemoryModal')">✕</button>
+      </div>
+      <form onsubmit="saveMemory(event)">
+        <div class="form-group">
+          <label class="form-label">Memory Title *</label>
+          <input type="text" class="form-input" id="memoryTitle" placeholder="e.g., First coding project" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-textarea" id="memoryDescription" placeholder="What do you remember about this?"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-select" id="memoryCategory" required>
+            <option value="thought">💭 Thought</option>
+            <option value="skill">🎓 Skill</option>
+            <option value="experience">🎯 Experience</option>
+            <option value="idea">💡 Idea</option>
+            <option value="person">👤 Person</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tags (comma-separated)</label>
+          <input type="text" class="form-input" id="memoryTags" placeholder="e.g., javascript, web, fun" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Related Memories</label>
+          <div id="relatedList" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('addMemoryModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Memory</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- View Memory Modal -->
+  <div class="modal" id="viewMemoryModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="viewTitle"></h2>
+        <button class="modal-close" onclick="closeModal('viewMemoryModal')">✕</button>
+      </div>
+      <div id="viewContent"></div>
+      <div class="form-actions" style="margin-top: 24px;">
+        <button class="btn btn-secondary" onclick="deleteSelectedMemory()">Delete</button>
+        <button class="btn btn-primary" onclick="closeModal('viewMemoryModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export Modal -->
+  <div class="modal" id="exportModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Export & Import</h2>
+        <button class="modal-close" onclick="closeModal('exportModal')">✕</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">📥 Export All Data</label>
+        <button class="btn btn-primary" onclick="exportData()" style="width: 100%;">
+          Download as JSON
+        </button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">📤 Import Data</label>
+        <input type="file" class="form-input" id="importFile" accept=".json" />
+        <button class="btn btn-primary" onclick="importData()" style="width: 100%; margin-top: 8px;">
+          Import from JSON
+        </button>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-secondary" onclick="closeModal('exportModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analytics Modal -->
+  <div class="modal" id="analyticsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Analytics</h2>
+        <button class="modal-close" onclick="closeModal('analyticsModal')">✕</button>
+      </div>
+      <div id="analyticsContent"></div>
+    </div>
+  </div>
+
+  <script>
+    'use strict';
+
+    // ============================================
+    // STATE & STORAGE
+    // ============================================
+    const STORAGE_KEY = 'memorymap_memories_v1';
+    const SETTINGS_KEY = 'memorymap_settings_v1';
+
+    let memories = [];
+    let selectedMemory = null;
+    let canvas, ctx;
+    let viewMode = 'graph'; // 'graph' or 'timeline'
+
+    // Initialize
+    window.addEventListener('load', () => {
+      canvas = document.getElementById('memoryCanvas');
+      ctx = canvas.getContext('2d');
+      loadMemories();
+      loadSettings();
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+      renderCanvas();
+      updateMemoryList();
+      renderStats();
+    });
+
+    // ============================================
+    // STORAGE FUNCTIONS
+    // ============================================
+    function loadMemories() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      memories = stored ? JSON.parse(stored) : getSampleData();
+    }
+
+    function saveMemoriesToStorage() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(memories));
+    }
+
+    function loadSettings() {
+      const settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
+      if (settings.darkMode) document.body.classList.add('dark-mode');
+      viewMode = settings.viewMode || 'graph';
+    }
+
+    function saveSettings() {
+      const settings = {
+        darkMode: document.body.classList.contains('dark-mode'),
+        viewMode: viewMode
+      };
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    }
+
+    function getSampleData() {
+      return [
+        {
+          id: generateId(),
+          title: 'Learned React Hooks',
+          description: 'Discovered how to use useState and useEffect effectively',
+          category: 'skill',
+          tags: ['javascript', 'react', 'web'],
+          createdAt: new Date(Date.now() - 15*24*60*60*1000).toISOString(),
+          connections: [1],
+          importance: 8
+        },
+        {
+          id: generateId(),
+          title: 'First Web Project',
+          description: 'Built a weather app using vanilla JS and API integration',
+          category: 'experience',
+          tags: ['javascript', 'api', 'portfolio'],
+          createdAt: new Date(Date.now() - 45*24*60*60*1000).toISOString(),
+          connections: [0, 2],
+          importance: 9
+        },
+        {
+          id: generateId(),
+          title: 'Design System Thoughts',
+          description: 'Ideas about creating consistent UI components',
+          category: 'idea',
+          tags: ['design', 'ui', 'architecture'],
+          createdAt: new Date(Date.now() - 5*24*60*60*1000).toISOString(),
+          connections: [1],
+          importance: 6
+        }
+      ];
+    }
+
+    // ============================================
+    // MEMORY OPERATIONS
+    // ============================================
+    function openAddMemoryModal() {
+      populateRelatedList();
+      openModal('addMemoryModal');
+    }
+
+    function populateRelatedList() {
+      const list = document.getElementById('relatedList');
+      list.innerHTML = memories.map(m => `
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="checkbox" value="${m.id}" class="related-checkbox" />
+          <span>${m.title}</span>
+        </label>
+      `).join('');
+    }
+
+    function saveMemory(e) {
+      e.preventDefault();
+      const title = document.getElementById('memoryTitle').value;
+      const description = document.getElementById('memoryDescription').value;
+      const category = document.getElementById('memoryCategory').value;
+      const tags = document.getElementById('memoryTags').value.split(',').map(t => t.trim()).filter(Boolean);
+      const connections = Array.from(document.querySelectorAll('.related-checkbox:checked')).map(el => memories.findIndex(m => m.id === el.value)).filter(idx => idx >= 0);
+
+      const memory = {
+        id: generateId(),
+        title,
+        description,
+        category,
+        tags,
+        createdAt: new Date().toISOString(),
+        connections,
+        importance: 5
+      };
+
+      memories.push(memory);
+      saveMemoriesToStorage();
+      closeModal('addMemoryModal');
+      renderCanvas();
+      updateMemoryList();
+      renderStats();
+      showToast('Memory created!', 'success');
+
+      // Clear form
+      document.getElementById('memoryTitle').value = '';
+      document.getElementById('memoryDescription').value = '';
+      document.getElementById('memoryTags').value = '';
+    }
+
+    function deleteSelectedMemory() {
+      if (!selectedMemory) return;
+      if (!confirm('Delete this memory?')) return;
+
+      memories = memories.filter(m => m.id !== selectedMemory.id);
+      memories.forEach(m => {
+        m.connections = m.connections.filter(idx => memories[idx]?.id !== selectedMemory.id);
+      });
+
+      saveMemoriesToStorage();
+      closeModal('viewMemoryModal');
+      selectedMemory = null;
+      renderCanvas();
+      updateMemoryList();
+      renderStats();
+      showToast('Memory deleted!', 'success');
+    }
+
+    // ============================================
+    // UI FUNCTIONS
+    // ============================================
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      saveSettings();
+    }
+
+    function toggleViewMode() {
+      viewMode = viewMode === 'graph' ? 'timeline' : 'graph';
+      saveSettings();
+      renderCanvas();
+      showToast(`Switched to ${viewMode} view`, 'success');
+    }
+
+    function filterMemories(category) {
+      document.querySelectorAll('[data-filter]').forEach(el => el.classList.remove('active'));
+      document.querySelector(`[data-filter="${category}"]`).classList.add('active');
+      updateMemoryList(category === 'all' ? null : category);
+    }
+
+    function searchMemories(query) {
+      const list = document.getElementById('memoryList');
+      if (!query.trim()) {
+        updateMemoryList();
+        return;
+      }
+
+      const results = memories.filter(m =>
+        m.title.toLowerCase().includes(query.toLowerCase()) ||
+        m.description.toLowerCase().includes(query.toLowerCase()) ||
+        m.tags.some(t => t.toLowerCase().includes(query.toLowerCase()))
+      );
+
+      renderMemoryList(results);
+    }
+
+    function updateMemoryList(category = null) {
+      const filtered = category
+        ? memories.filter(m => m.category === category)
+        : memories;
+      renderMemoryList(filtered);
+    }
+
+    function renderMemoryList(list) {
+      const listEl = document.getElementById('memoryList');
+      listEl.innerHTML = list.map(m => `
+        <div class="memory-item ${selectedMemory?.id === m.id ? 'active' : ''}" onclick="selectMemory('${m.id}')">
+          <div class="memory-title">${getCategoryEmoji(m.category)} ${m.title}</div>
+          <div class="memory-date">${formatDate(m.createdAt)}</div>
+          <div style="display: flex; gap: 4px; flex-wrap: wrap;">
+            ${m.tags.slice(0, 2).map(t => `<div class="memory-category">${t}</div>`).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function selectMemory(id) {
+      selectedMemory = memories.find(m => m.id === id);
+      if (!selectedMemory) return;
+      updateMemoryList();
+      renderCanvas();
+      openViewModal();
+    }
+
+    function openViewModal() {
+      if (!selectedMemory) return;
+      document.getElementById('viewTitle').textContent = selectedMemory.title;
+      const connections = selectedMemory.connections.map(idx => memories[idx]).filter(Boolean);
+      document.getElementById('viewContent').innerHTML = `
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div>
+            <div style="font-weight: 600; margin-bottom: 4px;">Category</div>
+            <div style="color: var(--primary); font-weight: 600;">${getCategoryEmoji(selectedMemory.category)} ${selectedMemory.category}</div>
+          </div>
+          <div>
+            <div style="font-weight: 600; margin-bottom: 4px;">Created</div>
+            <div style="opacity: 0.7;">${formatDate(selectedMemory.createdAt)}</div>
+          </div>
+          ${selectedMemory.description ? `<div>
+            <div style="font-weight: 600; margin-bottom: 4px;">Description</div>
+            <div style="opacity: 0.7; line-height: 1.6;">${selectedMemory.description}</div>
+          </div>` : ''}
+          ${selectedMemory.tags.length ? `<div>
+            <div style="font-weight: 600; margin-bottom: 8px;">Tags</div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              ${selectedMemory.tags.map(t => `<div class="memory-category">${t}</div>`).join('')}
+            </div>
+          </div>` : ''}
+          ${connections.length ? `<div>
+            <div style="font-weight: 600; margin-bottom: 8px;">Connected Memories</div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              ${connections.map(m => `<div style="padding: 8px; background: var(--bg-light); border-radius: 6px; cursor: pointer;" onclick="selectMemory('${m.id}')">
+                ${getCategoryEmoji(m.category)} ${m.title}
+              </div>`).join('')}
+            </div>
+          </div>` : ''}
+          <div>
+            <div style="font-weight: 600; margin-bottom: 8px;">Importance</div>
+            <div style="display: flex; gap: 4px;">
+              ${Array(10).fill().map((_, i) => `<div style="width: 16px; height: 16px; background: ${i < selectedMemory.importance ? 'var(--primary)' : 'var(--border-light)'}; border-radius: 2px;"></div>`).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+      openModal('viewMemoryModal');
+    }
+
+    function renderStats() {
+      document.getElementById('totalMemories').textContent = memories.length;
+      let totalConnections = 0;
+      memories.forEach(m => {
+        totalConnections += m.connections.length;
+      });
+      document.getElementById('totalConnections').textContent = Math.floor(totalConnections / 2);
+    }
+
+    // ============================================
+    // CANVAS RENDERING
+    // ============================================
+    function resizeCanvas() {
+      const area = document.querySelector('.canvas-area');
+      canvas.width = area.clientWidth;
+      canvas.height = area.clientHeight;
+      renderCanvas();
+    }
+
+    function renderCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--bg-light').trim();
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      if (viewMode === 'graph') {
+        renderGraphView();
+      } else {
+        renderTimelineView();
+      }
+    }
+
+    function renderGraphView() {
+      if (memories.length === 0) {
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-light').trim() || '#1e293b';
+        ctx.font = 'bold 16px Space Grotesk';
+        ctx.textAlign = 'center';
+        ctx.fillText('Add your first memory to get started!', canvas.width / 2, canvas.height / 2);
+        return;
+      }
+
+      // Position nodes in circle
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const radius = Math.min(canvas.width, canvas.height) / 3;
+      const positions = {};
+
+      memories.forEach((m, i) => {
+        const angle = (i / memories.length) * Math.PI * 2;
+        positions[m.id] = {
+          x: centerX + Math.cos(angle) * radius,
+          y: centerY + Math.sin(angle) * radius
+        };
+      });
+
+      // Draw connections
+      ctx.strokeStyle = document.body.classList.contains('dark-mode')
+        ? 'rgba(140, 130, 255, 0.2)'
+        : 'rgba(99, 102, 241, 0.15)';
+      ctx.lineWidth = 2;
+
+      memories.forEach((m, mIdx) => {
+        m.connections.forEach(cIdx => {
+          if (cIdx < memories.length) {
+            const pos1 = positions[m.id];
+            const pos2 = positions[memories[cIdx].id];
+            ctx.beginPath();
+            ctx.moveTo(pos1.x, pos1.y);
+            ctx.lineTo(pos2.x, pos2.y);
+            ctx.stroke();
+          }
+        });
+      });
+
+      // Draw nodes
+      memories.forEach((m, i) => {
+        const pos = positions[m.id];
+        const isSelected = selectedMemory?.id === m.id;
+        const size = isSelected ? 28 : 20;
+
+        // Node circle
+        ctx.fillStyle = isSelected ? '#6366f1' : getCategoryColor(m.category);
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, size, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Highlight ring
+        if (isSelected) {
+          ctx.strokeStyle = '#6366f1';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.arc(pos.x, pos.y, size + 6, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        // Label
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 12px Space Mono';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(getCategoryEmoji(m.category), pos.x, pos.y);
+      });
+
+      // Make nodes clickable
+      canvas.addEventListener('click', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        for (const m of memories) {
+          const pos = positions[m.id];
+          const dist = Math.sqrt((x - pos.x) ** 2 + (y - pos.y) ** 2);
+          if (dist < 20) {
+            selectMemory(m.id);
+            break;
+          }
+        }
+      }, { once: true });
+    }
+
+    function renderTimelineView() {
+      const sorted = [...memories].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      const padding = 60;
+      const lineX = 80;
+      const step = (canvas.height - padding * 2) / (sorted.length + 1);
+
+      // Draw timeline line
+      ctx.strokeStyle = document.body.classList.contains('dark-mode')
+        ? 'rgba(140, 130, 255, 0.3)'
+        : 'rgba(99, 102, 241, 0.2)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(lineX, padding);
+      ctx.lineTo(lineX, canvas.height - padding);
+      ctx.stroke();
+
+      // Draw events
+      sorted.forEach((m, i) => {
+        const y = padding + step * (i + 1);
+        const isSelected = selectedMemory?.id === m.id;
+        const size = isSelected ? 12 : 8;
+
+        // Dot
+        ctx.fillStyle = isSelected ? '#6366f1' : getCategoryColor(m.category);
+        ctx.beginPath();
+        ctx.arc(lineX, y, size, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Label
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-light').trim() || '#1e293b';
+        ctx.font = '12px Space Grotesk';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(`${m.title} (${m.category})`, lineX + 30, y);
+        ctx.fillText(formatDate(m.createdAt), lineX + 30, y + 16);
+      });
+    }
+
+    // ============================================
+    // EXPORT & IMPORT
+    // ============================================
+    function openExportModal() {
+      openModal('exportModal');
+    }
+
+    function exportData() {
+      const data = {
+        version: '1.0',
+        exportedAt: new Date().toISOString(),
+        memories: memories
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `memorymap-export-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Data exported!', 'success');
+    }
+
+    function importData() {
+      const file = document.getElementById('importFile').files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          memories = data.memories || [];
+          saveMemoriesToStorage();
+          updateMemoryList();
+          renderCanvas();
+          renderStats();
+          closeModal('exportModal');
+          showToast('Data imported successfully!', 'success');
+        } catch (err) {
+          showToast('Invalid file format', 'error');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // ============================================
+    // ANALYTICS & SUGGESTIONS
+    // ============================================
+    function viewAnalytics() {
+      const categories = {};
+      const tags = {};
+      let totalConnections = 0;
+
+      memories.forEach(m => {
+        categories[m.category] = (categories[m.category] || 0) + 1;
+        m.tags.forEach(t => {
+          tags[t] = (tags[t] || 0) + 1;
+        });
+        totalConnections += m.connections.length;
+      });
+
+      const html = `
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div>
+            <div style="font-weight: 600; margin-bottom: 12px;">📊 Category Breakdown</div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              ${Object.entries(categories).map(([cat, count]) => `
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>${getCategoryEmoji(cat)} ${cat}</div>
+                  <div style="background: var(--primary); color: white; padding: 4px 8px; border-radius: 4px; font-weight: 600; font-size: 12px;">${count}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          <div>
+            <div style="font-weight: 600; margin-bottom: 12px;">🏷️ Top Tags</div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              ${Object.entries(tags).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([tag, count]) => `
+                <div style="background: var(--primary); color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;">${tag} (${count})</div>
+              `).join('')}
+            </div>
+          </div>
+          <div>
+            <div style="font-weight: 600; margin-bottom: 4px;">🔗 Network Stats</div>
+            <div style="opacity: 0.7;">Total connections: ${Math.floor(totalConnections / 2)}</div>
+            <div style="opacity: 0.7;">Average importance: ${(memories.reduce((a, m) => a + (m.importance || 5), 0) / memories.length).toFixed(1)}/10</div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('analyticsContent').innerHTML = html;
+      openModal('analyticsModal');
+    }
+
+    function analyzeSuggestions() {
+      if (memories.length < 2) {
+        showToast('Need at least 2 memories for suggestions', 'warning');
+        return;
+      }
+
+      const suggestions = [];
+      for (let i = 0; i < memories.length; i++) {
+        for (let j = i + 1; j < memories.length; j++) {
+          const m1 = memories[i];
+          const m2 = memories[j];
+          let score = 0;
+
+          // Same tags
+          const commonTags = m1.tags.filter(t => m2.tags.includes(t));
+          score += commonTags.length * 2;
+
+          // Same category
+          if (m1.category === m2.category) score += 1;
+
+          // Similar titles
+          if (m1.title.toLowerCase().includes(m2.title.toLowerCase()) ||
+              m2.title.toLowerCase().includes(m1.title.toLowerCase())) score += 2;
+
+          if (score > 0 && !m1.connections.includes(j) && !m2.connections.includes(i)) {
+            suggestions.push({
+              m1: m1.id,
+              m2: m2.id,
+              reason: commonTags.length > 0 ? `Share tags: ${commonTags.join(', ')}` : 'Similar content',
+              score
+            });
+          }
+        }
+      }
+
+      if (suggestions.length === 0) {
+        showToast('No new connections suggested', 'info');
+        return;
+      }
+
+      suggestions.sort((a, b) => b.score - a.score);
+      const html = `
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          ${suggestions.slice(0, 5).map((s, idx) => {
+            const mem1 = memories.find(m => m.id === s.m1);
+            const mem2 = memories.find(m => m.id === s.m2);
+            return `
+              <div style="padding: 12px; background: var(--bg-light); border-radius: 8px; display: flex; flex-direction: column; gap: 8px;">
+                <div style="font-weight: 600;">${idx + 1}. ${mem1.title} ↔️ ${mem2.title}</div>
+                <div style="font-size: 12px; opacity: 0.7;">${s.reason}</div>
+                <button class="btn btn-primary" style="width: 100%; font-size: 12px;" onclick="connectMemories('${s.m1}', '${s.m2}')">Connect Now</button>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+
+      document.getElementById('analyticsContent').innerHTML = html;
+      openModal('analyticsModal');
+    }
+
+    function connectMemories(id1, id2) {
+      const m1 = memories.find(m => m.id === id1);
+      const m2 = memories.find(m => m.id === id2);
+      const idx1 = memories.indexOf(m1);
+      const idx2 = memories.indexOf(m2);
+
+      if (!m1.connections.includes(idx2)) m1.connections.push(idx2);
+      if (!m2.connections.includes(idx1)) m2.connections.push(idx1);
+
+      saveMemoriesToStorage();
+      renderCanvas();
+      renderStats();
+      showToast('Memories connected!', 'success');
+    }
+
+    // ============================================
+    // UTILITY FUNCTIONS
+    // ============================================
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.animation = 'slideInUp 0.3s reverse';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    function clearAllData() {
+      if (!confirm('Delete all memories? This cannot be undone!')) return;
+      memories = [];
+      saveMemoriesToStorage();
+      updateMemoryList();
+      renderCanvas();
+      renderStats();
+      showToast('All data cleared', 'success');
+    }
+
+    function getCategoryEmoji(cat) {
+      const map = {
+        'thought': '💭',
+        'skill': '🎓',
+        'experience': '🎯',
+        'idea': '💡',
+        'person': '👤'
+      };
+      return map[cat] || '⭐';
+    }
+
+    function getCategoryColor(cat) {
+      const colors = {
+        'thought': '#8b5cf6',
+        'skill': '#06b6d4',
+        'experience': '#ec4899',
+        'idea': '#f59e0b',
+        'person': '#10b981'
+      };
+      return colors[cat] || '#6366f1';
+    }
+
+    function formatDate(isoString) {
+      const date = new Date(isoString);
+      const now = new Date();
+      const diff = now - date;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+      if (days === 0) return 'Today';
+      if (days === 1) return 'Yesterday';
+      if (days < 7) return `${days} days ago`;
+      if (days < 30) return `${Math.floor(days / 7)} weeks ago`;
+      if (days < 365) return `${Math.floor(days / 30)} months ago`;
+      return `${Math.floor(days / 365)} years ago`;
+    }
+
+    function generateId() {
+      return Math.random().toString(36).substr(2, 9);
+    }
+  </script>
+</body>
+</html>
