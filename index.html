@@ -1,932 +1,177 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Explore Nepal – Tourist Guide</title>
-  <meta name="description" content="Explore Nepal — guide to mountains, lakes, parks, temples, tours, and travel tips." />
-  <meta name="theme-color" content="#0b67d0" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="manifest" href="/manifest.json">
-  <!-- Leaflet + MarkerCluster -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
-  <style>
-    /* (kept same visual style as before; trimmed here for brevity) */
-    :root{--bg:#f4f7fb;--card:#fff;--primary:#0b67d0;--accent:#ff8c42;--muted:#6b7280;--max-width:1200px}
-    html,body{margin:0;padding:0;font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,var(--bg),#fff)}
-    .container{max-width:var(--max-width);margin:0 auto;padding:20px}
-    header.site-header{position:sticky;top:0;z-index:220;background:linear-gradient(90deg,var(--primary),#0a8bf0);color:#fff;padding:10px 0}
-    .header-inner{display:flex;align-items:center;gap:14px;padding:8px 20px}
-    .brand{display:flex;align-items:center;gap:12px;cursor:pointer}
-    nav.main-nav{margin-left:auto;display:flex;gap:12px;align-items:center}
-    .search{margin-left:16px;position:relative}
-    .search input{padding:10px 14px;border-radius:999px;border:none;width:300px}
-    .hero{display:grid;grid-template-columns:1fr 420px;gap:20px;align-items:center;margin:22px 0}
-    .destinations{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
-    .card{background:var(--card);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 30px rgba(8,15,30,0.06)}
-    .media{height:180px;overflow:hidden}
-    .media img{width:100%;height:100%;object-fit:cover}
-    .map-container{height:560px}
-    /* custom marker icon */
-    .marker-div { width: 26px; height: 26px; border-radius: 50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px; font-weight:800; border:2px solid #fff; box-shadow:0 2px 6px rgba(0,0,0,0.15) }
-    .marker-mountains{ background:#0b67d0 }
-    .marker-lakes{ background:#0aa78a }
-    .marker-temples{ background:#ff8c42 }
-    .marker-wildlife{ background:#7c3aed }
-    .marker-heritage{ background:#f59e0b }
-    .marker-trek{ background:#ef4444 }
-    .marker-cultural{ background:#06b6d4 }
-    /* suggestion box */
-    #search-suggestions{position:absolute;top:46px;left:0;background:var(--card);box-shadow:0 8px 30px rgba(8,15,30,0.06);border-radius:10px;overflow:auto;max-height:260px;display:none;width:360px;z-index:500}
-    .suggestion-item{padding:8px 12px;cursor:pointer}
-    .suggestion-item.active{background:#f1f5f9}
-    /* lightbox & modal minimal styles kept from previous file */
-  </style>
-
-  <!-- Dependencies added for improved features -->
-  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <!-- Structured data -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:creator" content="@sanjaysubedi2063" />
-  <meta property="og:title" content="Explore Nepal – Tourist Guide">
-  <meta property="og:description" content="Curated travel guide across Nepal: mountains, lakes, heritage, wildlife, treks and trip planning tools.">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1549880338-65ddcdfd017b?w=1200&auto=format&fit=crop&q=80">
-  <link rel="canonical" href="https://sanjaysubedi2063-sketch.github.io/mega-website/" />
-</head>
-<body data-theme="light" aria-busy="false">
-  <header class="site-header" role="banner" aria-label="Top navigation">
-    <div class="header-inner container">
-      <div class="brand" onclick="location.href='#'">
-        <img src="/images/logo.png" alt="Explore Nepal logo" onerror="this.style.display='none'">
-        <h1 id="site-title">Explore Nepal 🇳🇵</h1>
-      </div>
-
-      <div class="search" role="search" aria-label="Search places">
-        <input id="global-search" placeholder="Search places, e.g. Pokhara, Everest..." aria-label="Search places" autocomplete="off" />
-        <div id="search-suggestions" role="listbox" aria-hidden="true"></div>
-      </div>
-
-      <nav class="main-nav" aria-label="Main navigation">
-        <a href="#about">About</a>
-        <a href="#places">Places</a>
-        <a href="#map">Map</a>
-        <a href="#contact">Contact</a>
-      </nav>
-
-      <div style="margin-left:12px;display:flex;gap:8px;align-items:center">
-        <div id="lang-select" class="pill" title="Language selector" aria-label="Language selector"></div>
-        <button id="theme-toggle" class="btn ghost" aria-pressed="false" title="Toggle theme">🌓</button>
-        <button id="view-favs" class="btn ghost" title="View favorites">★ <span id="fav-count">0</span></button>
-      </div>
-    </div>
-  </header>
-
-  <main class="container" role="main" id="main">
-    <!-- HERO -->
-    <section class="hero" aria-labelledby="hero-h">
-      <div class="hero-card" id="hero-card">
-        <h2 id="hero-h">Plan your unforgettable trip to Nepal</h2>
-        <p>Hand-picked places, verified photos, local tips, flexible itineraries and live weather. Start with curated destinations or create your own route.</p>
-        <div class="cta-row">
-          <button class="btn" id="start-explore">Explore top places</button>
-          <button class="btn ghost" id="plan-trip">Create itinerary</button>
-        </div>
-        <div style="margin-top:12px;color:var(--muted);font-size:.95rem">
-          <strong>Pro Tip:</strong> Use the smart search (try "Phewa", "lake", or "Annapurna"). Attach photos to places in Details.
-        </div>
-      </div>
-
-      <aside style="display:flex;flex-direction:column;gap:12px">
-        <div class="widget" aria-live="polite" id="weather-widget">Loading weather…</div>
-        <div class="widget" aria-label="Currency converter">
-          <h4 style="margin:0 0 8px 0">Currency Converter</h4>
-          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-            <input id="cur-amount" type="number" value="1" style="padding:8px;width:80px">
-            <select id="cur-from" style="padding:8px">
-              <option value="USD">USD</option>
-              <option value="NPR" selected>NPR</option>
-              <option value="EUR">EUR</option>
-            </select>
-            <span>→</span>
-            <select id="cur-to" style="padding:8px">
-              <option value="NPR">NPR</option>
-              <option value="USD">USD</option>
-              <option value="EUR">EUR</option>
-            </select>
-            <button id="convert-btn" class="btn small">Convert</button>
-          </div>
-          <div id="convert-result" class="small" style="margin-top:8px;color:var(--muted)"></div>
-        </div>
-      </aside>
-    </section>
-
-    <!-- CONTROLS -->
-    <section style="margin-top:12px">
-      <div class="controls" role="region" aria-label="Controls for the places list">
-        <div class="filter-btns" role="toolbar" aria-label="Filter places">
-          <button class="active" data-filter="all">All</button>
-          <button data-filter="mountains">Mountains</button>
-          <button data-filter="lakes">Lakes</button>
-          <button data-filter="temples">Temples</button>
-          <button data-filter="heritage">Heritage</button>
-          <button data-filter="wildlife">Wildlife</button>
-          <button data-filter="cultural">Cultural</button>
-          <button data-filter="trek">Treks</button>
-        </div>
-
-        <select id="sort-by" class="sort-select" aria-label="Sort places">
-          <option value="recommended">Recommended</option>
-          <option value="rating-desc">Rating: High → Low</option>
-          <option value="rating-asc">Rating: Low → High</option>
-          <option value="alpha">A → Z</option>
-        </select>
-
-        <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-          <button id="export-itin" class="btn ghost">Export itinerary</button>
-          <button class="btn" id="open-map">Open interactive map</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- PLACES GRID -->
-    <section id="places" aria-labelledby="places-h" style="margin-top:8px">
-      <h2 id="places-h">Top Tourist Places</h2>
-      <div class="destinations" id="destinations" aria-live="polite" role="list"></div>
-    </section>
-
-    <!-- MAP -->
-    <section id="map" aria-labelledby="map-h" style="margin-top:18px">
-      <h2 id="map-h">Explore Nepal Map</h2>
-      <div class="map-controls" style="margin-bottom:8px">
-        <div class="map-legend" id="map-legend">Layers: <label><input type="checkbox" id="layer-mountains" checked> Mountains</label> <label><input type="checkbox" id="layer-lakes" checked> Lakes</label> <label><input type="checkbox" id="layer-temples" checked> Temples</label></div>
-        <div style="margin-left:auto;display:flex;gap:8px">
-          <button id="locate-me" class="btn small">Locate me</button>
-          <button id="fit-itin" class="btn ghost small" title="Fit itinerary on map">Fit itinerary</button>
-        </div>
-      </div>
-      <div class="map-container" id="map-frame" role="application" aria-label="Map of Nepal" style="height:560px;">
-        <div id="leaflet-map" style="width:100%;height:100%"></div>
-      </div>
-      <div class="widgets" style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
-        <div class="widget">
-          <h4 style="margin:0 0 8px 0">Plan ahead</h4>
-          <p class="small muted">Click a place's "Details" to see official photos, weather, reviews and easy booking. Use the search & filters to find places quickly.</p>
-        </div>
-        <div class="widget" id="map-stats">
-          <h4 style="margin:0 0 8px 0">Map stats</h4>
-          <p class="small muted" id="map-info">Loading...</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ITINERARY -->
-    <section id="itinerary" aria-labelledby="itinerary-h" style="margin-top:18px">
-      <h2 id="itinerary-h">My Itinerary</h2>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
-        <div class="itinerary" id="itinerary-box" style="min-width:320px;padding:12px;border-radius:10px;border:1px solid rgba(12,20,30,0.04);background:var(--card)">No items — add places to build an itinerary.</div>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div class="itinerary" style="min-width:240px;padding:12px;border-radius:10px;border:1px solid rgba(12,20,30,0.04);background:var(--card)">
-            <div style="font-weight:700">Actions</div>
-            <div style="display:flex;gap:8px;margin-top:8px">
-              <button id="print-itin" class="btn">Print</button>
-              <button id="share-itin" class="btn ghost">Share</button>
-              <button id="clear-itin" class="btn ghost" title="Clear itinerary">Clear</button>
-            </div>
-          </div>
-          <div class="itinerary" style="min-width:240px;padding:12px;border-radius:10px;border:1px solid rgba(12,20,30,0.04);background:var(--card)">
-            <div style="font-weight:700">Export</div>
-            <div style="display:flex;gap:8px;margin-top:8px">
-              <button id="export-json" class="btn ghost small">Export JSON</button>
-              <button id="export-ics" class="btn ghost small">Export .ics</button>
-              <button id="import-itin" class="btn ghost small">Import JSON</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="widget">
-        <h4>Route optimizer</h4>
-        <div style="display:flex;gap:8px">
-          <button id="optimize-route" class="btn small">Optimize (2-opt)</button>
-          <button id="reverse-route" class="btn small ghost">Reverse</button>
-        </div>
-        <div style="margin-top:8px" id="route-stats" class="small muted">No route yet</div>
-      </div>
-    </section>
-
-    <!-- PHOTO UPLOAD & SAVED TRIPS -->
-    <section id="advanced" aria-labelledby="advanced-h" style="margin-top:18px">
-      <h2 id="advanced-h">Saved Trips & Photo Upload</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px">
-        <div class="widget">
-          <h4>Saved Trips</h4>
-          <div style="margin-bottom:8px">
-            <input id="trip-name" placeholder="Trip name (e.g. Annapurna 7-day)" style="padding:8px;width:65%" />
-            <button id="save-trip" class="btn small">Save</button>
-          </div>
-          <div id="saved-trips-list" class="small muted">No saved trips yet</div>
-          <div style="margin-top:8px;display:flex;gap:8px">
-            <button id="load-trip" class="btn ghost small">Load selected</button>
-            <button id="delete-trip" class="btn ghost small">Delete selected</button>
-          </div>
-        </div>
-
-        <div class="widget">
-          <h4>Upload Photos (attach to place)</h4>
-          <p class="small muted">Upload photos and attach them to a place in Details. Images are stored in IndexedDB (via localForage).</p>
-          <input id="photo-input" type="file" accept="image/*" multiple />
-          <div id="photo-gallery" style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"></div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer>
-    <div class="credits">© 2026 Explore Nepal • Designed by Sanjay Subedi • Built with local-first data.</div>
-  </footer>
-
-  <!-- Lightbox, Modal and Quick Menu placeholders -->
-  <div id="modal-root" aria-hidden="true" style="display:none;"></div>
-  <div id="lightbox" class="lightbox" role="dialog" aria-hidden="true" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Photo"></div>
-  <div id="quick-menu" style="display:none;position:fixed;z-index:17000;background:var(--card);border-radius:10px;padding:8px;border:1px solid rgba(12,20,30,0.06);box-shadow:0 24px 60px rgba(2,6,23,0.15)"></div>
-
-  <!-- Leaflet -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-
-  <script>
-  (function () {
-    'use strict';
-
-    // Short helpers
-    const $ = s => document.querySelector(s);
-    const $$ = s => Array.from(document.querySelectorAll(s));
-    function el(tag, props = {}, ...children) {
-      const e = document.createElement(tag);
-      for (const [k, v] of Object.entries(props)) {
-        if (k.startsWith('on') && typeof v === 'function') e.addEventListener(k.slice(2), v);
-        else if (k === 'class') e.className = v;
-        else e.setAttribute(k, String(v));
-      }
-      for (const c of children) {
-        if (c == null) continue;
-        if (typeof c === 'string') e.appendChild(document.createTextNode(c));
-        else e.appendChild(c);
-      }
-      return e;
-    }
-
-    // storage keys and localforage config
-    const favKey = 'explore_favs_v1';
-    const itinKey = 'explore_itin_v1';
-    const reviewsPrefix = 'explore_reviews_v1_';
-    const chatKey = 'explore_chat_v1';
-    const tripsKey = 'explore_saved_trips_v1';
-    const photosStore = localforage.createInstance({ name: 'explore_photos_v1' });
-
-    // Places (sample dataset)
-    const PLACES = [
-      { id: 'everest', title: 'Everest Base Camp', category: 'mountains', lat: 28.0043, lon: 86.8576, rating: 4.8, desc: 'Trek to the world’s highest peak region.', img: 'https://images.unsplash.com/photo-1504198453319-5ce911bafcde?w=1600&auto=format&fit=crop&q=80' },
-      { id: 'phewa', title: 'Phewa Lake, Pokhara', category: 'lakes', lat: 28.2096, lon: 83.9856, rating: 4.6, desc: 'Boating, island temples and views of Annapurna.', img: 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Phewa_Tal_%28Pokhara%29.jpg' },
-      { id: 'pashupati', title: 'Pashupatinath Temple', category: 'temples', lat: 27.7100, lon: 85.3488, rating: 4.5, desc: 'Important Hindu temple on Bagmati River.', img: 'https://upload.wikimedia.org/wikipedia/commons/1/13/Pashupatinath_Temple%2C_Kathmandu_-_Nepal.jpg' },
-      { id: 'chitwan', title: 'Chitwan National Park', category: 'wildlife', lat: 27.5389, lon: 84.3542, rating: 4.7, desc: 'Jungle safaris and rich Terai biodiversity.', img: 'https://images.unsplash.com/photo-1519817650390-64a93db511aa?w=1600&auto=format&fit=crop&q=80' }
-    ];
-    // add synthetic samples for scale
-    for (let i=1;i<=20;i++){
-      PLACES.push({
-        id: 'sample_'+i,
-        title: `Sample Place ${i}`,
-        category: ['mountains','lakes','temples','heritage','wildlife','trek','cultural'][i%7],
-        lat: 27.5 + i*0.015, lon: 85.1 + i*0.02, rating: (3.5 + (i%15)*0.1).toFixed(1),
-        desc: `Sample description ${i}`, img: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&auto=format&fit=crop&q=80'
-      });
-    }
-
-    // UI: render places
-    const destinationsRoot = $('#destinations');
-
-    function createPlaceCard(p) {
-      const imgSrc = `/images/${p.id}.jpg`;
-      const img = el('img', { src: imgSrc, alt: p.title, loading: 'lazy' });
-      img.addEventListener('error', () => { if (!img.dataset.fallback) { img.src = p.img; img.dataset.fallback = '1'; } });
-      const article = el('article', { class: 'card', 'data-id': p.id, 'data-category': p.category, 'data-lat': p.lat, 'data-lon': p.lon, role: 'listitem', draggable: true },
-        el('div', { class: 'media' }, img),
-        el('div', { class: 'info' },
-          el('h3', { id: p.id + '-title' }, p.title),
-          el('p', {}, p.desc),
-          el('div', { class: 'meta' },
-            el('div', { class: 'actions' },
-              el('button', { class: 'btn small details-btn', 'data-id': p.id, type: 'button' }, 'Details'),
-              el('button', { class: 'btn small quick-fav', 'data-id': p.id, type: 'button', title: 'Favorite' }, '☆'),
-              el('button', { class: 'btn small', 'data-id': p.id, type: 'button', onClick: (ev)=> openQuickMenu(ev, p.id) }, '⋯')
-            ),
-            el('div', { class: 'rating', title: `${p.rating} out of 5` }, el('span', {}, '★'), el('strong', { class: 'rating-value', 'data-id': p.id }, String(p.rating)))
-          )
-        )
-      );
-      // drag start
-      article.addEventListener('dragstart', e => e.dataTransfer.setData('text/plain', p.id));
-      article.addEventListener('dblclick', () => addToItin(p.id));
-      return article;
-    }
-
-    function renderPlaces(list=PLACES) {
-      destinationsRoot.innerHTML = '';
-      list.forEach(p => destinationsRoot.appendChild(createPlaceCard(p)));
-      attachCardInteractions();
-      attachGridDragHandlers();
-      updateFavUI();
-    }
-    renderPlaces();
-
-    // Fuse.js search (weighted)
-    const fuse = new Fuse(PLACES, { keys: [{name:'title',weight:0.6},{name:'category',weight:0.25},{name:'desc',weight:0.15}], threshold:0.35, includeScore:true });
-    const searchInput = $('#global-search');
-    const suggestionBox = $('#search-suggestions');
-    let suggestionIndex = -1;
-
-    function showSuggestions(results) {
-      suggestionBox.innerHTML = '';
-      if (!results || results.length === 0) { suggestionBox.style.display = 'none'; suggestionBox.setAttribute('aria-hidden', 'true'); return; }
-      results.slice(0,10).forEach((r, idx) => {
-        const p = r.item || r;
-        const node = el('div', { role: 'option', tabindex: 0, class: 'suggestion-item', 'data-id': p.id }, `${p.title} — ${p.category}`);
-        node.addEventListener('click', () => { searchInput.value = p.title; applySearch(p.title); suggestionBox.style.display = 'none'; focusOnMapPlace(p.id); });
-        node.addEventListener('keydown', e => { if (e.key==='Enter') node.click(); });
-        suggestionBox.appendChild(node);
-      });
-      suggestionBox.style.display = 'block'; suggestionBox.setAttribute('aria-hidden','false');
-      suggestionIndex = -1;
-    }
-
-    function applySearch(q) {
-      const qtrim = (q||'').trim();
-      if (!qtrim) { $$('#destinations .card').forEach(c => c.style.display = 'block'); return; }
-      const results = fuse.search(qtrim).map(r=>r.item);
-      // show results in list and highlight on map
-      $$('#destinations .card').forEach(c => {
-        const id = c.dataset.id;
-        c.style.display = results.some(r=>r.id===id) ? 'block' : 'none';
-      });
-      showSuggestions(results);
-    }
-
-    searchInput.addEventListener('input', e => applySearch(e.target.value));
-    searchInput.addEventListener('keydown', (e) => {
-      const items = Array.from(suggestionBox.querySelectorAll('.suggestion-item'));
-      if (!items.length) return;
-      if (e.key === 'ArrowDown') { e.preventDefault(); suggestionIndex = Math.min(items.length-1, suggestionIndex+1); updateSuggestionFocus(items); }
-      else if (e.key === 'ArrowUp') { e.preventDefault(); suggestionIndex = Math.max(0, suggestionIndex-1); updateSuggestionFocus(items); }
-      else if (e.key === 'Enter' && suggestionIndex >= 0) { e.preventDefault(); items[suggestionIndex].click(); }
-      else if (e.key === 'Escape') { suggestionBox.style.display='none'; }
-    });
-    function updateSuggestionFocus(items) {
-      items.forEach((it,i)=> it.classList.toggle('active', i===suggestionIndex));
-      items[suggestionIndex]?.scrollIntoView({block:'nearest'});
-    }
-    document.addEventListener('click', e => { if (!$('.search').contains(e.target)) suggestionBox.style.display='none'; });
-
-    // Filters & sort
-    $$('.filter-btns button').forEach(btn => btn.addEventListener('click', () => {
-      $$('.filter-btns button').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const f = btn.dataset.filter;
-      $$('#destinations .card').forEach(c => { c.style.display = (f==='all' || c.dataset.category === f) ? 'block' : 'none'; });
-    }));
-    $('#sort-by').addEventListener('change', e => {
-      const val = e.target.value;
-      const parent = $('#destinations');
-      const nodes = $$('#destinations .card').slice();
-      nodes.sort((a,b)=> {
-        const ra = parseFloat(a.querySelector('.rating-value')?.textContent||0);
-        const rb = parseFloat(b.querySelector('.rating-value')?.textContent||0);
-        const ta = a.querySelector('h3')?.textContent||'';
-        const tb = b.querySelector('h3')?.textContent||'';
-        if (val==='rating-desc') return rb-ra;
-        if (val==='rating-asc') return ra-rb;
-        if (val==='alpha') return ta.localeCompare(tb);
-        return 0;
-      });
-      nodes.forEach(n=>parent.appendChild(n));
-    });
-
-    // Favorites
-    function loadFavs(){ return JSON.parse(localStorage.getItem(favKey) || '[]'); }
-    function saveFavs(list){ localStorage.setItem(favKey, JSON.stringify(list)); updateFavUI(); }
-    function toggleFav(id){ const list = loadFavs(); const idx = list.indexOf(id); if (idx>=0) list.splice(idx,1); else list.push(id); saveFavs(list); }
-    function updateFavUI(){ const list = loadFavs(); $('#fav-count').textContent = list.length; $$('#destinations .card').forEach(card => { const id = card.dataset.id; const q = card.querySelector('[data-id="'+id+'"].quick-fav'); if (q) q.textContent = list.includes(id)?'★':'☆'; }); }
-    document.addEventListener('click', e => { if (e.target.matches('.quick-fav')) toggleFav(e.target.dataset.id); if (e.target.matches('#view-favs')) { const list = loadFavs(); if (!list.length) return alert('No favorites yet.'); openModal('<h3>Favorites</h3><ul>'+list.map(id=>'<li>'+ (document.querySelector('.card[data-id="'+id+'"] h3')?.textContent||id) +'</li>').join('') + '</ul>'); } });
-
-    // Itinerary (local + drag/drop)
-    function loadItin(){ return JSON.parse(localStorage.getItem(itinKey) || '[]'); }
-    function saveItin(list){ localStorage.setItem(itinKey, JSON.stringify(list)); renderItin(); updateMiniItin(); updateMapItinerary(); updateRouteStats(); }
-    function addToItin(id){ const list = loadItin(); if (!list.includes(id)) { list.push(id); saveItin(list); } }
-    function renderItin(){
-      const box = $('#itinerary-box'); const list = loadItin();
-      if (!list||!list.length){ box.innerHTML='No items — add places to build an itinerary.'; return; }
-      box.innerHTML = '<ol id="itin-list" style="padding-left:18px">' + list.map(id=>{
-        const c = document.querySelector('.card[data-id="'+id+'"]');
-        const title = c ? c.querySelector('h3').textContent : id;
-        return `<li data-id="${id}" draggable="true" style="padding:8px;border-bottom:1px dashed rgba(0,0,0,0.05);display:flex;justify-content:space-between;align-items:center">
-          <span>${title}</span>
-          <span style="display:inline-flex;gap:6px">
-            <button class="btn ghost small move-up" type="button">↑</button>
-            <button class="btn ghost small move-down" type="button">↓</button>
-            <button class="btn ghost small remove-itin" type="button">✕</button>
-          </span>
-        </li>`;
-      }).join('') + '</ol>';
-      attachItinHandlers();
-    }
-    function attachItinHandlers(){
-      const listEl = $('#itin-list'); if (!listEl) return;
-      let dragSrc = null;
-      listEl.querySelectorAll('li').forEach(li => {
-        li.addEventListener('dragstart', e => { dragSrc = li; e.dataTransfer.effectAllowed='move'; li.style.opacity=0.4; });
-        li.addEventListener('dragend', ()=> li.style.opacity='');
-        li.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect='move'; });
-        li.addEventListener('drop', e => {
-          e.preventDefault();
-          if (!dragSrc || dragSrc===li) return;
-          const items = loadItin(); const srcId = dragSrc.dataset.id; const dstId = li.dataset.id;
-          const srcIdx = items.indexOf(srcId), dstIdx = items.indexOf(dstId);
-          if (srcIdx<0||dstIdx<0) return;
-          items.splice(srcIdx,1); items.splice(dstIdx,0,srcId); saveItin(items);
-        });
-      });
-      listEl.querySelectorAll('.move-up').forEach(btn => btn.addEventListener('click', e=>{
-        const id = e.target.closest('li').dataset.id; const items = loadItin(); const idx = items.indexOf(id);
-        if (idx>0){ items.splice(idx,1); items.splice(idx-1,0,id); saveItin(items); }
-      }));
-      listEl.querySelectorAll('.move-down').forEach(btn => btn.addEventListener('click', e=>{
-        const id = e.target.closest('li').dataset.id; const items = loadItin(); const idx = items.indexOf(id);
-        if (idx>=0 && idx<items.length-1){ items.splice(idx,1); items.splice(idx+1,0,id); saveItin(items); }
-      }));
-      listEl.querySelectorAll('.remove-itin').forEach(btn => btn.addEventListener('click', e=>{
-        const id = e.target.closest('li').dataset.id; const items = loadItin(); const idx = items.indexOf(id);
-        if (idx>=0){ items.splice(idx,1); saveItin(items); }
-      }));
-    }
-    // drag from grid to itinerary
-    function attachGridDragHandlers(){
-      $$('#destinations .card').forEach(card => {
-        card.addEventListener('dragstart', e => e.dataTransfer.setData('text/plain', card.dataset.id));
-        card.addEventListener('dblclick', ()=> addToItin(card.dataset.id));
-      });
-    }
-    $('#itinerary-box').addEventListener('dragover', e => e.preventDefault());
-    $('#itinerary-box').addEventListener('drop', e => { e.preventDefault(); const id = e.dataTransfer.getData('text/plain'); if (id) addToItin(id); });
-    renderItin();
-
-    function updateMiniItin(){
-      const mini = document.getElementById('mini-itin-list');
-      if (!mini) return;
-      const list = loadItin(); if (!list || !list.length){ mini && (mini.textContent='No items yet'); return; }
-      mini.innerHTML = list.map(id => `<div>${document.querySelector('.card[data-id="${id}"] h3')?.textContent||id}</div>`).join('');
-    }
-
-    // Modal & Lightbox
-    const modalRoot = $('#modal-root');
-    function openModal(innerHtml){
-      modalRoot.style.display='block'; modalRoot.setAttribute('aria-hidden','false'); modalRoot.innerHTML='';
-      const dialog = el('div', { role:'dialog', 'aria-modal':'true', style:'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;z-index:18000' });
-      const content = el('div', { style:'background:var(--card);border-radius:12px;padding:16px;max-width:760px;width:100%;max-height:85vh;overflow:auto;box-shadow:0 24px 60px rgba(2,6,23,0.15)' });
-      content.innerHTML = innerHtml;
-      const close = el('div', { style:'text-align:right;margin-top:12px' }, el('button', { class:'btn ghost', type:'button', onClick: closeModal }, 'Close'));
-      content.appendChild(close); dialog.appendChild(content); modalRoot.appendChild(dialog);
-    }
-    function closeModal(){ modalRoot.style.display='none'; modalRoot.innerHTML=''; modalRoot.setAttribute('aria-hidden','true'); }
-    window.openImage = (src)=> { $('#lightbox-img').src = src; $('#lightbox').classList.add('open'); $('#lightbox').setAttribute('aria-hidden','false'); };
-    window.closeLightbox = ()=> { $('#lightbox').classList.remove('open'); $('#lightbox').setAttribute('aria-hidden','true'); $('#lightbox-img').src=''; };
-
-    // Quick menu
-    const quickMenu = $('#quick-menu');
-    window.openQuickMenu = (ev,id) => {
-      try{ ev.preventDefault(); }catch(e){}
-      const card = document.querySelector('.card[data-id="'+id+'"]'); if(!card) return;
-      quickMenu.innerHTML=''; quickMenu.style.display='block';
-      quickMenu.style.left = (ev.clientX+8)+'px'; quickMenu.style.top = (ev.clientY+8)+'px';
-      quickMenu.appendChild(el('div',{style:'font-weight:800;margin-bottom:8px'}, card.querySelector('h3').textContent));
-      quickMenu.appendChild(el('button',{class:'btn small', onClick:()=>{ openDetails(id); closeQuickMenu(); }}, 'Details'));
-      quickMenu.appendChild(el('button',{class:'btn small ghost', onClick:()=>{ addToItin(id); closeQuickMenu(); }}, 'Add to itinerary'));
-      quickMenu.appendChild(el('button',{class:'btn small', onClick:()=>{ toggleFav(id); closeQuickMenu(); }}, 'Toggle favorite'));
-      quickMenu.appendChild(el('button',{class:'btn small ghost', onClick:()=>{ focusOnMapPlace(id); closeQuickMenu(); }}, 'View on map'));
-      document.addEventListener('click', onDocClickQuickMenu);
-      function onDocClickQuickMenu(e){ if(!quickMenu.contains(e.target)) { closeQuickMenu(); document.removeEventListener('click', onDocClickQuickMenu); } }
-    };
-    function closeQuickMenu(){ quickMenu.style.display='none'; quickMenu.innerHTML=''; }
-
-    // Details modal with photo attach and reviews
-    async function openDetails(id){
-      const p = PLACES.find(x=>x.id===id); if(!p) return alert('Place not found');
-      const photosObj = await photosStore.getItem(p.id) || [];
-      const reviews = JSON.parse(localStorage.getItem(reviewsPrefix + id) || '[]');
-      let html = `<div style="display:flex;gap:12px;flex-direction:column">
-        <h3 style="margin-top:0">${p.title}</h3>
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <img src="${p.img}" alt="${p.title}" style="max-width:320px;border-radius:8px">
-          <div style="flex:1">
-            <p class="small muted">${p.desc}</p>
-            <p class="small muted">Category: ${p.category} • Rating: ${p.rating}</p>
-            <div style="margin-top:8px">
-              <button id="detail-add-itin" class="btn small">Add to itinerary</button>
-              <button id="detail-fav" class="btn small ghost">Toggle favorite</button>
-              <button id="detail-view-map" class="btn small ghost">Show on map</button>
-            </div>
-          </div>
-        </div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
-          <div style="flex:1">
-            <h4 style="margin:6px 0">Photos</h4>
-            <div id="detail-photos" style="display:flex;gap:8px;flex-wrap:wrap"></div>
-            <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
-              <input id="detail-photo-input" type="file" accept="image/*" />
-              <button id="detail-photo-add" class="btn small">Attach</button>
-            </div>
-          </div>
-          <div style="flex:1">
-            <h4 style="margin:6px 0">Reviews</h4>
-            <div id="detail-reviews" class="small muted">${reviews.length? reviews.map(r=>`<div style="margin-bottom:6px"><strong>${r.name||'Guest'}</strong><div class="small muted">${r.text}</div></div>`).join('') : '<div class="small muted">No reviews yet</div>'}</div>
-            <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
-              <input id="rev-text" placeholder="Write a short review" style="flex:1;padding:8px">
-              <button id="rev-send" class="btn small">Send</button>
-            </div>
-          </div>
-        </div>
-      </div>`;
-      openModal(html);
-      // populate photos
-      const photos = await photosStore.getItem(p.id) || [];
-      const photosRoot = $('#detail-photos');
-      photos.forEach(src => { const im = el('img',{src,style:'width:84px;height:64px;object-fit:cover;border-radius:6px;cursor:pointer', onClick:()=>openImage(src)}); photosRoot.appendChild(im); });
-
-      // handlers
-      $('#detail-add-itin').addEventListener('click', ()=> addToItin(id));
-      $('#detail-fav').addEventListener('click', ()=> toggleFav(id));
-      $('#detail-view-map').addEventListener('click', ()=> focusOnMapPlace(id));
-      $('#rev-send').addEventListener('click', ()=>{
-        const txt = $('#rev-text').value.trim(); if(!txt) return alert('Enter a review');
-        const list = JSON.parse(localStorage.getItem(reviewsPrefix + id) || '[]'); list.push({ name:'Guest', text:txt, time:new Date().toISOString() }); localStorage.setItem(reviewsPrefix + id, JSON.stringify(list));
-        analytics.track && analytics.track('review_add', { id });
-        $('#detail-reviews').innerHTML = list.map(r=>`<div style="margin-bottom:6px"><strong>${r.name}</strong><div class="small muted">${r.text}</div></div>`).join('');
-        $('#rev-text').value = '';
-      });
-      $('#detail-photo-add').addEventListener('click', async ()=>{
-        const input = $('#detail-photo-input'); if (!input.files || !input.files[0]) return alert('Select a photo');
-        const file = input.files[0]; if (!file.type.startsWith('image/')) return alert('Choose an image');
-        const data = await readFileAsDataURL(file);
-        const existing = await photosStore.getItem(p.id) || [];
-        existing.push(data); await photosStore.setItem(p.id, existing);
-        $('#detail-photos').appendChild(el('img',{src:data,style:'width:84px;height:64px;object-fit:cover;border-radius:6px;cursor:pointer', onClick:()=>openImage(data)}));
-        renderPhotoGallery();
-      });
-    }
-
-    // FileReader helper
-    function readFileAsDataURL(file){ return new Promise((res,rej)=>{ const fr = new FileReader(); fr.onload=()=>res(fr.result); fr.onerror=rej; fr.readAsDataURL(file); }); }
-
-    // Map integration with category layers, clusters, and robust init
-    let map, markerCluster, placeMarkers = {}, layerGroups = {}, itinLayer;
-    const CATEGORY_COLORS = { mountains:'marker-mountains', lakes:'marker-lakes', temples:'marker-temples', wildlife:'marker-wildlife', heritage:'marker-heritage', trek:'marker-trek', cultural:'marker-cultural' };
-
-    function makeDivIcon(category, text='') {
-      const elHtml = `<div class="marker-div ${CATEGORY_COLORS[category] || 'marker-mountains'}">${text||''}</div>`;
-      return L.divIcon({ html: elHtml, className: '', iconSize: [26,26], iconAnchor: [13,13] });
-    }
-
-    function initMap(){
-      if (map) return;
-      map = L.map('leaflet-map', { zoomControl: true }).setView([27.7,85.3],7);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution:'&copy; OpenStreetMap contributors', maxZoom:19 }).addTo(map);
-      markerCluster = L.markerClusterGroup();
-      map.addLayer(markerCluster);
-
-      // make a layer group per category for toggling
-      ['mountains','lakes','temples','wildlife','heritage','trek','cultural'].forEach(cat => layerGroups[cat] = L.layerGroup().addTo(map));
-
-      PLACES.forEach((p, idx) => {
-        if (!p.lat || !p.lon) return;
-        const icon = makeDivIcon(p.category, (idx<10?String(idx+1):''));
-        const m = L.marker([p.lat,p.lon], { icon, title: p.title });
-        m.bindPopup(`<strong>${p.title}</strong><br>${p.category} • ★${p.rating}<br><div style="margin-top:6px"><button class="btn small" data-action="details" data-id="${p.id}">Details</button> <button class="btn small ghost" data-action="add" data-id="${p.id}">Add to itinerary</button></div>`);
-        m.on('popupopen', function(e){
-          // delegate popup button clicks
-          const node = e.popup.getElement();
-          node.querySelectorAll('button').forEach(b => b.addEventListener('click', ev => {
-            const action = b.dataset.action, id = b.dataset.id;
-            if (action === 'details') openDetails(id);
-            if (action === 'add') addToItin(id);
-          }));
-        });
-        markerCluster.addLayer(m);
-        placeMarkers[p.id] = m;
-        layerGroups[p.category].addLayer(m);
-      });
-
-      // itinerary layer
-      itinLayer = L.layerGroup().addTo(map);
-      updateMapItinerary();
-
-      // layer toggles wired to checkboxes
-      $('#layer-mountains').addEventListener('change', e => toggleLayer('mountains', e.target.checked));
-      $('#layer-lakes').addEventListener('change', e => toggleLayer('lakes', e.target.checked));
-      $('#layer-temples').addEventListener('change', e => toggleLayer('temples', e.target.checked));
-      updateMapStats();
-    }
-
-    function toggleLayer(cat, show){
-      if (!layerGroups[cat]) return;
-      if (show) map.addLayer(layerGroups[cat]);
-      else map.removeLayer(layerGroups[cat]);
-    }
-
-    function updateMapStats(){
-      const info = $('#map-info');
-      if (!info) return;
-      const total = PLACES.length;
-      const visible = $$('#destinations .card').filter(c => c.style.display !== 'none').length;
-      info.textContent = `${visible} visible places — ${total} curated`;
-    }
-
-    function focusOnMapPlace(id){
-      initMap();
-      const p = PLACES.find(x=>x.id===id);
-      if (!p || !p.lat) return alert('Location unavailable');
-      map.setView([p.lat,p.lon], 13);
-      placeMarkers[id]?.openPopup();
-    }
-
-    // Itinerary drawing on map as polyline + numbered markers
-    function updateMapItinerary(){
-      if (!map) initMap();
-      itinLayer.clearLayers();
-      const items = loadItin();
-      if (!items || items.length === 0) return;
-      const latlngs = [];
-      items.forEach((id, idx) => {
-        const p = PLACES.find(x=>x.id===id);
-        if (!p || !p.lat) return;
-        latlngs.push([p.lat,p.lon]);
-        const mk = L.marker([p.lat,p.lon], { icon: makeDivIcon(p.category, String(idx+1)) });
-        mk.bindPopup(`<strong>${p.title}</strong><br>Order: ${idx+1}`);
-        itinLayer.addLayer(mk);
-      });
-      if (latlngs.length > 1) {
-        const poly = L.polyline(latlngs, { color:'#ff8c42', weight:4, opacity:0.85 });
-        itinLayer.addLayer(poly);
-        map.fitBounds(poly.getBounds(), { padding:[40,40] });
-      } else if (latlngs.length === 1) {
-        map.setView(latlngs[0], 12);
-      }
-    }
-
-    // Haversine distance for stats
-    function haversine(a,b){ const toRad=v=>v*Math.PI/180; const R=6371; const dLat=toRad(b[0]-a[0]); const dLon=toRad(b[1]-a[1]); const lat1=toRad(a[0]), lat2=toRad(b[0]); const sinDLat=Math.sin(dLat/2), sinDLon=Math.sin(dLon/2); const c=2*Math.asin(Math.sqrt(sinDLat*sinDLat + Math.cos(lat1)*Math.cos(lat2)*sinDLon*sinDLon)); return R*c; }
-    function updateRouteStats(){
-      const items = loadItin();
-      if (!items || items.length<=1){ $('#route-stats').textContent = items && items.length===1 ? 'Single stop' : 'No route yet'; renderElevationChart([]); return; }
-      const coords = items.map(id => { const p = PLACES.find(x=>x.id===id); return p && p.lat?[p.lat,p.lon]:null; }).filter(Boolean);
-      let dist=0; for (let i=1;i<coords.length;i++) dist += haversine(coords[i-1], coords[i]);
-      $('#route-stats').textContent = `Stops: ${coords.length} • Estimated distance: ${dist.toFixed(1)} km`;
-      // Try to fetch elevation from open-elevation; fallback synthetic if fails
-      fetchElevationForCoords(coords).then(elevs => renderElevationChart(elevs.map((v,i)=>({idx:i+1,elev:Math.round(v||0)}))));
-    }
-
-    // Elevation: use Open-Elevation (public) with fallback
-    async function fetchElevationForCoords(coords){
-      if (!coords || coords.length===0) return [];
-      try {
-        const locations = coords.map(c=>({latitude:c[0],longitude:c[1]}));
-        const res = await fetch('https://api.open-elevation.com/api/v1/lookup', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({locations}) });
-        if (!res.ok) throw new Error('elevation API failed');
-        const j = await res.json();
-        return j.results.map(r => r.elevation);
-      } catch (e) {
-        // synthetic fallback
-        return coords.map((c,i)=> 500 + Math.abs(Math.sin(i + c[0]))*2000 );
-      }
-    }
-
-    // Elevation Chart
-    let elevationChart = null;
-    function renderElevationChart(points){
-      const ctx = document.getElementById('elevation-chart');
-      if (!ctx) {
-        // create canvas if missing
-        const widget = document.getElementById('elevation-widget');
-        if (widget) widget.innerHTML = '<canvas id="elevation-chart" height="160" style="width:100%;max-width:100%"></canvas><div id="elevation-stats" class="small muted">No data</div>';
-      }
-      const canvas = document.getElementById('elevation-chart');
-      if (!canvas) return;
-      const labels = points.map(p=> 'P'+p.idx);
-      const data = points.map(p=> p.elev);
-      if (elevationChart) { elevationChart.data.labels = labels; elevationChart.data.datasets[0].data = data; elevationChart.update(); return; }
-      elevationChart = new Chart(canvas, {
-        type: 'line',
-        data: { labels, datasets: [{ label:'Elevation (m)', data, borderColor:'#0b67d0', backgroundColor:'rgba(11,103,208,0.08)', tension:0.3, pointRadius:4 }] },
-        options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}} }
-      });
-    }
-
-    // Route optimizer: nearest neighbour + 2-opt improvement
-    $('#optimize-route').addEventListener('click', () => {
-      const items = loadItin();
-      if (!items || items.length < 3) return alert('Need at least 3 stops to optimize');
-      // coords map
-      const coordsMap = {}; items.forEach(id => { const p = PLACES.find(x=>x.id===id); if (p) coordsMap[id] = [p.lat,p.lon]; });
-      // nearest neighbour (start from first)
-      let ordered = [items[0]];
-      let remaining = items.slice(1);
-      while (remaining.length) {
-        let bestIdx=0, bestD=Infinity;
-        for (let i=0;i<remaining.length;i++){
-          const d = haversine(coordsMap[ordered[ordered.length-1]], coordsMap[remaining[i]]);
-          if (d < bestD){ bestD = d; bestIdx = i; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Start Website - Updated 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        ordered.push(remaining.splice(bestIdx,1)[0]);
-      }
-      // 2-opt improvement
-      function twoOpt(route){
-        let improved=true;
-        while (improved){
-          improved=false;
-          for (let i=1;i<route.length-2;i++){
-            for (let k=i+1;k<route.length-1;k++){
-              const A = coordsMap[route[i-1]], B = coordsMap[route[i]], C = coordsMap[route[k]], D = coordsMap[route[k+1]];
-              const delta = (haversine(A,C)+haversine(B,D)) - (haversine(A,B)+haversine(C,D));
-              if (delta < -0.0001){
-                route = route.slice(0,i).concat(route.slice(i,k+1).reverse(), route.slice(k+1));
-                improved=true;
-              }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px;
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        p {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .timestamp {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        button, a {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
             }
-          }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        return route;
-      }
-      ordered = twoOpt(ordered);
-      saveItin(ordered);
-      alert('Itinerary optimized with 2-opt heuristic');
-    });
-
-    $('#reverse-route').addEventListener('click', ()=> {
-      const items = loadItin(); if (!items||items.length<=1) return;
-      saveItin(items.reverse());
-    });
-
-    // Export GPX/GeoJSON (include basic metadata)
-    $('#export-gpx').addEventListener('click', ()=> {
-      const items = loadItin(); if (!items||items.length===0) return alert('No itinerary to export');
-      let gpx = `<?xml version="1.0" encoding="utf-8"?><gpx creator="ExploreNepal" version="1.1" xmlns="http://www.topografix.com/GPX/1/1"><trk><name>Itinerary</name><trkseg>`;
-      items.forEach(id => {
-        const p = PLACES.find(x=>x.id===id);
-        if (!p) return;
-        gpx += `<trkpt lat="${p.lat}" lon="${p.lon}"><name>${p.title}</name><desc>${p.category}</desc></trkpt>`;
-      });
-      gpx += '</trkseg></trk></gpx>';
-      const blob = new Blob([gpx], { type: 'application/gpx+xml' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = 'itinerary.gpx'; a.click(); URL.revokeObjectURL(url);
-    });
-
-    $('#export-geojson').addEventListener('click', ()=> {
-      const items = loadItin(); if (!items||items.length===0) return alert('No itinerary to export');
-      const features = items.map((id, idx) => {
-        const p = PLACES.find(x=>x.id===id); if (!p) return null;
-        return { type:'Feature', properties:{ id:p.id, title:p.title, order:idx+1 }, geometry:{ type:'Point', coordinates:[p.lon, p.lat] } };
-      }).filter(Boolean);
-      const geojson = { type:'FeatureCollection', features };
-      const blob = new Blob([JSON.stringify(geojson, null, 2)], { type:'application/geo+json' });
-      const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download='itinerary.geojson'; a.click(); URL.revokeObjectURL(url);
-    });
-
-    // Saved trips
-    $('#save-trip').addEventListener('click', ()=> {
-      const name = ($('#trip-name').value || '').trim(); if (!name) return alert('Provide a trip name');
-      const all = JSON.parse(localStorage.getItem(tripsKey) || '{}'); all[name] = { itinerary: loadItin(), savedAt: new Date().toISOString() }; localStorage.setItem(tripsKey, JSON.stringify(all)); renderSavedTrips(); alert('Trip saved');
-    });
-    function renderSavedTrips(){
-      const list = $('#saved-trips-list'); const all = JSON.parse(localStorage.getItem(tripsKey) || '{}'); const keys = Object.keys(all);
-      if (!keys.length) { list.textContent = 'No saved trips yet'; return; }
-      list.innerHTML = '<select id="saved-trips-select" style="width:100%;padding:8px"><option value="">Select a trip</option>' + keys.map(k => `<option value="${k}">${k} — ${new Date(all[k].savedAt).toLocaleString()}</option>`).join('') + '</select>';
-    }
-    renderSavedTrips();
-    $('#load-trip').addEventListener('click', ()=> {
-      const sel = $('#saved-trips-select'); if (!sel || !sel.value) return alert('Select a trip to load'); const all = JSON.parse(localStorage.getItem(tripsKey) || '{}'); const trip = all[sel.value]; if (!trip) return alert('Trip not found'); saveItin(trip.itinerary || []); alert('Trip loaded');
-    });
-    $('#delete-trip').addEventListener('click', ()=> {
-      const sel = $('#saved-trips-select'); if (!sel || !sel.value) return alert('Select a trip to delete'); if (!confirm('Delete selected trip?')) return; const all = JSON.parse(localStorage.getItem(tripsKey) || '{}'); delete all[sel.value]; localStorage.setItem(tripsKey, JSON.stringify(all)); renderSavedTrips(); alert('Trip deleted');
-    });
-
-    // Photo uploader (global gallery) and render
-    $('#photo-input').addEventListener('change', async (e) => {
-      const files = Array.from(e.target.files || []); if (!files.length) return;
-      const stored = await photosStore.getItem('global') || [];
-      for (const f of files) {
-        if (!f.type.startsWith('image/')) continue;
-        const data = await readFileAsDataURL(f);
-        stored.push(data);
-        // store in global bucket (user can attach to place in Details)
-      }
-      await photosStore.setItem('global', stored);
-      renderPhotoGallery();
-      alert('Photos uploaded to gallery. Attach them to a place from Details.');
-    });
-
-    async function renderPhotoGallery(){
-      const gallery = $('#photo-gallery'); if (!gallery) return;
-      gallery.innerHTML = '';
-      const global = await photosStore.getItem('global') || [];
-      global.forEach(src => gallery.appendChild(el('img', { src, style:'width:84px;height:64px;object-fit:cover;border-radius:6px;cursor:pointer', onClick: ()=> openImage(src) })));
-    }
-    renderPhotoGallery();
-
-    // Currency convert - improved with fetch to exchangerate.host (free)
-    $('#convert-btn').addEventListener('click', async ()=> {
-      const amount = parseFloat($('#cur-amount').value || '1'); const from = $('#cur-from').value, to = $('#cur-to').value;
-      try {
-        const res = await fetch(`https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`);
-        const j = await res.json();
-        if (j && j.result != null) $('#convert-result').textContent = `${amount} ${from} ≈ ${j.result.toFixed(2)} ${to}`;
-        else $('#convert-result').textContent = 'Conversion not available';
-      } catch (e) {
-        $('#convert-result').textContent = 'Conversion failed (offline).';
-      }
-    });
-
-    // Map init and attachment
-    document.addEventListener('DOMContentLoaded', ()=> {
-      initMap();
-      setTimeout(()=> map && map.invalidateSize(), 300);
-      attachCardInteractions();
-    });
-
-    // Attach card interactions (details buttons)
-    function attachCardInteractions(){
-      $$('#destinations .details-btn').forEach(btn => { btn.removeEventListener('click', detailsClickHandler); btn.addEventListener('click', detailsClickHandler); });
-      function detailsClickHandler(e){ openDetails(e.target.dataset.id); }
-    }
-
-    // map itinerary and utilities
-    function updateMapItinerary(){ updateMapItineraryCore(); }
-    function updateMapItineraryCore(){ if (!map) initMap(); itinLayer && itinLayer.clearLayers(); updateMapItinerary(); } // placeholder to keep previous references safe
-
-    // Fit itinerary
-    $('#fit-itin').addEventListener('click', ()=> {
-      const items = loadItin(); if (!items || items.length===0) return alert('No itinerary to fit.'); const coords = items.map(id=>{ const p=PLACES.find(x=>x.id===id); return p&&p.lat?[p.lat,p.lon]:null; }).filter(Boolean);
-      if (coords.length===0) return alert('No valid coords'); map.fitBounds(coords, { padding:[40,40] });
-    });
-    $('#locate-me').addEventListener('click', ()=> {
-      if (!navigator.geolocation) return alert('Geolocation unsupported');
-      navigator.geolocation.getCurrentPosition(pos=> {
-        const lat=pos.coords.latitude, lon=pos.coords.longitude; L.circle([lat,lon], { radius:80, color:'#3ea0ff', fillColor:'#3ea0ff', fillOpacity:0.15 }).addTo(map); map.setView([lat,lon],13);
-      }, err => alert('Unable to retrieve location: '+err.message), { timeout:8000 });
-    });
-
-    // Simple analytics placeholder (local only)
-    const analytics = { enabled: !!(localStorage.getItem('explore_cookie_v1')==='accepted'), events: [], track(name, props={}){ if (!this.enabled) return; this.events.push({ name, props, time:new Date().toISOString() }); localStorage.setItem('explore_analytics', JSON.stringify(this.events)); } };
-
-    // Cookie consent
-    function showCookie(){ const seen = localStorage.getItem('explore_cookie_v1'); if (!seen) { const b = document.createElement('div'); b.id='cookie-banner'; b.style.cssText='position:fixed;left:12px;right:12px;bottom:12px;background:var(--card);padding:12px;border-radius:10px;box-shadow:0 24px 60px rgba(2,6,23,0.15);display:flex;gap:12px;align-items:center;z-index:16000'; b.innerHTML=`<div style="flex:1">We use local storage and optional analytics to improve the site. Accept to enable local analytics.</div><div style="display:flex;gap:8px"><button id="cookie-accept" class="btn">Accept</button><button id="cookie-decline" class="btn ghost">Decline</button></div>`; document.body.appendChild(b); $('#cookie-accept').addEventListener('click', ()=>{ analytics.enabled=true; localStorage.setItem('explore_cookie_v1','accepted'); b.remove(); }); $('#cookie-decline').addEventListener('click', ()=>{ analytics.enabled=false; localStorage.setItem('explore_cookie_v1','declined'); b.remove(); }); } }
-    showCookie();
-
-    // Chat basic
-    $('#send-btn')?.addEventListener('click', ()=>{ const text = ($('#user-input')?.value||'').trim(); if (!text) return; const msgs = JSON.parse(localStorage.getItem(chatKey) || '[]'); msgs.push({ from:'user', text, time:new Date().toISOString() }); localStorage.setItem(chatKey, JSON.stringify(msgs)); alert('Message added to local chat (demo).'); });
-
-    // Utility: ensure saveItin used earlier points to correct function
-    window.saveItin = saveItin;
-
-    // Service worker registration for offline caching (if supported)
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').then(reg => {
-        console.log('SW registered', reg.scope);
-      }).catch(err => console.warn('SW register failed', err));
-    }
-
-    // small accessibility helpers
-    document.addEventListener('keydown', (e) => { if (e.key === '/') { e.preventDefault(); $('#global-search').focus(); } if (e.key === 'm') { document.getElementById('map').scrollIntoView({behavior:'smooth'}); } });
-
-    // Expose some functions for dev console
-    window.PLACES = PLACES;
-    window.openDetails = openDetails;
-    window.focusOnMapPlace = focusOnMapPlace;
-
-  })();
-  </script>
-
-  <!-- Minimal elevation canvas placeholder -->
-  <script>
-    // add elevation widget area if missing (keeps UI stable)
-    if (!document.getElementById('elevation-widget')) {
-      const adv = document.getElementById('advanced');
-      if (adv) adv.insertAdjacentHTML('beforeend', '<div class="widget" id="elevation-widget"><h4>Elevation preview</h4><canvas id="elevation-chart" height="160" style="width:100%"></canvas><div id="elevation-stats" class="small muted">No data</div></div>');
-    }
-  </script>
-
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .stat {
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            color: #999;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✨ Welcome!</h1>
+        <p>This is your fresh, new website!</p>
+        <p class="timestamp">Last updated: <strong>June 20, 2026</strong></p>
+        <p>Your website has been completely refreshed. All old files have been cleared and you're starting fresh with a clean slate.</p>
+        
+        <div class="button-group">
+            <button class="btn-primary" onclick="alert('Website is working! 🎉')">Test Button</button>
+            <a href="#" class="btn-secondary">Learn More</a>
+        </div>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Working</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">✓</div>
+                <div class="stat-label">Updated</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">🚀</div>
+                <div class="stat-label">Live</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        console.log('✅ Website loaded successfully!');
+        console.log('Last updated: ' + new Date().toLocaleString());
+    </script>
 </body>
 </html>
