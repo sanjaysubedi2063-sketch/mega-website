@@ -1,44 +1,83 @@
-# Fresh Start Website
+# 🚀 DevHub - All-in-One Developer Dashboard
 
-**Status:** ✅ Live and Updated
+**Live Website:** https://sanjaysubedi2063-sketch.github.io/mega-website/
 
-**Last Updated:** June 20, 2026
+## ✨ Features
 
-## About
-This is a completely fresh website created on June 20, 2026. All old files have been cleared and replaced with a brand new design.
+### 🛠️ Developer Tools (6 Tools)
+1. **QR Code Generator** - Create QR codes instantly from text or URLs
+2. **Color Converter** - Convert between HEX, RGB, and HSL formats
+3. **JSON Formatter** - Format, validate, and beautify JSON code
+4. **Text Tools** - Convert case, count words, remove duplicates
+5. **Password Generator** - Create strong, random passwords
+6. **Base64 Encoder/Decoder** - Encode and decode text
 
-## Features
-- Modern, responsive design
-- Smooth animations
-- Mobile-friendly
-- Fast loading
+### 🎯 Portfolio Section
+- Showcase your projects with descriptions and tech stacks
+- Fully customizable and responsive design
+- Interactive hover effects
 
-## Viewing Your Website
+### 📧 Contact Section
+- Social media links
+- Easy contact options
+- Call-to-action buttons
 
-Your website is live at: **https://sanjaysubedi2063-sketch.github.io/mega-website/**
+## 🎨 Design Highlights
 
-### If changes aren't showing:
+- **Modern Dark Theme** - Beautiful gradient backgrounds
+- **Responsive Design** - Works perfectly on all devices
+- **Smooth Animations** - Interactive and engaging UI
+- **No Dependencies** - Pure HTML, CSS, and JavaScript
+- **Fast Loading** - Lightweight and optimized
 
-1. **Hard refresh your browser**
-   - Windows: `Ctrl + Shift + Delete` or `Ctrl + F5`
-   - Mac: `Cmd + Shift + Delete` or `Cmd + Shift + R`
+## 🚀 How to Use
 
-2. **Clear your browser cache**
-   - Chrome: Settings → Privacy → Clear browsing data
-   - Firefox: Settings → Privacy & Security → Clear Data
+1. **View the website:** Open https://sanjaysubedi2063-sketch.github.io/mega-website/
+2. **Explore Tools:** Click on any tool card to try it out
+3. **View Portfolio:** See featured projects section
+4. **Contact:** Reach out using the contact section
 
-3. **Check GitHub Pages settings**
-   - Go to repo Settings → Pages
-   - Ensure "Source" is set to "Deploy from a branch"
-   - Branch should be "main" and folder should be "/ (root)"
+## 📝 Customization
 
-4. **Wait 1-2 minutes**
-   - GitHub Pages may take a minute to rebuild after changes
+Edit `index.html` to:
+- Change your name and description
+- Add your portfolio projects
+- Update social media links
+- Customize colors and styles
 
-## Next Steps
+## 💡 Tips to Get More Visitors
 
-Edit `index.html` to customize your website. All changes will be live within 1-2 minutes.
+1. **Add Meta Tags** - Already optimized for SEO
+2. **Share on Social** - Link to your DevHub
+3. **Embed Tools** - Tools are useful and shareable
+4. **Add Blog** - Share coding tips and tutorials
+5. **SEO Optimization** - Website is already optimized
+
+## 🔧 Recent Updates
+
+- ✅ Fresh new design
+- ✅ 6 interactive tools
+- ✅ Portfolio showcase
+- ✅ Dark theme with animations
+- ✅ Mobile responsive
+- ✅ Contact section
+
+## 📊 Stats
+
+- **Load Time:** < 2 seconds
+- **Tools Available:** 6 free tools
+- **Portfolio Projects:** 3 featured projects
+- **Mobile Optimized:** Yes
+- **Browser Support:** All modern browsers
+
+## 🎯 Next Steps
+
+1. Replace placeholder project descriptions with your real projects
+2. Add your actual social media links
+3. Update the contact information
+4. Add more tools as needed
+5. Share and promote on social media!
 
 ---
 
-**GitHub Repository:** https://github.com/sanjaysubedi2063-sketch/mega-website
+**Made with ❤️ | Last Updated: June 20, 2026**
