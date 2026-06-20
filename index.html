@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevHub - Developer Dashboard & Tools</title>
-    <meta name="description" content="All-in-one developer platform with portfolio, tools, and interactive features.">
+    <title>Sanjay Subedi - Developer Dashboard & Tools</title>
+    <meta name="description" content="Sanjay Subedi's all-in-one developer platform with portfolio, tools, and interactive features.">
     <style>
         * {
             margin: 0;
@@ -91,6 +91,12 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             animation: fadeInDown 1s ease-out;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
         }
 
         .hero p {
@@ -427,11 +433,24 @@
             font-size: 1.1rem;
         }
 
+        .email-display {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid rgba(16, 185, 129, 0.5);
+            border-radius: 8px;
+            padding: 1.5rem;
+            color: var(--success);
+            margin: 2rem 0;
+            font-weight: 600;
+            font-size: 1.2rem;
+            word-break: break-all;
+        }
+
         .social-links {
             display: flex;
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+            margin: 2rem 0;
         }
 
         .social-link {
@@ -519,7 +538,7 @@
     <!-- Header -->
     <header>
         <nav>
-            <div class="logo" onclick="scrollToSection('hero')">💻 DevHub</div>
+            <div class="logo" onclick="scrollToSection('hero')">💻 Sanjay</div>
             <ul class="nav-menu">
                 <li><a onclick="scrollToSection('tools')">Tools</a></li>
                 <li><a onclick="scrollToSection('portfolio')">Portfolio</a></li>
@@ -530,8 +549,9 @@
 
     <!-- Hero Section -->
     <div id="hero" class="hero">
-        <h1>Welcome to DevHub 🚀</h1>
-        <p>Your all-in-one developer dashboard with powerful tools and interactive features</p>
+        <div class="subtitle">👋 Hey there! I'm</div>
+        <h1>Sanjay Subedi</h1>
+        <p>Full-Stack Developer | Web & Mobile Specialist | Open Source Enthusiast</p>
         <div class="btn-group">
             <button class="btn btn-primary" onclick="scrollToSection('tools')">Explore Tools</button>
             <button class="btn btn-secondary" onclick="scrollToSection('portfolio')">View Portfolio</button>
@@ -643,14 +663,20 @@
         <!-- Contact Section -->
         <section id="contact" class="contact-section">
             <h2>📧 Get In Touch</h2>
-            <p>Have questions or want to collaborate? Reach out!</p>
-            <div class="social-links">
-                <a href="#" class="social-link" title="GitHub">👨‍💻</a>
-                <a href="#" class="social-link" title="Twitter">𝕏</a>
-                <a href="#" class="social-link" title="LinkedIn">💼</a>
-                <a href="#" class="social-link" title="Email">✉️</a>
+            <p>Have questions, collaboration ideas, or just want to say hi? Let's connect!</p>
+            
+            <div class="email-display">
+                ✉️ sanjaysubedi2063@gmail.com
             </div>
-            <button class="btn btn-primary" style="margin-top: 2rem;" onclick="alert('Email: contact@devhub.com')">Email Me</button>
+            
+            <div class="social-links">
+                <a href="https://github.com/sanjaysubedi2063-sketch" class="social-link" title="GitHub" target="_blank">👨‍💻</a>
+                <a href="https://twitter.com" class="social-link" title="Twitter" target="_blank">𝕏</a>
+                <a href="https://linkedin.com" class="social-link" title="LinkedIn" target="_blank">💼</a>
+                <a href="mailto:sanjaysubedi2063@gmail.com" class="social-link" title="Email">✉️</a>
+            </div>
+            
+            <button class="btn btn-primary" onclick="sendEmail()">Send Me an Email</button>
         </section>
     </div>
 
@@ -756,11 +782,19 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2026 DevHub. Made with ❤️ by Developers, For Developers.</p>
-        <p>Last updated: June 20, 2026 | All tools are free and no account required!</p>
+        <p>&copy; 2026 Sanjay Subedi. Made with ❤️ by Developers, For Developers.</p>
+        <p>Email: sanjaysubedi2063@gmail.com | Last updated: June 20, 2026</p>
     </footer>
 
     <script>
+        const EMAIL = 'sanjaysubedi2063@gmail.com';
+        const NAME = 'Sanjay Subedi';
+
+        // Send Email Function
+        function sendEmail() {
+            window.location.href = `mailto:${EMAIL}?subject=Hi ${NAME}!&body=I'd like to connect with you...`;
+        }
+
         // Modal Functions
         function openModal(id) {
             document.getElementById(id).classList.add('active');
@@ -806,7 +840,7 @@
             const r = parseInt(hex.slice(1, 3), 16);
             const g = parseInt(hex.slice(3, 5), 16);
             const b = parseInt(hex.slice(5, 7), 16);
-            document.getElementById('colorOutput').innerHTML = `HEX: ${hex}<br>RGB: rgb(${r}, ${g}, ${b})<br><div style="width:50px; height:50px; background:${hex}; margin-top:1rem; border-radius:8px;"></div>`;
+            document.getElementById('colorOutput').innerHTML = `HEX: ${hex}<br>RGB: rgb(${r}, ${g}, ${b})<br><div style="width:50px; height:50px; background:${hex}; margin-top:1rem; border-radius:8px;\"></div>`;
         }
 
         // JSON Formatter
@@ -878,8 +912,9 @@
         }
 
         // Analytics
-        console.log('💻 DevHub loaded successfully!');
-        console.log('Tools available: 6 | Portfolio projects: 3 | Users: ∞');
+        console.log('🚀 Sanjay Subedi\\'s Developer Dashboard loaded!');
+        console.log('Email: ' + EMAIL);
+        console.log('Tools available: 6 | Portfolio projects: 3 | Status: Live');
     </script>
 </body>
 </html>
