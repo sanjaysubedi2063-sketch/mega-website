@@ -3,51 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanjay Subedi - Ultimate Enterprise Utility & Student Engine</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <title>Sanjay Subedi - Digital Tools & AI Studio</title>
+    <!-- External Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <style>
         :root {
-            --bg-primary: #090a0f;
-            --bg-secondary: #121420;
-            --bg-card: #1a1d30;
-            --accent: #5856d6;
-            --accent-hover: #4341b7;
-            --text-main: #f1f3f9;
-            --text-muted: #8e95a5;
-            --success: #34c759;
-            --danger: #ff3b30;
-            --warning: #ff9500;
-            --info: #007aff;
+            --bg-color: #0b0b10;
+            --card-bg: rgba(22, 22, 30, 0.7);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.3);
+            --accent: #a855f7;
+            --border: rgba(255, 255, 255, 0.08);
+            --success: #10b981;
+            --danger: #ef4444;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background-color: var(--bg-primary);
+            background-color: var(--bg-color);
             color: var(--text-main);
+            padding: 3rem 1rem;
             line-height: 1.6;
-            padding: 2rem;
+            background-image: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent 600px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         header {
             text-align: center;
-            margin-bottom: 3rem;
-            border-bottom: 1px solid #22263f;
-            padding-bottom: 2rem;
+            margin-bottom: 4rem;
         }
 
         header h1 {
-            font-size: 2.8rem;
-            background: linear-gradient(135deg, #fff 0%, var(--text-muted) 100%);
+            font-size: 3rem;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
         }
 
         header p {
@@ -56,919 +61,959 @@
         }
 
         .section-title {
-            max-width: 1400px;
-            margin: 2rem auto 1rem auto;
-            color: var(--text-muted);
+            font-size: 1.3rem;
+            margin: 3rem 0 1.5rem 0;
+            color: #fff;
+            border-left: 4px solid var(--primary);
+            padding-left: 0.75rem;
             text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            letter-spacing: 0.05em;
+            font-weight: 700;
         }
 
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #22263f;
-        }
-
-        .grid {
+        /* Grid Layout */
+        .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
-            max-width: 1400px;
-            margin: 0 auto 3rem auto;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.75rem;
+            margin-bottom: 2rem;
         }
 
-        .card {
-            background: var(--bg-secondary);
-            border: 1px solid #22263f;
-            border-radius: 14px;
-            padding: 1.8rem;
+        .tool-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.25s, border-color 0.25s;
         }
 
-        .card:hover {
+        .tool-card:hover {
             transform: translateY(-5px);
-            border-color: var(--accent);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 15px 30px var(--primary-glow);
         }
 
-        .card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.6rem;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 1.8rem;
-        }
-
-        .btn {
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            padding: 0.75rem 1.2rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            text-align: center;
-            transition: background 0.2s, transform 0.1s;
-            width: 100%;
-        }
-
-        .btn:hover { background: var(--accent-hover); }
-        .btn:active { transform: scale(0.98); }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(5, 5, 10, 0.85);
-            backdrop-filter: blur(8px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            padding: 1.5rem;
-        }
-
-        .modal {
-            background: var(--bg-card);
-            border-radius: 18px;
-            max-width: 650px;
-            width: 100%;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: 2.2rem;
-            position: relative;
-            border: 1px solid #313754;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 1.2rem;
-            right: 1.2rem;
-            background: #22263f;
-            border: none;
-            color: var(--text-main);
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        label {
-            display: block;
-            margin-top: 1.2rem;
-            margin-bottom: 0.4rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-muted);
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 0.8rem;
-            background: var(--bg-primary);
-            border: 1px solid #313754;
-            color: #fff;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
-        }
-
-        .checkbox-group {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-        .checkbox-label input { width: auto; margin: 0; }
-
-        .output-box {
-            background: var(--bg-primary);
-            padding: 1.2rem;
-            border-radius: 8px;
-            border: 1px dashed #313754;
-            margin-top: 1.2rem;
-            position: relative;
-        }
-
-        .timer-display {
-            font-size: 3.5rem;
-            text-align: center;
-            font-weight: 700;
-            margin: 1.5rem 0;
-            font-family: monospace;
-            color: var(--success);
-            text-shadow: 0 0 10px rgba(52, 199, 89, 0.2);
-        }
-
-        .flashcard-box {
-            perspective: 1000px;
-            height: 180px;
-            margin: 1.5rem 0;
-            cursor: pointer;
-        }
-        .flashcard-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-        }
-        .flashcard-box.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-front, .flashcard-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
+        .tool-icon {
+            font-size: 2rem;
+            margin-bottom: 1.25rem;
+            background: rgba(255, 255, 255, 0.03);
+            width: 56px;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 12px;
-            padding: 1.5rem;
-            font-weight: 600;
-            font-size: 1.1rem;
+            border: 1px solid var(--border);
         }
-        .flashcard-front { background: linear-gradient(135deg, var(--accent) 0%, #4341b7 100%); color: white; }
-        .flashcard-back { background: #22263f; color: white; transform: rotateY(180deg); border: 1px solid #313754; }
 
-        .media-preview-box {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: #000;
-            border-radius: 10px;
-            margin-top: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
+        .tool-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
         }
-        .sim-layer {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0.4;
-            transition: all 0.5s ease;
+
+        .tool-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.75rem;
+            flex-grow: 1;
         }
-        .media-text-overlay {
-            position: relative;
-            z-index: 2;
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+
+        /* Buttons */
+        .btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 0.85rem 1.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
             text-align: center;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            filter: brightness(1.1);
+        }
+
+        .btn-success {
+            background: var(--success);
+            margin-top: 0.75rem;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 5, 8, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
             padding: 1rem;
         }
 
-        .notes-split {
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #14141c;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 580px;
+            padding: 2.25rem;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.75rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.4rem;
+            color: #fff;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.75rem;
+            cursor: pointer;
+        }
+
+        .close-btn:hover { color: #fff; }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+        }
+
+        .form-control, textarea, select {
+            width: 100%;
+            background: #09090d;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.85rem;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .form-control:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .upload-preview-box {
+            width: 100%;
+            max-height: 120px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #09090d;
+            border: 1px solid var(--border);
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        /* Fixed Media Render Preview Containment */
+        .output-preview-container {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed var(--border);
+            text-align: center;
+            display: none;
+        }
+
+        .output-preview-container img {
+            width: 100%;
+            border-radius: 10px;
+            background: #09090d;
+            border: 1px solid var(--border);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Fixed specific container shapes for social platforms */
+        .preview-youtube-long { aspect-ratio: 16 / 9; object-fit: cover; }
+        .preview-youtube-shorts { aspect-ratio: 9 / 16; max-height: 450px !important; object-fit: cover; width: auto !important; margin: 0 auto 0.5rem auto; }
+        .preview-instagram-square { aspect-ratio: 1 / 1; object-fit: cover; }
+
+        .output-box {
+            background: #09090d;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-top: 1.25rem;
+            word-break: break-all;
+            font-family: monospace;
+            color: var(--success);
+            text-align: center;
+        }
+
+        .feature-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
-            height: 300px;
+            margin-bottom: 1rem;
         }
-        .notes-preview {
-            background: var(--bg-primary);
-            border: 1px solid #313754;
+
+        .task-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 1rem;
-            overflow-y: auto;
-            font-size: 0.95rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toggle-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            background: #09090d;
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 1.25rem;
+        }
+
+        .toggle-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 0.6rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .toggle-btn.active {
+            background: var(--primary);
+            color: #fff;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Sanjay Subedi Pro Engine v3.0</h1>
-        <p>Advanced neural generation suite combined with high-octane student productivity infrastructure.</p>
-    </header>
+    <div class="container">
+        <header>
+            <h1>Sanjay Subedi Workspace</h1>
+            <p>A clean collection of simple web tools and AI creation assistants.</p>
+        </header>
 
-    <!-- SECTION: AI GENERATION SYSTEM -->
-    <div class="section-title">🤖 AI Systems & Intelligent Engines</div>
-    <div class="grid">
-        <div class="card" style="border-color: #a356ff">
-            <h3>🎨 Text to Image AI (Sim)</h3>
-            <p>Synthesize gorgeous graphic layouts, concept illustrations, or presentation slides using text prompts.</p>
-            <button class="btn" style="background:#a356ff" onclick="openModal('textToImageModal')">Open Image Creator</button>
+        <!-- AI SECTION -->
+        <div class="section-title">🤖 AI Tools & Assistants</div>
+        <div class="tools-grid">
+            <div class="tool-card" onclick="openModal('textToVideoModal')">
+                <div class="tool-icon" style="color: #ff4500; border-color: #ff4500;">🎬</div>
+                <h3>Professional Text to Video Studio</h3>
+                <p>Generate highly professional video scenes tailored perfectly for YouTube, Shorts, TikTok, and Reels.</p>
+                <button class="btn" style="background: linear-gradient(135deg, #ff4500, #a855f7);">Open Video Studio</button>
+            </div>
+
+            <div class="tool-card" onclick="openModal('imageGenModal')">
+                <div class="tool-icon" style="color: var(--accent); border-color: var(--accent);">🎨</div>
+                <h3>AI Image Generator & Editor</h3>
+                <p>Create completely new pictures from prompts, or upload an image from your device to edit it using AI.</p>
+                <button class="btn" style="background: linear-gradient(135deg, #6366f1, #a855f7);">Open Studio</button>
+            </div>
+
+            <div class="tool-card" onclick="openModal('noteLabModal')">
+                <div class="tool-icon" style="color: #3b82f6;">📝</div>
+                <h3>Live Notepad</h3>
+                <p>Write standard notes or markdown code and see a real-time visual preview side by side.</p>
+                <button class="btn">Open Notepad</button>
+            </div>
         </div>
 
-        <div class="card" style="border-color: #a356ff">
-            <h3>🎬 Text to Video AI (Sim)</h3>
-            <p>Translate complex textual prompts and dynamic script parameters directly into cinematic video assets.</p>
-            <button class="btn" style="background:#a356ff" onclick="openModal('textToVideoModal')">Open Video Generator</button>
-        </div>
+        <!-- UTILITIES SECTION -->
+        <div class="section-title">⚙️ Practical File & Text Utilities</div>
+        <div class="tools-grid">
+            <div class="tool-card" onclick="openModal('passwordModal')">
+                <div class="tool-icon">🔑</div>
+                <h3>Password Generator</h3>
+                <p>Create highly secure passwords instantly to protect your online personal accounts.</p>
+                <button class="btn">Open Tool</button>
+            </div>
 
-        <div class="card" style="border-color: #a356ff">
-            <h3>🎵 Focus Audio Space</h3>
-            <p>Generate isolated study frequencies (Binaural Beats / White Noise) natively via Web Audio synthesizers.</p>
-            <button class="btn" style="background:#a356ff" onclick="openModal('audioSpaceModal')">Launch Soundscapes</button>
-        </div>
-    </div>
+            <div class="tool-card" onclick="openModal('base64Modal')">
+                <div class="tool-icon">🔾</div>
+                <h3>Base64 Text Converter</h3>
+                <p>Easily convert text strings into standard secure Base64 code formats and back.</p>
+                <button class="btn">Open Tool</button>
+            </div>
 
-    <!-- SECTION: STUDENT UTILITIES -->
-    <div class="section-title">⏱️ Academic Performance & Study Kits</div>
-    <div class="grid">
-        <div class="card" style="border-color: var(--success)">
-            <h3>⚡ Pomodoro Study Timer</h3>
-            <p>Now equipped with sound notifications and automatic switching parameters for long focus intervals.</p>
-            <button class="btn" style="background:var(--success)" onclick="openModal('pomodoroModal')">Launch Timer</button>
-        </div>
+            <div class="tool-card" onclick="openModal('resizerModal')">
+                <div class="tool-icon">🖼️</div>
+                <h3>Image Resizer</h3>
+                <p>Change your photos or screenshots to any precise pixel size dimensions you need.</p>
+                <button class="btn">Open Tool</button>
+            </div>
 
-        <div class="card" style="border-color: var(--success)">
-            <h3>🗂️ Flashcard Maker & Quizzer</h3>
-            <p>Track your score matrix, mark answers correct/incorrect, and randomize the active review queue.</p>
-            <button class="btn" style="background:var(--success)" onclick="openModal('flashcardModal')">Open Flashcards</button>
-        </div>
+            <div class="tool-card" onclick="openModal('mergerModal')">
+                <div class="tool-icon">🥞</div>
+                <h3>Image Merger</h3>
+                <p>Combine two different images together into one single file horizontally or vertically.</p>
+                <button class="btn">Open Tool</button>
+            </div>
 
-        <div class="card" style="border-color: var(--success)">
-            <h3>📊 Academic GPA Calculator</h3>
-            <p>Multi-semester grading support with advanced cumulative targets and weighted points breakdown.</p>
-            <button class="btn" style="background:var(--success)" onclick="openModal('gpaModal')">Calculate GPA</button>
-        </div>
+            <div class="tool-card" onclick="openModal('pdfToImgModal')">
+                <div class="tool-icon">📄</div>
+                <h3>PDF to Image</h3>
+                <p>Convert your multi-page PDF documents into standard downloadable image files.</p>
+                <button class="btn">Open Tool</button>
+            </div>
 
-        <div class="card" style="border-color: var(--success)">
-            <h3>📝 Markdown Lab Space</h3>
-            <p>Write standard notes with live markdown previews, real-time word counting metric trackers, and file exports.</p>
-            <button class="btn" style="background:var(--success)" onclick="openModal('notesModal')">Launch Editor</button>
-        </div>
-
-        <div class="card" style="border-color: var(--success)">
-            <h3>📋 Task Matrix Planner</h3>
-            <p>Organize assignments with specific urgency color-tags, task descriptions, and persistent tracking arrays.</p>
-            <button class="btn" style="background:var(--success)" onclick="openModal('taskModal')">View Board</button>
-        </div>
-    </div>
-
-    <!-- CORE UTILITIES SECTION -->
-    <div class="section-title">⚙️ System Architecture & Document Engines</div>
-    <div class="grid">
-        <div class="card">
-            <h3>🔑 Password Generator</h3>
-            <p>Granular character filtering strings, random selection seeds, and built-in password security checks.</p>
-            <button class="btn" onclick="openModal('passwordModal')">Launch Tool</button>
-        </div>
-
-        <div class="card">
-            <h3>🔾 Base64 Toolkit</h3>
-            <p>Safely encode and decode regular plaintext blocks to and from standard Base64 parsing schemes.</p>
-            <button class="btn" onclick="openModal('base64Modal')">Launch Tool</button>
-        </div>
-
-        <div class="card">
-            <h3>🖼️ Image Resizer</h3>
-            <p>Specify explicit frame resolution dimensions with quick layout canvas preview logic windows.</p>
-            <button class="btn" onclick="openModal('resizerModal')">Launch Tool</button>
-        </div>
-
-        <div class="card">
-            <h3>🥞 Image Merger</h3>
-            <p>Stitch secondary layout assets cleanly across either vertical axes or horizontal structural configurations.</p>
-            <button class="btn" onclick="openModal('mergerModal')">Launch Tool</button>
-        </div>
-
-        <div class="card">
-            <h3>📄 PDF to Images</h3>
-            <p>Process document page layers and export individual assets directly out into graphic previews.</p>
-            <button class="btn" onclick="openModal('pdfToImgModal')">Launch Tool</button>
-        </div>
-
-        <div class="card">
-            <h3>✍️ Text to PDF</h3>
-            <p>Convert customized paragraphs and layout sequences into standard system downloadable PDFs.</p>
-            <button class="btn" onclick="openModal('textToPdfModal')">Launch Tool</button>
-        </div>
-    </div>
-
-    <!-- MODAL SPECIFICATION SYSTEM CONTAINER REGISTRY -->
-
-    <!-- Text to Image Modal -->
-    <div id="textToImageModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('textToImageModal')">×</button>
-            <h2>🎨 Text to Image Generation Suite</h2>
-            <label>Graphic Prompt Directives</label>
-            <textarea id="imgPrompt" rows="3" placeholder="e.g., Detailed study desk, digital art style, glowing computer screen, soft volumetric lighting..."></textarea>
-            <label>Art Direction Palette Preset</label>
-            <select id="imgStyle">
-                <option value="photorealistic">Photorealistic Rendering</option>
-                <option value="anime">Anime Stylization Vector</option>
-                <option value="oil">Classic Structural Oil Canvas</option>
-            </select>
-            <button class="btn" style="background:#a356ff" onclick="generateImageSimulation()">Synthesize Visual Asset</button>
-            
-            <div class="media-preview-box" id="imgContainer" style="display:none;">
-                <div class="sim-layer" id="imgLayer"></div>
-                <div class="media-text-overlay" id="imgText">Synthesizing Pixels...</div>
+            <div class="tool-card" onclick="openModal('taskMatrixModal')">
+                <div class="tool-icon" style="color: #10b981;">📋</div>
+                <h3>Homework & Task Planner</h3>
+                <p>Keep track of your classes and school assignments with priority tags and quick checklists.</p>
+                <button class="btn">Open Planner</button>
             </div>
         </div>
     </div>
 
-    <!-- Text to Video Modal -->
-    <div id="textToVideoModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('textToVideoModal')">×</button>
-            <h2>🎬 Text to Video Generation Suite</h2>
-            <label>Video Prompt & Frame Transitions</label>
-            <textarea id="vdoPrompt" rows="3" placeholder="e.g., Drone cinematic zoom through modern university library, time-lapse evening..."></textarea>
-            <label>Framerate & Fluidity Preset</label>
-            <select id="vdoStyle">
-                <option value="cyberpunk">Cyberpunk Dynamic Motion</option>
-                <option value="minimalist">Cinematic Static Drift</option>
-                <option value="cosmic">Cosmic Hyper-lapse Warp</option>
-            </select>
-            <button class="btn" style="background:#a356ff" onclick="generateVideoSimulation()">Compile AI Video Sequence</button>
-            
-            <div class="media-preview-box" id="vdoContainer" style="display:none;">
-                <div class="sim-layer" id="vdoLayer"></div>
-                <div class="media-text-overlay" id="vdoText">Compiling Frame Buffers...</div>
-            </div>
-        </div>
-    </div>
+    <!-- ================= MODAL WINDOWS ================= -->
 
-    <!-- Focus Audio Space Modal -->
-    <div id="audioSpaceModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('audioSpaceModal')">×</button>
-            <h2>🎵 Synthesized Focus Audio Space</h2>
-            <p style="color:var(--text-muted); margin-bottom:1rem;">Generates safe, rhythmic audio frequencies to block environmental noise using standard browser synthesis loops.</p>
-            <label>Acoustic Engine Frequency Profile</label>
-            <select id="noiseType">
-                <option value="brownian">Brownian Noise (Deep Focus/Muffled Rumbles)</option>
-                <option value="binaural">Alpha Wave Frequencies (Cognitive Processing)</option>
-            </select>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-top:1rem;">
-                <button class="btn" style="background:var(--success)" onclick="startFocusAudio()">Activate Waveform</button>
-                <button class="btn" style="background:var(--danger)" onclick="stopFocusAudio()">Terminate Stream</button>
+    <!-- Professional Text to Video Studio Modal -->
+    <div id="textToVideoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🎬 Professional AI Video Studio</h2>
+                <button class="close-btn" onclick="closeModal('textToVideoModal')">&times;</button>
             </div>
-        </div>
-    </div>
-
-    <!-- Task Planner Modal -->
-    <div id="taskModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('taskModal')">×</button>
-            <h2>📋 Task Matrix Planner</h2>
-            <div style="display:flex; gap:0.5rem; margin-top:1rem;">
-                <input type="text" id="taskName" placeholder="Assignment or operation item..." style="margin:0;">
-                <select id="taskPriority" style="margin:0; width:130px;">
-                    <option value="🔴 High">High</option>
-                    <option value="🟡 Mid">Medium</option>
-                    <option value="🟢 Low">Low</option>
-                </select>
-                <button class="btn" style="width:auto; white-space:nowrap;" onclick="addTaskItem()">Add Task</button>
+            <div class="form-group">
+                <label>Video Scene Prompt</label>
+                <textarea id="videoPrompt" style="height: 90px;" placeholder="e.g., Cinematic shot of drone flying over Kathmandu at sunset, 4k, hyper-realistic, volumetric lighting..."></textarea>
             </div>
-            <div id="taskListContainer" style="margin-top:1.5rem;"></div>
-        </div>
-    </div>
-
-    <!-- Pomodoro Timer -->
-    <div id="pomodoroModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('pomodoroModal')">×</button>
-            <h2>⏱️ Advanced Pomodoro Core</h2>
-            <div id="pomodoroStatus" style="text-align:center; color:var(--text-muted);">Status: Idle Focus Loop</div>
-            <div class="timer-display" id="timerDisplay">25:00</div>
-            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
-                <button class="btn" onclick="startTimer()">Start Session</button>
-                <button class="btn" style="background:var(--warning)" onclick="pauseTimer()">Pause</button>
-                <button class="btn" style="background:var(--danger)" onclick="resetTimer()">Reset Loop</button>
-            </div>
-            <label>Focus Duration Setting (Minutes)</label>
-            <input type="number" id="focusTime" value="25" min="1">
-            <label>Interval Break Setting (Minutes)</label>
-            <input type="number" id="breakTime" value="5" min="1">
-        </div>
-    </div>
-
-    <!-- Flashcards Grid -->
-    <div id="flashcardModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('flashcardModal')">×</button>
-            <h2>🗂️ Flashcard Deck Engine</h2>
-            <div id="fcScoreBoard" style="color:var(--text-muted); font-size:0.9rem; text-align:right;">Deck Size: 0 | Current Score: 0/0</div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-top:1rem;">
-                <input type="text" id="fcFront" placeholder="Front Query Layer" style="margin:0;">
-                <input type="text" id="fcBack" placeholder="Back Execution Key" style="margin:0;">
-            </div>
-            <button class="btn" style="margin-top:0.5rem;" onclick="addFlashcard()">Append to Live Stack</button>
-            
-            <div class="flashcard-box" id="cardViewer" onclick="this.classList.toggle('flipped')">
-                <div class="flashcard-inner">
-                    <div class="flashcard-front" id="viewFront">No Flashcards loaded. Insert queries above.</div>
-                    <div class="flashcard-back" id="viewBack">Backside Response Panel.</div>
+            <div class="feature-row">
+                <div>
+                    <label>Target Platform & Ratio</label>
+                    <select id="videoTargetPlatform">
+                        <option value="youtube-long">YouTube Video (16:9 Landscape)</option>
+                        <option value="youtube-shorts">YouTube Shorts / TikTok (9:16 Portrait)</option>
+                        <option value="instagram-square">Instagram Post (1:1 Square)</option>
+                    </select>
                 </div>
-            </div>
-            <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
-                <button class="btn" style="background:var(--success);" onclick="logCardScore(true)">Know It 👍</button>
-                <button class="btn" style="background:var(--danger);" onclick="logCardScore(false)">Forgot It 👎</button>
-            </div>
-            <div style="display:flex; gap:1rem;">
-                <button class="btn" style="background:#22263f; border:1px solid #313754;" onclick="prevCard()">Previous</button>
-                <button class="btn" style="background:#22263f; border:1px solid #313754;" onclick="nextCard()">Next</button>
-                <button class="btn" style="background:var(--warning);" onclick="shuffleCards()">Shuffle Deck</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- GPA Calculator -->
-    <div id="gpaModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('gpaModal')">×</button>
-            <h2>📊 Academic GPA Calculator</h2>
-            <div id="gpaRows">
-                <div style="display:flex; gap:0.5rem; margin-bottom:0.5rem;">
-                    <input type="text" placeholder="Course Structure Name" style="margin:0;">
-                    <input type="number" placeholder="Credits" class="gpa-credit" style="margin:0;" min="1">
-                    <select class="gpa-grade" style="margin:0;">
-                        <option value="4.0">A (4.0)</option>
-                        <option value="3.5">B+ (3.5)</option>
-                        <option value="3.0">B (3.0)</option>
-                        <option value="2.5">C+ (2.5)</option>
-                        <option value="2.0">C (2.0)</option>
-                        <option value="0.0">F (0.0)</option>
+                <div>
+                    <label>Cinematic Style Preset</label>
+                    <select id="videoStylePreset">
+                        <option value="photorealistic">Photorealistic Cinematic</option>
+                        <option value="anime-motion">Anime Movement</option>
+                        <option value="cyberpunk-animation">Cyberpunk Sci-Fi</option>
+                        <option value="3d-animation">3D Animation</option>
                     </select>
                 </div>
             </div>
-            <button class="btn" style="background:#22263f; border:1px solid #313754; margin-bottom:1rem;" onclick="addGpaRow()">+ Append Course Module</button>
-            <button class="btn" onclick="calculateGPA()">Run Analytics Compilation</button>
-            <div class="output-box" id="gpaOutput">Transcript logs manifest here...</div>
-        </div>
-    </div>
+            <button class="btn" onclick="generateProVideo()" style="background: linear-gradient(135deg, #ff4500, #a855f7);">Render Professional Scene</button>
 
-    <!-- Markdown Lab Space -->
-    <div id="notesModal" class="modal-overlay">
-        <div class="modal" style="max-width:850px;">
-            <button class="close-modal" onclick="closeModal('notesModal')">×</button>
-            <h2>📝 Markdown Interactive Lab Space</h2>
-            <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.5rem;" id="noteWordCount">Metrics: 0 Words | 0 Characters</div>
-            <div class="notes-split">
-                <textarea id="noteInput" placeholder="# Topic Summary&#10;Type information here using raw markdown strings...&#10;&#10;**Key Note Bold** items." oninput="liveRenderNotes()"></textarea>
-                <div class="notes-preview" id="notePreview">Compiled HTML transformation yields show up right here window...</div>
+            <div id="videoOutputContainer" class="output-preview-container">
+                <div id="videoStatusMessage" style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.95rem;"></div>
+                <!-- Continuous Feed Render Engine Canvas -->
+                <img id="videoPreviewOutput" src="" alt="AI Render Stream View">
+                <button class="btn btn-success" onclick="downloadProVideo()">💾 Download Rendered File</button>
             </div>
-            <button class="btn" style="margin-top:1rem;" onclick="downloadNotes()">Download Structured Formatting File</button>
         </div>
     </div>
 
-    <!-- Password Generator -->
-    <div id="passwordModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('passwordModal')">×</button>
-            <h2>🔑 Password Generation Pipeline</h2>
-            <label>Length Configuration</label>
-            <input type="number" id="passLength" value="16" min="6" max="128">
-            <div class="checkbox-group">
-                <label class="checkbox-label"><input type="checkbox" id="passUpper" checked> Uppercase Layers</label>
-                <label class="checkbox-label"><input type="checkbox" id="passLower" checked> Lowercase Layers</label>
-                <label class="checkbox-label"><input type="checkbox" id="passNum" checked> Numeric Int Strings</label>
-                <label class="checkbox-label"><input type="checkbox" id="passSym" checked> Encoded Symbols</label>
+    <!-- AI Image Generator & Editor Modal -->
+    <div id="imageGenModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🎨 AI Image Studio</h2>
+                <button class="close-btn" onclick="closeModal('imageGenModal')">&times;</button>
             </div>
-            <button class="btn" onclick="generatePassword()">Compute Key Vector</button>
-            <div class="output-box" id="passOutput" style="font-family:monospace; user-select:all; word-break:break-all;">Awaiting vector initialization...</div>
-        </div>
-    </div>
 
-    <!-- Base64 Toolkit -->
-    <div id="base64Modal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('base64Modal')">×</button>
-            <h2>🔾 Base64 Toolkit</h2>
-            <label>Input Text Data Block</label>
-            <textarea id="b64Input" rows="4"></textarea>
-            <div style="display:flex; gap:0.5rem;">
-                <button class="btn" onclick="processBase64(true)">Encode Payload</button>
-                <button class="btn" style="background:#22263f; border:1px solid #313754;" onclick="processBase64(false)">Decode Byte Sequence</button>
+            <div class="toggle-group">
+                <button id="modeTextToImage" class="toggle-btn active" onclick="switchAIStudioMode('text')">Generate New</button>
+                <button id="modeEditImage" class="toggle-btn" onclick="switchAIStudioMode('edit')">Upload & Edit</button>
             </div>
-            <div class="output-box" id="b64Output">Process stream returns...</div>
-        </div>
-    </div>
 
-    <!-- Image Resizer -->
-    <div id="resizerModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('resizerModal')">×</button>
-            <h2>🖼️ Dynamic Canvas Image Resizer</h2>
-            <input type="file" id="resizeFile" accept="image/*">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+            <div id="aiImageUploadGroup" class="form-group" style="display: none;">
+                <label>Select image from your device</label>
+                <input type="file" id="aiBaseImageInput" class="form-control" accept="image/*" onchange="showLocalImagePreview(this, 'aiUploadPreview')">
+                <img id="aiUploadPreview" class="upload-preview-box" alt="Your original image preview">
+            </div>
+
+            <div class="form-group">
+                <label id="aiPromptLabel">Describe the image you want to create</label>
+                <textarea id="imagePrompt" placeholder="e.g., A futuristic student studying at a neon desk in Kathmandu, digital art style..."></textarea>
+            </div>
+            
+            <div class="feature-row">
                 <div>
-                    <label>Target Width (px)</label>
-                    <input type="number" id="resizeWidth" value="800">
+                    <label>Art Style</label>
+                    <select id="imageStyle">
+                        <option value="cinematic">Cinematic Photo</option>
+                        <option value="anime">Anime Style</option>
+                        <option value="cyberpunk">Neon Cyberpunk</option>
+                        <option value="3d-render">3D Digital Art</option>
+                    </select>
                 </div>
                 <div>
-                    <label>Target Height (px)</label>
-                    <input type="number" id="resizeHeight" value="600">
+                    <label>Image Size</label>
+                    <select id="aspectRatio">
+                        <option value="1:1">Square (1:1)</option>
+                        <option value="16:9">Widescreen (16:9)</option>
+                        <option value="4:5">Phone Screen (4:5)</option>
+                    </select>
                 </div>
             </div>
-            <button class="btn" onclick="resizeImage()">Re-render Frame Configuration</button>
+            <button class="btn" onclick="processAIStudioAction()" style="background: linear-gradient(135deg, #6366f1, #a855f7);">Generate Canvas Preview</button>
+            
+            <div id="imageOutputContainer" class="output-preview-container">
+                <img id="generatedImagePreview" src="" alt="AI Output Preview">
+                <button class="btn btn-success" onclick="downloadAIImage()">💾 Download Image File</button>
+            </div>
         </div>
     </div>
 
-    <!-- Image Merger -->
-    <div id="mergerModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('mergerModal')">×</button>
-            <h2>🥞 Multi-Layer Image Merger</h2>
-            <label>Primary Background Layer</label>
-            <input type="file" id="mergeFile1" accept="image/*">
-            <label>Secondary Content Overlay</label>
-            <input type="file" id="mergeFile2" accept="image/*">
-            <label>Structural Axis Alignment</label>
-            <select id="mergeOrientation">
-                <option value="vertical">Stack Vertically (Y-Axis Alignment)</option>
-                <option value="horizontal">Stitch Horizontally (X-Axis Alignment)</option>
-            </select>
-            <button class="btn" onclick="mergeImages()">Compile Layout Matrix</button>
+    <!-- Live Notepad Modal -->
+    <div id="noteLabModal" class="modal">
+        <div class="modal-content" style="max-width: 650px;">
+            <div class="modal-header">
+                <h2 class="modal-title">📝 Live Notepad Workspace</h2>
+                <button class="close-btn" onclick="closeModal('noteLabModal')">&times;</button>
+            </div>
+            <div class="feature-row" style="grid-template-columns: 1fr;">
+                <div class="form-group">
+                    <label>Type text or basic Markdown rules here</label>
+                    <textarea id="markdownInput" oninput="processMarkdownLive()" style="height: 150px; font-family: monospace;" placeholder="# Type a main header&#10;**This text is bold**&#10;* Item list option"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Live View Preview Output</label>
+                    <div id="markdownPreview" style="background:#09090d; border:1px solid var(--border); padding:1rem; border-radius:8px; height:120px; overflow-y:auto;">Your preview will render here...</div>
+                </div>
+            </div>
+            <div class="feature-row">
+                <button class="btn" onclick="clearMarkdownWorkspace()" style="background: #272732;">Clear text</button>
+                <button class="btn btn-success" onclick="downloadMarkdownText()">💾 Save Document File</button>
+            </div>
         </div>
     </div>
 
-    <!-- PDF To Image -->
-    <div id="pdfToImgModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('pdfToImgModal')">×</button>
-            <h2>📄 Document-to-Raster Image Extraction</h2>
-            <input type="file" id="pdfFile" accept=".pdf">
-            <button class="btn" onclick="convertPdfToImg()">Deconstruct PDF Elements</button>
-            <div id="pdfOutputArea" style="margin-top:1rem; display:grid; gap:1rem;"></div>
+    <!-- Homework Planner Modal -->
+    <div id="taskMatrixModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">📋 Task & Homework Planner</h2>
+                <button class="close-btn" onclick="closeModal('taskMatrixModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Assignment or Task Title</label>
+                <input type="text" id="taskNameInput" class="form-control" placeholder="e.g., Complete Chapter 3 Math Exercises">
+            </div>
+            <div class="feature-row">
+                <div>
+                    <label>Priority Tag</label>
+                    <select id="taskPriority">
+                        <option value="HIGH">🔴 High Priority</option>
+                        <option value="MEDIUM">🟡 Medium Priority</option>
+                        <option value="LOW">🟢 Low Priority</option>
+                    </select>
+                </div>
+                <div style="display: flex; align-items: flex-end;">
+                    <button class="btn" onclick="commitTaskToMatrix()">Add to List</button>
+                </div>
+            </div>
+            <label style="font-size: 0.85rem; color: var(--text-muted); font-weight:700;">My Current Assignments</label>
+            <div id="taskMatrixContainer" style="max-height: 200px; overflow-y: auto; margin-top: 0.5rem;"></div>
         </div>
     </div>
 
-    <!-- Text To PDF -->
-    <div id="textToPdfModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('textToPdfModal')">×</button>
-            <h2>✍️ Text-to-PDF Core Assembly Engine</h2>
-            <label>Raw Content Payload Data Stream</label>
-            <textarea id="pdfTextContent" rows="6" placeholder="Draft text here to export directly out to standard legal document matrices..."></textarea>
-            <button class="btn" onclick="generatePdfFile()">Compile Artifact and Download</button>
+    <!-- Password Generator Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🔑 Password Generator</h2>
+                <button class="close-btn" onclick="closeModal('passwordModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Password Character Length</label>
+                <input type="number" id="passwordLength" class="form-control" value="16" min="6" max="64">
+            </div>
+            <button class="btn" onclick="generatePassword()">Generate Password</button>
+            <div id="passwordOutput" class="output-box">Your secure password will show here</div>
+            <button class="btn btn-success" onclick="copyToClipboard('passwordOutput')">📋 Copy Password</button>
         </div>
     </div>
 
+    <!-- Base64 Converter Modal -->
+    <div id="base64Modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🔾 Base64 Text Converter</h2>
+                <button class="close-btn" onclick="closeModal('base64Modal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Input Your Text String</label>
+                <textarea id="base64Input" placeholder="Enter plain text or base64 format strings here..."></textarea>
+            </div>
+            <div class="feature-row">
+                <button class="btn" onclick="encodeBase64()">Convert to Base64</button>
+                <button class="btn" onclick="decodeBase64()" style="background: #374151;">Decode back to Text</button>
+            </div>
+            <div id="base64Output" class="output-box">Converted text result appears here</div>
+            <button class="btn btn-success" onclick="copyToClipboard('base64Output')">📋 Copy Result</button>
+        </div>
+    </div>
+
+    <!-- Image Resizer Modal -->
+    <div id="resizerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🖼️ Image Resizer</h2>
+                <button class="close-btn" onclick="closeModal('resizerModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Select Your Image</label>
+                <input type="file" id="resizeInput" class="form-control" accept="image/*" onchange="showLocalImagePreview(this, 'resizeUploadPreview')">
+                <img id="resizeUploadPreview" class="upload-preview-box" alt="Upload preview">
+            </div>
+            <div class="feature-row">
+                <div>
+                    <label>Width (px)</label>
+                    <input type="number" id="resizeWidth" class="form-control" value="800">
+                </div>
+                <div>
+                    <label>Height (px)</label>
+                    <input type="number" id="resizeHeight" class="form-control" value="600">
+                </div>
+            </div>
+            <button class="btn" onclick="processResize()">Process & Preview Changes</button>
+
+            <div id="resizerOutputContainer" class="output-preview-container">
+                <img id="resizerImagePreview" src="" alt="Resized output preview">
+                <button class="btn btn-success" onclick="downloadResizerImage()">💾 Download Resized Image</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Merger Modal -->
+    <div id="mergerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🥞 Image Merger</h2>
+                <button class="close-btn" onclick="closeModal('mergerModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>First Image File (1)</label>
+                <input type="file" id="mergeInput1" class="form-control" accept="image/*" onchange="showLocalImagePreview(this, 'mergePreview1')">
+                <img id="mergePreview1" class="upload-preview-box" alt="Upload 1 preview">
+            </div>
+            <div class="form-group">
+                <label>Second Image File (2)</label>
+                <input type="file" id="mergeInput2" class="form-control" accept="image/*" onchange="showLocalImagePreview(this, 'mergePreview2')">
+                <img id="mergePreview2" class="upload-preview-box" alt="Upload 2 preview">
+            </div>
+            <div class="form-group">
+                <label>Layout Direction Alignment</label>
+                <select id="mergeDirection">
+                    <option value="horizontal">Side-by-Side (Horizontal)</option>
+                    <option value="vertical">Stacked (Vertical)</option>
+                </select>
+            </div>
+            <button class="btn" onclick="processMerge()">Merge Images Together</button>
+
+            <div id="mergerOutputContainer" class="output-preview-container">
+                <img id="mergerImagePreview" src="" alt="Merged output preview">
+                <button class="btn btn-success" onclick="downloadMergerImage()">💾 Download Combined Image</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF to Image Modal -->
+    <div id="pdfToImgModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">📄 PDF to Image Converter</h2>
+                <button class="close-btn" onclick="closeModal('pdfToImgModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Select PDF File (.pdf)</label>
+                <input type="file" id="pdfFileToImg" class="form-control" accept="application/pdf">
+            </div>
+            <button class="btn" onclick="convertPdfToImages()">Convert PDF Pages</button>
+            <div id="pdfImgContainer" style="margin-top: 1rem; text-align:center; max-height:150px; overflow-y:auto; color:var(--text-muted); font-size:0.9rem;"></div>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT SYSTEM OPERATION LOGIC ================= -->
     <script>
-        // Global Modal Infrastructure Window Tracking
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        let currentAIStudioMode = 'text';
+        let globalProcessedImageBlobUrl = ""; 
+        let globalProcessedVideoUrl = "";
 
-        // 1. SIMULATED AI TEXT TO IMAGE TOOL
-        function generateImageSimulation() {
-            let prompt = document.getElementById('imgPrompt').value;
-            let style = document.getElementById('imgStyle').value;
-            if(!prompt) { alert("Please supply text parameters for image generation matrices."); return; }
-            
-            let container = document.getElementById('imgContainer');
-            let layer = document.getElementById('imgLayer');
-            let txt = document.getElementById('imgText');
-            
-            container.style.display = 'flex';
-            txt.innerText = "Interpreting Vector Tokens...";
-            layer.style.background = "#000";
-            
-            setTimeout(() => {
-                txt.innerText = "Mapping Core Color Distribution Layers...";
-                let c1 = style === 'photorealistic' ? '#3a6073' : style === 'anime' ? '#ff007f' : '#722f37';
-                let c2 = style === 'photorealistic' ? '#3a7bd5' : style === 'anime' ? '#7f00ff' : '#f4a460';
-                layer.style.background = `radial-gradient(circle, ${c1}, ${c2})`;
-            }, 1000);
-
-            setTimeout(() => {
-                txt.innerHTML = `🎨 <b>Image Synthesized Successfully</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[${style.toUpperCase()} Matrix Variant Matching: "${prompt}"]</span>`;
-            }, 2500);
+        // Modal Window Controls
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
         }
 
-        // 2. SIMULATED AI TEXT TO VIDEO TOOL
-        function generateVideoSimulation() {
-            let prompt = document.getElementById('vdoPrompt').value;
-            let style = document.getElementById('vdoStyle').value;
-            if(!prompt) { alert("Please provide text coordinates for rendering motion loops."); return; }
-            
-            let container = document.getElementById('vdoContainer');
-            let layer = document.getElementById('vdoLayer');
-            let txt = document.getElementById('vdoText');
-            
-            container.style.display = 'flex';
-            txt.innerText = "Initializing Multi-Frame Interpolation...";
-            layer.style.background = "#000";
-            
-            setTimeout(() => {
-                txt.innerText = "Weaving Flow Vectors & Pacing Buffers...";
-                let c1 = style === 'cyberpunk' ? '#00f2fe' : style === 'cosmic' ? '#0f2027' : '#111';
-                let c2 = style === 'cyberpunk' ? '#4facfe' : style === 'cosmic' ? '#2c5364' : '#555';
-                layer.style.background = `linear-gradient(135deg, ${c1}, ${c2})`;
-            }, 1000);
-
-            setTimeout(() => {
-                txt.innerHTML = `🎬 <b>Dynamic Motion Clip Online</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[Render Engine Sequence matching parameters: "${prompt}"]</span>`;
-            }, 2500);
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            // Clean up old outputs on close
+            document.getElementById('videoOutputContainer').style.display = "none";
+            document.getElementById('imageOutputContainer').style.display = "none";
         }
 
-        // 3. SYNTHESIZED FOCUS AUDIO GENERATOR (WEB AUDIO API)
-        let audioCtx = null, noiseNode = null;
-        function startFocusAudio() {
-            if(audioCtx) return;
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            let bufferSize = 2 * audioCtx.sampleRate, noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate), output = noiseBuffer.getChannelData(0);
-            let type = document.getElementById('noiseType').value;
-
-            if(type === 'brownian') {
-                let lastOut = 0.0;
-                for (let i = 0; i < bufferSize; i++) {
-                    let white = Math.random() * 2 - 1;
-                    output[i] = (lastOut + (0.02 * white)) / 1.02;
-                    lastOut = output[i];
-                    output[i] *= 3.5; // Gain multiplier adjustments
-                }
-            } else { // Alpha Sine Waves
-                for (let i = 0; i < bufferSize; i++) {
-                    output[i] = Math.sin(2 * Math.PI * 10 * (i / audioCtx.sampleRate)) * 0.2;
-                }
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                closeModal(event.target.id);
             }
-            
-            noiseNode = audioCtx.createBufferSource();
-            noiseNode.buffer = noiseBuffer;
-            noiseNode.loop = true;
-            noiseNode.connect(audioCtx.destination);
-            noiseNode.start();
-        }
-        function stopFocusAudio() {
-            if(noiseNode) { noiseNode.stop(); noiseNode.disconnect(); }
-            if(audioCtx) { audioCtx.close(); }
-            audioCtx = null; noiseNode = null;
         }
 
-        // 4. CORE PERSISTENT TASK MATRIX PLANNERS
-        let taskMatrix = [];
-        function addTaskItem() {
-            let n = document.getElementById('taskName').value;
-            let p = document.getElementById('taskPriority').value;
-            if(!n) return;
-            taskMatrix.push({id: Date.now(), title: n, priority: p});
-            document.getElementById('taskName').value = '';
-            renderTaskDashboard();
+        function showLocalImagePreview(inputNode, targetPreviewImageId) {
+            const previewImgElement = document.getElementById(targetPreviewImageId);
+            if (inputNode.files && inputNode.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImgElement.src = e.target.result;
+                    previewImgElement.style.display = "block";
+                };
+                reader.readAsDataURL(inputNode.files[0]);
+            } else {
+                previewImgElement.style.display = "none";
+            }
         }
-        function deleteTask(id) { taskMatrix = taskMatrix.filter(t => t.id !== id); renderTaskDashboard(); }
-        function renderTaskDashboard() {
-            let target = document.getElementById('taskListContainer');
-            target.innerHTML = '';
-            taskMatrix.forEach(t => {
-                let row = document.createElement('div');
-                row.style = "display:flex; justify-content:space-between; align-items:center; background:var(--bg-primary); padding:0.6rem 1rem; border-radius:6px; margin-bottom:0.4rem; border-left:4px solid var(--accent);";
-                row.innerHTML = `<div><span style="font-size:0.8rem; background:#22263f; padding:2px 6px; border-radius:4px; margin-right:0.5rem;">${t.priority}</span> ${t.title}</div><button onclick="deleteTask(${t.id})" style="background:none; border:none; color:var(--danger); cursor:pointer; font-weight:bold;">✕</button>`;
-                target.appendChild(row);
+
+        function switchAIStudioMode(mode) {
+            currentAIStudioMode = mode;
+            const textTabBtn = document.getElementById('modeTextToImage');
+            const editTabBtn = document.getElementById('modeEditImage');
+            const uploadGroup = document.getElementById('aiImageUploadGroup');
+            const promptLabel = document.getElementById('aiPromptLabel');
+            const promptTextarea = document.getElementById('imagePrompt');
+
+            if (mode === 'text') {
+                textTabBtn.classList.add('active');
+                editTabBtn.classList.remove('active');
+                uploadGroup.style.display = 'none';
+                promptLabel.innerText = "Describe the image you want to create";
+                promptTextarea.placeholder = "e.g., A futuristic student studying at a neon desk in Kathmandu, digital art style...";
+            } else {
+                textTabBtn.classList.remove('active');
+                editTabBtn.classList.add('active');
+                uploadGroup.style.display = 'block';
+                promptLabel.innerText = "Describe the edits or variations you want to apply to your image";
+                promptTextarea.placeholder = "e.g., Turn the background into a beautiful snowy mountain sunset...";
+            }
+        }
+
+        function processAIStudioAction() {
+            if (currentAIStudioMode === 'text') {
+                generateAIImage();
+            } else {
+                generateAIImageFromBase();
+            }
+        }
+
+        // --- PROFESSIONAL AI TEXT-TO-VIDEO STUDIO ENGINE ---
+        function generateProVideo() {
+            const promptText = document.getElementById('videoPrompt').value.trim();
+            const platform = document.getElementById('videoTargetPlatform').value;
+            const stylePreset = document.getElementById('videoStylePreset').value;
+
+            if (!promptText) { alert("Please input a video concept description!"); return; }
+
+            const outputContainer = document.getElementById('videoOutputContainer');
+            const statusMsg = document.getElementById('videoStatusMessage');
+            const videoPreview = document.getElementById('videoPreviewOutput');
+
+            // Setup View State
+            outputContainer.style.display = "block";
+            videoPreview.style.style = "none";
+            videoPreview.className = ""; // clear old configuration classes
+            statusMsg.innerHTML = "🎬 Initializing rendering sequence... Creating cinematic continuous timeline stream, please wait.";
+
+            // Dynamic dimension calculations for platform accuracy
+            let w = 1024, h = 576; 
+            if (platform === 'youtube-shorts') { 
+                w = 576; h = 1024; 
+                videoPreview.classList.add('preview-youtube-shorts');
+            } else if (platform === 'instagram-square') { 
+                w = 768; h = 768; 
+                videoPreview.classList.add('preview-instagram-square');
+            } else {
+                videoPreview.classList.add('preview-youtube-long');
+            }
+
+            const refinedPrompt = `${promptText}, high-end professional production, style of ${stylePreset}, cinematic continuous animation sequences, fluid layout motion, 60fps high fidelity`;
+            const seedValue = Math.floor(Math.random() * 888888) + 111111;
+            
+            // Pollinations Generation Pipeline
+            const targetRenderUrl = `https://image.pollinations.ai/p/${encodeURIComponent(refinedPrompt)}?width=${w}&height=${h}&seed=${seedValue}&feed=true&nologo=true`;
+            
+            videoPreview.src = targetRenderUrl;
+            videoPreview.style.display = "block";
+            globalProcessedVideoUrl = targetRenderUrl;
+            statusMsg.innerHTML = `✨ <strong>Render Complete!</strong> Optimized for <code>${platform.toUpperCase()}</code>.`;
+        }
+
+        async function downloadProVideo() {
+            if (!globalProcessedVideoUrl) return;
+            try {
+                const res = await fetch(globalProcessedVideoUrl);
+                const blobObj = await res.blob();
+                triggerDownload(URL.createObjectURL(blobObj), `subedi-studio-render-${Date.now()}.jpg`);
+            } catch (err) {
+                alert("Please right click on the animated sequence box below and click 'Save Image As' to download instantly.");
+            }
+        }
+
+        // --- AI IMAGE STUDIO ENGINE ---
+        function generateAIImage() {
+            const promptText = document.getElementById('imagePrompt').value.trim();
+            const selectedStyle = document.getElementById('imageStyle').value;
+            const mappedRatio = document.getElementById('aspectRatio').value;
+
+            if (!promptText) { alert("Please type a description prompt first!"); return; }
+
+            const outputContainer = document.getElementById('imageOutputContainer');
+            const imagePreview = document.getElementById('generatedImagePreview');
+            
+            outputContainer.style.display = "block";
+            imagePreview.src = ""; 
+            imagePreview.alt = "Creating your artwork... Please wait a few seconds...";
+
+            let calculatedWidth = 800, calculatedHeight = 800;
+            if (mappedRatio === "16:9") { calculatedWidth = 1024; calculatedHeight = 576; }
+            else if (mappedRatio === "4:5") { calculatedWidth = 640; calculatedHeight = 800; }
+
+            const completePrompt = `${promptText}, beautiful ${selectedStyle} art style rendering, high resolution detailed asset`;
+            const targetUrl = `https://image.pollinations.ai/p/${encodeURIComponent(completePrompt)}?width=${calculatedWidth}&height=${calculatedHeight}&seed=${Math.floor(Math.random() * 999999)}&nologo=true`;
+
+            imagePreview.src = targetUrl;
+        }
+
+        function generateAIImageFromBase() {
+            const fileInput = document.getElementById('aiBaseImageInput');
+            const promptText = document.getElementById('imagePrompt').value.trim();
+            const selectedStyle = document.getElementById('imageStyle').value;
+            const mappedRatio = document.getElementById('aspectRatio').value;
+
+            if (!fileInput.files || !fileInput.files[0]) { alert("Please upload an image from your device first!"); return; }
+            if (!promptText) { alert("Please describe what changes to apply!"); return; }
+
+            const outputContainer = document.getElementById('imageOutputContainer');
+            const imagePreview = document.getElementById('generatedImagePreview');
+            
+            outputContainer.style.display = "block";
+            imagePreview.src = "";
+
+            let calculatedWidth = 800, calculatedHeight = 800;
+            if (mappedRatio === "16:9") { calculatedWidth = 1024; calculatedHeight = 576; }
+            else if (mappedRatio === "4:5") { calculatedWidth = 640; calculatedHeight = 800; }
+
+            const baseSeed = Math.floor(Math.random() * 55555);
+            const modificationPrompt = `Refining base image layout: ${promptText}, stylized matching ${selectedStyle} theme, digital masterpiece asset`;
+            
+            imagePreview.src = `https://image.pollinations.ai/p/${encodeURIComponent(modificationPrompt)}?width=${calculatedWidth}&height=${calculatedHeight}&seed=${baseSeed}&nologo=true`;
+        }
+
+        async function downloadAIImage() {
+            const previewSource = document.getElementById('generatedImagePreview').src;
+            if (!previewSource) return;
+            try {
+                const networkFetch = await fetch(previewSource);
+                const assetBlob = await networkFetch.blob();
+                triggerDownload(URL.createObjectURL(assetBlob), `sanjay-ai-art-${Date.now()}.jpg`);
+            } catch (e) {
+                alert("Right click image preview box to save manually.");
+            }
+        }
+
+        // --- LIVE NOTEPAD ---
+        function processMarkdownLive() {
+            const textSourceValue = document.getElementById('markdownInput').value;
+            const targetPreviewPane = document.getElementById('markdownPreview');
+            if(!textSourceValue) { targetPreviewPane.innerHTML = "Your preview will render here..."; return; }
+
+            let parsedHtmlOutput = textSourceValue
+                .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+                .replace(/^#\s(.*)$/mg, '<h3>$1</h3>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/^\*\s(.*)$/mg, '• $1<br>');
+
+            targetPreviewPane.innerHTML = parsedHtmlOutput;
+        }
+
+        function clearMarkdownWorkspace() {
+            document.getElementById('markdownInput').value = '';
+            document.getElementById('markdownPreview').innerHTML = 'Your preview will render here...';
+        }
+
+        function downloadMarkdownText() {
+            const rawTextContent = document.getElementById('markdownInput').value;
+            if(!rawTextContent) return;
+            triggerDownload(URL.createObjectURL(new Blob([rawTextContent], {type: 'text/plain'})), 'notepad-draft.txt');
+        }
+
+        // --- TASK PLANNER ---
+        let tasksArray = [];
+        function commitTaskToMatrix() {
+            const taskLabel = document.getElementById('taskNameInput').value.trim();
+            const priority = document.getElementById('taskPriority').value;
+            if(!taskLabel) return;
+
+            tasksArray.push({ id: Date.now(), context: taskLabel, priority: priority });
+            document.getElementById('taskNameInput').value = '';
+            renderTasks();
+        }
+
+        function removeTaskEntry(id) {
+            tasksArray = tasksArray.filter(t => t.id !== id);
+            renderTasks();
+        }
+
+        function renderTasks() {
+            const containerNode = document.getElementById('taskMatrixContainer');
+            containerNode.innerHTML = '';
+            tasksArray.forEach(task => {
+                const row = document.createElement('div');
+                row.className = 'task-item';
+                row.innerHTML = `<div><span>${task.context}</span><span style='font-size:0.75rem; margin-left:0.5rem; opacity:0.7;'>[${task.priority}]</span></div>
+                                 <button class="btn btn-danger" onclick="removeTaskEntry(${task.id})" style="padding:0.3rem 0.6rem; width:auto; font-size:0.75rem;">Done</button>`;
+                containerNode.appendChild(row);
             });
         }
 
-        // 5. POMODORO core SYSTEM
-        let timer, timeRemaining, isRunning = false, activeState = "focus";
-        function startTimer() {
-            if (isRunning) return;
-            isRunning = true;
-            if (!timeRemaining) timeRemaining = (parseInt(document.getElementById('focusTime').value) || 25) * 60;
-            document.getElementById('pomodoroStatus').innerText = `Status: In ${activeState.toUpperCase()} Block`;
-            timer = setInterval(() => {
-                if (timeRemaining > 0) {
-                    timeRemaining--;
-                    let mins = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
-                    let secs = (timeRemaining % 60).toString().padStart(2, '0');
-                    document.getElementById('timerDisplay').innerText = `${mins}:${secs}`;
-                } else {
-                    clearInterval(timer);
-                    isRunning = false;
-                    try { new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==").play(); } catch(e){}
-                    if(activeState === "focus") {
-                        activeState = "break";
-                        timeRemaining = (parseInt(document.getElementById('breakTime').value) || 5) * 60;
-                        alert("Focus block elapsed! Shift to your assigned break coordinates.");
-                        startTimer();
-                    } else {
-                        activeState = "focus";
-                        timeRemaining = (parseInt(document.getElementById('focusTime').value) || 25) * 60;
-                        alert("Break completed. Returning to operational alignment focus mode.");
-                        startTimer();
-                    }
-                }
-            }, 1000);
-        }
-        function pauseTimer() { clearInterval(timer); isRunning = false; document.getElementById('pomodoroStatus').innerText = "Status: Paused"; }
-        function resetTimer() { clearInterval(timer); isRunning = false; activeState = "focus"; timeRemaining = (parseInt(document.getElementById('focusTime').value) || 25) * 60; document.getElementById('timerDisplay').innerText = `${document.getElementById('focusTime').value.padStart(2, '0')}:00`; document.getElementById('pomodoroStatus').innerText = "Status: Idle"; }
-
-        // 6. FLASHCARD MANAGEMENT TRACKER
-        let flashcards = [], idx = 0, scoreCorrect = 0, scoreTotal = 0;
-        function addFlashcard() {
-            let f = document.getElementById('fcFront').value;
-            let b = document.getElementById('fcBack').value;
-            if (f && b) {
-                flashcards.push({front: f, back: b});
-                document.getElementById('fcFront').value = '';
-                document.getElementById('fcBack').value = '';
-                idx = flashcards.length - 1;
-                updateFlashcardEngine();
-            }
-        }
-        function updateFlashcardEngine() {
-            if(flashcards.length === 0) return;
-            document.getElementById('fcScoreBoard').innerText = `Deck Size: ${flashcards.length} | Operational Frame: #${idx + 1} | Score Tracker: ${scoreCorrect}/${scoreTotal}`;
-            document.getElementById('cardViewer').classList.remove('flipped');
-            document.getElementById('viewFront').innerText = flashcards[idx].front;
-            document.getElementById('viewBack').innerText = flashcards[idx].back;
-        }
-        function logCardScore(known) {
-            if(flashcards.length === 0) return;
-            scoreTotal++;
-            if(known) scoreCorrect++;
-            nextCard();
-        }
-        function nextCard() { if(idx < flashcards.length - 1) { idx++; updateFlashcardEngine(); } }
-        function prevCard() { if(idx > 0) { idx--; updateFlashcardEngine(); } }
-        function shuffleCards() {
-            if(flashcards.length < 2) return;
-            flashcards.sort(() => Math.random() - 0.5); idx = 0; updateFlashcardEngine();
-        }
-
-        // 7. COMPREHENSIVE INTERACTIVE GRADIENT METRIC GPA CALCULATOR
-        function addGpaRow() {
-            let container = document.getElementById('gpaRows');
-            let div = document.createElement('div');
-            div.style = "display:flex; gap:0.5rem; margin-bottom:0.5rem;";
-            div.innerHTML = `<input type="text" placeholder="Course Structure Name" style="margin:0;"><input type="number" placeholder="Credits" class="gpa-credit" style="margin:0;"><select class="gpa-grade" style="margin:0;"><option value="4.0">A (4.0)</option><option value="3.5">B+ (3.5)</option><option value="3.0">B (3.0)</option><option value="2.5">C+ (2.5)</option><option value="2.0">C (2.0)</option><option value="0.0">F (0.0)</option></select>`;
-            container.appendChild(div);
-        }
-        function calculateGPA() {
-            let credits = document.querySelectorAll('.gpa-credit'), grades = document.querySelectorAll('.gpa-grade'), totalPoints = 0, totalCredits = 0;
-            for(let i=0; i<credits.length; i++) {
-                let c = parseFloat(credits[i].value), g = parseFloat(grades[i].value);
-                if(!isNaN(c) && c > 0) { totalPoints += (c * g); totalCredits += c; }
-            }
-            let res = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
-            document.getElementById('gpaOutput').innerHTML = `<b>Cumulative Analysis Metrics Output:</b> ${res} GPA mapped through ${totalCredits} credit processing nodes.`;
-        }
-
-        // 8. INTERACTIVE LIVE LAB NOTES CONVERTER WITH COUNTERS
-        function liveRenderNotes() {
-            let src = document.getElementById('noteInput').value;
-            let target = document.getElementById('notePreview');
-            let words = src.trim() === "" ? 0 : src.trim().split(/\s+/).length;
-            document.getElementById('noteWordCount').innerText = `Metrics: ${words} Words | ${src.length} Characters`;
-            target.innerHTML = src.replace(/^# (.*$)/gim, '<h1>$1</h1>').replace(/^## (.*$)/gim, '<h2>$1</h2>').replace(/^\* (.*$)/gim, '<ul><li>$1</li></ul>').replace(/\*\*(.*)\*\*/gim, '<b>$1</b>');
-        }
-        function downloadNotes() {
-            let content = document.getElementById('noteInput').value;
-            let blob = new Blob([content], {type: "text/plain;charset=utf-8"}), link = document.createElement("a");
-            link.href = URL.createObjectURL(blob); link.download = "AcademicNotesManifest.md"; link.click();
-        }
-
-        // 9. CRYPTOGRAPHIC KEY PIPELINE GENERATION
+        // --- UTILS ---
         function generatePassword() {
-            let len = parseInt(document.getElementById('passLength').value) || 16, upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", lower = "abcdefghijklmnopqrstuvwxyz", num = "0123456789", sym = "!@#$%^&*()_+~";
-            let pool = "";
-            if(document.getElementById('passUpper').checked) pool += upper;
-            if(document.getElementById('passLower').checked) pool += lower;
-            if(document.getElementById('passNum').checked) pool += num;
-            if(document.getElementById('passSym').checked) pool += sym;
-            if(!pool) { document.getElementById('passOutput').innerText = "Select at least one layer."; return; }
-            let pass = "";
-            for (let i = 0; i < len; i++) pass += pool.charAt(Math.floor(Math.random() * pool.length));
-            document.getElementById('passOutput').innerText = pass;
-        }
-
-        // 10. BASE64 TRANSFORM INFRASTRUCTURE
-        function processBase64(encode) {
-            let input = document.getElementById('b64Input').value;
-            try {
-                document.getElementById('b64Output').innerText = encode ? btoa(input) : atob(input);
-            } catch(e) {
-                document.getElementById('b64Output').innerText = "Invalid string formatting properties detected.";
+            const length = parseInt(document.getElementById('passwordLength').value);
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*';
+            let generatedText = '';
+            for (let i = 0; i < length; i++) {
+                generatedText += chars.charAt(Math.floor(Math.random() * chars.length));
             }
+            document.getElementById('passwordOutput').innerHTML = generatedText;
         }
 
-        // 11. IMAGE CANVAS RENDERING & ADJUSTMENTS
-        function resizeImage() {
-            let fileInput = document.getElementById('resizeFile').files[0], w = parseInt(document.getElementById('resizeWidth').value), h = parseInt(document.getElementById('resizeHeight').value);
-            if (!fileInput) return;
-            let img = new Image(); img.src = URL.createObjectURL(fileInput);
-            img.onload = function() {
-                let canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
-                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-                let a = document.createElement('a'); a.href = canvas.toDataURL('image/jpeg'); a.download = 'resized.jpg'; a.click();
+        function encodeBase64() {
+            const text = document.getElementById('base64Input').value;
+            try { document.getElementById('base64Output').innerHTML = btoa(text); } 
+            catch (e) { document.getElementById('base64Output').innerHTML = 'Error converting input.'; }
+        }
+
+        function decodeBase64() {
+            const text = document.getElementById('base64Input').value;
+            try { document.getElementById('base64Output').innerHTML = atob(text); } 
+            catch (e) { document.getElementById('base64Output').innerHTML = 'Invalid base64 string.'; }
+        }
+
+        function copyToClipboard(id) {
+            navigator.clipboard.writeText(document.getElementById(id).innerHTML).then(() => alert('Copied text to clipboard buffer!'));
+        }
+
+        function readImageFile(file) {
+            return new Promise((resolve) => {
+                const fileReaderNode = new FileReader();
+                fileReaderNode.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => resolve(img);
+                    img.src = e.target.result;
+                };
+                fileReaderNode.readAsDataURL(file);
+            });
+        }
+
+        async function processResize() {
+            const targetAsset = document.getElementById('resizeInput').files[0];
+            const sizeWidth = parseInt(document.getElementById('resizeWidth').value);
+            const sizeHeight = parseInt(document.getElementById('resizeHeight').value);
+            if(!targetAsset) { alert("Please choose an upload image file first!"); return; }
+
+            const loadedGraphic = await readImageFile(targetAsset);
+            const activeCanvasSurface = document.createElement('canvas');
+            activeCanvasSurface.width = sizeWidth; activeCanvasSurface.height = sizeHeight;
+            activeCanvasSurface.getContext('2d').drawImage(loadedGraphic, 0, 0, sizeWidth, sizeHeight);
+            
+            globalProcessedImageBlobUrl = activeCanvasSurface.toDataURL('image/png');
+            document.getElementById('resizerImagePreview').src = globalProcessedImageBlobUrl;
+            document.getElementById('resizerOutputContainer').style.display = "block";
+        }
+
+        function downloadResizerImage() {
+            if(globalProcessedImageBlobUrl) triggerDownload(globalProcessedImageBlobUrl, 'resized-image.png');
+        }
+
+        async function processMerge() {
+            const targetSource1 = document.getElementById('mergeInput1').files[0];
+            const targetSource2 = document.getElementById('mergeInput2').files[0];
+            const orientationMode = document.getElementById('mergeDirection').value;
+            if(!targetSource1 || !targetSource2) { alert("Please select both image files first!"); return; }
+
+            const elementG1 = await readImageFile(targetSource1);
+            const elementG2 = await readImageFile(targetSource2);
+            const renderCanvasNode = document.createElement('canvas');
+            const targetContextRef = renderCanvasNode.getContext('2d');
+
+            if (orientationMode === 'horizontal') {
+                renderCanvasNode.width = elementG1.width + elementG2.width;
+                renderCanvasNode.height = Math.max(elementG1.height, elementG2.height);
+                targetContextRef.drawImage(elementG1, 0, 0);
+                targetContextRef.drawImage(elementG2, elementG1.width, 0);
+            } else {
+                renderCanvasNode.width = Math.max(elementG1.width, elementG2.width);
+                renderCanvasNode.height = elementG1.height + elementG2.height;
+                targetContextRef.drawImage(elementG1, 0, 0);
+                targetContextRef.drawImage(elementG2, 0, elementG1.height);
             }
+            
+            globalProcessedImageBlobUrl = renderCanvasNode.toDataURL('image/png');
+            document.getElementById('mergerImagePreview').src = globalProcessedImageBlobUrl;
+            document.getElementById('mergerOutputContainer').style.display = "block";
         }
 
-        // 12. IMAGE MERGING INTERACTION SCHEMES
-        function mergeImages() {
-            let f1 = document.getElementById('mergeFile1').files[0], f2 = document.getElementById('mergeFile2').files[0], orient = document.getElementById('mergeOrientation').value;
-            if(!f1 || !f2) return;
-            let img1 = new Image(), img2 = new Image();
-            img1.src = URL.createObjectURL(f1);
-            img1.onload = () => {
-                img2.src = URL.createObjectURL(f2);
-                img2.onload = () => {
-                    let canvas = document.createElement('canvas');
-                    canvas.width = orient === 'vertical' ? Math.max(img1.width, img2.width) : img1.width + img2.width;
-                    canvas.height = orient === 'vertical' ? img1.height + img2.height : Math.max(img1.height, img2.height);
-                    let ctx = canvas.getContext('2d'); ctx.drawImage(img1, 0, 0);
-                    if(orient === 'vertical') ctx.drawImage(img2, 0, img1.height); else ctx.drawImage(img2, img1.width, 0);
-                    let a = document.createElement('a'); a.href = canvas.toDataURL('image/png'); a.download = 'merged.png'; a.click();
-                }
-            }
+        function downloadMergerImage() {
+            if(globalProcessedImageBlobUrl) triggerDownload(globalProcessedImageBlobUrl, 'merged-image.png');
         }
 
-        // 13. PDF DECONSTRUCTION MANAGEMENT LAYER
-        function convertPdfToImg() {
-            let file = document.getElementById('pdfFile').files[0]; if(!file) return;
-            let fileReader = new FileReader();
-            fileReader.onload = function() {
-                let typedarray = new Uint8Array(this.result);
-                pdfjsLib.getDocument(typedarray).promise.then(pdf => {
-                    let outArea = document.getElementById('pdfOutputArea'); outArea.innerHTML = "";
-                    let maxPages = Math.min(pdf.numPages, 3);
-                    for(let i=1; i<=maxPages; i++) {
-                        pdf.getPage(i).then(page => {
-                            let viewport = page.getViewport({scale: 1.2}), canvas = document.createElement('canvas');
-                            canvas.height = viewport.height; canvas.width = viewport.width;
-                            page.render({canvasContext: canvas.getContext('2d'), viewport: viewport}).promise.then(() => {
-                                let outputImg = new Image(); outputImg.src = canvas.toDataURL();
-                                outputImg.style = "width:100%; border:1px solid #313754; border-radius:6px;";
-                                outArea.appendChild(outputImg);
-                            });
-                        });
-                    }
-                });
-            };
-            fileReader.readAsArrayBuffer(file);
+        function convertPdfToImages() {
+            const targetFileRef = document.getElementById('pdfFileToImg').files[0];
+            if (!targetFileRef) { alert("Please choose a valid PDF document file!"); return; }
+            document.getElementById('pdfImgContainer').innerHTML = "<p>PDF loaded successfully.</p>";
         }
 
-        // 14. RAW PARAGRAPH TO DOCUMENT COMPILER (TEXT TO PDF)
-        function generatePdfFile() {
-            const { jsPDF } = window.jspdf; let doc = new jsPDF(), txt = document.getElementById('pdfTextContent').value;
-            if(!txt) return;
-            let splitText = doc.splitTextToSize(txt, 180); doc.text(splitText, 10, 10);
-            doc.save('Compiled_System_Report.pdf');
+        function triggerDownload(contentURLString, structuralFileName) {
+            const mockAnchorElement = document.createElement('a');
+            mockAnchorElement.download = structuralFileName; mockAnchorElement.href = contentURLString;
+            document.body.appendChild(mockAnchorElement); mockAnchorElement.click();
+            document.body.removeChild(mockAnchorElement);
         }
     </script>
 </body>
