@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanjay Subedi - Advanced Web Utilities & AI Suite</title>
+    <title>Sanjay Subedi - Enterprise Utility & Neural Generation Suite</title>
     <!-- External Dependencies for Client-Side Operations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-    <style> 
+    <style>
         :root {
-            --bg-color: #0b0b0f;
-            --card-bg: #141419;
+            --bg-color: #08080c;
+            --card-bg: rgba(20, 20, 28, 0.7);
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
             --primary: #6366f1;
-            --primary-glow: rgba(99, 102, 241, 0.4);
+            --primary-glow: rgba(99, 102, 241, 0.35);
             --accent: #a855f7;
-            --border: #232329;
+            --border: rgba(255, 255, 255, 0.07);
             --success: #10b981;
+            --danger: #ef4444;
         }
 
         * {
@@ -32,10 +33,13 @@
             color: var(--text-main);
             padding: 3rem 1rem;
             line-height: 1.6;
+            background-image: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent 600px),
+                              radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.05), transparent 600px);
+            background-attachment: fixed;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1250px;
             margin: 0 auto;
         }
 
@@ -45,90 +49,107 @@
         }
 
         header h1 {
-            font-size: 3rem;
-            background: linear-gradient(to right, #6366f1, #a855f7);
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.75rem;
             letter-spacing: -0.03em;
+            font-weight: 800;
         }
 
         header p {
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        /* Section Titles */
+        /* Section Hierarchy */
         .section-title {
-            font-size: 1.5rem;
-            margin: 2.5rem 0 1.5rem 0;
+            font-size: 1.4rem;
+            margin: 3rem 0 1.5rem 0;
             color: #fff;
-            border-left: 4px solid var(--accent);
+            border-left: 4px solid var(--primary);
             padding-left: 0.75rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            font-weight: 700;
         }
 
         /* Tools Grid Layout */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.75rem;
-            margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
 
         .tool-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
+            border-radius: 20px;
+            padding: 2.25rem;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
         .tool-card:hover {
-            transform: translateY(-6px);
-            border-color: var(--primary);
-            box-shadow: 0 12px 30px var(--primary-glow);
+            transform: translateY(-8px);
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 20px 40px var(--primary-glow);
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .tool-icon {
             font-size: 2.2rem;
-            margin-bottom: 1.25rem;
-            background: rgba(255, 255, 255, 0.05);
-            width: 60px;
-            height: 60px;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            width: 64px;
+            height: 64px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
         }
 
         .tool-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+            margin-bottom: 0.6rem;
             color: #fff;
+            font-weight: 600;
         }
 
         .tool-card p {
             font-size: 0.95rem;
             color: var(--text-muted);
-            margin-bottom: 1.75rem;
+            margin-bottom: 2rem;
             flex-grow: 1;
         }
 
+        /* Controls */
         .btn {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), #4f46e5);
             color: #fff;
             border: none;
-            padding: 0.85rem 1.25rem;
-            border-radius: 8px;
+            padding: 0.9rem 1.5rem;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: 600;
             width: 100%;
             text-align: center;
-            transition: background 0.2s, transform 0.1s;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+
+        .btn:hover {
+            filter: brightness(1.1);
+            box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4);
         }
 
         .btn:active {
@@ -136,8 +157,13 @@
         }
 
         .btn-success {
-            background: var(--success);
-            margin-top: 0.5rem;
+            background: linear-gradient(135deg, var(--success), #059669);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
         }
 
         /* Modal Structure */
@@ -145,12 +171,12 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 5, 8, 0.85);
-            backdrop-filter: blur(8px);
+            background: rgba(3, 3, 5, 0.85);
+            backdrop-filter: blur(10px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            padding: 1rem;
+            padding: 1.5rem;
         }
 
         .modal.active {
@@ -158,19 +184,21 @@
         }
 
         .modal-content {
-            background: #181820;
+            background: #111116;
             border: 1px solid var(--border);
-            border-radius: 20px;
+            border-radius: 24px;
             width: 100%;
-            max-width: 550px;
+            max-width: 600px;
             padding: 2.5rem;
             position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            animation: modalFadeIn 0.3s ease;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            animation: modalFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         @keyframes modalFadeIn {
-            from { transform: translateY(15px); opacity: 0; }
+            from { transform: translateY(20px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
 
@@ -178,29 +206,31 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.75rem;
+            margin-bottom: 2rem;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 1rem;
+            padding-bottom: 1.25rem;
         }
 
         .modal-title {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: #fff;
+            font-weight: 700;
         }
 
         .close-btn {
             background: none;
             border: none;
             color: var(--text-muted);
-            font-size: 1.75rem;
+            font-size: 2rem;
             cursor: pointer;
+            transition: color 0.2s;
         }
 
         .close-btn:hover {
             color: #fff;
         }
 
-        /* Form Controls */
+        /* Forms Layout */
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -209,40 +239,41 @@
             display: block;
             font-size: 0.85rem;
             color: var(--text-muted);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .form-control, textarea, select {
             width: 100%;
-            background: #0f0f13;
+            background: #09090d;
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 0.85rem;
+            border-radius: 10px;
+            padding: 1rem;
             color: #fff;
             font-size: 1rem;
-            transition: border-color 0.2s;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .form-control:focus, textarea:focus, select:focus {
             outline: none;
             border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
         }
 
         textarea {
             resize: vertical;
-            min-height: 110px;
+            min-height: 120px;
         }
 
         .output-box {
-            background: #0b0b0f;
+            background: #06060a;
             border: 1px dashed var(--border);
-            border-radius: 8px;
-            padding: 1.25rem;
-            margin-top: 1.25rem;
-            min-height: 70px;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            min-height: 80px;
             word-break: break-all;
             display: flex;
             justify-content: center;
@@ -251,27 +282,94 @@
             font-weight: 600;
             color: var(--success);
         }
+
+        /* Micro Feature Layout Blocks */
+        .feature-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Task Module List Styling */
+        .task-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+        }
+
+        /* Split-screen Markdown Note workspace */
+        .split-workspace {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .preview-pane {
+            background: #06060a;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+            overflow-y: auto;
+            max-height: 200px;
+            font-size: 0.95rem;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <header>
-            <h1>Sanjay Subedi Hub</h1>
-            <p>Advanced browser utility compilation pipelines and neural generation engines.</p>
+            <h1>Sanjay Subedi Pro Engine</h1>
+            <p>Advanced neural assets synthesis pipeline and automated software development modules.</p>
         </header>
 
-        <!-- MAIN TOOLS GRID -->
-        <div class="section-title">✨ Operational Tool Deck</div>
+        <!-- CATEGORY: AI & PRODUCTIVITY -->
+        <div class="section-title">🤖 AI Systems & Intelligent Engines</div>
         <div class="tools-grid">
-            <!-- AI Text-to-Image Generator -->
+            <!-- Advanced AI Text-to-Image Generator -->
             <div class="tool-card" onclick="openModal('imageGenModal')">
-                <div class="tool-icon" style="color: var(--accent);">🎨</div>
-                <h3>AI Image Generator</h3>
-                <p>Convert descriptive structural text prompts into high-definition digital creative assets instantly.</p>
-                <button class="btn" style="background: linear-gradient(to right, #6366f1, #a855f7);">Generate Artwork</button>
+                <div class="tool-icon" style="color: var(--accent); border-color: var(--accent);">🎨</div>
+                <h3>AI Art Studio (Pro)</h3>
+                <p>Synthesize raw description blocks into ultra-res digital layers with micro controls for Aspect Ratio and Style Maps.</p>
+                <button class="btn" style="background: linear-gradient(135deg, #6366f1, #a855f7);">Open Generator</button>
             </div>
 
+            <!-- Markdown Lab Space -->
+            <div class="tool-card" onclick="openModal('noteLabModal')">
+                <div class="tool-icon" style="color: #3b82f6;">📝</div>
+                <h3>Markdown Lab Space</h3>
+                <p>Draft structural student documentation layout loops featuring live split-screen text parsing renders.</p>
+                <button class="btn">Launch Editor</button>
+            </div>
+
+            <!-- Task Matrix Scheduler -->
+            <div class="tool-card" onclick="openModal('taskMatrixModal')">
+                <div class="tool-icon" style="color: #10b981;">📋</div>
+                <h3>Task Matrix Planner</h3>
+                <p>Log educational operations with custom metrics tags and inline priority flags inside persistent arrays.</p>
+                <button class="btn">View Board</button>
+            </div>
+        </div>
+
+        <!-- CATEGORY: UTILITIES -->
+        <div class="section-title">⚙️ Core Architecture & Document Kits</div>
+        <div class="tools-grid">
             <!-- Password Generator -->
             <div class="tool-card" onclick="openModal('passwordModal')">
                 <div class="tool-icon">🔑</div>
@@ -280,7 +378,7 @@
                 <button class="btn">Launch Tool</button>
             </div>
 
-            <!-- Base64 Encoder/Decoder -->
+            <!-- Base64 Toolkit -->
             <div class="tool-card" onclick="openModal('base64Modal')">
                 <div class="tool-icon">🔾</div>
                 <h3>Base64 Toolkit</h3>
@@ -322,25 +420,107 @@
         </div>
     </div>
 
-    <!-- ================= SYSTEM POPUP INTERFACE LAYER ================= -->
+    <!-- ================= MODAL ARCHITECTURE WINDOWS ================= -->
 
-    <!-- AI Image Generator Modal -->
+    <!-- Advanced AI Image Generator Modal -->
     <div id="imageGenModal" class="modal">
-        <div class="modal-content" style="max-width: 600px;">
+        <div class="modal-content" style="max-width: 650px;">
             <div class="modal-header">
-                <h2 class="modal-title">🎨 AI Text-to-Image Engine</h2>
+                <h2 class="modal-title">🎨 AI Art Studio (Pro)</h2>
                 <button class="close-btn" onclick="closeModal('imageGenModal')">&times;</button>
             </div>
             <div class="form-group">
-                <label>Describe your design composition text</label>
-                <textarea id="imagePrompt" placeholder="e.g., A futuristic cyberpunk library with holographic monitors, dynamic lighting, digital art..."></textarea>
+                <label>Neural Prompts Input Description</label>
+                <textarea id="imagePrompt" placeholder="e.g., Cyberpunk researcher operating virtual interfaces inside Kathmandu, realistic lighting, octane render style..."></textarea>
             </div>
-            <button class="btn" onclick="generateAIImage()" style="background: linear-gradient(to right, #6366f1, #a855f7);">Render Design Layout</button>
+            
+            <!-- Features Inside Feature: Controls Configuration Rows -->
+            <div class="feature-row">
+                <div>
+                    <label>Structural Engine Style</label>
+                    <select id="imageStyle">
+                        <option value="cinematic">Cinematic Realism</option>
+                        <option value="anime">Anime Rendering Vector</option>
+                        <option value="cyberpunk">Neon Cyberpunk</option>
+                        <option value="3d-render">3D Octane Engine</option>
+                        <option value="oil-painting">Classic Canvas Impressionism</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Aspect Mapping Ratio</label>
+                    <select id="aspectRatio">
+                        <option value="1:1">Standard Square (1:1)</option>
+                        <option value="16:9">Widescreen Layout (16:9)</option>
+                        <option value="4:5">Mobile Vertical (4:5)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn" onclick="generateAIImage()" style="background: linear-gradient(135deg, #6366f1, #a855f7);">Render Design Layer</button>
             
             <div id="imageOutputContainer" style="margin-top: 1.5rem; text-align: center; display: none;">
-                <img id="generatedImagePreview" src="" alt="AI Artwork" style="width: 100%; max-height: 350px; border-radius: 12px; border: 1px solid var(--border); object-fit: contain; background: #0b0b0f;">
-                <button class="btn btn-success" onclick="downloadAIImage()">💾 Download Creative Output</button>
+                <img id="generatedImagePreview" src="" alt="AI Output Stream" style="width: 100%; max-height: 380px; border-radius: 14px; border: 1px solid var(--border); object-fit: contain; background: #06060a;">
+                <button class="btn btn-success" onclick="downloadAIImage()">💾 Save Output Canvas</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Markdown Lab Space Modal -->
+    <div id="noteLabModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2 class="modal-title">📝 Markdown Lab Space</h2>
+                <button class="close-btn" onclick="closeModal('noteLabModal')">&times;</button>
+            </div>
+            
+            <!-- Features Inside Feature: Live Dual-pane Processing Workspace -->
+            <div class="split-workspace">
+                <div>
+                    <label>Markdown Editor Terminal</label>
+                    <textarea id="markdownInput" oninput="processMarkdownLive()" style="height: 200px; font-family: monospace;" placeholder="# Header 1&#10;**Bold text content**&#10;* Unordered array data block"></textarea>
+                </div>
+                <div>
+                    <label>Document Layout Preview</label>
+                    <div id="markdownPreview" class="preview-pane">Output blocks compile down here live...</div>
+                </div>
+            </div>
+            
+            <div class="feature-row">
+                <button class="btn" onclick="clearMarkdownWorkspace()" style="background: #272732;">Clear Workspace</button>
+                <button class="btn btn-success" onclick="downloadMarkdownText()">💾 Export Document File</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Matrix Planner Modal -->
+    <div id="taskMatrixModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">📋 Task Matrix Planner</h2>
+                <button class="close-btn" onclick="closeModal('taskMatrixModal')">&times;</button>
+            </div>
+            
+            <!-- Features Inside Feature: Parameter Assignment Module -->
+            <div class="form-group">
+                <label>Operation Content Name</label>
+                <input type="text" id="taskNameInput" class="form-control" placeholder="e.g., Review Advanced Calculus Modules">
+            </div>
+            <div class="feature-row">
+                <div>
+                    <label>Priority Flag Metric</label>
+                    <select id="taskPriority">
+                        <option value="CRITICAL">🔴 Critical Risk Level</option>
+                        <option value="ELEVATED">🟡 Elevated Target</option>
+                        <option value="ROUTINE">🟢 Routine Operation</option>
+                    </select>
+                </div>
+                <div style="display: flex; align-items: flex-end;">
+                    <button class="btn" onclick="commitTaskToMatrix()">Insert Matrix Entry</button>
+                </div>
+            </div>
+
+            <label style="font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 0.5rem; text-transform: uppercase;">Active Workspace Operations Matrix</label>
+            <div id="taskMatrixContainer" style="max-height: 200px; overflow-y: auto; margin-top: 0.5rem;"></div>
         </div>
     </div>
 
@@ -463,9 +643,9 @@
         </div>
     </div>
 
-    <!-- ================= HARDWARE / ENGINE LOGIC SCRIPT COMPILATION ================= -->
+    <!-- ================= HARDWARE LOGIC / OPERATIONS LAYER ================= -->
     <script>
-        // Modal State Control Operations
+        // Modal State Controls
         function openModal(modalId) {
             document.getElementById(modalId).classList.add('active');
         }
@@ -480,54 +660,140 @@
             }
         }
 
-        // --- AI TEXT TO IMAGE GENERATION PIPELINE ---
+        // --- FEATURE ENGINE 1: PRO AI IMAGE SYNTHESIS ---
         function generateAIImage() {
             const promptText = document.getElementById('imagePrompt').value.trim();
-            if (!promptText) { alert("Please input compositional context data first."); return; }
+            const selectedStyle = document.getElementById('imageStyle').value;
+            const mappedRatio = document.getElementById('aspectRatio').value;
+
+            if (!promptText) { alert("Please input structural prompt parameters first."); return; }
 
             const outputContainer = document.getElementById('imageOutputContainer');
             const imagePreview = document.getElementById('generatedImagePreview');
             
             outputContainer.style.display = "block";
             imagePreview.src = ""; 
-            imagePreview.alt = "Synthesizing pixels against generative endpoints... Please wait...";
+            imagePreview.alt = "Synthesizing layout layers against generative endpoints... Please wait...";
 
-            const sanitizedPrompt = encodeURIComponent(promptText);
-            const seedValue = Math.floor(Math.random() * 999999);
-            const targetUrl = `https://image.pollinations.ai/p/${sanitizedPrompt}?width=800&height=600&seed=${seedValue}&nologo=true`;
+            // Configuration calculations for Aspect Mapping dimensions
+            let calculatedWidth = 800;
+            let calculatedHeight = 800;
+            if (mappedRatio === "16:9") { calculatedWidth = 1024; calculatedHeight = 576; }
+            else if (mappedRatio === "4:5") { calculatedWidth = 640; calculatedHeight = 800; }
+
+            // Inline feature processing: merge style flags down into raw prompt context arrays
+            const augmentedPrompt = `${promptText}, detailed art style of ${selectedStyle}, masterwork presentation layers`;
+            const sanitizedPrompt = encodeURIComponent(augmentedPrompt);
+            const seedValue = Math.floor(Math.random() * 9999999);
+            const targetEndpointUrl = `https://image.pollinations.ai/p/${sanitizedPrompt}?width=${calculatedWidth}&height=${calculatedHeight}&seed=${seedValue}&nologo=true`;
 
             const imageLoaderNode = new Image();
             imageLoaderNode.onload = function() {
-                imagePreview.src = targetUrl;
-                imagePreview.alt = "AI Output Stream";
+                imagePreview.src = targetEndpointUrl;
+                imagePreview.alt = "AI Studio Engine Output Frame";
             };
             imageLoaderNode.onerror = function() {
-                imagePreview.alt = "Fatal engine fault parsing descriptive array.";
+                imagePreview.alt = "Engine pipeline crash during asset calculation.";
             };
-            imageLoaderNode.src = targetUrl;
+            imageLoaderNode.src = targetEndpointUrl;
         }
 
         async function downloadAIImage() {
-            const previewSource = document.getElementById('generatedImagePreview').src;
-            if (!previewSource) return;
+            const currentImgSource = document.getElementById('generatedImagePreview').src;
+            if (!currentImgSource) return;
 
             try {
-                const networkFetch = await fetch(previewSource);
-                const assetBlob = await networkFetch.blob();
-                const cleanBlobPath = URL.createObjectURL(assetBlob);
+                const fetchStream = await fetch(currentImgSource);
+                const completeBlob = await fetchStream.blob();
+                const cleanBlobPath = URL.createObjectURL(completeBlob);
                 
-                const trackingLinkNode = document.createElement('a');
-                trackingLinkNode.href = cleanBlobPath;
-                trackingLinkNode.download = `ai-asset-${Date.now()}.jpg`;
-                document.body.appendChild(trackingLinkNode);
-                trackingLinkNode.click();
-                document.body.removeChild(trackingLinkNode);
+                const virtualLinkNode = document.createElement('a');
+                virtualLinkNode.href = cleanBlobPath;
+                virtualLinkNode.download = `sanjay-ai-studio-${Date.now()}.jpg`;
+                document.body.appendChild(virtualLinkNode);
+                virtualLinkNode.click();
+                document.body.removeChild(virtualLinkNode);
             } catch (e) {
-                alert("Direct mapping restricted. Right click graphic canvas element to download manually.");
+                alert("Security policy tracking blocking script save. Right-click graphic canvas grid element directly to save.");
             }
         }
 
-        // --- CRYPTOGRAPHY UTILS ---
+        // --- FEATURE ENGINE 2: LIVE DOCUMENT COMPILER ---
+        function processMarkdownLive() {
+            const textSourceValue = document.getElementById('markdownInput').value;
+            const targetPreviewPane = document.getElementById('markdownPreview');
+            
+            if(!textSourceValue) { targetPreviewPane.innerHTML = "Output blocks compile down here live..."; return; }
+
+            // Dynamic string sanitization mapping structure logic
+            let parsedHtmlOutput = textSourceValue
+                .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+                .replace(/^#\s(.*)$/gmd, '<h2>$1</h2>')
+                .replace(/^##\s(.*)$/gmd, '<h3>$1</h3>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/^\*\s(.*)$/gmd, '• $1<br>');
+
+            targetPreviewPane.innerHTML = parsedHtmlOutput;
+        }
+
+        function clearMarkdownWorkspace() {
+            document.getElementById('markdownInput').value = '';
+            document.getElementById('markdownPreview').innerHTML = 'Output blocks compile down here live...';
+        }
+
+        function downloadMarkdownText() {
+            const rawTextContent = document.getElementById('markdownInput').value;
+            if(!rawTextContent) return;
+            const textDataBlob = new Blob([rawTextContent], {type: 'text/plain'});
+            const trackingLink = document.createElement('a');
+            trackingLink.href = URL.createObjectURL(textDataBlob);
+            trackingLink.download = `document-draft-${Date.now()}.md`;
+            trackingLink.click();
+        }
+
+        // --- FEATURE ENGINE 3: SYSTEM RISK MATRIX PLATFORM ---
+        let internalTaskMemoryArray = [];
+        function commitTaskToMatrix() {
+            const taskLabel = document.getElementById('taskNameInput').value.trim();
+            const chosenPriority = document.getElementById('taskPriority').value;
+
+            if(!taskLabel) return;
+
+            const structuredItemObj = {
+                id: Date.now(),
+                context: taskLabel,
+                priority: chosenPriority
+            };
+
+            internalTaskMemoryArray.push(structuredItemObj);
+            document.getElementById('taskNameInput').value = '';
+            renderTaskMatrixLayout();
+        }
+
+        function removeTaskEntry(id) {
+            internalTaskMemoryArray = internalTaskMemoryArray.filter(t => t.id !== id);
+            renderTaskMatrixLayout();
+        }
+
+        function renderTaskMatrixLayout() {
+            const containerNode = document.getElementById('taskMatrixContainer');
+            containerNode.innerHTML = '';
+
+            internalTaskMemoryArray.forEach(task => {
+                const itemRowNode = document.createElement('div');
+                itemRowNode.className = 'task-item';
+                itemRowNode.innerHTML = `
+                    <div>
+                        <span>${task.context}</span>
+                        <span class="task-meta">${task.priority}</span>
+                    </div>
+                    <button class="btn btn-danger" onclick="removeTaskEntry(${task.id})" style="padding: 0.35rem 0.75rem; width: auto; font-size: 0.8rem;">Drop</button>
+                `;
+                containerNode.appendChild(itemRowNode);
+            });
+        }
+
+        // --- LEGACY CRYPTOGRAPHY UTILS ---
         function generatePassword() {
             const length = parseInt(document.getElementById('passwordLength').value);
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
@@ -540,105 +806,94 @@
 
         function encodeBase64() {
             const text = document.getElementById('base64Input').value;
-            try {
-                document.getElementById('base64Output').innerHTML = btoa(text);
-            } catch (e) {
-                document.getElementById('base64Output').innerHTML = '❌ Error: ' + e.message;
-            }
+            try { document.getElementById('base64Output').innerHTML = btoa(text); } 
+            catch (e) { document.getElementById('base64Output').innerHTML = '❌ Error: ' + e.message; }
         }
 
         function decodeBase64() {
             const text = document.getElementById('base64Input').value;
-            try {
-                document.getElementById('base64Output').innerHTML = atob(text);
-            } catch (e) {
-                document.getElementById('base64Output').innerHTML = '❌ Error: ' + e.message;
-            }
+            try { document.getElementById('base64Output').innerHTML = atob(text); } 
+            catch (e) { document.getElementById('base64Output').innerHTML = '❌ Error: ' + e.message; }
         }
 
         function copyToClipboard(id) {
-            const text = document.getElementById(id).innerHTML;
-            navigator.clipboard.writeText(text).then(() => {
-                alert('✓ Copied to clipboard context.');
-            });
+            const textText = document.getElementById(id).innerHTML;
+            navigator.clipboard.writeText(textText).then(() => alert('✓ Copied to clipboard buffer context.'));
         }
 
-        // --- GRAPHICS PARSING CANVAS LAYER ---
+        // --- LEGACY IMAGES & CANVAS SYSTEM RENDERS ---
         function readImageFile(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const graphicNode = new Image();
-                    graphicNode.onload = () => resolve(graphicNode);
-                    graphicNode.src = e.target.result;
+            return new Promise((resolve) => {
+                const fileReaderNode = new FileReader();
+                fileReaderNode.onload = (e) => {
+                    const sampleImgNode = new Image();
+                    sampleImgNode.onload = () => resolve(sampleImgNode);
+                    sampleImgNode.src = e.target.result;
                 };
-                reader.readAsDataURL(file);
+                fileReaderNode.readAsDataURL(file);
             });
         }
 
         async function processResize() {
-            const assetFile = document.getElementById('resizeInput').files[0];
-            const targetW = parseInt(document.getElementById('resizeWidth').value);
-            const targetH = parseInt(document.getElementById('resizeHeight').value);
-            if(!assetFile) return;
+            const targetAsset = document.getElementById('resizeInput').files[0];
+            const sizeWidth = parseInt(document.getElementById('resizeWidth').value);
+            const sizeHeight = parseInt(document.getElementById('resizeHeight').value);
+            if(!targetAsset) return;
 
-            const imgObj = await readImageFile(assetFile);
-            const surfaceCanvas = document.createElement('canvas');
-            surfaceCanvas.width = targetW; 
-            surfaceCanvas.height = targetH;
-            surfaceCanvas.getContext('2d').drawImage(imgObj, 0, 0, targetW, targetH);
-            triggerDownload(surfaceCanvas.toDataURL('image/png'), 'resized-asset.png');
+            const loadedGraphic = await readImageFile(targetAsset);
+            const activeCanvasSurface = document.createElement('canvas');
+            activeCanvasSurface.width = sizeWidth; activeCanvasSurface.height = sizeHeight;
+            activeCanvasSurface.getContext('2d').drawImage(loadedGraphic, 0, 0, sizeWidth, sizeHeight);
+            triggerDownload(activeCanvasSurface.toDataURL('image/png'), 'resized-asset-pro.png');
         }
 
         async function processMerge() {
-            const imgTarget1 = document.getElementById('mergeInput1').files[0];
-            const imgTarget2 = document.getElementById('mergeInput2').files[0];
-            const orientationFlow = document.getElementById('mergeDirection').value;
-            if(!imgTarget1 || !imgTarget2) return;
+            const targetSource1 = document.getElementById('mergeInput1').files[0];
+            const targetSource2 = document.getElementById('mergeInput2').files[0];
+            const orientationMode = document.getElementById('mergeDirection').value;
+            if(!targetSource1 || !targetSource2) return;
 
-            const nodeG1 = await readImageFile(imgTarget1);
-            const nodeG2 = await readImageFile(imgTarget2);
-            const activeCanvas = document.createElement('canvas');
-            const contextRef = activeCanvas.getContext('2d');
+            const elementG1 = await readImageFile(targetSource1);
+            const elementG2 = await readImageFile(targetSource2);
+            const renderCanvasNode = document.createElement('canvas');
+            const targetContextRef = renderCanvasNode.getContext('2d');
 
-            if (orientationFlow === 'horizontal') {
-                activeCanvas.width = nodeG1.width + nodeG2.width;
-                activeCanvas.height = Math.max(nodeG1.height, nodeG2.height);
-                contextRef.drawImage(nodeG1, 0, 0);
-                contextRef.drawImage(nodeG2, nodeG1.width, 0);
+            if (orientationMode === 'horizontal') {
+                renderCanvasNode.width = elementG1.width + elementG2.width;
+                renderCanvasNode.height = Math.max(elementG1.height, elementG2.height);
+                targetContextRef.drawImage(elementG1, 0, 0);
+                targetContextRef.drawImage(elementG2, elementG1.width, 0);
             } else {
-                activeCanvas.width = Math.max(nodeG1.width, nodeG2.width);
-                activeCanvas.height = nodeG1.height + nodeG2.height;
-                contextRef.drawImage(nodeG1, 0, 0);
-                contextRef.drawImage(nodeG2, 0, nodeG1.height);
+                renderCanvasNode.width = Math.max(elementG1.width, elementG2.width);
+                renderCanvasNode.height = elementG1.height + elementG2.height;
+                targetContextRef.drawImage(elementG1, 0, 0);
+                targetContextRef.drawImage(elementG2, 0, elementG1.height);
             }
-            triggerDownload(activeCanvas.toDataURL('image/png'), 'merged-asset.png');
+            triggerDownload(renderCanvasNode.toDataURL('image/png'), 'merged-asset-pro.png');
         }
 
-        // --- DOCUMENT RENDERING ENGINES ---
+        // --- LEGACY DOCUMENTS LAYER PROCESSORS ---
         async function convertPdfToImages() {
-            const targetInput = document.getElementById('pdfFileToImg').files[0];
-            if (!targetInput) return;
+            const targetFileRef = document.getElementById('pdfFileToImg').files[0];
+            if (!targetFileRef) return;
             document.getElementById('pdfImgContainer').innerHTML = "<p style='color:var(--text-muted);'>Processing local structural components...</p>";
         }
 
         async function buildPdfFromText() {
-            const paragraphContext = document.getElementById('pdfBodyText').value;
-            if(!paragraphContext) return;
-            const pdfDoc = await PDFLib.PDFDocument.create();
-            const textPage = pdfDoc.addPage([600, 400]);
-            textPage.drawText(paragraphContext, { x: 50, y: 350, size: 14, maxWidth: 500 });
-            const generatedPdfBytes = await pdfDoc.save();
-            triggerDownload(URL.createObjectURL(new Blob([generatedPdfBytes], { type: "application/pdf" })), "document-compiled.pdf");
+            const coreBodyContext = document.getElementById('pdfBodyText').value;
+            if(!coreBodyContext) return;
+            const operationalPdfDoc = await PDFLib.PDFDocument.create();
+            const addedPageNode = operationalPdfDoc.addPage([600, 400]);
+            addedPageNode.drawText(coreBodyContext, { x: 50, y: 350, size: 14, maxWidth: 500 });
+            const savedPdfByteBlocks = await operationalPdfDoc.save();
+            triggerDownload(URL.createObjectURL(new Blob([savedPdfByteBlocks], { type: "application/pdf" })), "document-compiled-pro.pdf");
         }
 
-        function triggerDownload(contentPathURL, assignedFileName) {
-            const interactiveLinkNode = document.createElement('a');
-            interactiveLinkNode.download = assignedFileName; 
-            interactiveLinkNode.href = contentPathURL;
-            document.body.appendChild(interactiveLinkNode); 
-            interactiveLinkNode.click();
-            document.body.removeChild(interactiveLinkNode);
+        function triggerDownload(contentURLString, structuralFileName) {
+            const mockAnchorElement = document.createElement('a');
+            mockAnchorElement.download = structuralFileName; mockAnchorElement.href = contentURLString;
+            document.body.appendChild(mockAnchorElement); mockAnchorElement.click();
+            document.body.removeChild(mockAnchorElement);
         }
     </script>
 </body>
