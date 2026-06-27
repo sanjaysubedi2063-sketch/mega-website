@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanjay Subedi - Enterprise Utility & Neural Generation Suite</title>
+    <title>Sanjay Subedi - Ultimate Enterprise Utility & Student Engine</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -18,13 +18,14 @@
             --success: #34c759;
             --danger: #ff3b30;
             --warning: #ff9500;
+            --info: #007aff;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
@@ -89,8 +90,6 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            position: relative;
-            overflow: hidden;
             transition: transform 0.25s, border-color 0.25s;
         }
 
@@ -129,7 +128,6 @@
         .btn:hover { background: var(--accent-hover); }
         .btn:active { transform: scale(0.98); }
 
-        /* Modals and Overlays */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -175,7 +173,6 @@
             justify-content: center;
         }
 
-        /* Forms Layout */
         label {
             display: block;
             margin-top: 1.2rem;
@@ -194,10 +191,6 @@
             border-radius: 8px;
             margin-bottom: 0.5rem;
             font-size: 0.95rem;
-        }
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--accent);
         }
 
         .checkbox-group {
@@ -224,7 +217,6 @@
             position: relative;
         }
 
-        /* Tool Configurations */
         .timer-display {
             font-size: 3.5rem;
             text-align: center;
@@ -256,7 +248,6 @@
             height: 100%;
             backface-visibility: hidden;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             border-radius: 12px;
@@ -267,8 +258,7 @@
         .flashcard-front { background: linear-gradient(135deg, var(--accent) 0%, #4341b7 100%); color: white; }
         .flashcard-back { background: #22263f; color: white; transform: rotateY(180deg); border: 1px solid #313754; }
 
-        /* Video Canvas Simulation styling */
-        .video-preview-box {
+        .media-preview-box {
             width: 100%;
             aspect-ratio: 16/9;
             background: #000;
@@ -287,8 +277,9 @@
             background-size: cover;
             background-position: center;
             opacity: 0.4;
+            transition: all 0.5s ease;
         }
-        .video-text-overlay {
+        .media-text-overlay {
             position: relative;
             z-index: 2;
             font-weight: bold;
@@ -298,7 +289,6 @@
             padding: 1rem;
         }
 
-        /* Split view Note area */
         .notes-split {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -318,60 +308,72 @@
 <body>
 
     <header>
-        <h1>Sanjay Subedi Pro Engine</h1>
-        <p>Advanced neural assets synthesis pipeline and automated software development modules.</p>
+        <h1>Sanjay Subedi Pro Engine v3.0</h1>
+        <p>Advanced neural generation suite combined with high-octane student productivity infrastructure.</p>
     </header>
 
-    <!-- NEW SECTION: AI SYSTEMS -->
+    <!-- SECTION: AI GENERATION SYSTEM -->
     <div class="section-title">🤖 AI Systems & Intelligent Engines</div>
     <div class="grid">
         <div class="card" style="border-color: #a356ff">
+            <h3>🎨 Text to Image AI (Sim)</h3>
+            <p>Synthesize gorgeous graphic layouts, concept illustrations, or presentation slides using text prompts.</p>
+            <button class="btn" style="background:#a356ff" onclick="openModal('textToImageModal')">Open Image Creator</button>
+        </div>
+
+        <div class="card" style="border-color: #a356ff">
             <h3>🎬 Text to Video AI (Sim)</h3>
-            <p>Synthesize programmatic dynamic text sequences and layout instructions directly into animated media structures.</p>
-            <button class="btn" style="background:#a356ff" onclick="openModal('textToVideoModal')">Open Generator</button>
+            <p>Translate complex textual prompts and dynamic script parameters directly into cinematic video assets.</p>
+            <button class="btn" style="background:#a356ff" onclick="openModal('textToVideoModal')">Open Video Generator</button>
         </div>
 
         <div class="card" style="border-color: #a356ff">
-            <h3>📝 Markdown Lab Space</h3>
-            <p>Draft structural student documentation layout loops featuring live split-screen text parsing renders.</p>
-            <button class="btn" style="background:#a356ff" onclick="openModal('notesModal')">Launch Editor</button>
-        </div>
-
-        <div class="card" style="border-color: #a356ff">
-            <h3>📋 Task Matrix Planner</h3>
-            <p>Log educational operations with custom metrics tags and inline priority flags inside persistent arrays.</p>
-            <button class="btn" style="background:#a356ff" onclick="openModal('taskModal')">View Board</button>
+            <h3>🎵 Focus Audio Space</h3>
+            <p>Generate isolated study frequencies (Binaural Beats / White Noise) natively via Web Audio synthesizers.</p>
+            <button class="btn" style="background:#a356ff" onclick="openModal('audioSpaceModal')">Launch Soundscapes</button>
         </div>
     </div>
 
     <!-- SECTION: STUDENT UTILITIES -->
-    <div class="section-title">⏱️ Academic Performance Kits</div>
+    <div class="section-title">⏱️ Academic Performance & Study Kits</div>
     <div class="grid">
         <div class="card" style="border-color: var(--success)">
             <h3>⚡ Pomodoro Study Timer</h3>
-            <p>Enhanced configuration with multi-state audio pacing alarms, auto-breaks, and session cycle tallies.</p>
+            <p>Now equipped with sound notifications and automatic switching parameters for long focus intervals.</p>
             <button class="btn" style="background:var(--success)" onclick="openModal('pomodoroModal')">Launch Timer</button>
         </div>
 
         <div class="card" style="border-color: var(--success)">
             <h3>🗂️ Flashcard Maker & Quizzer</h3>
-            <p>Now supports categorized deck labels, score counters, and instant flash randomization algorithms.</p>
+            <p>Track your score matrix, mark answers correct/incorrect, and randomize the active review queue.</p>
             <button class="btn" style="background:var(--success)" onclick="openModal('flashcardModal')">Open Flashcards</button>
         </div>
 
         <div class="card" style="border-color: var(--success)">
             <h3>📊 Academic GPA Calculator</h3>
-            <p>Comprehensive transcript metrics analyzer. Map targets across varying weighted standard credit formats.</p>
+            <p>Multi-semester grading support with advanced cumulative targets and weighted points breakdown.</p>
             <button class="btn" style="background:var(--success)" onclick="openModal('gpaModal')">Calculate GPA</button>
+        </div>
+
+        <div class="card" style="border-color: var(--success)">
+            <h3>📝 Markdown Lab Space</h3>
+            <p>Write standard notes with live markdown previews, real-time word counting metric trackers, and file exports.</p>
+            <button class="btn" style="background:var(--success)" onclick="openModal('notesModal')">Launch Editor</button>
+        </div>
+
+        <div class="card" style="border-color: var(--success)">
+            <h3>📋 Task Matrix Planner</h3>
+            <p>Organize assignments with specific urgency color-tags, task descriptions, and persistent tracking arrays.</p>
+            <button class="btn" style="background:var(--success)" onclick="openModal('taskModal')">View Board</button>
         </div>
     </div>
 
     <!-- CORE UTILITIES SECTION -->
-    <div class="section-title">⚙️ Core Architecture & Document Kits</div>
+    <div class="section-title">⚙️ System Architecture & Document Engines</div>
     <div class="grid">
         <div class="card">
             <h3>🔑 Password Generator</h3>
-            <p>Upgraded with granular checkbox toggle filtering for symbols, digits, and strict character exclusions.</p>
+            <p>Granular character filtering strings, random selection seeds, and built-in password security checks.</p>
             <button class="btn" onclick="openModal('passwordModal')">Launch Tool</button>
         </div>
 
@@ -383,13 +385,13 @@
 
         <div class="card">
             <h3>🖼️ Image Resizer</h3>
-            <p>Resize local images instantly down to specified custom dimensions on an isolated HTML canvas element.</p>
+            <p>Specify explicit frame resolution dimensions with quick layout canvas preview logic windows.</p>
             <button class="btn" onclick="openModal('resizerModal')">Launch Tool</button>
         </div>
 
         <div class="card">
             <h3>🥞 Image Merger</h3>
-            <p>Combine two discrete graphics layers into a single integrated image file vertically or horizontally.</p>
+            <p>Stitch secondary layout assets cleanly across either vertical axes or horizontal structural configurations.</p>
             <button class="btn" onclick="openModal('mergerModal')">Launch Tool</button>
         </div>
 
@@ -401,31 +403,71 @@
 
         <div class="card">
             <h3>✍️ Text to PDF</h3>
-            <p>Convert customized paragraphs and markdown text formatting layout sequences into standard system PDFs.</p>
+            <p>Convert customized paragraphs and layout sequences into standard system downloadable PDFs.</p>
             <button class="btn" onclick="openModal('textToPdfModal')">Launch Tool</button>
         </div>
     </div>
 
-    <!-- MODALS ATTACHMENT REGISTRY -->
+    <!-- MODAL SPECIFICATION SYSTEM CONTAINER REGISTRY -->
+
+    <!-- Text to Image Modal -->
+    <div id="textToImageModal" class="modal-overlay">
+        <div class="modal">
+            <button class="close-modal" onclick="closeModal('textToImageModal')">×</button>
+            <h2>🎨 Text to Image Generation Suite</h2>
+            <label>Graphic Prompt Directives</label>
+            <textarea id="imgPrompt" rows="3" placeholder="e.g., Detailed study desk, digital art style, glowing computer screen, soft volumetric lighting..."></textarea>
+            <label>Art Direction Palette Preset</label>
+            <select id="imgStyle">
+                <option value="photorealistic">Photorealistic Rendering</option>
+                <option value="anime">Anime Stylization Vector</option>
+                <option value="oil">Classic Structural Oil Canvas</option>
+            </select>
+            <button class="btn" style="background:#a356ff" onclick="generateImageSimulation()">Synthesize Visual Asset</button>
+            
+            <div class="media-preview-box" id="imgContainer" style="display:none;">
+                <div class="sim-layer" id="imgLayer"></div>
+                <div class="media-text-overlay" id="imgText">Synthesizing Pixels...</div>
+            </div>
+        </div>
+    </div>
 
     <!-- Text to Video Modal -->
     <div id="textToVideoModal" class="modal-overlay">
         <div class="modal">
             <button class="close-modal" onclick="closeModal('textToVideoModal')">×</button>
             <h2>🎬 Text to Video Generation Suite</h2>
-            <label>Prompt Description Block</label>
-            <textarea id="vdoPrompt" rows="3" placeholder="e.g., Cinematic futuristic matrix study room, neon lights, 4k resolution..."></textarea>
-            <label>Rendering Engine Preset</label>
+            <label>Video Prompt & Frame Transitions</label>
+            <textarea id="vdoPrompt" rows="3" placeholder="e.g., Drone cinematic zoom through modern university library, time-lapse evening..."></textarea>
+            <label>Framerate & Fluidity Preset</label>
             <select id="vdoStyle">
-                <option value="cyberpunk">Cyberpunk Dynamic Layout</option>
-                <option value="minimalist">Academic Minimalist Canvas</option>
-                <option value="cosmic">Cosmic Nebula Movement</option>
+                <option value="cyberpunk">Cyberpunk Dynamic Motion</option>
+                <option value="minimalist">Cinematic Static Drift</option>
+                <option value="cosmic">Cosmic Hyper-lapse Warp</option>
             </select>
             <button class="btn" style="background:#a356ff" onclick="generateVideoSimulation()">Compile AI Video Sequence</button>
             
-            <div class="video-preview-box" id="vdoContainer" style="display:none;">
+            <div class="media-preview-box" id="vdoContainer" style="display:none;">
                 <div class="sim-layer" id="vdoLayer"></div>
-                <div class="video-text-overlay" id="vdoText">Compiling Frame Buffers...</div>
+                <div class="media-text-overlay" id="vdoText">Compiling Frame Buffers...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Focus Audio Space Modal -->
+    <div id="audioSpaceModal" class="modal-overlay">
+        <div class="modal">
+            <button class="close-modal" onclick="closeModal('audioSpaceModal')">×</button>
+            <h2>🎵 Synthesized Focus Audio Space</h2>
+            <p style="color:var(--text-muted); margin-bottom:1rem;">Generates safe, rhythmic audio frequencies to block environmental noise using standard browser synthesis loops.</p>
+            <label>Acoustic Engine Frequency Profile</label>
+            <select id="noiseType">
+                <option value="brownian">Brownian Noise (Deep Focus/Muffled Rumbles)</option>
+                <option value="binaural">Alpha Wave Frequencies (Cognitive Processing)</option>
+            </select>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-top:1rem;">
+                <button class="btn" style="background:var(--success)" onclick="startFocusAudio()">Activate Waveform</button>
+                <button class="btn" style="background:var(--danger)" onclick="stopFocusAudio()">Terminate Stream</button>
             </div>
         </div>
     </div>
@@ -436,13 +478,13 @@
             <button class="close-modal" onclick="closeModal('taskModal')">×</button>
             <h2>📋 Task Matrix Planner</h2>
             <div style="display:flex; gap:0.5rem; margin-top:1rem;">
-                <input type="text" id="taskName" placeholder="Assignment or task item description..." style="margin:0;">
+                <input type="text" id="taskName" placeholder="Assignment or operation item..." style="margin:0;">
                 <select id="taskPriority" style="margin:0; width:130px;">
                     <option value="🔴 High">High</option>
                     <option value="🟡 Mid">Medium</option>
                     <option value="🟢 Low">Low</option>
                 </select>
-                <button class="btn" style="width:auto; white-space:nowrap;" onclick="addTaskItem()">Add Log</button>
+                <button class="btn" style="width:auto; white-space:nowrap;" onclick="addTaskItem()">Add Task</button>
             </div>
             <div id="taskListContainer" style="margin-top:1.5rem;"></div>
         </div>
@@ -453,7 +495,7 @@
         <div class="modal">
             <button class="close-modal" onclick="closeModal('pomodoroModal')">×</button>
             <h2>⏱️ Advanced Pomodoro Core</h2>
-            <div id="pomodoroStatus" style="text-align:center; color:var(--text-muted);">Status: Idle</div>
+            <div id="pomodoroStatus" style="text-align:center; color:var(--text-muted);">Status: Idle Focus Loop</div>
             <div class="timer-display" id="timerDisplay">25:00</div>
             <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
                 <button class="btn" onclick="startTimer()">Start Session</button>
@@ -472,7 +514,7 @@
         <div class="modal">
             <button class="close-modal" onclick="closeModal('flashcardModal')">×</button>
             <h2>🗂️ Flashcard Deck Engine</h2>
-            <div id="fcScoreBoard" style="color:var(--text-muted); font-size:0.9rem; text-align:right;">Deck Size: 0</div>
+            <div id="fcScoreBoard" style="color:var(--text-muted); font-size:0.9rem; text-align:right;">Deck Size: 0 | Current Score: 0/0</div>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-top:1rem;">
                 <input type="text" id="fcFront" placeholder="Front Query Layer" style="margin:0;">
                 <input type="text" id="fcBack" placeholder="Back Execution Key" style="margin:0;">
@@ -481,13 +523,17 @@
             
             <div class="flashcard-box" id="cardViewer" onclick="this.classList.toggle('flipped')">
                 <div class="flashcard-inner">
-                    <div class="flashcard-front" id="viewFront">No Flashcards configured. Click append to inject arrays.</div>
-                    <div class="flashcard-back" id="viewBack">Initial initialization template.</div>
+                    <div class="flashcard-front" id="viewFront">No Flashcards loaded. Insert queries above.</div>
+                    <div class="flashcard-back" id="viewBack">Backside Response Panel.</div>
                 </div>
             </div>
+            <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
+                <button class="btn" style="background:var(--success);" onclick="logCardScore(true)">Know It 👍</button>
+                <button class="btn" style="background:var(--danger);" onclick="logCardScore(false)">Forgot It 👎</button>
+            </div>
             <div style="display:flex; gap:1rem;">
-                <button class="btn" style="background:#22263f; border:1px solid #313754;" onclick="prevCard()">Previous Block</button>
-                <button class="btn" style="background:#22263f; border:1px solid #313754;" onclick="nextCard()">Next Block</button>
+                <button class="btn" style="background:#22263f; border:1px solid #313754;" onclick="prevCard()">Previous</button>
+                <button class="btn" style="background:#22263f; border:1px solid #313754;" onclick="nextCard()">Next</button>
                 <button class="btn" style="background:var(--warning);" onclick="shuffleCards()">Shuffle Deck</button>
             </div>
         </div>
@@ -501,7 +547,7 @@
             <div id="gpaRows">
                 <div style="display:flex; gap:0.5rem; margin-bottom:0.5rem;">
                     <input type="text" placeholder="Course Structure Name" style="margin:0;">
-                    <input type="number" placeholder="Credits Weight" class="gpa-credit" style="margin:0;" min="1">
+                    <input type="number" placeholder="Credits" class="gpa-credit" style="margin:0;" min="1">
                     <select class="gpa-grade" style="margin:0;">
                         <option value="4.0">A (4.0)</option>
                         <option value="3.5">B+ (3.5)</option>
@@ -512,9 +558,9 @@
                     </select>
                 </div>
             </div>
-            <button class="btn" style="background:#22263f; border:1px solid #313754; margin-bottom:1rem;" onclick="addGpaRow()">+ Append Course Matriculation Layer</button>
+            <button class="btn" style="background:#22263f; border:1px solid #313754; margin-bottom:1rem;" onclick="addGpaRow()">+ Append Course Module</button>
             <button class="btn" onclick="calculateGPA()">Run Analytics Compilation</button>
-            <div class="output-box" id="gpaOutput">Transcript compilation logs will manifest here.</div>
+            <div class="output-box" id="gpaOutput">Transcript logs manifest here...</div>
         </div>
     </div>
 
@@ -523,9 +569,10 @@
         <div class="modal" style="max-width:850px;">
             <button class="close-modal" onclick="closeModal('notesModal')">×</button>
             <h2>📝 Markdown Interactive Lab Space</h2>
-            <div class="notes-split" style="margin-top:1rem;">
-                <textarea id="noteInput" placeholder="# Header 1&#10;Use standard styling notation sequences...&#10;&#10;* High priority list bullet points" oninput="liveRenderNotes()"></textarea>
-                <div class="notes-preview" id="notePreview">Live compiled evaluation screen window...</div>
+            <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.5rem;" id="noteWordCount">Metrics: 0 Words | 0 Characters</div>
+            <div class="notes-split">
+                <textarea id="noteInput" placeholder="# Topic Summary&#10;Type information here using raw markdown strings...&#10;&#10;**Key Note Bold** items." oninput="liveRenderNotes()"></textarea>
+                <div class="notes-preview" id="notePreview">Compiled HTML transformation yields show up right here window...</div>
             </div>
             <button class="btn" style="margin-top:1rem;" onclick="downloadNotes()">Download Structured Formatting File</button>
         </div>
@@ -536,7 +583,7 @@
         <div class="modal">
             <button class="close-modal" onclick="closeModal('passwordModal')">×</button>
             <h2>🔑 Password Generation Pipeline</h2>
-            <label>Length Bit Allocation</label>
+            <label>Length Configuration</label>
             <input type="number" id="passLength" value="16" min="6" max="128">
             <div class="checkbox-group">
                 <label class="checkbox-label"><input type="checkbox" id="passUpper" checked> Uppercase Layers</label>
@@ -545,7 +592,7 @@
                 <label class="checkbox-label"><input type="checkbox" id="passSym" checked> Encoded Symbols</label>
             </div>
             <button class="btn" onclick="generatePassword()">Compute Key Vector</button>
-            <div class="output-box" id="passOutput" style="font-family:monospace; user-select:all;">Awaiting random seed loop initialization...</div>
+            <div class="output-box" id="passOutput" style="font-family:monospace; user-select:all; word-break:break-all;">Awaiting vector initialization...</div>
         </div>
     </div>
 
@@ -619,44 +666,103 @@
             <button class="close-modal" onclick="closeModal('textToPdfModal')">×</button>
             <h2>✍️ Text-to-PDF Core Assembly Engine</h2>
             <label>Raw Content Payload Data Stream</label>
-            <textarea id="pdfTextContent" rows="6" placeholder="Draft formatting arrays or raw context to map straight into document layout matrices..."></textarea>
+            <textarea id="pdfTextContent" rows="6" placeholder="Draft text here to export directly out to standard legal document matrices..."></textarea>
             <button class="btn" onclick="generatePdfFile()">Compile Artifact and Download</button>
         </div>
     </div>
 
     <script>
-        // Global Modal Controls 
+        // Global Modal Infrastructure Window Tracking
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        // 1. SIMULATED TEXT TO VIDEO AI SUITE ENGINE
+        // 1. SIMULATED AI TEXT TO IMAGE TOOL
+        function generateImageSimulation() {
+            let prompt = document.getElementById('imgPrompt').value;
+            let style = document.getElementById('imgStyle').value;
+            if(!prompt) { alert("Please supply text parameters for image generation matrices."); return; }
+            
+            let container = document.getElementById('imgContainer');
+            let layer = document.getElementById('imgLayer');
+            let txt = document.getElementById('imgText');
+            
+            container.style.display = 'flex';
+            txt.innerText = "Interpreting Vector Tokens...";
+            layer.style.background = "#000";
+            
+            setTimeout(() => {
+                txt.innerText = "Mapping Core Color Distribution Layers...";
+                let c1 = style === 'photorealistic' ? '#3a6073' : style === 'anime' ? '#ff007f' : '#722f37';
+                let c2 = style === 'photorealistic' ? '#3a7bd5' : style === 'anime' ? '#7f00ff' : '#f4a460';
+                layer.style.background = `radial-gradient(circle, ${c1}, ${c2})`;
+            }, 1000);
+
+            setTimeout(() => {
+                txt.innerHTML = `🎨 <b>Image Synthesized Successfully</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[${style.toUpperCase()} Matrix Variant Matching: "${prompt}"]</span>`;
+            }, 2500);
+        }
+
+        // 2. SIMULATED AI TEXT TO VIDEO TOOL
         function generateVideoSimulation() {
             let prompt = document.getElementById('vdoPrompt').value;
             let style = document.getElementById('vdoStyle').value;
-            if(!prompt) { alert("Please input a textual script schema block first."); return; }
+            if(!prompt) { alert("Please provide text coordinates for rendering motion loops."); return; }
             
             let container = document.getElementById('vdoContainer');
             let layer = document.getElementById('vdoLayer');
             let txt = document.getElementById('vdoText');
             
             container.style.display = 'flex';
-            txt.innerText = "Interpreting Core Prompts...";
-            layer.style.backgroundImage = "none";
+            txt.innerText = "Initializing Multi-Frame Interpolation...";
+            layer.style.background = "#000";
             
             setTimeout(() => {
-                txt.innerText = "Slicing Frame Buffers & Applying Weights...";
-                let color1 = style === 'cyberpunk' ? '#ff0055' : style === 'cosmic' ? '#000033' : '#111';
-                let color2 = style === 'cyberpunk' ? '#00ffcc' : style === 'cosmic' ? '#4400aa' : '#444';
-                layer.style.background = `linear-gradient(45deg, ${color1}, ${color2})`;
-            }, 1200);
+                txt.innerText = "Weaving Flow Vectors & Pacing Buffers...";
+                let c1 = style === 'cyberpunk' ? '#00f2fe' : style === 'cosmic' ? '#0f2027' : '#111';
+                let c2 = style === 'cyberpunk' ? '#4facfe' : style === 'cosmic' ? '#2c5364' : '#555';
+                layer.style.background = `linear-gradient(135deg, ${c1}, ${c2})`;
+            }, 1000);
 
             setTimeout(() => {
-                txt.innerHTML = `🎬 <b>Render Complete</b><br><span style="font-size:0.9rem; color:var(--text-muted); font-weight:normal;">[Clip simulation tracking path matching specification parameters: "${prompt}"]</span>`;
-                layer.style.opacity = "0.7";
-            }, 3000);
+                txt.innerHTML = `🎬 <b>Dynamic Motion Clip Online</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[Render Engine Sequence matching parameters: "${prompt}"]</span>`;
+            }, 2500);
         }
 
-        // 2. CORE PERSISTENT TASK MATRIX SCHEDULER
+        // 3. SYNTHESIZED FOCUS AUDIO GENERATOR (WEB AUDIO API)
+        let audioCtx = null, noiseNode = null;
+        function startFocusAudio() {
+            if(audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            let bufferSize = 2 * audioCtx.sampleRate, noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate), output = noiseBuffer.getChannelData(0);
+            let type = document.getElementById('noiseType').value;
+
+            if(type === 'brownian') {
+                let lastOut = 0.0;
+                for (let i = 0; i < bufferSize; i++) {
+                    let white = Math.random() * 2 - 1;
+                    output[i] = (lastOut + (0.02 * white)) / 1.02;
+                    lastOut = output[i];
+                    output[i] *= 3.5; // Gain multiplier adjustments
+                }
+            } else { // Alpha Sine Waves
+                for (let i = 0; i < bufferSize; i++) {
+                    output[i] = Math.sin(2 * Math.PI * 10 * (i / audioCtx.sampleRate)) * 0.2;
+                }
+            }
+            
+            noiseNode = audioCtx.createBufferSource();
+            noiseNode.buffer = noiseBuffer;
+            noiseNode.loop = true;
+            noiseNode.connect(audioCtx.destination);
+            noiseNode.start();
+        }
+        function stopFocusAudio() {
+            if(noiseNode) { noiseNode.stop(); noiseNode.disconnect(); }
+            if(audioCtx) { audioCtx.close(); }
+            audioCtx = null; noiseNode = null;
+        }
+
+        // 4. CORE PERSISTENT TASK MATRIX PLANNERS
         let taskMatrix = [];
         function addTaskItem() {
             let n = document.getElementById('taskName').value;
@@ -666,31 +772,24 @@
             document.getElementById('taskName').value = '';
             renderTaskDashboard();
         }
-        function deleteTask(id) {
-            taskMatrix = taskMatrix.filter(t => t.id !== id);
-            renderTaskDashboard();
-        }
+        function deleteTask(id) { taskMatrix = taskMatrix.filter(t => t.id !== id); renderTaskDashboard(); }
         function renderTaskDashboard() {
             let target = document.getElementById('taskListContainer');
             target.innerHTML = '';
             taskMatrix.forEach(t => {
                 let row = document.createElement('div');
                 row.style = "display:flex; justify-content:space-between; align-items:center; background:var(--bg-primary); padding:0.6rem 1rem; border-radius:6px; margin-bottom:0.4rem; border-left:4px solid var(--accent);";
-                row.innerHTML = `<div><span style="font-size:0.8rem; background:#22263f; padding:2px 6px; border-radius:4px; margin-right:0.5rem;">${t.priority}</span> ${t.title}</div>
-                                 <button onclick="deleteTask(${t.id})" style="background:none; border:none; color:var(--danger); cursor:pointer; font-weight:bold;">✕</button>`;
+                row.innerHTML = `<div><span style="font-size:0.8rem; background:#22263f; padding:2px 6px; border-radius:4px; margin-right:0.5rem;">${t.priority}</span> ${t.title}</div><button onclick="deleteTask(${t.id})" style="background:none; border:none; color:var(--danger); cursor:pointer; font-weight:bold;">✕</button>`;
                 target.appendChild(row);
             });
         }
 
-        // 3. ENHANCED POMODORO SYSTEM WITH INTERVAL FLIPS
+        // 5. POMODORO core SYSTEM
         let timer, timeRemaining, isRunning = false, activeState = "focus";
         function startTimer() {
             if (isRunning) return;
             isRunning = true;
-            if (!timeRemaining) {
-                let focusVal = parseInt(document.getElementById('focusTime').value) || 25;
-                timeRemaining = focusVal * 60;
-            }
+            if (!timeRemaining) timeRemaining = (parseInt(document.getElementById('focusTime').value) || 25) * 60;
             document.getElementById('pomodoroStatus').innerText = `Status: In ${activeState.toUpperCase()} Block`;
             timer = setInterval(() => {
                 if (timeRemaining > 0) {
@@ -701,15 +800,16 @@
                 } else {
                     clearInterval(timer);
                     isRunning = false;
+                    try { new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==").play(); } catch(e){}
                     if(activeState === "focus") {
                         activeState = "break";
                         timeRemaining = (parseInt(document.getElementById('breakTime').value) || 5) * 60;
-                        alert("Focus run parsed completely. Transitioning to structural recovery rest period.");
+                        alert("Focus block elapsed! Shift to your assigned break coordinates.");
                         startTimer();
                     } else {
                         activeState = "focus";
                         timeRemaining = (parseInt(document.getElementById('focusTime').value) || 25) * 60;
-                        alert("Rest sequence elapsed. Re-initializing core alignment execution loop.");
+                        alert("Break completed. Returning to operational alignment focus mode.");
                         startTimer();
                     }
                 }
@@ -718,9 +818,8 @@
         function pauseTimer() { clearInterval(timer); isRunning = false; document.getElementById('pomodoroStatus').innerText = "Status: Paused"; }
         function resetTimer() { clearInterval(timer); isRunning = false; activeState = "focus"; timeRemaining = (parseInt(document.getElementById('focusTime').value) || 25) * 60; document.getElementById('timerDisplay').innerText = `${document.getElementById('focusTime').value.padStart(2, '0')}:00`; document.getElementById('pomodoroStatus').innerText = "Status: Idle"; }
 
-        // 4. RANDOMIZING FLASHCARD SYSTEM
-        let flashcards = [];
-        let idx = 0;
+        // 6. FLASHCARD MANAGEMENT TRACKER
+        let flashcards = [], idx = 0, scoreCorrect = 0, scoreTotal = 0;
         function addFlashcard() {
             let f = document.getElementById('fcFront').value;
             let b = document.getElementById('fcBack').value;
@@ -734,122 +833,95 @@
         }
         function updateFlashcardEngine() {
             if(flashcards.length === 0) return;
-            document.getElementById('fcScoreBoard').innerText = `Deck Size: ${flashcards.length} | Operational Frame: #${idx + 1}`;
+            document.getElementById('fcScoreBoard').innerText = `Deck Size: ${flashcards.length} | Operational Frame: #${idx + 1} | Score Tracker: ${scoreCorrect}/${scoreTotal}`;
             document.getElementById('cardViewer').classList.remove('flipped');
             document.getElementById('viewFront').innerText = flashcards[idx].front;
             document.getElementById('viewBack').innerText = flashcards[idx].back;
+        }
+        function logCardScore(known) {
+            if(flashcards.length === 0) return;
+            scoreTotal++;
+            if(known) scoreCorrect++;
+            nextCard();
         }
         function nextCard() { if(idx < flashcards.length - 1) { idx++; updateFlashcardEngine(); } }
         function prevCard() { if(idx > 0) { idx--; updateFlashcardEngine(); } }
         function shuffleCards() {
             if(flashcards.length < 2) return;
-            flashcards.sort(() => Math.random() - 0.5);
-            idx = 0;
-            updateFlashcardEngine();
+            flashcards.sort(() => Math.random() - 0.5); idx = 0; updateFlashcardEngine();
         }
 
-        // 5. EXTENDED COMPILATION GPA MATRIX CALCULATOR
+        // 7. COMPREHENSIVE INTERACTIVE GRADIENT METRIC GPA CALCULATOR
         function addGpaRow() {
             let container = document.getElementById('gpaRows');
             let div = document.createElement('div');
             div.style = "display:flex; gap:0.5rem; margin-bottom:0.5rem;";
-            div.innerHTML = `<input type="text" placeholder="Course Structure Name" style="margin:0;"><input type="number" placeholder="Credits Weight" class="gpa-credit" style="margin:0;"><select class="gpa-grade" style="margin:0;"><option value="4.0">A (4.0)</option><option value="3.5">B+ (3.5)</option><option value="3.0">B (3.0)</option><option value="2.5">C+ (2.5)</option><option value="2.0">C (2.0)</option><option value="0.0">F (0.0)</option></select>`;
+            div.innerHTML = `<input type="text" placeholder="Course Structure Name" style="margin:0;"><input type="number" placeholder="Credits" class="gpa-credit" style="margin:0;"><select class="gpa-grade" style="margin:0;"><option value="4.0">A (4.0)</option><option value="3.5">B+ (3.5)</option><option value="3.0">B (3.0)</option><option value="2.5">C+ (2.5)</option><option value="2.0">C (2.0)</option><option value="0.0">F (0.0)</option></select>`;
             container.appendChild(div);
         }
         function calculateGPA() {
-            let credits = document.querySelectorAll('.gpa-credit');
-            let grades = document.querySelectorAll('.gpa-grade');
-            let totalPoints = 0, totalCredits = 0;
+            let credits = document.querySelectorAll('.gpa-credit'), grades = document.querySelectorAll('.gpa-grade'), totalPoints = 0, totalCredits = 0;
             for(let i=0; i<credits.length; i++) {
-                let c = parseFloat(credits[i].value);
-                let g = parseFloat(grades[i].value);
-                if(!isNaN(c) && c > 0) {
-                    totalPoints += (c * g);
-                    totalCredits += c;
-                }
+                let c = parseFloat(credits[i].value), g = parseFloat(grades[i].value);
+                if(!isNaN(c) && c > 0) { totalPoints += (c * g); totalCredits += c; }
             }
             let res = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
-            document.getElementById('gpaOutput').innerHTML = `<b>Cumulative Evaluation Yield:</b> ${res} GPA calculated across ${totalCredits} processing credit units.`;
+            document.getElementById('gpaOutput').innerHTML = `<b>Cumulative Analysis Metrics Output:</b> ${res} GPA mapped through ${totalCredits} credit processing nodes.`;
         }
 
-        // 6. GRANULAR LIVE PARSING MARKDOWN SUITE
+        // 8. INTERACTIVE LIVE LAB NOTES CONVERTER WITH COUNTERS
         function liveRenderNotes() {
             let src = document.getElementById('noteInput').value;
             let target = document.getElementById('notePreview');
-            let processed = src.replace(/^# (.*$)/gim, '<h1>$1</h1>')
-                               .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-                               .replace(/^\* (.*$)/gim, '<ul><li>$1</li></ul>')
-                               .replace(/\*\*(.*)\*\*/gim, '<b>$1</b>');
-            target.innerHTML = processed;
+            let words = src.trim() === "" ? 0 : src.trim().split(/\s+/).length;
+            document.getElementById('noteWordCount').innerText = `Metrics: ${words} Words | ${src.length} Characters`;
+            target.innerHTML = src.replace(/^# (.*$)/gim, '<h1>$1</h1>').replace(/^## (.*$)/gim, '<h2>$1</h2>').replace(/^\* (.*$)/gim, '<ul><li>$1</li></ul>').replace(/\*\*(.*)\*\*/gim, '<b>$1</b>');
         }
         function downloadNotes() {
             let content = document.getElementById('noteInput').value;
-            let blob = new Blob([content], {type: "text/plain;charset=utf-8"});
-            let link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "StructuralStudyMap.md";
-            link.click();
+            let blob = new Blob([content], {type: "text/plain;charset=utf-8"}), link = document.createElement("a");
+            link.href = URL.createObjectURL(blob); link.download = "AcademicNotesManifest.md"; link.click();
         }
 
-        // 7. BITWISE EXTENDED PASSWORD UTILITY
+        // 9. CRYPTOGRAPHIC KEY PIPELINE GENERATION
         function generatePassword() {
-            let len = parseInt(document.getElementById('passLength').value) || 16;
-            let upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            let lower = "abcdefghijklmnopqrstuvwxyz";
-            let num = "0123456789";
-            let sym = "!@#$%^&*()_+-=[]{}|;:,.<>?";
-            
-            let charPool = "";
-            if(document.getElementById('passUpper').checked) charPool += upper;
-            if(document.getElementById('passLower').checked) charPool += lower;
-            if(document.getElementById('passNum').checked) charPool += num;
-            if(document.getElementById('passSym').checked) charPool += sym;
-            
-            if(!charPool) { document.getElementById('passOutput').innerText = "Select at least one matrix component parameter layer."; return; }
-            
+            let len = parseInt(document.getElementById('passLength').value) || 16, upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", lower = "abcdefghijklmnopqrstuvwxyz", num = "0123456789", sym = "!@#$%^&*()_+~";
+            let pool = "";
+            if(document.getElementById('passUpper').checked) pool += upper;
+            if(document.getElementById('passLower').checked) pool += lower;
+            if(document.getElementById('passNum').checked) pool += num;
+            if(document.getElementById('passSym').checked) pool += sym;
+            if(!pool) { document.getElementById('passOutput').innerText = "Select at least one layer."; return; }
             let pass = "";
-            for (let i = 0; i < len; i++) {
-                pass += charPool.charAt(Math.floor(Math.random() * charPool.length));
-            }
+            for (let i = 0; i < len; i++) pass += pool.charAt(Math.floor(Math.random() * pool.length));
             document.getElementById('passOutput').innerText = pass;
         }
 
-        // 8. DATA BLOCK BASE64 TRANSLATION CORE
+        // 10. BASE64 TRANSFORM INFRASTRUCTURE
         function processBase64(encode) {
             let input = document.getElementById('b64Input').value;
             try {
-                let out = encode ? btoa(input) : atob(input);
-                document.getElementById('b64Output').innerText = out;
+                document.getElementById('b64Output').innerText = encode ? btoa(input) : atob(input);
             } catch(e) {
-                document.getElementById('b64Output').innerText = "An execution parsing fault occurred. Verify standard string formatting sequences.";
+                document.getElementById('b64Output').innerText = "Invalid string formatting properties detected.";
             }
         }
 
-        // 9. IMAGE RESIZING FRAME PROCESSING
+        // 11. IMAGE CANVAS RENDERING & ADJUSTMENTS
         function resizeImage() {
-            let fileInput = document.getElementById('resizeFile').files[0];
-            let w = parseInt(document.getElementById('resizeWidth').value);
-            let h = parseInt(document.getElementById('resizeHeight').value);
+            let fileInput = document.getElementById('resizeFile').files[0], w = parseInt(document.getElementById('resizeWidth').value), h = parseInt(document.getElementById('resizeHeight').value);
             if (!fileInput) return;
-            let img = new Image();
-            img.src = URL.createObjectURL(fileInput);
+            let img = new Image(); img.src = URL.createObjectURL(fileInput);
             img.onload = function() {
-                let canvas = document.createElement('canvas');
-                canvas.width = w; canvas.height = h;
-                let ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, w, h);
-                let a = document.createElement('a');
-                a.href = canvas.toDataURL('image/jpeg');
-                a.download = 'synthesized_output.jpg';
-                a.click();
+                let canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
+                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                let a = document.createElement('a'); a.href = canvas.toDataURL('image/jpeg'); a.download = 'resized.jpg'; a.click();
             }
         }
 
-        // 10. ADVANCED DIRECTION MATRIX IMAGE MERGER
+        // 12. IMAGE MERGING INTERACTION SCHEMES
         function mergeImages() {
-            let f1 = document.getElementById('mergeFile1').files[0];
-            let f2 = document.getElementById('mergeFile2').files[0];
-            let orient = document.getElementById('mergeOrientation').value;
+            let f1 = document.getElementById('mergeFile1').files[0], f2 = document.getElementById('mergeFile2').files[0], orient = document.getElementById('mergeOrientation').value;
             if(!f1 || !f2) return;
             let img1 = new Image(), img2 = new Image();
             img1.src = URL.createObjectURL(f1);
@@ -857,48 +929,30 @@
                 img2.src = URL.createObjectURL(f2);
                 img2.onload = () => {
                     let canvas = document.createElement('canvas');
-                    if (orient === 'vertical') {
-                        canvas.width = Math.max(img1.width, img2.width);
-                        canvas.height = img1.height + img2.height;
-                    } else {
-                        canvas.width = img1.width + img2.width;
-                        canvas.height = Math.max(img1.height, img2.height);
-                    }
-                    let ctx = canvas.getContext('2d');
-                    ctx.drawImage(img1, 0, 0);
-                    if (orient === 'vertical') {
-                        ctx.drawImage(img2, 0, img1.height);
-                    } else {
-                        ctx.drawImage(img2, img1.width, 0);
-                    }
-                    let a = document.createElement('a');
-                    a.href = canvas.toDataURL('image/png');
-                    a.download = 'merged_matrix.png';
-                    a.click();
+                    canvas.width = orient === 'vertical' ? Math.max(img1.width, img2.width) : img1.width + img2.width;
+                    canvas.height = orient === 'vertical' ? img1.height + img2.height : Math.max(img1.height, img2.height);
+                    let ctx = canvas.getContext('2d'); ctx.drawImage(img1, 0, 0);
+                    if(orient === 'vertical') ctx.drawImage(img2, 0, img1.height); else ctx.drawImage(img2, img1.width, 0);
+                    let a = document.createElement('a'); a.href = canvas.toDataURL('image/png'); a.download = 'merged.png'; a.click();
                 }
             }
         }
 
-        // 11. PDF PAGE EXTRACTION LOGIC VIA COMPILER BUFFER
+        // 13. PDF DECONSTRUCTION MANAGEMENT LAYER
         function convertPdfToImg() {
-            let file = document.getElementById('pdfFile').files[0];
-            if(!file) return;
+            let file = document.getElementById('pdfFile').files[0]; if(!file) return;
             let fileReader = new FileReader();
             fileReader.onload = function() {
                 let typedarray = new Uint8Array(this.result);
                 pdfjsLib.getDocument(typedarray).promise.then(pdf => {
-                    let outArea = document.getElementById('pdfOutputArea');
-                    outArea.innerHTML = "";
-                    let maxPages = Math.min(pdf.numPages, 3); // Render up to 3 pages for safe resource handling
+                    let outArea = document.getElementById('pdfOutputArea'); outArea.innerHTML = "";
+                    let maxPages = Math.min(pdf.numPages, 3);
                     for(let i=1; i<=maxPages; i++) {
                         pdf.getPage(i).then(page => {
-                            let viewport = page.getViewport({scale: 1.2});
-                            let canvas = document.createElement('canvas');
-                            let ctx = canvas.getContext('2d');
+                            let viewport = page.getViewport({scale: 1.2}), canvas = document.createElement('canvas');
                             canvas.height = viewport.height; canvas.width = viewport.width;
-                            page.render({canvasContext: ctx, viewport: viewport}).promise.then(() => {
-                                let outputImg = new Image();
-                                outputImg.src = canvas.toDataURL();
+                            page.render({canvasContext: canvas.getContext('2d'), viewport: viewport}).promise.then(() => {
+                                let outputImg = new Image(); outputImg.src = canvas.toDataURL();
                                 outputImg.style = "width:100%; border:1px solid #313754; border-radius:6px;";
                                 outArea.appendChild(outputImg);
                             });
@@ -909,14 +963,11 @@
             fileReader.readAsArrayBuffer(file);
         }
 
-        // 12. TEXT TO PDF DOCUMENT GENERATOR
+        // 14. RAW PARAGRAPH TO DOCUMENT COMPILER (TEXT TO PDF)
         function generatePdfFile() {
-            const { jsPDF } = window.jspdf;
-            let doc = new jsPDF();
-            let txt = document.getElementById('pdfTextContent').value;
+            const { jsPDF } = window.jspdf; let doc = new jsPDF(), txt = document.getElementById('pdfTextContent').value;
             if(!txt) return;
-            let splitText = doc.splitTextToSize(txt, 180);
-            doc.text(splitText, 10, 10);
+            let splitText = doc.splitTextToSize(txt, 180); doc.text(splitText, 10, 10);
             doc.save('Compiled_System_Report.pdf');
         }
     </script>
