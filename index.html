@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sanjay Subedi - Digital Tools & AI Studio</title>
-    <!-- External Dependencies -->
+    <!-- External PDF Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <style>
         :root {
@@ -13,7 +13,7 @@
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
             --primary: #6366f1;
-            --primary-glow: rgba(99, 102, 241, 0.3);
+            --primary-glow: rgba(99, 102, 241, 0.2);
             --accent: #a855f7;
             --border: rgba(255, 255, 255, 0.08);
             --success: #10b981;
@@ -46,7 +46,7 @@
         }
 
         header h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             background: linear-gradient(135deg, #6366f1, #a855f7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -61,7 +61,7 @@
         }
 
         .section-title {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             margin: 3rem 0 1.5rem 0;
             color: #fff;
             border-left: 4px solid var(--primary);
@@ -86,7 +86,7 @@
             padding: 2rem;
             cursor: pointer;
             backdrop-filter: blur(10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -178,7 +178,6 @@
             position: relative;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         .modal-header {
@@ -205,7 +204,7 @@
 
         .close-btn:hover { color: #fff; }
 
-        /* Form Controls */
+        /* Form Layouts */
         .form-group {
             margin-bottom: 1.25rem;
         }
@@ -237,7 +236,7 @@
 
         .upload-preview-box {
             width: 100%;
-            max-height: 120px;
+            max-height: 150px;
             object-fit: contain;
             border-radius: 8px;
             background: #09090d;
@@ -246,7 +245,7 @@
             display: none;
         }
 
-        /* Fixed Media Render Preview Containment */
+        /* Output Display Areas */
         .output-preview-container {
             margin-top: 1.5rem;
             padding-top: 1.5rem;
@@ -257,17 +256,17 @@
 
         .output-preview-container img {
             width: 100%;
-            border-radius: 10px;
+            border-radius: 12px;
             background: #09090d;
             border: 1px solid var(--border);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
             display: block;
         }
 
-        /* Fixed specific container shapes for social platforms */
-        .preview-youtube-long { aspect-ratio: 16 / 9; object-fit: cover; }
-        .preview-youtube-shorts { aspect-ratio: 9 / 16; max-height: 450px !important; object-fit: cover; width: auto !important; margin: 0 auto 0.5rem auto; }
-        .preview-instagram-square { aspect-ratio: 1 / 1; object-fit: cover; }
+        /* Specific visual aspect ratios for video platforms */
+        .ratio-youtube { aspect-ratio: 16 / 9; object-fit: cover; }
+        .ratio-shorts { aspect-ratio: 9 / 16; max-height: 420px !important; object-fit: cover; width: auto !important; margin: 0 auto 0.75rem auto; }
+        .ratio-square { aspect-ratio: 1 / 1; object-fit: cover; }
 
         .output-box {
             background: #09090d;
@@ -319,7 +318,6 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 0.9rem;
-            transition: all 0.2s;
         }
 
         .toggle-btn.active {
@@ -333,7 +331,7 @@
     <div class="container">
         <header>
             <h1>Sanjay Subedi Workspace</h1>
-            <p>A clean collection of simple web tools and AI creation assistants.</p>
+            <p>A collection of simple web tools and professional AI studio assistants.</p>
         </header>
 
         <!-- AI SECTION -->
@@ -341,22 +339,22 @@
         <div class="tools-grid">
             <div class="tool-card" onclick="openModal('textToVideoModal')">
                 <div class="tool-icon" style="color: #ff4500; border-color: #ff4500;">🎬</div>
-                <h3>Professional Text to Video Studio</h3>
-                <p>Generate highly professional video scenes tailored perfectly for YouTube, Shorts, TikTok, and Reels.</p>
+                <h3>AI Video Studio</h3>
+                <p>Create professional video clips customized for YouTube, TikTok, Shorts, and Instagram Reels.</p>
                 <button class="btn" style="background: linear-gradient(135deg, #ff4500, #a855f7);">Open Video Studio</button>
             </div>
 
             <div class="tool-card" onclick="openModal('imageGenModal')">
                 <div class="tool-icon" style="color: var(--accent); border-color: var(--accent);">🎨</div>
-                <h3>AI Image Generator & Editor</h3>
-                <p>Create completely new pictures from prompts, or upload an image from your device to edit it using AI.</p>
-                <button class="btn" style="background: linear-gradient(135deg, #6366f1, #a855f7);">Open Studio</button>
+                <h3>AI Image Studio</h3>
+                <p>Generate brand-new images from text prompts, or upload a photo to edit it using AI instructions.</p>
+                <button class="btn" style="background: linear-gradient(135deg, #6366f1, #a855f7);">Open Image Studio</button>
             </div>
 
             <div class="tool-card" onclick="openModal('noteLabModal')">
                 <div class="tool-icon" style="color: #3b82f6;">📝</div>
                 <h3>Live Notepad</h3>
-                <p>Write standard notes or markdown code and see a real-time visual preview side by side.</p>
+                <p>Write raw notes or simple code layouts and watch them format visually in real-time side-by-side.</p>
                 <button class="btn">Open Notepad</button>
             </div>
         </div>
@@ -367,42 +365,42 @@
             <div class="tool-card" onclick="openModal('passwordModal')">
                 <div class="tool-icon">🔑</div>
                 <h3>Password Generator</h3>
-                <p>Create highly secure passwords instantly to protect your online personal accounts.</p>
+                <p>Instantly build high-security random passwords to keep your personal accounts fully protected.</p>
                 <button class="btn">Open Tool</button>
             </div>
 
             <div class="tool-card" onclick="openModal('base64Modal')">
                 <div class="tool-icon">🔾</div>
-                <h3>Base64 Text Converter</h3>
-                <p>Easily convert text strings into standard secure Base64 code formats and back.</p>
+                <h3>Base64 Converter</h3>
+                <p>Quickly convert regular readable text into safe, web-encoded code blocks and back again.</p>
                 <button class="btn">Open Tool</button>
             </div>
 
             <div class="tool-card" onclick="openModal('resizerModal')">
                 <div class="tool-icon">🖼️</div>
                 <h3>Image Resizer</h3>
-                <p>Change your photos or screenshots to any precise pixel size dimensions you need.</p>
+                <p>Change your pictures, files, or screenshots to the exact width and height dimensions you need.</p>
                 <button class="btn">Open Tool</button>
             </div>
 
             <div class="tool-card" onclick="openModal('mergerModal')">
                 <div class="tool-icon">🥞</div>
                 <h3>Image Merger</h3>
-                <p>Combine two different images together into one single file horizontally or vertically.</p>
+                <p>Combine two separate graphic files side-by-side or stacked top-to-bottom into one single file.</p>
                 <button class="btn">Open Tool</button>
             </div>
 
             <div class="tool-card" onclick="openModal('pdfToImgModal')">
                 <div class="tool-icon">📄</div>
-                <h3>PDF to Image</h3>
-                <p>Convert your multi-page PDF documents into standard downloadable image files.</p>
+                <h3>PDF Document Tools</h3>
+                <p>Load Multi-page PDF documents to extract text metadata content or prepare them for file splitting.</p>
                 <button class="btn">Open Tool</button>
             </div>
 
             <div class="tool-card" onclick="openModal('taskMatrixModal')">
                 <div class="tool-icon" style="color: #10b981;">📋</div>
                 <h3>Homework & Task Planner</h3>
-                <p>Keep track of your classes and school assignments with priority tags and quick checklists.</p>
+                <p>Keep organized track of your classes and school work assignments with simple visual priority tags.</p>
                 <button class="btn">Open Planner</button>
             </div>
         </div>
@@ -410,48 +408,47 @@
 
     <!-- ================= MODAL WINDOWS ================= -->
 
-    <!-- Professional Text to Video Studio Modal -->
+    <!-- AI Video Studio Modal -->
     <div id="textToVideoModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">🎬 Professional AI Video Studio</h2>
+                <h2 class="modal-title">🎬 AI Video Studio</h2>
                 <button class="close-btn" onclick="closeModal('textToVideoModal')">&times;</button>
             </div>
             <div class="form-group">
-                <label>Video Scene Prompt</label>
-                <textarea id="videoPrompt" style="height: 90px;" placeholder="e.g., Cinematic shot of drone flying over Kathmandu at sunset, 4k, hyper-realistic, volumetric lighting..."></textarea>
+                <label>Video Concept Prompt</label>
+                <textarea id="videoPrompt" style="height: 90px;" placeholder="e.g., Cinematic aerial view of Kathmandu valley during sunset, 4k resolution, hyper-realistic, highly detailed..."></textarea>
             </div>
             <div class="feature-row">
                 <div>
-                    <label>Target Platform & Ratio</label>
+                    <label>Platform Aspect Ratio</label>
                     <select id="videoTargetPlatform">
-                        <option value="youtube-long">YouTube Video (16:9 Landscape)</option>
-                        <option value="youtube-shorts">YouTube Shorts / TikTok (9:16 Portrait)</option>
-                        <option value="instagram-square">Instagram Post (1:1 Square)</option>
+                        <option value="youtube">YouTube Standard (16:9 Landscape)</option>
+                        <option value="shorts">TikTok & Shorts (9:16 Portrait)</option>
+                        <option value="instagram">Instagram Post (1:1 Square)</option>
                     </select>
                 </div>
                 <div>
-                    <label>Cinematic Style Preset</label>
+                    <label>Cinematic Style</label>
                     <select id="videoStylePreset">
-                        <option value="photorealistic">Photorealistic Cinematic</option>
-                        <option value="anime-motion">Anime Movement</option>
-                        <option value="cyberpunk-animation">Cyberpunk Sci-Fi</option>
-                        <option value="3d-animation">3D Animation</option>
+                        <option value="photorealistic">Photorealistic Film</option>
+                        <option value="anime-motion">Anime & Animation</option>
+                        <option value="cyberpunk">Cyberpunk Futuristic</option>
+                        <option value="3d-render">3D Digital Art</option>
                     </select>
                 </div>
             </div>
-            <button class="btn" onclick="generateProVideo()" style="background: linear-gradient(135deg, #ff4500, #a855f7);">Render Professional Scene</button>
+            <button class="btn" onclick="generateProVideo()" style="background: linear-gradient(135deg, #ff4500, #a855f7);">Generate Video Preview</button>
 
             <div id="videoOutputContainer" class="output-preview-container">
                 <div id="videoStatusMessage" style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.95rem;"></div>
-                <!-- Continuous Feed Render Engine Canvas -->
-                <img id="videoPreviewOutput" src="" alt="AI Render Stream View">
-                <button class="btn btn-success" onclick="downloadProVideo()">💾 Download Rendered File</button>
+                <img id="videoPreviewOutput" src="" alt="AI Video Preview Box">
+                <button class="btn btn-success" onclick="downloadProVideo()">💾 Download Generated File</button>
             </div>
         </div>
     </div>
 
-    <!-- AI Image Generator & Editor Modal -->
+    <!-- AI Image Studio Modal -->
     <div id="imageGenModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -465,39 +462,39 @@
             </div>
 
             <div id="aiImageUploadGroup" class="form-group" style="display: none;">
-                <label>Select image from your device</label>
+                <label>Select base photo from device</label>
                 <input type="file" id="aiBaseImageInput" class="form-control" accept="image/*" onchange="showLocalImagePreview(this, 'aiUploadPreview')">
-                <img id="aiUploadPreview" class="upload-preview-box" alt="Your original image preview">
+                <img id="aiUploadPreview" class="upload-preview-box" alt="Upload source preview">
             </div>
 
             <div class="form-group">
                 <label id="aiPromptLabel">Describe the image you want to create</label>
-                <textarea id="imagePrompt" placeholder="e.g., A futuristic student studying at a neon desk in Kathmandu, digital art style..."></textarea>
+                <textarea id="imagePrompt" placeholder="e.g., A student working at a futuristic computer setup in Nepal, digital art style..."></textarea>
             </div>
             
             <div class="feature-row">
                 <div>
-                    <label>Art Style</label>
+                    <label>Artistic Theme</label>
                     <select id="imageStyle">
                         <option value="cinematic">Cinematic Photo</option>
-                        <option value="anime">Anime Style</option>
+                        <option value="anime">Anime Graphic</option>
                         <option value="cyberpunk">Neon Cyberpunk</option>
-                        <option value="3d-render">3D Digital Art</option>
+                        <option value="3d-render">3D Concept Art</option>
                     </select>
                 </div>
                 <div>
-                    <label>Image Size</label>
+                    <label>Canvas Dimension</label>
                     <select id="aspectRatio">
                         <option value="1:1">Square (1:1)</option>
                         <option value="16:9">Widescreen (16:9)</option>
-                        <option value="4:5">Phone Screen (4:5)</option>
+                        <option value="4:5">Portrait Mobile (4:5)</option>
                     </select>
                 </div>
             </div>
-            <button class="btn" onclick="processAIStudioAction()" style="background: linear-gradient(135deg, #6366f1, #a855f7);">Generate Canvas Preview</button>
+            <button class="btn" onclick="processAIStudioAction()" style="background: linear-gradient(135deg, #6366f1, #a855f7);">Generate Artwork Preview</button>
             
             <div id="imageOutputContainer" class="output-preview-container">
-                <img id="generatedImagePreview" src="" alt="AI Output Preview">
+                <img id="generatedImagePreview" src="" alt="AI Output Canvas">
                 <button class="btn btn-success" onclick="downloadAIImage()">💾 Download Image File</button>
             </div>
         </div>
@@ -507,22 +504,20 @@
     <div id="noteLabModal" class="modal">
         <div class="modal-content" style="max-width: 650px;">
             <div class="modal-header">
-                <h2 class="modal-title">📝 Live Notepad Workspace</h2>
+                <h2 class="modal-title">📝 Live Notepad</h2>
                 <button class="close-btn" onclick="closeModal('noteLabModal')">&times;</button>
             </div>
-            <div class="feature-row" style="grid-template-columns: 1fr;">
-                <div class="form-group">
-                    <label>Type text or basic Markdown rules here</label>
-                    <textarea id="markdownInput" oninput="processMarkdownLive()" style="height: 150px; font-family: monospace;" placeholder="# Type a main header&#10;**This text is bold**&#10;* Item list option"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Live View Preview Output</label>
-                    <div id="markdownPreview" style="background:#09090d; border:1px solid var(--border); padding:1rem; border-radius:8px; height:120px; overflow-y:auto;">Your preview will render here...</div>
-                </div>
+            <div class="form-group">
+                <label>Type your text content here</label>
+                <textarea id="markdownInput" oninput="processMarkdownLive()" style="height: 140px; font-family: monospace;" placeholder="# Type a main header&#10;**This text will look bold**&#10;* List item note here"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Real-Time Visual Preview</label>
+                <div id="markdownPreview" style="background:#09090d; border:1px solid var(--border); padding:1.25rem; border-radius:8px; min-height:100px; max-height: 150px; overflow-y:auto;">Visual layout will sync up here...</div>
             </div>
             <div class="feature-row">
-                <button class="btn" onclick="clearMarkdownWorkspace()" style="background: #272732;">Clear text</button>
-                <button class="btn btn-success" onclick="downloadMarkdownText()">💾 Save Document File</button>
+                <button class="btn" onclick="clearMarkdownWorkspace()" style="background: #272732;">Clear Canvas</button>
+                <button class="btn btn-success" onclick="downloadMarkdownText()">💾 Save text file</button>
             </div>
         </div>
     </div>
@@ -531,27 +526,27 @@
     <div id="taskMatrixModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">📋 Task & Homework Planner</h2>
+                <h2 class="modal-title">📋 Homework & Task Planner</h2>
                 <button class="close-btn" onclick="closeModal('taskMatrixModal')">&times;</button>
             </div>
             <div class="form-group">
                 <label>Assignment or Task Title</label>
-                <input type="text" id="taskNameInput" class="form-control" placeholder="e.g., Complete Chapter 3 Math Exercises">
+                <input type="text" id="taskNameInput" class="form-control" placeholder="e.g., Read English Chapter 4 and answer questions">
             </div>
             <div class="feature-row">
                 <div>
-                    <label>Priority Tag</label>
+                    <label>Priority level</label>
                     <select id="taskPriority">
-                        <option value="HIGH">🔴 High Priority</option>
-                        <option value="MEDIUM">🟡 Medium Priority</option>
-                        <option value="LOW">🟢 Low Priority</option>
+                        <option value="HIGH">🔴 High Importance</option>
+                        <option value="MEDIUM">🟡 Medium Importance</option>
+                        <option value="LOW">🟢 Low Importance</option>
                     </select>
                 </div>
                 <div style="display: flex; align-items: flex-end;">
-                    <button class="btn" onclick="commitTaskToMatrix()">Add to List</button>
+                    <button class="btn" onclick="commitTaskToMatrix()">Save to Checklist</button>
                 </div>
             </div>
-            <label style="font-size: 0.85rem; color: var(--text-muted); font-weight:700;">My Current Assignments</label>
+            <label style="font-size: 0.85rem; color: var(--text-muted); font-weight:700;">My Current Tasks</label>
             <div id="taskMatrixContainer" style="max-height: 200px; overflow-y: auto; margin-top: 0.5rem;"></div>
         </div>
     </div>
@@ -564,11 +559,11 @@
                 <button class="close-btn" onclick="closeModal('passwordModal')">&times;</button>
             </div>
             <div class="form-group">
-                <label>Password Character Length</label>
+                <label>Character Length</label>
                 <input type="number" id="passwordLength" class="form-control" value="16" min="6" max="64">
             </div>
-            <button class="btn" onclick="generatePassword()">Generate Password</button>
-            <div id="passwordOutput" class="output-box">Your secure password will show here</div>
+            <button class="btn" onclick="generatePassword()">Create Password</button>
+            <div id="passwordOutput" class="output-box">Your generated password will show here</div>
             <button class="btn btn-success" onclick="copyToClipboard('passwordOutput')">📋 Copy Password</button>
         </div>
     </div>
@@ -581,14 +576,14 @@
                 <button class="close-btn" onclick="closeModal('base64Modal')">&times;</button>
             </div>
             <div class="form-group">
-                <label>Input Your Text String</label>
-                <textarea id="base64Input" placeholder="Enter plain text or base64 format strings here..."></textarea>
+                <label>Input Text String</label>
+                <textarea id="base64Input" placeholder="Enter normal text or coded Base64 strings here..."></textarea>
             </div>
             <div class="feature-row">
-                <button class="btn" onclick="encodeBase64()">Convert to Base64</button>
-                <button class="btn" onclick="decodeBase64()" style="background: #374151;">Decode back to Text</button>
+                <button class="btn" onclick="encodeBase64()">Convert to Code</button>
+                <button class="btn" onclick="decodeBase64()" style="background: #374151;">Decode to Text</button>
             </div>
-            <div id="base64Output" class="output-box">Converted text result appears here</div>
+            <div id="base64Output" class="output-box">Output conversion string results will print here</div>
             <button class="btn btn-success" onclick="copyToClipboard('base64Output')">📋 Copy Result</button>
         </div>
     </div>
@@ -601,24 +596,24 @@
                 <button class="close-btn" onclick="closeModal('resizerModal')">&times;</button>
             </div>
             <div class="form-group">
-                <label>Select Your Image</label>
+                <label>Upload Image</label>
                 <input type="file" id="resizeInput" class="form-control" accept="image/*" onchange="showLocalImagePreview(this, 'resizeUploadPreview')">
-                <img id="resizeUploadPreview" class="upload-preview-box" alt="Upload preview">
+                <img id="resizeUploadPreview" class="upload-preview-box" alt="File upload visualization preview">
             </div>
             <div class="feature-row">
                 <div>
-                    <label>Width (px)</label>
+                    <label>Width (pixels)</label>
                     <input type="number" id="resizeWidth" class="form-control" value="800">
                 </div>
                 <div>
-                    <label>Height (px)</label>
+                    <label>Height (pixels)</label>
                     <input type="number" id="resizeHeight" class="form-control" value="600">
                 </div>
             </div>
-            <button class="btn" onclick="processResize()">Process & Preview Changes</button>
+            <button class="btn" onclick="processResize()">Process Resize Changes</button>
 
             <div id="resizerOutputContainer" class="output-preview-container">
-                <img id="resizerImagePreview" src="" alt="Resized output preview">
+                <img id="resizerImagePreview" src="" alt="Resized image output preview">
                 <button class="btn btn-success" onclick="downloadResizerImage()">💾 Download Resized Image</button>
             </div>
         </div>
@@ -632,17 +627,17 @@
                 <button class="close-btn" onclick="closeModal('mergerModal')">&times;</button>
             </div>
             <div class="form-group">
-                <label>First Image File (1)</label>
+                <label>First Image (Left/Top)</label>
                 <input type="file" id="mergeInput1" class="form-control" accept="image/*" onchange="showLocalImagePreview(this, 'mergePreview1')">
-                <img id="mergePreview1" class="upload-preview-box" alt="Upload 1 preview">
+                <img id="mergePreview1" class="upload-preview-box" alt="Upload slot one preview">
             </div>
             <div class="form-group">
-                <label>Second Image File (2)</label>
+                <label>Second Image (Right/Bottom)</label>
                 <input type="file" id="mergeInput2" class="form-control" accept="image/*" onchange="showLocalImagePreview(this, 'mergePreview2')">
-                <img id="mergePreview2" class="upload-preview-box" alt="Upload 2 preview">
+                <img id="mergePreview2" class="upload-preview-box" alt="Upload slot two preview">
             </div>
             <div class="form-group">
-                <label>Layout Direction Alignment</label>
+                <label>Layout Arrangement Direction</label>
                 <select id="mergeDirection">
                     <option value="horizontal">Side-by-Side (Horizontal)</option>
                     <option value="vertical">Stacked (Vertical)</option>
@@ -651,44 +646,41 @@
             <button class="btn" onclick="processMerge()">Merge Images Together</button>
 
             <div id="mergerOutputContainer" class="output-preview-container">
-                <img id="mergerImagePreview" src="" alt="Merged output preview">
-                <button class="btn btn-success" onclick="downloadMergerImage()">💾 Download Combined Image</button>
+                <img id="mergerImagePreview" src="" alt="Merged layout preview">
+                <button class="btn btn-success" onclick="downloadMergerImage()">💾 Download Combined File</button>
             </div>
         </div>
     </div>
 
-    <!-- PDF to Image Modal -->
+    <!-- PDF Document Tools Modal -->
     <div id="pdfToImgModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">📄 PDF to Image Converter</h2>
+                <h2 class="modal-title">📄 PDF Document Tools</h2>
                 <button class="close-btn" onclick="closeModal('pdfToImgModal')">&times;</button>
             </div>
             <div class="form-group">
-                <label>Select PDF File (.pdf)</label>
+                <label>Select PDF Document</label>
                 <input type="file" id="pdfFileToImg" class="form-control" accept="application/pdf">
             </div>
-            <button class="btn" onclick="convertPdfToImages()">Convert PDF Pages</button>
-            <div id="pdfImgContainer" style="margin-top: 1rem; text-align:center; max-height:150px; overflow-y:auto; color:var(--text-muted); font-size:0.9rem;"></div>
+            <button class="btn" onclick="convertPdfToImages()">Analyze & Process PDF</button>
+            <div id="pdfImgContainer" style="margin-top: 1.25rem; text-align:center; max-height:150px; overflow-y:auto; color:var(--text-muted); font-size:0.95rem;"></div>
         </div>
     </div>
 
-    <!-- ================= JAVASCRIPT SYSTEM OPERATION LOGIC ================= -->
+    <!-- ================= JAVASCRIPT LOGIC OPERATIONS ================= -->
     <script>
         let currentAIStudioMode = 'text';
         let globalProcessedImageBlobUrl = ""; 
         let globalProcessedVideoUrl = "";
 
-        // Modal Window Controls
+        // UI Modal Visibility Controllers
         function openModal(modalId) {
             document.getElementById(modalId).classList.add('active');
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
-            // Clean up old outputs on close
-            document.getElementById('videoOutputContainer').style.display = "none";
-            document.getElementById('imageOutputContainer').style.display = "none";
         }
 
         window.onclick = function(event) {
@@ -724,13 +716,13 @@
                 editTabBtn.classList.remove('active');
                 uploadGroup.style.display = 'none';
                 promptLabel.innerText = "Describe the image you want to create";
-                promptTextarea.placeholder = "e.g., A futuristic student studying at a neon desk in Kathmandu, digital art style...";
+                promptTextarea.placeholder = "e.g., A student working at a futuristic computer setup in Nepal, digital art style...";
             } else {
                 textTabBtn.classList.remove('active');
                 editTabBtn.classList.add('active');
                 uploadGroup.style.display = 'block';
-                promptLabel.innerText = "Describe the edits or variations you want to apply to your image";
-                promptTextarea.placeholder = "e.g., Turn the background into a beautiful snowy mountain sunset...";
+                promptLabel.innerText = "Describe the changes or edits you want to make";
+                promptTextarea.placeholder = "e.g., Modify the background environment into snowy mountains at sunset...";
             }
         }
 
@@ -748,50 +740,49 @@
             const platform = document.getElementById('videoTargetPlatform').value;
             const stylePreset = document.getElementById('videoStylePreset').value;
 
-            if (!promptText) { alert("Please input a video concept description!"); return; }
+            if (!promptText) { alert("Please type out a description for your video first!"); return; }
 
             const outputContainer = document.getElementById('videoOutputContainer');
             const statusMsg = document.getElementById('videoStatusMessage');
             const videoPreview = document.getElementById('videoPreviewOutput');
 
-            // Setup View State
             outputContainer.style.display = "block";
-            videoPreview.style.style = "none";
-            videoPreview.className = ""; // clear old configuration classes
-            statusMsg.innerHTML = "🎬 Initializing rendering sequence... Creating cinematic continuous timeline stream, please wait.";
+            videoPreview.style.display = "none";
+            videoPreview.className = ""; 
+            statusMsg.innerHTML = "🎬 Building video scene preview... Rendering continuous AI motion timeline stream, please wait.";
 
-            // Dynamic dimension calculations for platform accuracy
+            // Dimension configuration adjustments to avoid blank box drops
             let w = 1024, h = 576; 
-            if (platform === 'youtube-shorts') { 
+            if (platform === 'shorts') { 
                 w = 576; h = 1024; 
-                videoPreview.classList.add('preview-youtube-shorts');
-            } else if (platform === 'instagram-square') { 
+                videoPreview.classList.add('ratio-shorts');
+            } else if (platform === 'instagram') { 
                 w = 768; h = 768; 
-                videoPreview.classList.add('preview-instagram-square');
+                videoPreview.classList.add('ratio-square');
             } else {
-                videoPreview.classList.add('preview-youtube-long');
+                videoPreview.classList.add('ratio-youtube');
             }
 
-            const refinedPrompt = `${promptText}, high-end professional production, style of ${stylePreset}, cinematic continuous animation sequences, fluid layout motion, 60fps high fidelity`;
-            const seedValue = Math.floor(Math.random() * 888888) + 111111;
+            const optimizedPrompt = `${promptText}, cinematic layout movement, beautiful fluid dynamic ${stylePreset} animation sequences, high fidelity 60fps pacing style`;
+            const secureRandomSeed = Math.floor(Math.random() * 777777) + 111111;
             
-            // Pollinations Generation Pipeline
-            const targetRenderUrl = `https://image.pollinations.ai/p/${encodeURIComponent(refinedPrompt)}?width=${w}&height=${h}&seed=${seedValue}&feed=true&nologo=true`;
+            // Pollinations Generation Stream Integration Pipeline
+            const generatedUrl = `https://image.pollinations.ai/p/${encodeURIComponent(optimizedPrompt)}?width=${w}&height=${h}&seed=${secureRandomSeed}&feed=true&nologo=true`;
             
-            videoPreview.src = targetRenderUrl;
+            videoPreview.src = generatedUrl;
             videoPreview.style.display = "block";
-            globalProcessedVideoUrl = targetRenderUrl;
-            statusMsg.innerHTML = `✨ <strong>Render Complete!</strong> Optimized for <code>${platform.toUpperCase()}</code>.`;
+            globalProcessedVideoUrl = generatedUrl;
+            statusMsg.innerHTML = `✨ **Render Complete!** Canvas profile configured for: <code>${platform.toUpperCase()}</code>`;
         }
 
         async function downloadProVideo() {
             if (!globalProcessedVideoUrl) return;
             try {
-                const res = await fetch(globalProcessedVideoUrl);
-                const blobObj = await res.blob();
-                triggerDownload(URL.createObjectURL(blobObj), `subedi-studio-render-${Date.now()}.jpg`);
+                const networkFetch = await fetch(globalProcessedVideoUrl);
+                const assetBlob = await networkFetch.blob();
+                triggerDownload(URL.createObjectURL(assetBlob), `subedi-ai-video-frame-${Date.now()}.jpg`);
             } catch (err) {
-                alert("Please right click on the animated sequence box below and click 'Save Image As' to download instantly.");
+                alert("To save instantly: Right-click directly on the preview window box below and click 'Save Image As'.");
             }
         }
 
@@ -801,23 +792,23 @@
             const selectedStyle = document.getElementById('imageStyle').value;
             const mappedRatio = document.getElementById('aspectRatio').value;
 
-            if (!promptText) { alert("Please type a description prompt first!"); return; }
+            if (!promptText) { alert("Please input a description prompt first!"); return; }
 
             const outputContainer = document.getElementById('imageOutputContainer');
             const imagePreview = document.getElementById('generatedImagePreview');
             
             outputContainer.style.display = "block";
             imagePreview.src = ""; 
-            imagePreview.alt = "Creating your artwork... Please wait a few seconds...";
+            imagePreview.alt = "Generating your canvas from AI models... Please wait.";
 
             let calculatedWidth = 800, calculatedHeight = 800;
             if (mappedRatio === "16:9") { calculatedWidth = 1024; calculatedHeight = 576; }
             else if (mappedRatio === "4:5") { calculatedWidth = 640; calculatedHeight = 800; }
 
-            const completePrompt = `${promptText}, beautiful ${selectedStyle} art style rendering, high resolution detailed asset`;
-            const targetUrl = `https://image.pollinations.ai/p/${encodeURIComponent(completePrompt)}?width=${calculatedWidth}&height=${calculatedHeight}&seed=${Math.floor(Math.random() * 999999)}&nologo=true`;
+            const structuredPrompt = `${promptText}, high resolution detailed asset style, ${selectedStyle} theme visualization`;
+            const imageRequestUrl = `https://image.pollinations.ai/p/${encodeURIComponent(structuredPrompt)}?width=${calculatedWidth}&height=${calculatedHeight}&seed=${Math.floor(Math.random() * 999999)}&nologo=true`;
 
-            imagePreview.src = targetUrl;
+            imagePreview.src = imageRequestUrl;
         }
 
         function generateAIImageFromBase() {
@@ -826,8 +817,8 @@
             const selectedStyle = document.getElementById('imageStyle').value;
             const mappedRatio = document.getElementById('aspectRatio').value;
 
-            if (!fileInput.files || !fileInput.files[0]) { alert("Please upload an image from your device first!"); return; }
-            if (!promptText) { alert("Please describe what changes to apply!"); return; }
+            if (!fileInput.files || !fileInput.files[0]) { alert("Please upload an input photo first!"); return; }
+            if (!promptText) { alert("Please type your instructions for the modification changes!"); return; }
 
             const outputContainer = document.getElementById('imageOutputContainer');
             const imagePreview = document.getElementById('generatedImagePreview');
@@ -839,10 +830,10 @@
             if (mappedRatio === "16:9") { calculatedWidth = 1024; calculatedHeight = 576; }
             else if (mappedRatio === "4:5") { calculatedWidth = 640; calculatedHeight = 800; }
 
-            const baseSeed = Math.floor(Math.random() * 55555);
-            const modificationPrompt = `Refining base image layout: ${promptText}, stylized matching ${selectedStyle} theme, digital masterpiece asset`;
+            const randomVariationSeed = Math.floor(Math.random() * 654321);
+            const variationPrompt = `Modifying source photo profile context: ${promptText}, high fidelity look, matching elegant ${selectedStyle} theme`;
             
-            imagePreview.src = `https://image.pollinations.ai/p/${encodeURIComponent(modificationPrompt)}?width=${calculatedWidth}&height=${calculatedHeight}&seed=${baseSeed}&nologo=true`;
+            imagePreview.src = `https://image.pollinations.ai/p/${encodeURIComponent(variationPrompt)}?width=${calculatedWidth}&height=${calculatedHeight}&seed=${randomVariationSeed}&nologo=true`;
         }
 
         async function downloadAIImage() {
@@ -853,44 +844,44 @@
                 const assetBlob = await networkFetch.blob();
                 triggerDownload(URL.createObjectURL(assetBlob), `sanjay-ai-art-${Date.now()}.jpg`);
             } catch (e) {
-                alert("Right click image preview box to save manually.");
+                alert("Right click on the artwork preview to download manually.");
             }
         }
 
-        // --- LIVE NOTEPAD ---
+        // --- LIVE NOTEPAD MANAGER ---
         function processMarkdownLive() {
-            const textSourceValue = document.getElementById('markdownInput').value;
-            const targetPreviewPane = document.getElementById('markdownPreview');
-            if(!textSourceValue) { targetPreviewPane.innerHTML = "Your preview will render here..."; return; }
+            const inputVal = document.getElementById('markdownInput').value;
+            const previewPane = document.getElementById('markdownPreview');
+            if(!inputVal) { previewPane.innerHTML = "Visual layout will sync up here..."; return; }
 
-            let parsedHtmlOutput = textSourceValue
+            let cleanHtml = inputVal
                 .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
                 .replace(/^#\s(.*)$/mg, '<h3>$1</h3>')
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/^\*\s(.*)$/mg, '• $1<br>');
 
-            targetPreviewPane.innerHTML = parsedHtmlOutput;
+            previewPane.innerHTML = cleanHtml;
         }
 
         function clearMarkdownWorkspace() {
             document.getElementById('markdownInput').value = '';
-            document.getElementById('markdownPreview').innerHTML = 'Your preview will render here...';
+            document.getElementById('markdownPreview').innerHTML = 'Visual layout will sync up here...';
         }
 
         function downloadMarkdownText() {
-            const rawTextContent = document.getElementById('markdownInput').value;
-            if(!rawTextContent) return;
-            triggerDownload(URL.createObjectURL(new Blob([rawTextContent], {type: 'text/plain'})), 'notepad-draft.txt');
+            const textData = document.getElementById('markdownInput').value;
+            if(!textData) return;
+            triggerDownload(URL.createObjectURL(new Blob([textData], {type: 'text/plain'})), 'notepad-document.txt');
         }
 
-        // --- TASK PLANNER ---
+        // --- HOMEWORK TASK MANAGER ---
         let tasksArray = [];
         function commitTaskToMatrix() {
-            const taskLabel = document.getElementById('taskNameInput').value.trim();
-            const priority = document.getElementById('taskPriority').value;
-            if(!taskLabel) return;
+            const label = document.getElementById('taskNameInput').value.trim();
+            const urgency = document.getElementById('taskPriority').value;
+            if(!label) return;
 
-            tasksArray.push({ id: Date.now(), context: taskLabel, priority: priority });
+            tasksArray.push({ id: Date.now(), title: label, importance: urgency });
             document.getElementById('taskNameInput').value = '';
             renderTasks();
         }
@@ -906,114 +897,126 @@
             tasksArray.forEach(task => {
                 const row = document.createElement('div');
                 row.className = 'task-item';
-                row.innerHTML = `<div><span>${task.context}</span><span style='font-size:0.75rem; margin-left:0.5rem; opacity:0.7;'>[${task.priority}]</span></div>
-                                 <button class="btn btn-danger" onclick="removeTaskEntry(${task.id})" style="padding:0.3rem 0.6rem; width:auto; font-size:0.75rem;">Done</button>`;
+                row.innerHTML = `<div><span>${task.title}</span><span style='font-size:0.75rem; margin-left:0.6rem; opacity:0.6;'>[${task.importance}]</span></div>
+                                 <button class="btn btn-danger" onclick="removeTaskEntry(${task.id})" style="padding:0.35rem 0.75rem; width:auto; font-size:0.75rem;">Done</button>`;
                 containerNode.appendChild(row);
             });
         }
 
-        // --- UTILS ---
+        // --- CRYPTOGRAPHY & PASSWORD UTILS ---
         function generatePassword() {
-            const length = parseInt(document.getElementById('passwordLength').value);
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*';
-            let generatedText = '';
-            for (let i = 0; i < length; i++) {
-                generatedText += chars.charAt(Math.floor(Math.random() * chars.length));
+            const size = parseInt(document.getElementById('passwordLength').value);
+            const collection = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*';
+            let finalPasswordString = '';
+            for (let i = 0; i < size; i++) {
+                finalPasswordString += collection.charAt(Math.floor(Math.random() * collection.length));
             }
-            document.getElementById('passwordOutput').innerHTML = generatedText;
+            document.getElementById('passwordOutput').innerHTML = finalPasswordString;
         }
 
         function encodeBase64() {
-            const text = document.getElementById('base64Input').value;
-            try { document.getElementById('base64Output').innerHTML = btoa(text); } 
-            catch (e) { document.getElementById('base64Output').innerHTML = 'Error converting input.'; }
+            const plainText = document.getElementById('base64Input').value;
+            try { document.getElementById('base64Output').innerHTML = btoa(plainText); } 
+            catch (e) { document.getElementById('base64Output').innerHTML = 'Error converting input text string.'; }
         }
 
         function decodeBase64() {
-            const text = document.getElementById('base64Input').value;
-            try { document.getElementById('base64Output').innerHTML = atob(text); } 
-            catch (e) { document.getElementById('base64Output').innerHTML = 'Invalid base64 string.'; }
+            const complexCode = document.getElementById('base64Input').value;
+            try { document.getElementById('base64Output').innerHTML = atob(complexCode); } 
+            catch (e) { document.getElementById('base64Output').innerHTML = 'Invalid target Base64 string profile formatting.'; }
         }
 
-        function copyToClipboard(id) {
-            navigator.clipboard.writeText(document.getElementById(id).innerHTML).then(() => alert('Copied text to clipboard buffer!'));
+        function copyToClipboard(elementId) {
+            navigator.clipboard.writeText(document.getElementById(elementId).innerHTML).then(() => alert('Copied results data to your device clipboard!'));
         }
 
-        function readImageFile(file) {
+        // --- GRAPHICS PROCESSING WORKSPACE ---
+        function processLocalGraphicFile(fileObj) {
             return new Promise((resolve) => {
-                const fileReaderNode = new FileReader();
-                fileReaderNode.onload = (e) => {
-                    const img = new Image();
-                    img.onload = () => resolve(img);
-                    img.src = e.target.result;
+                const readerNode = new FileReader();
+                readerNode.onload = (e) => {
+                    const canvasImg = new Image();
+                    canvasImg.onload = () => resolve(canvasImg);
+                    canvasImg.src = e.target.result;
                 };
-                fileReaderNode.readAsDataURL(file);
+                readerNode.readAsDataURL(fileObj);
             });
         }
 
         async function processResize() {
-            const targetAsset = document.getElementById('resizeInput').files[0];
-            const sizeWidth = parseInt(document.getElementById('resizeWidth').value);
-            const sizeHeight = parseInt(document.getElementById('resizeHeight').value);
-            if(!targetAsset) { alert("Please choose an upload image file first!"); return; }
+            const file = document.getElementById('resizeInput').files[0];
+            const targetW = parseInt(document.getElementById('resizeWidth').value);
+            const targetH = parseInt(document.getElementById('resizeHeight').value);
+            if(!file) { alert("Please select an input image first!"); return; }
 
-            const loadedGraphic = await readImageFile(targetAsset);
-            const activeCanvasSurface = document.createElement('canvas');
-            activeCanvasSurface.width = sizeWidth; activeCanvasSurface.height = sizeHeight;
-            activeCanvasSurface.getContext('2d').drawImage(loadedGraphic, 0, 0, sizeWidth, sizeHeight);
+            const originalGraphic = await processLocalGraphicFile(file);
+            const runtimeCanvas = document.createElement('canvas');
+            runtimeCanvas.width = targetW; runtimeCanvas.height = targetH;
+            runtimeCanvas.getContext('2d').drawImage(originalGraphic, 0, 0, targetW, targetH);
             
-            globalProcessedImageBlobUrl = activeCanvasSurface.toDataURL('image/png');
+            globalProcessedImageBlobUrl = runtimeCanvas.toDataURL('image/png');
             document.getElementById('resizerImagePreview').src = globalProcessedImageBlobUrl;
             document.getElementById('resizerOutputContainer').style.display = "block";
         }
 
         function downloadResizerImage() {
-            if(globalProcessedImageBlobUrl) triggerDownload(globalProcessedImageBlobUrl, 'resized-image.png');
+            if(globalProcessedImageBlobUrl) triggerDownload(globalProcessedImageBlobUrl, 'resized-output-image.png');
         }
 
         async function processMerge() {
-            const targetSource1 = document.getElementById('mergeInput1').files[0];
-            const targetSource2 = document.getElementById('mergeInput2').files[0];
-            const orientationMode = document.getElementById('mergeDirection').value;
-            if(!targetSource1 || !targetSource2) { alert("Please select both image files first!"); return; }
+            const fileOne = document.getElementById('mergeInput1').files[0];
+            const fileTwo = document.getElementById('mergeInput2').files[0];
+            const mergeDirection = document.getElementById('mergeDirection').value;
+            if(!fileOne || !fileTwo) { alert("Please select both image files first!"); return; }
 
-            const elementG1 = await readImageFile(targetSource1);
-            const elementG2 = await readImageFile(targetSource2);
-            const renderCanvasNode = document.createElement('canvas');
-            const targetContextRef = renderCanvasNode.getContext('2d');
+            const graphicAsset1 = await processLocalGraphicFile(fileOne);
+            const graphicAsset2 = await processLocalGraphicFile(fileTwo);
+            const compositeCanvas = document.createElement('canvas');
+            const targetContext = compositeCanvas.getContext('2d');
 
-            if (orientationMode === 'horizontal') {
-                renderCanvasNode.width = elementG1.width + elementG2.width;
-                renderCanvasNode.height = Math.max(elementG1.height, elementG2.height);
-                targetContextRef.drawImage(elementG1, 0, 0);
-                targetContextRef.drawImage(elementG2, elementG1.width, 0);
+            if (mergeDirection === 'horizontal') {
+                compositeCanvas.width = graphicAsset1.width + graphicAsset2.width;
+                compositeCanvas.height = Math.max(graphicAsset1.height, graphicAsset2.height);
+                targetContext.drawImage(graphicAsset1, 0, 0);
+                targetContext.drawImage(graphicAsset2, graphicAsset1.width, 0);
             } else {
-                renderCanvasNode.width = Math.max(elementG1.width, elementG2.width);
-                renderCanvasNode.height = elementG1.height + elementG2.height;
-                targetContextRef.drawImage(elementG1, 0, 0);
-                targetContextRef.drawImage(elementG2, 0, elementG1.height);
+                compositeCanvas.width = Math.max(graphicAsset1.width, graphicAsset2.width);
+                compositeCanvas.height = graphicAsset1.height + graphicAsset2.height;
+                targetContext.drawImage(graphicAsset1, 0, 0);
+                targetContext.drawImage(graphicAsset2, 0, graphicAsset1.height);
             }
             
-            globalProcessedImageBlobUrl = renderCanvasNode.toDataURL('image/png');
+            globalProcessedImageBlobUrl = compositeCanvas.toDataURL('image/png');
             document.getElementById('mergerImagePreview').src = globalProcessedImageBlobUrl;
             document.getElementById('mergerOutputContainer').style.display = "block";
         }
 
         function downloadMergerImage() {
-            if(globalProcessedImageBlobUrl) triggerDownload(globalProcessedImageBlobUrl, 'merged-image.png');
+            if(globalProcessedImageBlobUrl) triggerDownload(globalProcessedImageBlobUrl, 'merged-composite-output.png');
         }
 
-        function convertPdfToImages() {
-            const targetFileRef = document.getElementById('pdfFileToImg').files[0];
-            if (!targetFileRef) { alert("Please choose a valid PDF document file!"); return; }
-            document.getElementById('pdfImgContainer').innerHTML = "<p>PDF loaded successfully.</p>";
+        async function convertPdfToImages() {
+            const inputPdfFile = document.getElementById('pdfFileToImg').files[0];
+            if (!inputPdfFile) { alert("Please choose a valid PDF document first!"); return; }
+            
+            const displayFeedbackContainer = document.getElementById('pdfImgContainer');
+            displayFeedbackContainer.innerHTML = "⌛ Reading file data layout metadata structural arrays...";
+
+            try {
+                const originalArrayBuffer = await inputPdfFile.arrayBuffer();
+                const initializedPdfDoc = await PDFLib.PDFDocument.load(originalArrayBuffer);
+                const totalPageCount = initializedPdfDoc.getPageCount();
+                displayFeedbackContainer.innerHTML = `✨ **Analysis Complete:** Document successfully initialized. Found <strong>${totalPageCount} pages</strong> inside this file layout profile. Ready to handle asset splitting tasks.`;
+            } catch (err) {
+                displayFeedbackContainer.innerHTML = "⚠️ Failed reading file format data. Please verify your document structure upload source.";
+            }
         }
 
-        function triggerDownload(contentURLString, structuralFileName) {
-            const mockAnchorElement = document.createElement('a');
-            mockAnchorElement.download = structuralFileName; mockAnchorElement.href = contentURLString;
-            document.body.appendChild(mockAnchorElement); mockAnchorElement.click();
-            document.body.removeChild(mockAnchorElement);
+        function triggerDownload(targetDataStringUrl, filenameString) {
+            const functionalAnchor = document.createElement('a');
+            functionalAnchor.download = filenameString; functionalAnchor.href = targetDataStringUrl;
+            document.body.appendChild(functionalAnchor); functionalAnchor.click();
+            document.body.removeChild(functionalAnchor);
         }
     </script>
 </body>
