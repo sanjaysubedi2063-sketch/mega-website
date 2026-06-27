@@ -541,6 +541,31 @@
             align-items: center;
             justify-content: center;
             font-size: 4rem;
+            <!-- Line 537: Base64 Encoder Card -->
+            <div class="tool-card" onclick="openModal('base64Modal')">
+                <div class="tool-icon">🔾</div>
+                <h3>Base64 Encoder</h3>
+                <p>Encode and decode text to/from Base64 format. Essential for data transmission and API development.</p>
+                <button class="btn btn-primary">Launch Tool</button>
+            </div>
+
+            <!-- INSERT HERE (Line 544) -->
+            <!-- Image Resizer Card -->
+            <div class="tool-card" onclick="openModal('resizerModal')">
+                <div class="tool-icon">🖼️</div>
+                <h3>Image Resizer</h3>
+                <p>Resize images instantly to custom dimensions while maintaining aspect ratio options.</p>
+                <button class="btn btn-primary">Launch Tool</button>
+            </div>
+
+            <!-- Image Merger Card -->
+            <div class="tool-card" onclick="openModal('mergerModal')">
+                <div class="tool-icon">🥞</div>
+                <h3>Image Merger</h3>
+                <p>Combine two images side-by-side or vertically into a single cohesive image file.</p>
+                <button class="btn btn-primary">Launch Tool</button>
+            </div>
+        </div> <!-- Line 544: This closing div ends the .tools-grid -->
             border-bottom: 1px solid var(--border);
             position: relative;
             overflow: hidden;
