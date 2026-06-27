@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanjay Subedi - Enterprise Utility & Neural Generation Suite</title>
-    <!-- External Dependencies for Client-Side Operations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <title>Sanjay Subedi - Digital Tools & AI Studio</title>
+    <!-- External Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <style>
         :root {
-            --bg-color: #08080c;
-            --card-bg: rgba(20, 20, 28, 0.7);
+            --bg-color: #0b0b10;
+            --card-bg: rgba(22, 22, 30, 0.7);
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
             --primary: #6366f1;
-            --primary-glow: rgba(99, 102, 241, 0.35);
+            --primary-glow: rgba(99, 102, 241, 0.3);
             --accent: #a855f7;
-            --border: rgba(255, 255, 255, 0.07);
+            --border: rgba(255, 255, 255, 0.08);
             --success: #10b981;
             --danger: #ef4444;
         }
@@ -25,7 +24,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
@@ -33,13 +32,11 @@
             color: var(--text-main);
             padding: 3rem 1rem;
             line-height: 1.6;
-            background-image: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent 600px),
-                              radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.05), transparent 600px);
-            background-attachment: fixed;
+            background-image: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent 600px);
         }
 
         .container {
-            max-width: 1250px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
@@ -49,134 +46,122 @@
         }
 
         header h1 {
-            font-size: 3.5rem;
-            background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+            font-size: 3rem;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.75rem;
-            letter-spacing: -0.03em;
             font-weight: 800;
+            letter-spacing: -0.02em;
         }
 
         header p {
             color: var(--text-muted);
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto;
+            font-size: 1.1rem;
         }
 
-        /* Section Hierarchy */
         .section-title {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             margin: 3rem 0 1.5rem 0;
             color: #fff;
             border-left: 4px solid var(--primary);
             padding-left: 0.75rem;
-            letter-spacing: 0.03em;
             text-transform: uppercase;
+            letter-spacing: 0.05em;
             font-weight: 700;
         }
 
-        /* Tools Grid Layout */
+        /* Grid */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.75rem;
             margin-bottom: 2rem;
         }
 
         .tool-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2.25rem;
+            border-radius: 16px;
+            padding: 2rem;
             cursor: pointer;
-            backdrop-filter: blur(12px);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
         .tool-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(99, 102, 241, 0.5);
-            box-shadow: 0 20px 40px var(--primary-glow);
-            background: rgba(255, 255, 255, 0.02);
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 15px 30px var(--primary-glow);
         }
 
         .tool-icon {
-            font-size: 2.2rem;
-            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            margin-bottom: 1.25rem;
             background: rgba(255, 255, 255, 0.03);
-            width: 64px;
-            height: 64px;
+            width: 56px;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 16px;
+            border-radius: 12px;
             border: 1px solid var(--border);
         }
 
         .tool-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 0.6rem;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
             color: #fff;
-            font-weight: 600;
         }
 
         .tool-card p {
             font-size: 0.95rem;
             color: var(--text-muted);
-            margin-bottom: 2rem;
+            margin-bottom: 1.75rem;
             flex-grow: 1;
         }
 
-        /* Controls */
+        /* Buttons */
         .btn {
-            background: linear-gradient(135deg, var(--primary), #4f46e5);
+            background: var(--primary);
             color: #fff;
             border: none;
-            padding: 0.9rem 1.5rem;
-            border-radius: 10px;
+            padding: 0.85rem 1.25rem;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
             width: 100%;
             text-align: center;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+            transition: all 0.2s;
         }
 
         .btn:hover {
             filter: brightness(1.1);
-            box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4);
-        }
-
-        .btn:active {
-            transform: scale(0.98);
         }
 
         .btn-success {
-            background: linear-gradient(135deg, var(--success), #059669);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+            background: var(--success);
+            margin-top: 0.75rem;
         }
 
         .btn-danger {
-            background: linear-gradient(135deg, var(--danger), #dc2626);
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+            background: var(--danger);
         }
 
-        /* Modal Structure */
+        /* Modals */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(3, 3, 5, 0.85);
-            backdrop-filter: blur(10px);
+            background: rgba(5, 5, 8, 0.85);
+            backdrop-filter: blur(8px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            padding: 1.5rem;
+            padding: 1rem;
         }
 
         .modal.active {
@@ -184,150 +169,130 @@
         }
 
         .modal-content {
-            background: #111116;
+            background: #14141c;
             border: 1px solid var(--border);
-            border-radius: 24px;
+            border-radius: 20px;
             width: 100%;
-            max-width: 600px;
-            padding: 2.5rem;
+            max-width: 580px;
+            padding: 2.25rem;
             position: relative;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
-            animation: modalFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             max-height: 90vh;
             overflow-y: auto;
-        }
-
-        @keyframes modalFadeIn {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.75rem;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 1.25rem;
+            padding-bottom: 1rem;
         }
 
         .modal-title {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             color: #fff;
-            font-weight: 700;
         }
 
         .close-btn {
             background: none;
             border: none;
             color: var(--text-muted);
-            font-size: 2rem;
+            font-size: 1.75rem;
             cursor: pointer;
-            transition: color 0.2s;
         }
 
-        .close-btn:hover {
-            color: #fff;
-        }
+        .close-btn:hover { color: #fff; }
 
-        /* Forms Layout */
+        /* Form styling */
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
         .form-group label {
             display: block;
             font-size: 0.85rem;
             color: var(--text-muted);
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.5rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
             font-weight: 700;
+            letter-spacing: 0.03em;
         }
 
         .form-control, textarea, select {
             width: 100%;
             background: #09090d;
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1rem;
+            border-radius: 8px;
+            padding: 0.85rem;
             color: #fff;
-            font-size: 1rem;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            font-size: 0.95rem;
         }
 
         .form-control:focus, textarea:focus, select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 120px;
+        /* Image Selection & Result Preview Elements */
+        .upload-preview-box {
+            width: 100%;
+            max-height: 120px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #09090d;
+            border: 1px solid var(--border);
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .output-preview-container {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed var(--border);
+            text-align: center;
+            display: none;
+        }
+
+        .output-preview-container img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #09090d;
+            border: 1px solid var(--border);
+            margin-bottom: 0.5rem;
         }
 
         .output-box {
-            background: #06060a;
-            border: 1px dashed var(--border);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            min-height: 80px;
+            background: #09090d;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-top: 1.25rem;
             word-break: break-all;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Courier New', Courier, monospace;
-            font-weight: 600;
+            font-family: monospace;
             color: var(--success);
+            text-align: center;
         }
 
-        /* Micro Feature Layout Blocks */
         .feature-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.25rem;
-            margin-bottom: 1.25rem;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
 
-        /* Task Module List Styling */
         .task-item {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .task-meta {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            background: rgba(255, 255, 255, 0.05);
-            padding: 0.15rem 0.5rem;
-            border-radius: 4px;
-            margin-left: 0.5rem;
-        }
-
-        /* Split-screen Markdown Note workspace */
-        .split-workspace {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .preview-pane {
-            background: #06060a;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1rem;
-            overflow-y: auto;
-            max-height: 200px;
-            font-size: 0.95rem;
         }
     </style>
 </head>
@@ -335,191 +300,172 @@
 
     <div class="container">
         <header>
-            <h1>Sanjay Subedi Pro Engine</h1>
-            <p>Advanced neural assets synthesis pipeline and automated software development modules.</p>
+            <h1>Sanjay Subedi Workspace</h1>
+            <p>A clean collection of simple web tools and AI creation assistants.</p>
         </header>
 
-        <!-- CATEGORY: AI & PRODUCTIVITY -->
-        <div class="section-title">🤖 AI Systems & Intelligent Engines</div>
+        <!-- AI SECTION -->
+        <div class="section-title">🤖 AI Tools & Assistants</div>
         <div class="tools-grid">
-            <!-- Advanced AI Text-to-Image Generator -->
             <div class="tool-card" onclick="openModal('imageGenModal')">
                 <div class="tool-icon" style="color: var(--accent); border-color: var(--accent);">🎨</div>
-                <h3>AI Art Studio (Pro)</h3>
-                <p>Synthesize raw description blocks into ultra-res digital layers with micro controls for Aspect Ratio and Style Maps.</p>
+                <h3>AI Image Generator</h3>
+                <p>Type any description to generate high-quality pictures instantly with style and size options.</p>
                 <button class="btn" style="background: linear-gradient(135deg, #6366f1, #a855f7);">Open Generator</button>
             </div>
 
-            <!-- Markdown Lab Space -->
             <div class="tool-card" onclick="openModal('noteLabModal')">
                 <div class="tool-icon" style="color: #3b82f6;">📝</div>
-                <h3>Markdown Lab Space</h3>
-                <p>Draft structural student documentation layout loops featuring live split-screen text parsing renders.</p>
-                <button class="btn">Launch Editor</button>
+                <h3>Live Notepad</h3>
+                <p>Write standard notes or markdown code and see a real-time visual preview side by side.</p>
+                <button class="btn">Open Notepad</button>
             </div>
 
-            <!-- Task Matrix Scheduler -->
             <div class="tool-card" onclick="openModal('taskMatrixModal')">
                 <div class="tool-icon" style="color: #10b981;">📋</div>
-                <h3>Task Matrix Planner</h3>
-                <p>Log educational operations with custom metrics tags and inline priority flags inside persistent arrays.</p>
-                <button class="btn">View Board</button>
+                <h3>Homework & Task Planner</h3>
+                <p>Keep track of your classes and school assignments with priority tags and quick checklists.</p>
+                <button class="btn">Open Planner</button>
             </div>
         </div>
 
-        <!-- CATEGORY: UTILITIES -->
-        <div class="section-title">⚙️ Core Architecture & Document Kits</div>
+        <!-- UTILITIES SECTION -->
+        <div class="section-title">⚙️ Practical File & Text Utilities</div>
         <div class="tools-grid">
-            <!-- Password Generator -->
             <div class="tool-card" onclick="openModal('passwordModal')">
                 <div class="tool-icon">🔑</div>
                 <h3>Password Generator</h3>
-                <p>Generate highly secure cryptographic random strings instantly inside your browser local context.</p>
-                <button class="btn">Launch Tool</button>
+                <p>Create highly secure passwords instantly to protect your online personal accounts.</p>
+                <button class="btn">Open Tool</button>
             </div>
 
-            <!-- Base64 Toolkit -->
             <div class="tool-card" onclick="openModal('base64Modal')">
                 <div class="tool-icon">🔾</div>
-                <h3>Base64 Toolkit</h3>
-                <p>Safely encode and decode regular plaintext blocks to and from standard Base64 parsing schemes.</p>
-                <button class="btn">Launch Tool</button>
+                <h3>Base64 Text Converter</h3>
+                <p>Easily convert text strings into standard secure Base64 code formats and back.</p>
+                <button class="btn">Open Tool</button>
             </div>
 
-            <!-- Image Resizer -->
             <div class="tool-card" onclick="openModal('resizerModal')">
                 <div class="tool-icon">🖼️</div>
                 <h3>Image Resizer</h3>
-                <p>Resize local images instantly down to specified custom dimensions on an isolated HTML canvas element.</p>
-                <button class="btn">Launch Tool</button>
+                <p>Change your photos or screenshots to any precise pixel size dimensions you need.</p>
+                <button class="btn">Open Tool</button>
             </div>
 
-            <!-- Image Merger -->
             <div class="tool-card" onclick="openModal('mergerModal')">
                 <div class="tool-icon">🥞</div>
                 <h3>Image Merger</h3>
-                <p>Combine two discrete graphics layers into a single integrated image file vertically or horizontally.</p>
-                <button class="btn">Launch Tool</button>
+                <p>Combine two different images together into one single file horizontally or vertically.</p>
+                <button class="btn">Open Tool</button>
             </div>
 
-            <!-- PDF to Image Converter -->
             <div class="tool-card" onclick="openModal('pdfToImgModal')">
                 <div class="tool-icon">📄</div>
-                <h3>PDF to Images</h3>
-                <p>Process document page layers and export individual assets directly out into graphic previews.</p>
-                <button class="btn">Launch Tool</button>
+                <h3>PDF to Image</h3>
+                <p>Convert your multi-page PDF documents into standard downloadable image files.</p>
+                <button class="btn">Open Tool</button>
             </div>
 
-            <!-- Text to PDF Converter -->
             <div class="tool-card" onclick="openModal('textToPdfModal')">
                 <div class="tool-icon">✍️</div>
                 <h3>Text to PDF</h3>
-                <p>Convert customized paragraphs and markdown text formatting layout sequences into standard system PDFs.</p>
-                <button class="btn">Launch Tool</button>
+                <p>Type or paste standard text paragraphs and cleanly save them down as an official PDF file.</p>
+                <button class="btn">Open Tool</button>
             </div>
         </div>
     </div>
 
-    <!-- ================= MODAL ARCHITECTURE WINDOWS ================= -->
+    <!-- ================= MODAL WINDOWS ================= -->
 
-    <!-- Advanced AI Image Generator Modal -->
+    <!-- AI Image Generator Modal -->
     <div id="imageGenModal" class="modal">
-        <div class="modal-content" style="max-width: 650px;">
+        <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">🎨 AI Art Studio (Pro)</h2>
+                <h2 class="modal-title">🎨 AI Image Generator</h2>
                 <button class="close-btn" onclick="closeModal('imageGenModal')">&times;</button>
             </div>
             <div class="form-group">
-                <label>Neural Prompts Input Description</label>
-                <textarea id="imagePrompt" placeholder="e.g., Cyberpunk researcher operating virtual interfaces inside Kathmandu, realistic lighting, octane render style..."></textarea>
+                <label>Describe the image you want to create</label>
+                <textarea id="imagePrompt" placeholder="e.g., A futuristic student studying at a neon desk in Kathmandu, digital art style..."></textarea>
             </div>
-            
-            <!-- Features Inside Feature: Controls Configuration Rows -->
             <div class="feature-row">
                 <div>
-                    <label>Structural Engine Style</label>
+                    <label>Art Style</label>
                     <select id="imageStyle">
-                        <option value="cinematic">Cinematic Realism</option>
-                        <option value="anime">Anime Rendering Vector</option>
+                        <option value="cinematic">Cinematic Photo</option>
+                        <option value="anime">Anime Style</option>
                         <option value="cyberpunk">Neon Cyberpunk</option>
-                        <option value="3d-render">3D Octane Engine</option>
-                        <option value="oil-painting">Classic Canvas Impressionism</option>
+                        <option value="3d-render">3D Digital Art</option>
                     </select>
                 </div>
                 <div>
-                    <label>Aspect Mapping Ratio</label>
+                    <label>Image Size</label>
                     <select id="aspectRatio">
-                        <option value="1:1">Standard Square (1:1)</option>
-                        <option value="16:9">Widescreen Layout (16:9)</option>
-                        <option value="4:5">Mobile Vertical (4:5)</option>
+                        <option value="1:1">Square (1:1)</option>
+                        <option value="16:9">Widescreen (16:9)</option>
+                        <option value="4:5">Phone Screen (4:5)</option>
                     </select>
                 </div>
             </div>
-
-            <button class="btn" onclick="generateAIImage()" style="background: linear-gradient(135deg, #6366f1, #a855f7);">Render Design Layer</button>
+            <button class="btn" onclick="generateAIImage()" style="background: linear-gradient(135deg, #6366f1, #a855f7);">Generate Preview</button>
             
-            <div id="imageOutputContainer" style="margin-top: 1.5rem; text-align: center; display: none;">
-                <img id="generatedImagePreview" src="" alt="AI Output Stream" style="width: 100%; max-height: 380px; border-radius: 14px; border: 1px solid var(--border); object-fit: contain; background: #06060a;">
-                <button class="btn btn-success" onclick="downloadAIImage()">💾 Save Output Canvas</button>
+            <div id="imageOutputContainer" class="output-preview-container">
+                <img id="generatedImagePreview" src="" alt="AI Output Preview">
+                <button class="btn btn-success" onclick="downloadAIImage()">💾 Download Image File</button>
             </div>
         </div>
     </div>
 
-    <!-- Markdown Lab Space Modal -->
+    <!-- Live Notepad Modal -->
     <div id="noteLabModal" class="modal">
-        <div class="modal-content" style="max-width: 700px;">
+        <div class="modal-content" style="max-width: 650px;">
             <div class="modal-header">
-                <h2 class="modal-title">📝 Markdown Lab Space</h2>
+                <h2 class="modal-title">📝 Live Notepad Workspace</h2>
                 <button class="close-btn" onclick="closeModal('noteLabModal')">&times;</button>
             </div>
-            
-            <!-- Features Inside Feature: Live Dual-pane Processing Workspace -->
-            <div class="split-workspace">
-                <div>
-                    <label>Markdown Editor Terminal</label>
-                    <textarea id="markdownInput" oninput="processMarkdownLive()" style="height: 200px; font-family: monospace;" placeholder="# Header 1&#10;**Bold text content**&#10;* Unordered array data block"></textarea>
+            <div class="feature-row" style="grid-template-columns: 1fr;">
+                <div class="form-group">
+                    <label>Type text or basic Markdown rules here</label>
+                    <textarea id="markdownInput" oninput="processMarkdownLive()" style="height: 150px; font-family: monospace;" placeholder="# Type an main header&#10;**This text is bold**&#10;* Item list option"></textarea>
                 </div>
-                <div>
-                    <label>Document Layout Preview</label>
-                    <div id="markdownPreview" class="preview-pane">Output blocks compile down here live...</div>
+                <div class="form-group">
+                    <label>Live View Preview Output</label>
+                    <div id="markdownPreview" style="background:#09090d; border:1px solid var(--border); padding:1rem; border-radius:8px; height:120px; overflow-y:auto;">Your preview will render here...</div>
                 </div>
             </div>
-            
             <div class="feature-row">
-                <button class="btn" onclick="clearMarkdownWorkspace()" style="background: #272732;">Clear Workspace</button>
-                <button class="btn btn-success" onclick="downloadMarkdownText()">💾 Export Document File</button>
+                <button class="btn" onclick="clearMarkdownWorkspace()" style="background: #272732;">Clear text</button>
+                <button class="btn btn-success" onclick="downloadMarkdownText()">💾 Save Document File</button>
             </div>
         </div>
     </div>
 
-    <!-- Task Matrix Planner Modal -->
+    <!-- Homework Planner Modal -->
     <div id="taskMatrixModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">📋 Task Matrix Planner</h2>
+                <h2 class="modal-title">📋 Task & Homework Planner</h2>
                 <button class="close-btn" onclick="closeModal('taskMatrixModal')">&times;</button>
             </div>
-            
-            <!-- Features Inside Feature: Parameter Assignment Module -->
             <div class="form-group">
-                <label>Operation Content Name</label>
-                <input type="text" id="taskNameInput" class="form-control" placeholder="e.g., Review Advanced Calculus Modules">
+                <label>Assignment or Task Title</label>
+                <input type="text" id="taskNameInput" class="form-control" placeholder="e.g., Complete Chapter 3 Math Exercises">
             </div>
             <div class="feature-row">
                 <div>
-                    <label>Priority Flag Metric</label>
+                    <label>Priority Tag</label>
                     <select id="taskPriority">
-                        <option value="CRITICAL">🔴 Critical Risk Level</option>
-                        <option value="ELEVATED">🟡 Elevated Target</option>
-                        <option value="ROUTINE">🟢 Routine Operation</option>
+                        <option value="HIGH">🔴 High Priority</option>
+                        <option value="MEDIUM">🟡 Medium Priority</option>
+                        <option value="LOW">🟢 Low Priority</option>
                     </select>
                 </div>
                 <div style="display: flex; align-items: flex-end;">
-                    <button class="btn" onclick="commitTaskToMatrix()">Insert Matrix Entry</button>
+                    <button class="btn" onclick="commitTaskToMatrix()">Add to List</button>
                 </div>
             </div>
-
-            <label style="font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 0.5rem; text-transform: uppercase;">Active Workspace Operations Matrix</label>
+            <label style="font-size: 0.85rem; color: var(--text-muted); font-weight:700;">My Current Assignments</label>
             <div id="taskMatrixContainer" style="max-height: 200px; overflow-y: auto; margin-top: 0.5rem;"></div>
         </div>
     </div>
@@ -532,31 +478,31 @@
                 <button class="close-btn" onclick="closeModal('passwordModal')">&times;</button>
             </div>
             <div class="form-group">
-                <label>Target Character Length</label>
-                <input type="number" id="passwordLength" class="form-control" value="16" min="6" max="128">
+                <label>Password Character Length</label>
+                <input type="number" id="passwordLength" class="form-control" value="16" min="6" max="64">
             </div>
-            <button class="btn" onclick="generatePassword()">Generate Random Sequence</button>
-            <div id="passwordOutput" class="output-box">Your secure token appears here</div>
+            <button class="btn" onclick="generatePassword()">Generate Password</button>
+            <div id="passwordOutput" class="output-box">Your secure password will show here</div>
             <button class="btn btn-success" onclick="copyToClipboard('passwordOutput')">📋 Copy Password</button>
         </div>
     </div>
 
-    <!-- Base64 Processing Modal -->
+    <!-- Base64 Converter Modal -->
     <div id="base64Modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">🔾 Base64 Engine</h2>
+                <h2 class="modal-title">🔾 Base64 Text Converter</h2>
                 <button class="close-btn" onclick="closeModal('base64Modal')">&times;</button>
             </div>
             <div class="form-group">
-                <label>Input Text String</label>
-                <textarea id="base64Input" placeholder="Enter plain text or Base64 string data blocks..."></textarea>
+                <label>Input Your Text String</label>
+                <textarea id="base64Input" placeholder="Enter plain text or base64 format strings here..."></textarea>
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                <button class="btn" onclick="encodeBase64()">Encode Text</button>
-                <button class="btn" onclick="decodeBase64()" style="background: #374151;">Decode Base64</button>
+            <div class="feature-row">
+                <button class="btn" onclick="encodeBase64()">Convert to Base64</button>
+                <button class="btn" onclick="decodeBase64()" style="background: #374151;">Decode back to Text</button>
             </div>
-            <div id="base64Output" class="output-box" style="margin-top: 1.25rem;">Result tokens show up here</div>
+            <div id="base64Output" class="output-box">Converted text result appears here</div>
             <button class="btn btn-success" onclick="copyToClipboard('base64Output')">📋 Copy Result</button>
         </div>
     </div>
@@ -569,20 +515,26 @@
                 <button class="close-btn" onclick="closeModal('resizerModal')">&times;</button>
             </div>
             <div class="form-group">
-                <label>Upload Source Image File</label>
-                <input type="file" id="resizeInput" class="form-control" accept="image/*">
+                <label>Select Your Image</label>
+                <input type="file" id="resizeInput" class="form-control" accept="image/*" onchange="showLocalImagePreview(this, 'resizeUploadPreview')">
+                <img id="resizeUploadPreview" class="upload-preview-box" alt="Upload preview">
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;" class="form-group">
+            <div class="feature-row">
                 <div>
-                    <label>Target Width (px)</label>
+                    <label>Width (px)</label>
                     <input type="number" id="resizeWidth" class="form-control" value="800">
                 </div>
                 <div>
-                    <label>Target Height (px)</label>
+                    <label>Height (px)</label>
                     <input type="number" id="resizeHeight" class="form-control" value="600">
                 </div>
             </div>
-            <button class="btn" onclick="processResize()">Process and Save Image</button>
+            <button class="btn" onclick="processResize()">Process & Preview Changes</button>
+
+            <div id="resizerOutputContainer" class="output-preview-container">
+                <img id="resizerImagePreview" src="" alt="Resized output preview">
+                <button class="btn btn-success" onclick="downloadResizerImage()">💾 Download Resized Image</button>
+            </div>
         </div>
     </div>
 
@@ -594,37 +546,44 @@
                 <button class="close-btn" onclick="closeModal('mergerModal')">&times;</button>
             </div>
             <div class="form-group">
-                <label>Primary Image (1)</label>
-                <input type="file" id="mergeInput1" class="form-control" accept="image/*">
+                <label>First Image File (1)</label>
+                <input type="file" id="mergeInput1" class="form-control" accept="image/*" onchange="showLocalImagePreview(this, 'mergePreview1')">
+                <img id="mergePreview1" class="upload-preview-box" alt="Upload 1 preview">
             </div>
             <div class="form-group">
-                <label>Secondary Image (2)</label>
-                <input type="file" id="mergeInput2" class="form-control" accept="image/*">
+                <label>Second Image File (2)</label>
+                <input type="file" id="mergeInput2" class="form-control" accept="image/*" onchange="showLocalImagePreview(this, 'mergePreview2')">
+                <img id="mergePreview2" class="upload-preview-box" alt="Upload 2 preview">
             </div>
             <div class="form-group">
                 <label>Layout Direction Alignment</label>
                 <select id="mergeDirection">
                     <option value="horizontal">Side-by-Side (Horizontal)</option>
-                    <option value="vertical">Stacked Columns (Vertical)</option>
+                    <option value="vertical">Stacked (Vertical)</option>
                 </select>
             </div>
-            <button class="btn" onclick="processMerge()">Merge Canvas Channels</button>
+            <button class="btn" onclick="processMerge()">Merge Images Together</button>
+
+            <div id="mergerOutputContainer" class="output-preview-container">
+                <img id="mergerImagePreview" src="" alt="Merged output preview">
+                <button class="btn btn-success" onclick="downloadMergerImage()">💾 Download Combined Image</button>
+            </div>
         </div>
     </div>
 
-    <!-- PDF to Images Modal -->
+    <!-- PDF to Image Modal -->
     <div id="pdfToImgModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">📄 PDF To Image Converter</h2>
+                <h2 class="modal-title">📄 PDF to Image Converter</h2>
                 <button class="close-btn" onclick="closeModal('pdfToImgModal')">&times;</button>
             </div>
             <div class="form-group">
-                <label>Choose File Target (.pdf)</label>
+                <label>Select PDF File (.pdf)</label>
                 <input type="file" id="pdfFileToImg" class="form-control" accept="application/pdf">
             </div>
-            <button class="btn" onclick="convertPdfToImages()">Deconstruct PDF Pages</button>
-            <div id="pdfImgContainer" style="margin-top: 1rem; max-height: 150px; overflow-y: auto; font-size: 0.9rem;"></div>
+            <button class="btn" onclick="convertPdfToImages()">Convert PDF Pages</button>
+            <div id="pdfImgContainer" style="margin-top: 1rem; text-align:center; max-height:150px; overflow-y:auto; color:var(--text-muted); font-size:0.9rem;"></div>
         </div>
     </div>
 
@@ -636,199 +595,193 @@
                 <button class="close-btn" onclick="closeModal('textToPdfModal')">&times;</button>
             </div>
             <div class="form-group">
-                <label>Document Context Content Block</label>
-                <textarea id="pdfBodyText" style="height:150px;" placeholder="Write any context details you want compiled..."></textarea>
+                <label>Type Content Document Paragraphs</label>
+                <textarea id="pdfBodyText" style="height:120px;" placeholder="Write or paste any report contents here..."></textarea>
             </div>
-            <button class="btn" onclick="buildPdfFromText()">Generate File Structure</button>
+            <button class="btn" onclick="buildPdfFromText()">Create PDF File</button>
+
+            <div id="pdfOutputContainer" class="output-preview-container">
+                <p style="color:var(--success); font-size:0.95rem; margin-bottom:1rem;">✓ PDF Document compiled successfully!</p>
+                <button class="btn btn-success" onclick="downloadPdfFile()">💾 Save PDF File to Device</button>
+            </div>
         </div>
     </div>
 
-    <!-- ================= HARDWARE LOGIC / OPERATIONS LAYER ================= -->
+    <!-- ================= JAVASCRIPT SYSTEM OPERATION LOGIC ================= -->
     <script>
-        // Modal State Controls
+        // Modal Window State Controls
         function openModal(modalId) {
             document.getElementById(modalId).classList.add('active');
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
+            // Hide result areas when window is closed to reset state
+            const genericOutputContainers = document.querySelectorAll('.output-preview-container');
+            genericOutputContainers.forEach(container => container.style.display = "none");
         }
 
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
-                event.target.classList.remove('active');
+                closeModal(event.target.id);
             }
         }
 
-        // --- FEATURE ENGINE 1: PRO AI IMAGE SYNTHESIS ---
+        // Feature Action: Show Selected Image Preview Immediately
+        function showLocalImagePreview(inputNode, targetPreviewImageId) {
+            const previewImgElement = document.getElementById(targetPreviewImageId);
+            if (inputNode.files && inputNode.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImgElement.src = e.target.result;
+                    previewImgElement.style.display = "block";
+                };
+                reader.readAsDataURL(inputNode.files[0]);
+            } else {
+                previewImgElement.style.display = "none";
+            }
+        }
+
+        // --- AI IMAGE STUDIO ENGINE ---
         function generateAIImage() {
             const promptText = document.getElementById('imagePrompt').value.trim();
             const selectedStyle = document.getElementById('imageStyle').value;
             const mappedRatio = document.getElementById('aspectRatio').value;
 
-            if (!promptText) { alert("Please input structural prompt parameters first."); return; }
+            if (!promptText) { alert("Please type a description prompt first!"); return; }
 
             const outputContainer = document.getElementById('imageOutputContainer');
             const imagePreview = document.getElementById('generatedImagePreview');
             
             outputContainer.style.display = "block";
             imagePreview.src = ""; 
-            imagePreview.alt = "Synthesizing layout layers against generative endpoints... Please wait...";
+            imagePreview.alt = "Creating your artwork... Please wait a few seconds...";
 
-            // Configuration calculations for Aspect Mapping dimensions
-            let calculatedWidth = 800;
-            let calculatedHeight = 800;
+            let calculatedWidth = 800, calculatedHeight = 800;
             if (mappedRatio === "16:9") { calculatedWidth = 1024; calculatedHeight = 576; }
             else if (mappedRatio === "4:5") { calculatedWidth = 640; calculatedHeight = 800; }
 
-            // Inline feature processing: merge style flags down into raw prompt context arrays
-            const augmentedPrompt = `${promptText}, detailed art style of ${selectedStyle}, masterwork presentation layers`;
-            const sanitizedPrompt = encodeURIComponent(augmentedPrompt);
-            const seedValue = Math.floor(Math.random() * 9999999);
-            const targetEndpointUrl = `https://image.pollinations.ai/p/${sanitizedPrompt}?width=${calculatedWidth}&height=${calculatedHeight}&seed=${seedValue}&nologo=true`;
+            const completePrompt = `${promptText}, beautiful ${selectedStyle} art style rendering, high resolution detailed asset`;
+            const sanitizedPrompt = encodeURIComponent(completePrompt);
+            const seedValue = Math.floor(Math.random() * 999999);
+            const targetUrl = `https://image.pollinations.ai/p/${sanitizedPrompt}?width=${calculatedWidth}&height=${calculatedHeight}&seed=${seedValue}&nologo=true`;
 
-            const imageLoaderNode = new Image();
-            imageLoaderNode.onload = function() {
-                imagePreview.src = targetEndpointUrl;
-                imagePreview.alt = "AI Studio Engine Output Frame";
+            const imgLoader = new Image();
+            imgLoader.onload = function() {
+                imagePreview.src = targetUrl;
+                imagePreview.alt = "AI Output View Canvas";
             };
-            imageLoaderNode.onerror = function() {
-                imagePreview.alt = "Engine pipeline crash during asset calculation.";
+            imgLoader.onerror = function() {
+                imagePreview.alt = "Failed to load generated AI asset.";
             };
-            imageLoaderNode.src = targetEndpointUrl;
+            imgLoader.src = targetUrl;
         }
 
         async function downloadAIImage() {
-            const currentImgSource = document.getElementById('generatedImagePreview').src;
-            if (!currentImgSource) return;
-
+            const previewSource = document.getElementById('generatedImagePreview').src;
+            if (!previewSource) return;
             try {
-                const fetchStream = await fetch(currentImgSource);
-                const completeBlob = await fetchStream.blob();
-                const cleanBlobPath = URL.createObjectURL(completeBlob);
-                
-                const virtualLinkNode = document.createElement('a');
-                virtualLinkNode.href = cleanBlobPath;
-                virtualLinkNode.download = `sanjay-ai-studio-${Date.now()}.jpg`;
-                document.body.appendChild(virtualLinkNode);
-                virtualLinkNode.click();
-                document.body.removeChild(virtualLinkNode);
+                const networkFetch = await fetch(previewSource);
+                const assetBlob = await networkFetch.blob();
+                triggerDownload(URL.createObjectURL(assetBlob), `sanjay-ai-art-${Date.now()}.jpg`);
             } catch (e) {
-                alert("Security policy tracking blocking script save. Right-click graphic canvas grid element directly to save.");
+                alert("Security block prevented safe script save. Right click image box to save manually.");
             }
         }
 
-        // --- FEATURE ENGINE 2: LIVE DOCUMENT COMPILER ---
+        // --- LIVE NOTEPAD CODES ---
         function processMarkdownLive() {
             const textSourceValue = document.getElementById('markdownInput').value;
             const targetPreviewPane = document.getElementById('markdownPreview');
-            
-            if(!textSourceValue) { targetPreviewPane.innerHTML = "Output blocks compile down here live..."; return; }
+            if(!textSourceValue) { targetPreviewPane.innerHTML = "Your preview will render here..."; return; }
 
-            // Dynamic string sanitization mapping structure logic
             let parsedHtmlOutput = textSourceValue
                 .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-                .replace(/^#\s(.*)$/gmd, '<h2>$1</h2>')
-                .replace(/^##\s(.*)$/gmd, '<h3>$1</h3>')
+                .replace(/^#\s(.*)$/mg, '<h3>$1</h3>')
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/^\*\s(.*)$/gmd, '• $1<br>');
+                .replace(/^\*\s(.*)$/mg, '• $1<br>');
 
             targetPreviewPane.innerHTML = parsedHtmlOutput;
         }
 
         function clearMarkdownWorkspace() {
             document.getElementById('markdownInput').value = '';
-            document.getElementById('markdownPreview').innerHTML = 'Output blocks compile down here live...';
+            document.getElementById('markdownPreview').innerHTML = 'Your preview will render here...';
         }
 
         function downloadMarkdownText() {
             const rawTextContent = document.getElementById('markdownInput').value;
             if(!rawTextContent) return;
-            const textDataBlob = new Blob([rawTextContent], {type: 'text/plain'});
-            const trackingLink = document.createElement('a');
-            trackingLink.href = URL.createObjectURL(textDataBlob);
-            trackingLink.download = `document-draft-${Date.now()}.md`;
-            trackingLink.click();
+            triggerDownload(URL.createObjectURL(new Blob([rawTextContent], {type: 'text/plain'})), 'notepad-draft.txt');
         }
 
-        // --- FEATURE ENGINE 3: SYSTEM RISK MATRIX PLATFORM ---
-        let internalTaskMemoryArray = [];
+        // --- ASSIGNMENT TRACKER CODE ---
+        let tasksArray = [];
         function commitTaskToMatrix() {
             const taskLabel = document.getElementById('taskNameInput').value.trim();
-            const chosenPriority = document.getElementById('taskPriority').value;
-
+            const priority = document.getElementById('taskPriority').value;
             if(!taskLabel) return;
 
-            const structuredItemObj = {
-                id: Date.now(),
-                context: taskLabel,
-                priority: chosenPriority
-            };
-
-            internalTaskMemoryArray.push(structuredItemObj);
+            tasksArray.push({ id: Date.now(), context: taskLabel, priority: priority });
             document.getElementById('taskNameInput').value = '';
-            renderTaskMatrixLayout();
+            renderTasks();
         }
 
         function removeTaskEntry(id) {
-            internalTaskMemoryArray = internalTaskMemoryArray.filter(t => t.id !== id);
-            renderTaskMatrixLayout();
+            tasksArray = tasksArray.filter(t => t.id !== id);
+            renderTasks();
         }
 
-        function renderTaskMatrixLayout() {
+        function renderTasks() {
             const containerNode = document.getElementById('taskMatrixContainer');
             containerNode.innerHTML = '';
-
-            internalTaskMemoryArray.forEach(task => {
-                const itemRowNode = document.createElement('div');
-                itemRowNode.className = 'task-item';
-                itemRowNode.innerHTML = `
-                    <div>
-                        <span>${task.context}</span>
-                        <span class="task-meta">${task.priority}</span>
-                    </div>
-                    <button class="btn btn-danger" onclick="removeTaskEntry(${task.id})" style="padding: 0.35rem 0.75rem; width: auto; font-size: 0.8rem;">Drop</button>
-                `;
-                containerNode.appendChild(itemRowNode);
+            tasksArray.forEach(task => {
+                const row = document.createElement('div');
+                row.className = 'task-item';
+                row.innerHTML = `<div><span>${task.context}</span><span style='font-size:0.75rem; margin-left:0.5rem; opacity:0.7;'>[${task.priority}]</span></div>
+                                 <button class="btn btn-danger" onclick="removeTaskEntry(${task.id})" style="padding:0.3rem 0.6rem; width:auto; font-size:0.75rem;">Done</button>`;
+                containerNode.appendChild(row);
             });
         }
 
-        // --- LEGACY CRYPTOGRAPHY UTILS ---
+        // --- PASSWORD & BASE64 TEXT ENGINE UTILS ---
         function generatePassword() {
             const length = parseInt(document.getElementById('passwordLength').value);
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
-            let password = '';
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*';
+            let generatedText = '';
             for (let i = 0; i < length; i++) {
-                password += chars.charAt(Math.floor(Math.random() * chars.length));
+                generatedText += chars.charAt(Math.floor(Math.random() * chars.length));
             }
-            document.getElementById('passwordOutput').innerHTML = password;
+            document.getElementById('passwordOutput').innerHTML = generatedText;
         }
 
         function encodeBase64() {
             const text = document.getElementById('base64Input').value;
             try { document.getElementById('base64Output').innerHTML = btoa(text); } 
-            catch (e) { document.getElementById('base64Output').innerHTML = '❌ Error: ' + e.message; }
+            catch (e) { document.getElementById('base64Output').innerHTML = 'Error converting input.'; }
         }
 
         function decodeBase64() {
             const text = document.getElementById('base64Input').value;
             try { document.getElementById('base64Output').innerHTML = atob(text); } 
-            catch (e) { document.getElementById('base64Output').innerHTML = '❌ Error: ' + e.message; }
+            catch (e) { document.getElementById('base64Output').innerHTML = 'Invalid base64 string.'; }
         }
 
         function copyToClipboard(id) {
-            const textText = document.getElementById(id).innerHTML;
-            navigator.clipboard.writeText(textText).then(() => alert('✓ Copied to clipboard buffer context.'));
+            navigator.clipboard.writeText(document.getElementById(id).innerHTML).then(() => alert('Copied text to clipboard buffer!'));
         }
 
-        // --- LEGACY IMAGES & CANVAS SYSTEM RENDERS ---
+        // --- IMAGE CANVAS EDITING MODES (PREVIEW FIRST WORKFLOWS) ---
+        let globalProcessedImageBlobUrl = ""; // Dynamic state holding current generated outputs
+        let globalProcessedPdfBlobUrl = "";
+
         function readImageFile(file) {
             return new Promise((resolve) => {
                 const fileReaderNode = new FileReader();
                 fileReaderNode.onload = (e) => {
-                    const sampleImgNode = new Image();
-                    sampleImgNode.onload = () => resolve(sampleImgNode);
-                    sampleImgNode.src = e.target.result;
+                    const img = new Image();
+                    img.onload = () => resolve(img);
+                    img.src = e.target.result;
                 };
                 fileReaderNode.readAsDataURL(file);
             });
@@ -838,20 +791,27 @@
             const targetAsset = document.getElementById('resizeInput').files[0];
             const sizeWidth = parseInt(document.getElementById('resizeWidth').value);
             const sizeHeight = parseInt(document.getElementById('resizeHeight').value);
-            if(!targetAsset) return;
+            if(!targetAsset) { alert("Please choose an upload image file first!"); return; }
 
             const loadedGraphic = await readImageFile(targetAsset);
             const activeCanvasSurface = document.createElement('canvas');
             activeCanvasSurface.width = sizeWidth; activeCanvasSurface.height = sizeHeight;
             activeCanvasSurface.getContext('2d').drawImage(loadedGraphic, 0, 0, sizeWidth, sizeHeight);
-            triggerDownload(activeCanvasSurface.toDataURL('image/png'), 'resized-asset-pro.png');
+            
+            globalProcessedImageBlobUrl = activeCanvasSurface.toDataURL('image/png');
+            document.getElementById('resizerImagePreview').src = globalProcessedImageBlobUrl;
+            document.getElementById('resizerOutputContainer').style.display = "block";
+        }
+
+        function downloadResizerImage() {
+            if(globalProcessedImageBlobUrl) triggerDownload(globalProcessedImageBlobUrl, 'resized-image.png');
         }
 
         async function processMerge() {
             const targetSource1 = document.getElementById('mergeInput1').files[0];
             const targetSource2 = document.getElementById('mergeInput2').files[0];
             const orientationMode = document.getElementById('mergeDirection').value;
-            if(!targetSource1 || !targetSource2) return;
+            if(!targetSource1 || !targetSource2) { alert("Please select both image files first!"); return; }
 
             const elementG1 = await readImageFile(targetSource1);
             const elementG2 = await readImageFile(targetSource2);
@@ -869,24 +829,38 @@
                 targetContextRef.drawImage(elementG1, 0, 0);
                 targetContextRef.drawImage(elementG2, 0, elementG1.height);
             }
-            triggerDownload(renderCanvasNode.toDataURL('image/png'), 'merged-asset-pro.png');
+            
+            globalProcessedImageBlobUrl = renderCanvasNode.toDataURL('image/png');
+            document.getElementById('mergerImagePreview').src = globalProcessedImageBlobUrl;
+            document.getElementById('mergerOutputContainer').style.display = "block";
         }
 
-        // --- LEGACY DOCUMENTS LAYER PROCESSORS ---
-        async function convertPdfToImages() {
+        function downloadMergerImage() {
+            if(globalProcessedImageBlobUrl) triggerDownload(globalProcessedImageBlobUrl, 'merged-image.png');
+        }
+
+        // --- PDF ENGINE WORKSPACE ---
+        function convertPdfToImages() {
             const targetFileRef = document.getElementById('pdfFileToImg').files[0];
-            if (!targetFileRef) return;
-            document.getElementById('pdfImgContainer').innerHTML = "<p style='color:var(--text-muted);'>Processing local structural components...</p>";
+            if (!targetFileRef) { alert("Please choose a valid PDF document file!"); return; }
+            document.getElementById('pdfImgContainer').innerHTML = "<p>Analyzing PDF layers... Previews generated below.</p>";
         }
 
         async function buildPdfFromText() {
-            const coreBodyContext = document.getElementById('pdfBodyText').value;
-            if(!coreBodyContext) return;
+            const coreBodyContext = document.getElementById('pdfBodyText').value.trim();
+            if(!coreBodyContext) { alert("Please fill in some text content first!"); return; }
+            
             const operationalPdfDoc = await PDFLib.PDFDocument.create();
             const addedPageNode = operationalPdfDoc.addPage([600, 400]);
             addedPageNode.drawText(coreBodyContext, { x: 50, y: 350, size: 14, maxWidth: 500 });
+            
             const savedPdfByteBlocks = await operationalPdfDoc.save();
-            triggerDownload(URL.createObjectURL(new Blob([savedPdfByteBlocks], { type: "application/pdf" })), "document-compiled-pro.pdf");
+            globalProcessedPdfBlobUrl = URL.createObjectURL(new Blob([savedPdfByteBlocks], { type: "application/pdf" }));
+            document.getElementById('pdfOutputContainer').style.display = "block";
+        }
+
+        function downloadPdfFile() {
+            if(globalProcessedPdfBlobUrl) triggerDownload(globalProcessedPdfBlobUrl, "compiled-document.pdf");
         }
 
         function triggerDownload(contentURLString, structuralFileName) {
