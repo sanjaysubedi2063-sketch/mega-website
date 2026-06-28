@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanjay Subedi - Digital Tools & AI Studio</title>
+    <title>Sanjay Subedi - Digital Tools & AI Studio (v2.0 Update)</title>
     <!-- External Engines for PDF Tasks -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -17,6 +17,7 @@
             --text-white: #ffffff;
             --green: #4caf50;
             --red: #f44336;
+            --border-glow: #45f3ff;
         }
 
         * {
@@ -114,7 +115,10 @@
         /* Modal Overlay System */
         .modal-background {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0,0,0,0.8);
             display: none;
             justify-content: center;
@@ -137,29 +141,47 @@
 
         .close-btn {
             position: absolute;
-            top: 15px; right: 15px;
+            top: 15px;
+            right: 15px;
             background: #1f2833;
-            border: none; color: white;
-            width: 30px; height: 30px;
-            border-radius: 50%; cursor: pointer;
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
             font-size: 1.1rem;
         }
 
+        /* Advanced Form Styling */
         label {
             display: block;
             margin: 15px 0 5px 0;
             font-size: 0.9rem;
             color: var(--accent-purple);
+            font-weight: bold;
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 10px;
         }
 
         input, select, textarea {
             width: 100%;
             padding: 10px;
             background: var(--bg-dark);
-            border: 1px solid #45f3ff;
+            border: 1px solid var(--border-glow);
             color: white;
             border-radius: 6px;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+        }
+
+        input[type="range"] {
+            border: none;
+            padding: 0;
         }
 
         .output-panel {
@@ -174,7 +196,7 @@
         /* Specific Feature Styling */
         .preview-box {
             width: 100%;
-            height: 200px;
+            min-height: 200px;
             background: black;
             border-radius: 8px;
             margin-top: 15px;
@@ -185,6 +207,7 @@
             text-align: center;
             font-weight: bold;
             padding: 20px;
+            border: 2px solid var(--border-glow);
         }
 
         .timer-number {
@@ -220,24 +243,28 @@
 <body>
 
     <header>
-        <h1>Sanjay Subedi Creative AI Tools Suite</h1>
+        <h1>Sanjay Subedi AI Tools Suite v2.0</h1>
         <p>Simple, functional, and updated apps to supercharge your content creation and productivity.</p>
     </header>
 
     <!-- SECTION 1: AI GENERATION & MEDIA -->
-    <div class="section-heading">🎬 AI Media Studios</div>
+    <div class="section-heading">🎬 AI Media Studios (Enhanced)</div>
     <div class="tools-grid">
-        <!-- Text to Image Tool Card -->
+        <!-- Enhanced Text to Image Tool Card -->
         <div class="tool-card" style="border-top: 4px solid var(--accent-purple);">
             <h3>🎨 AI Text To Image Studio</h3>
-            <p>Create beautiful art templates, digital wallpapers, and mockups directly from your descriptive texts.</p>
+            <p>Create beautiful art templates, digital wallpapers, and mockups directly from your descriptive texts. 
+               <br><small><i>New: Negative Prompt, Aspect Ratio, & Quality Control.</i></small>
+            </p>
             <button class="action-btn" onclick="openTool('imageModal')">Open Image Studio</button>
         </div>
 
-        <!-- Text to Video Tool Card (ADDED BACK SAFELY) -->
+        <!-- Enhanced Text to Video Tool Card -->
         <div class="tool-card" style="border-top: 4px solid var(--accent-purple);">
             <h3>🎬 AI Text To Video Studio</h3>
-            <p>Generate short movie clips, landscape loops, and conceptual cinematic scenes using prompts.</p>
+            <p>Generate short movie clips, landscape loops, and conceptual cinematic scenes using prompts.
+               <br><small><i>New: FPS, Duration, & Video Filters.</i></small>
+            </p>
             <button class="action-btn" onclick="openTool('videoModal')">Open Video Studio</button>
         </div>
 
@@ -257,25 +284,21 @@
             <p>Stay focused with customizable deep study intervals and automated rest alert alarms.</p>
             <button class="action-btn" onclick="openTool('pomodoroModal')">Start Timer</button>
         </div>
-
         <div class="tool-card">
             <h3>🗂️ Interactive Flashcards</h3>
             <p>Create study decks, track your score live, flip answer cards, and shuffle to test your memory.</p>
             <button class="action-btn" onclick="openTool('flashcardModal')">Study Flashcards</button>
         </div>
-
         <div class="tool-card">
             <h3>📈 Semester GPA Tracker</h3>
             <p>Input your course grades and credit hours to instantly compute your exact cumulative GPA matrix.</p>
             <button class="action-btn" onclick="openTool('gpaModal')">Calculate GPA</button>
         </div>
-
         <div class="tool-card">
             <h3>📝 Markdown Notepad</h3>
             <p>Write simple study reports or summaries with live preview reading, word count metrics, and file exports.</p>
             <button class="action-btn" onclick="openTool('notesModal')">Open Notepad</button>
         </div>
-
         <div class="tool-card">
             <h3>📋 Task Planner Board</h3>
             <p>Organize homework tasks, assign high/mid/low priority colors, and check off completed items.</p>
@@ -291,31 +314,26 @@
             <p>Generate highly secure randomized passwords with customized length controls and character choices.</p>
             <button class="action-btn" onclick="openTool('passwordModal')">Generate Password</button>
         </div>
-
         <div class="tool-card">
             <h3>🔾 Base64 Text Encoder</h3>
             <p>Easily convert raw text payloads into safe base64 strings or translate them back safely.</p>
             <button class="action-btn" onclick="openTool('base64Modal')">Convert Base64</button>
         </div>
-
         <div class="tool-card">
             <h3>🖼️ Smart Image Resizer</h3>
             <p>Change your photos or graphic files to custom height and width specifications instantly.</p>
             <button class="action-btn" onclick="openTool('resizerModal')">Resize Image</button>
         </div>
-
         <div class="tool-card">
             <h3>🥞 Multi-Image Stitcher</h3>
             <p>Combine two image files side-by-side or stack them vertically into a single file.</p>
             <button class="action-btn" onclick="openTool('mergerModal')">Merge Images</button>
         </div>
-
         <div class="tool-card">
             <h3>📄 PDF Page Extractor</h3>
             <p>Upload any PDF document file and convert the pages directly into visible image displays.</p>
             <button class="action-btn" onclick="openTool('pdfToImgModal')">Extract Pages</button>
         </div>
-
         <div class="tool-card">
             <h3>✍️ Direct Text To PDF</h3>
             <p>Type out long documents, essays, or code blocks and download them formatted as a PDF.</p>
@@ -325,20 +343,46 @@
 
     <!-- ALL SYSTEM MODAL BOXES -->
 
-    <!-- Text to Image Modal Box -->
+    <!-- Text to Image Modal Box (HUGE UPDATE) -->
     <div id="imageModal" class="modal-background">
         <div class="modal-content">
             <button class="close-btn" onclick="closeTool('imageModal')">×</button>
-            <h2>🎨 AI Text to Image Studio</h2>
-            <label>What would you like to generate?</label>
+            <h2>🎨 AI Text to Image Studio v2.0</h2>
+            
+            <label>What would you like to generate? (Main Prompt)</label>
             <textarea id="imgPromptText" rows="3" placeholder="e.g., A cozy cyberpunk study room with colorful neon lights, digital art style..."></textarea>
-            <label>Choose Art Style</label>
+
+            <label>Things to exclude (Negative Prompt) <span style="color:var(--accent-purple); font-weight:normal;">[New]</span></label>
+            <input type="text" id="imgNegativePrompt" placeholder="e.g., ugly, text, blurry, distorted hands...">
+
+            <div class="input-group">
+                <div>
+                    <label>Aspect Ratio <span style="color:var(--accent-purple); font-weight:normal;">[New]</span></label>
+                    <select id="imgAspectRatio">
+                        <option value="16:9">Landscape (16:9)</option>
+                        <option value="1:1" selected>Square (1:1)</option>
+                        <option value="9:16">Portrait (9:16)</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Generation Quality <span style="color:var(--accent-purple); font-weight:normal;">[New]</span></label>
+                    <select id="imgQuality">
+                        <option value="draft">Fast Draft</option>
+                        <option value="high" selected>High Detail</option>
+                        <option value="cinematic">Cinematic Render</option>
+                    </select>
+                </div>
+            </div>
+
+            <label>Art Style (Retained)</label>
             <select id="imgStyleSelect">
                 <option value="photoreal">Realistic Photo Look</option>
                 <option value="anime">Vibrant Anime Style</option>
                 <option value="oil">Classic Textured Painting</option>
             </select>
-            <button class="action-btn" onclick="runImageSimulation()">Generate Art Asset</button>
+
+            <button class="action-btn" style="margin-top:15px;" onclick="runImageSimulation()">Generate Art Asset</button>
+
             <div class="preview-box" id="imgBox">
                 <div id="imgStatus" style="margin-bottom:10px;"></div>
                 <button class="action-btn" style="background:var(--green); display:none;" id="downloadArtBtn" onclick="downloadMockMedia('Image')">Save Art to Device</button>
@@ -346,20 +390,56 @@
         </div>
     </div>
 
-    <!-- Text to Video Modal Box -->
+    <!-- Text to Video Modal Box (HUGE UPDATE) -->
     <div id="videoModal" class="modal-background">
         <div class="modal-content">
             <button class="close-btn" onclick="closeTool('videoModal')">×</button>
-            <h2>🎬 AI Text to Video Studio</h2>
-            <label>Describe the motion scene video clip</label>
+            <h2>🎬 AI Text to Video Studio v2.0</h2>
+            
+            <label>Describe the motion scene (Main Prompt)</label>
             <textarea id="vdoPromptText" rows="3" placeholder="e.g., Drone sweeping shot over ancient snow mountains at sunset..."></textarea>
-            <label>Camera Motion Settings</label>
-            <select id="vdoMotionSelect">
-                <option value="fast">Dynamic Action Pan</option>
-                <option value="smooth">Slow Cinematic Drift</option>
-                <option value="warp">Hyperlapse Time Warp</option>
-            </select>
-            <button class="action-btn" onclick="runVideoSimulation()">Generate Motion Sequence</button>
+
+            <div class="input-group">
+                <div>
+                    <label>Frame Rate (FPS) <span style="color:var(--accent-purple); font-weight:normal;">[New]</span></label>
+                    <select id="vdoFPS">
+                        <option value="24">24 (Cinematic)</option>
+                        <option value="30" selected>30 (Standard)</option>
+                        <option value="60">60 (Smooth)</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Loop Duration <span style="color:var(--accent-purple); font-weight:normal;">[New]</span></label>
+                    <select id="vdoDuration">
+                        <option value="5" selected>5 Seconds</option>
+                        <option value="10">10 Seconds</option>
+                        <option value="15">15 Seconds</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div>
+                    <label>Video Filter <span style="color:var(--accent-purple); font-weight:normal;">[New]</span></label>
+                    <select id="vdoFilter">
+                        <option value="none" selected>None</option>
+                        <option value="noir">Noir (B&W)</option>
+                        <option value="vibrant">Vibrant Colors</option>
+                        <option value="oldmovie">Old Movie</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Camera Motion (Retained)</label>
+                    <select id="vdoMotionSelect">
+                        <option value="fast">Dynamic Action Pan</option>
+                        <option value="smooth">Slow Cinematic Drift</option>
+                        <option value="warp">Hyperlapse Time Warp</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="action-btn" style="margin-top:15px;" onclick="runVideoSimulation()">Generate Motion Sequence</button>
+
             <div class="preview-box" id="vdoBox">
                 <div id="vdoStatus" style="margin-bottom:10px;"></div>
                 <button class="action-btn" style="background:var(--green); display:none;" id="downloadVdoBtn" onclick="downloadMockMedia('Video')">Download Clip Layout</button>
@@ -367,6 +447,9 @@
         </div>
     </div>
 
+    <!-- Rest of Modal Boxes (All functionality retained) -->
+    <!-- [Ambient Audio Modal, Pomodoro, Flashcard, GPA, Notes, Task, Password, Base64, Resizer, Merger, PDF Extractor, Text To PDF retained exactly as before] -->
+    
     <!-- Ambient Audio Modal Box -->
     <div id="audioModal" class="modal-background">
         <div class="modal-content">
@@ -415,9 +498,7 @@
                 <input type="text" id="fcBackSide" placeholder="Answer on Back">
             </div>
             <button class="action-btn" style="margin-bottom:10px;" onclick="saveNewFlashcard()">Add Card to Deck</button>
-            
             <div class="card-flipper" id="cardCanvas" onclick="flipFlashcard()">Create or load flashcards to begin study!</div>
-            
             <div style="display:flex; gap:10px;">
                 <button class="action-btn" style="background:var(--green);" onclick="scoreCardMemory(true)">I Knew It 👍</button>
                 <button class="action-btn" style="background:var(--red);" onclick="scoreCardMemory(false)">Forgot It 👎</button>
@@ -583,76 +664,125 @@
 
     <script>
         // System Window Navigation Handlers
-        function openTool(modalId) { document.getElementById(modalId).style.display = "flex"; }
-        function closeTool(modalId) { document.getElementById(modalId).style.display = "none"; }
+        function openTool(modalId) {
+            document.getElementById(modalId).style.display = "flex";
+        }
 
-        // 1. TEXT TO IMAGE SIMULATION CODE
+        function closeTool(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        // 1. TEXT TO IMAGE SIMULATION CODE (ENHANCED v2.0)
         function runImageSimulation() {
             let userPrompt = document.getElementById('imgPromptText').value;
+            let negativePrompt = document.getElementById('imgNegativePrompt').value;
             let styleChoice = document.getElementById('imgStyleSelect').value;
-            if(!userPrompt) { alert("Please type what you want to see first!"); return; }
-            
+            let aspectRatio = document.getElementById('imgAspectRatio').value;
+            let quality = document.getElementById('imgQuality').value;
+
+            if(!userPrompt) {
+                alert("Please type what you want to see first!");
+                return;
+            }
+
             let canvasBox = document.getElementById('imgBox');
             let txtLabel = document.getElementById('imgStatus');
             let dlBtn = document.getElementById('downloadArtBtn');
-            
+
             canvasBox.style.display = "flex";
             dlBtn.style.display = "none";
-            txtLabel.innerText = "Connecting to generative vector pipelines...";
+            txtLabel.innerText = `Connecting to ${quality.toUpperCase()} vector pipelines...`;
             canvasBox.style.background = "#000000";
 
+            // Update aspect ratio based on selection
+            if (aspectRatio === "16:9") {
+                canvasBox.style.height = "225px"; // 400 * 9/16
+                canvasBox.style.width = "400px";
+            } else if (aspectRatio === "9:16") {
+                canvasBox.style.height = "400px";
+                canvasBox.style.width = "225px"; // 400 * 9/16
+            } else { // 1:1
+                canvasBox.style.height = "300px";
+                canvasBox.style.width = "300px";
+            }
+
             setTimeout(() => {
-                txtLabel.innerText = "Applying color textures and rendering art brush layers...";
+                txtLabel.innerText = "Applying color textures, quality pass, and brush layers...";
                 let tone1 = styleChoice === "photoreal" ? "#2b5876" : styleChoice === "anime" ? "#ff007f" : "#4a121a";
                 let tone2 = styleChoice === "photoreal" ? "#4e4376" : styleChoice === "anime" ? "#7f00ff" : "#9a7b56";
+                
+                // Adjust colors slightly based on quality setting
+                if(quality === 'cinematic') { tone1 = "#000"; tone2 = "#333"; }
+                
                 canvasBox.style.background = `radial-gradient(circle, ${tone1}, ${tone2})`;
             }, 1000);
 
             setTimeout(() => {
-                txtLabel.innerHTML = `🌟 <b>Generation Success</b><br><span style="font-size:0.85rem;">[Render Match: Style '${styleChoice.toUpperCase()}' for query "${userPrompt}"]</span>`;
+                let negText = negativePrompt ? `<br><small style="color:#aaa;">Excluding: ${negativePrompt}</small>` : "";
+                txtLabel.innerHTML = `🌟 <b>Generation Success (v2.0)</b><br>
+                                     <span style="font-size:0.85rem;">[${quality.toUpperCase()} | ${aspectRatio} | ${styleChoice.toUpperCase()} for "${userPrompt}"]</span>
+                                     ${negText}`;
                 dlBtn.style.display = "inline-block";
             }, 2200);
         }
 
-        // 2. TEXT TO VIDEO SIMULATION CODE
+        // 2. TEXT TO VIDEO SIMULATION CODE (ENHANCED v2.0)
         function runVideoSimulation() {
             let userPrompt = document.getElementById('vdoPromptText').value;
-            let speedSetting = document.getElementById('vdoMotionSelect').value;
-            if(!userPrompt) { alert("Please input motion directions first!"); return; }
-            
+            let cameraMotion = document.getElementById('vdoMotionSelect').value;
+            let fps = document.getElementById('vdoFPS').value;
+            let duration = document.getElementById('vdoDuration').value;
+            let filter = document.getElementById('vdoFilter').value;
+
+            if(!userPrompt) {
+                alert("Please input motion directions first!");
+                return;
+            }
+
             let canvasBox = document.getElementById('vdoBox');
             let txtLabel = document.getElementById('vdoStatus');
             let dlBtn = document.getElementById('downloadVdoBtn');
-            
+
             canvasBox.style.display = "flex";
             dlBtn.style.display = "none";
-            txtLabel.innerText = "Analyzing multi-frame timeline paths...";
+            txtLabel.innerText = `Analyzing multi-frame timeline paths (${fps} FPS)...`;
             canvasBox.style.background = "#000000";
 
             setTimeout(() => {
-                txtLabel.innerText = "Stabilizing camera frame rate vectors and motion loops...";
-                let tone1 = speedSetting === "fast" ? "#00f2fe" : speedSetting === "warp" ? "#141e30" : "#243b55";
-                let tone2 = speedSetting === "fast" ? "#4facfe" : speedSetting === "warp" ? "#243b55" : "#141e30";
+                txtLabel.innerText = `Stabilizing frame vectors, ${filter} filter, and ${duration}s motion loops...`;
+                let tone1 = cameraMotion === "fast" ? "#00f2fe" : cameraMotion === "warp" ? "#141e30" : "#243b55";
+                let tone2 = cameraMotion === "fast" ? "#4facfe" : cameraMotion === "warp" ? "#243b55" : "#141e30";
+                
+                // Adjust colors based on filter
+                if(filter === 'noir') { tone1 = "#222"; tone2 = "#555"; }
+                if(filter === 'vibrant') { tone1 = "#ff0"; tone2 = "#0ff"; }
+
                 canvasBox.style.background = `linear-gradient(135deg, ${tone1}, ${tone2})`;
             }, 1000);
 
             setTimeout(() => {
-                txtLabel.innerHTML = `🎬 <b>Video Render Finished</b><br><span style="font-size:0.85rem;">[Motion Match: Loop setup for "${userPrompt}"]</span>`;
+                txtLabel.innerHTML = `🎬 <b>Video Render Finished (v2.0)</b><br>
+                                    <span style="font-size:0.85rem;">[${fps}FPS | ${duration}s | ${filter.toUpperCase()} | ${cameraMotion.toUpperCase()} for "${userPrompt}"]</span>`;
                 dlBtn.style.display = "inline-block";
             }, 2200);
         }
 
-        // Dummy Media Downloader helper
+        // Dummy Media Downloader helper function
         function downloadMockMedia(type) {
-            alert(`${type} asset configuration packaged into local machine browser cache successfully!`);
+            alert(`${type} asset configuration (v2.0) packaged into local machine browser cache successfully!`);
         }
+
+        // --- RETAINED FUNCTIONS FROM ORIGINAL CODE ---
 
         // 3. AMBIENT AUDIOS SCRIPT LAYER (WEB AUDIO API)
         let soundEngineCtx = null, noiseStreamSource = null;
         function startWebAudio() {
             if(soundEngineCtx) return;
             soundEngineCtx = new (window.AudioContext || window.webkitAudioContext)();
-            let bSize = 2 * soundEngineCtx.sampleRate, bufferData = soundEngineCtx.createBuffer(1, bSize, soundEngineCtx.sampleRate), dataChannel = bufferData.getChannelData(0);
+            let bSize = 2 * soundEngineCtx.sampleRate,
+                bufferData = soundEngineCtx.createBuffer(1, bSize, soundEngineCtx.sampleRate),
+                dataChannel = bufferData.getChannelData(0);
+
             let userSelection = document.getElementById('ambientSoundType').value;
 
             if(userSelection === 'brown') {
@@ -663,18 +793,19 @@
                     cumulativeHistory = dataChannel[i];
                     dataChannel[i] *= 4.0; 
                 }
-            } else { 
+            } else {
                 for (let i = 0; i < bSize; i++) {
                     dataChannel[i] = Math.sin(2 * Math.PI * 10 * (i / soundEngineCtx.sampleRate)) * 0.25;
                 }
             }
-            
+
             noiseStreamSource = soundEngineCtx.createBufferSource();
             noiseStreamSource.buffer = bufferData;
             noiseStreamSource.loop = true;
             noiseStreamSource.connect(soundEngineCtx.destination);
             noiseStreamSource.start();
         }
+
         function stopWebAudio() {
             if(noiseStreamSource) { noiseStreamSource.stop(); noiseStreamSource.disconnect(); }
             if(soundEngineCtx) { soundEngineCtx.close(); }
@@ -688,7 +819,7 @@
             isPomoActive = true;
             if (!pomoTimeLeft) pomoTimeLeft = (parseInt(document.getElementById('pomoWorkIn').value) || 25) * 60;
             document.getElementById('pomoLabel').innerText = `Status: Deep Study Mode (${currentBlock.toUpperCase()})`;
-            
+
             pomoIntervalTimer = setInterval(() => {
                 if (pomoTimeLeft > 0) {
                     pomoTimeLeft--;
@@ -699,21 +830,22 @@
                     clearInterval(pomoIntervalTimer);
                     isPomoActive = false;
                     if(currentBlock === "work") {
-                        currentBlock = "break";
-                        pomoTimeLeft = (parseInt(document.getElementById('pomoBreakIn').value) || 5) * 60;
-                        alert("Time's up! Take a well-deserved short rest break.");
-                        startPomo();
+                        currentBlock = "break"; pomoTimeLeft = (parseInt(document.getElementById('pomoBreakIn').value) || 5) * 60;
+                        alert("Time's up! Take a well-deserved short rest break."); startPomo();
                     } else {
-                        currentBlock = "work";
-                        pomoTimeLeft = (parseInt(document.getElementById('pomoWorkIn').value) || 25) * 60;
-                        alert("Break ended! Time to re-focus on tasks.");
-                        startPomo();
+                        currentBlock = "work"; pomoTimeLeft = (parseInt(document.getElementById('pomoWorkIn').value) || 25) * 60;
+                        alert("Break ended! Time to re-focus on tasks."); startPomo();
                     }
                 }
             }, 1000);
         }
         function pausePomo() { clearInterval(pomoIntervalTimer); isPomoActive = false; document.getElementById('pomoLabel').innerText = "Status: Paused Interval"; }
-        function resetPomo() { clearInterval(pomoIntervalTimer); isPomoActive = false; currentBlock = "work"; pomoTimeLeft = (parseInt(document.getElementById('pomoWorkIn').value) || 25) * 60; document.getElementById('pomoClock').innerText = `${document.getElementById('pomoWorkIn').value.padStart(2, '0')}:00`; document.getElementById('pomoLabel').innerText = "Status: Ready"; }
+        function resetPomo() { 
+            clearInterval(pomoIntervalTimer); isPomoActive = false; currentBlock = "work";
+            pomoTimeLeft = (parseInt(document.getElementById('pomoWorkIn').value) || 25) * 60;
+            document.getElementById('pomoClock').innerText = `${document.getElementById('pomoWorkIn').value.padStart(2, '0')}:00`;
+            document.getElementById('pomoLabel').innerText = "Status: Ready";
+        }
 
         // 5. MEMORY FLASHCARD STUDIOS
         let activeDeck = [], fcCursor = 0, correctScore = 0, verifiedTotal = 0, isCardFlipped = false;
@@ -722,56 +854,29 @@
             let backVal = document.getElementById('fcBackSide').value;
             if(frontVal && backVal) {
                 activeDeck.push({q: frontVal, a: backVal});
-                document.getElementById('fcFrontSide').value = "";
-                document.getElementById('fcBackSide').value = "";
-                fcCursor = activeDeck.length - 1;
-                refreshFlashcardDisplay();
+                document.getElementById('fcFrontSide').value = ""; document.getElementById('fcBackSide').value = "";
+                fcCursor = activeDeck.length - 1; refreshFlashcardDisplay();
             }
         }
         function refreshFlashcardDisplay() {
             if(activeDeck.length === 0) return;
             document.getElementById('fcMeta').innerText = `Deck Size: ${activeDeck.length} | Review Card: #${fcCursor + 1} | Score Track: ${correctScore}/${verifiedTotal}`;
-            isCardFlipped = false;
-            document.getElementById('cardCanvas').innerText = activeDeck[fcCursor].q;
+            isCardFlipped = false; document.getElementById('cardCanvas').innerText = activeDeck[fcCursor].q;
             document.getElementById('cardCanvas').style.background = "var(--accent-blue)";
         }
         function flipFlashcard() {
             if(activeDeck.length === 0) return;
-            if(!isCardFlipped) {
-                document.getElementById('cardCanvas').innerText = activeDeck[fcCursor].a;
-                document.getElementById('cardCanvas').style.background = "#1f2833";
-                isCardFlipped = true;
-            } else {
-                document.getElementById('cardCanvas').innerText = activeDeck[fcCursor].q;
-                document.getElementById('cardCanvas').style.background = "var(--accent-blue)";
-                isCardFlipped = false;
-            }
+            if(!isCardFlipped) { document.getElementById('cardCanvas').innerText = activeDeck[fcCursor].a; document.getElementById('cardCanvas').style.background = "#1f2833"; isCardFlipped = true; }
+            else { document.getElementById('cardCanvas').innerText = activeDeck[fcCursor].q; document.getElementById('cardCanvas').style.background = "var(--accent-blue)"; isCardFlipped = false; }
         }
-        function scoreCardMemory(knownTrue) {
-            if(activeDeck.length === 0) return;
-            verifiedTotal++;
-            if(knownTrue) correctScore++;
-            shiftCard(1);
-        }
-        function shiftCard(step) {
-            if(activeDeck.length === 0) return;
-            fcCursor += step;
-            if(fcCursor >= activeDeck.length) fcCursor = 0;
-            if(fcCursor < 0) fcCursor = activeDeck.length - 1;
-            refreshFlashcardDisplay();
-        }
-        function shuffleDeckArray() {
-            if(activeDeck.length < 2) return;
-            activeDeck.sort(() => Math.random() - 0.5);
-            fcCursor = 0;
-            refreshFlashcardDisplay();
-        }
+        function scoreCardMemory(knownTrue) { if(activeDeck.length === 0) return; verifiedTotal++; if(knownTrue) correctScore++; shiftCard(1); }
+        function shiftCard(step) { if(activeDeck.length === 0) return; fcCursor += step; if(fcCursor >= activeDeck.length) fcCursor = 0; if(fcCursor < 0) fcCursor = activeDeck.length - 1; refreshFlashcardDisplay(); }
+        function shuffleDeckArray() { if(activeDeck.length < 2) return; activeDeck.sort(() => Math.random() - 0.5); fcCursor = 0; refreshFlashcardDisplay(); }
 
         // 6. SEMESTER GPA APP
         function addNewGpaRow() {
             let holder = document.getElementById('gpaRowList');
-            let element = document.createElement('div');
-            element.style = "display:flex; gap:10px; margin-bottom:8px;";
+            let element = document.createElement('div'); element.style = "display:flex; gap:10px; margin-bottom:8px;";
             element.innerHTML = `<input type="text" placeholder="Subject Name" style="margin:0;"><input type="number" placeholder="Credits" class="credit-box" style="margin:0;"><select class="grade-box" style="margin:0;"><option value="4.0">A (4.0)</option><option value="3.5">B+ (3.5)</option><option value="3.0">B (3.0)</option><option value="2.5">C+ (2.5)</option><option value="2.0">C (2.0)</option><option value="0.0">F (0.0)</option></select>`;
             holder.appendChild(element);
         }
@@ -806,16 +911,13 @@
             let prio = document.getElementById('taskPrioritySelect').value;
             if(!title) return;
             boardRegistry.push({id: Date.now(), titleStr: title, prioStr: prio});
-            document.getElementById('taskInputText').value = "";
-            buildTaskDashboard();
+            document.getElementById('taskInputText').value = ""; buildTaskDashboard();
         }
         function eraseTask(targetId) { boardRegistry = boardRegistry.filter(t => t.id !== targetId); buildTaskDashboard(); }
         function buildTaskDashboard() {
-            let boardArea = document.getElementById('taskDashboardBox');
-            boardArea.innerHTML = "";
+            let boardArea = document.getElementById('taskDashboardBox'); boardArea.innerHTML = "";
             boardRegistry.forEach(t => {
-                let taskElement = document.createElement('div');
-                taskElement.style = "display:flex; justify-content:space-between; align-items:center; background:var(--bg-dark); padding:10px 15px; border-radius:6px; border-left:4px solid var(--accent-purple);";
+                let taskElement = document.createElement('div'); taskElement.style = "display:flex; justify-content:space-between; align-items:center; background:var(--bg-dark); padding:10px 15px; border-radius:6px; border-left:4px solid var(--accent-purple);";
                 taskElement.innerHTML = `<div><span style="font-size:0.8rem; background:#1f2833; padding:2px 6px; border-radius:4px; margin-right:10px;">${t.prioStr}</span> ${t.titleStr}</div><button onclick="eraseTask(${t.id})" style="background:none; border:none; color:var(--red); cursor:pointer; font-weight:bold;">✕</button>`;
                 boardArea.appendChild(taskElement);
             });
@@ -838,22 +940,21 @@
         // 10. BASE64 SYSTEM ENGINES
         function transformBase64(toEncodeMode) {
             let rawDataStr = document.getElementById('b64RawInput').value;
-            try {
-                document.getElementById('b64ResultDisplay').innerText = toEncodeMode ? btoa(rawDataStr) : atob(rawDataStr);
-            } catch(err) {
-                document.getElementById('b64ResultDisplay').innerText = "System configuration error parsing string properties.";
-            }
+            try { document.getElementById('b64ResultDisplay').innerText = toEncodeMode ? btoa(rawDataStr) : atob(rawDataStr); }
+            catch(err) { document.getElementById('b64ResultDisplay').innerText = "System configuration error parsing string properties."; }
         }
 
         // 11. IMAGE DIMENSION RESIZER
         function processImageCanvasResize() {
-            let chosenFile = document.getElementById('resizerFileDrop').files[0], targetW = parseInt(document.getElementById('resizeWVal').value), targetH = parseInt(document.getElementById('resizeHVal').value);
+            let chosenFile = document.getElementById('resizerFileDrop').files[0],
+                targetW = parseInt(document.getElementById('resizeWVal').value), targetH = parseInt(document.getElementById('resizeHVal').value);
             if (!chosenFile) { alert("Please select an image file layer first."); return; }
             let trackingImg = new Image(); trackingImg.src = URL.createObjectURL(chosenFile);
             trackingImg.onload = function() {
                 let virtualCanvas = document.createElement('canvas'); virtualCanvas.width = targetW; virtualCanvas.height = targetH;
                 virtualCanvas.getContext('2d').drawImage(trackingImg, 0, 0, targetW, targetH);
-                let executionAnchor = document.createElement('a'); executionAnchor.href = virtualCanvas.toDataURL('image/jpeg'); executionAnchor.download = 'resized_image.jpg'; executionAnchor.click();
+                let executionAnchor = document.createElement('a'); executionAnchor.href = virtualCanvas.toDataURL('image/jpeg');
+                executionAnchor.download = 'resized_image.jpg'; executionAnchor.click();
             }
         }
 
@@ -863,14 +964,15 @@
             if(!baseFile1 || !baseFile2) { alert("Select both picture layers to proceed!"); return; }
             let imgNode1 = new Image(), imgNode2 = new Image();
             imgNode1.src = URL.createObjectURL(baseFile1);
-            imgNode1.onload = () => {
-                imgNode2.src = URL.createObjectURL(baseFile2);
+            imgNode1.onload = () => { imgNode2.src = URL.createObjectURL(baseFile2);
                 imgNode2.onload = () => {
                     let layoutCanvas = document.createElement('canvas');
                     layoutCanvas.width = direction === 'y' ? Math.max(imgNode1.width, imgNode2.width) : imgNode1.width + imgNode2.width;
                     layoutCanvas.height = direction === 'y' ? imgNode1.height + imgNode2.height : Math.max(imgNode1.height, imgNode2.height);
-                    let renderingContext = layoutCanvas.getContext('2d'); renderingContext.drawImage(imgNode1, 0, 0);
-                    if(direction === 'y') renderingContext.drawImage(imgNode2, 0, imgNode1.height); else renderingContext.drawImage(imgNode2, imgNode1.width, 0);
+                    let renderingContext = layoutCanvas.getContext('2d');
+                    renderingContext.drawImage(imgNode1, 0, 0);
+                    if(direction === 'y') renderingContext.drawImage(imgNode2, 0, imgNode1.height);
+                    else renderingContext.drawImage(imgNode2, imgNode1.width, 0);
                     let saveLink = document.createElement('a'); saveLink.href = layoutCanvas.toDataURL('image/png'); saveLink.download = 'merged_output.png'; saveLink.click();
                 }
             }
@@ -891,22 +993,21 @@
                             virtualCanvas.height = structuralScale.height; virtualCanvas.width = structuralScale.width;
                             activePage.render({canvasContext: virtualCanvas.getContext('2d'), viewport: structuralScale}).promise.then(() => {
                                 let rasterImageNode = new Image(); rasterImageNode.src = virtualCanvas.toDataURL();
-                                rasterImageNode.style = "width:100%; border:1px solid #444; border-radius:6px;";
-                                outputWindow.appendChild(rasterImageNode);
+                                rasterImageNode.style = "width:100%; border:1px solid #444; border-radius:6px;"; outputWindow.appendChild(rasterImageNode);
                             });
                         });
                     }
                 });
-            };
-            arrayReader.readAsArrayBuffer(userFile);
+            }; arrayReader.readAsArrayBuffer(userFile);
         }
 
         // 14. DIRECT TEXT ENGINE TO PDF GENERATOR
         function compileTextToPdfDownload() {
-            const { jsPDF } = window.jspdf; let pdfDoc = new jsPDF(), sourceTextString = document.getElementById('pdfSourceText').value;
+            const { jsPDF } = window.jspdf;
+            let pdfDoc = new jsPDF(), sourceTextString = document.getElementById('pdfSourceText').value;
             if(!sourceTextString) { alert("Type text inputs to export to report blocks."); return; }
-            let wrapLinesArray = pdfDoc.splitTextToSize(sourceTextString, 180); pdfDoc.text(wrapLinesArray, 10, 10);
-            pdfDoc.save('DocumentReport_Output.pdf');
+            let wrapLinesArray = pdfDoc.splitTextToSize(sourceTextString, 180);
+            pdfDoc.text(wrapLinesArray, 10, 10); pdfDoc.save('DocumentReport_Output.pdf');
         }
     </script>
 </body>
