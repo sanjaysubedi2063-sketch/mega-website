@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanjay Subedi - Digital Tools & AI Studio (Full Version)</title>
-    <!-- External Engines -->
+    <title>Sanjay Subedi - Digital Tools & AI Studio</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -12,69 +11,88 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
         body { background-color: var(--bg-dark); color: var(--text-light); padding: 20px; }
         header { text-align: center; padding: 40px 20px; }
-        .section-heading { max-width: 1200px; margin: 30px auto 15px auto; color: var(--accent-purple); font-size: 1.2rem; border-bottom: 2px solid var(--bg-card); padding-bottom: 5px; }
+        .section-heading { max-width: 1200px; margin: 30px auto 15px auto; color: var(--accent-purple); font-size: 1.2rem; border-bottom: 2px solid var(--bg-card); padding-bottom: 5px; text-transform: uppercase; }
         .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
-        .tool-card { background-color: var(--bg-card); border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .tool-card { background-color: var(--bg-card); border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: transform 0.2s; }
+        .tool-card:hover { transform: translateY(-5px); border: 1px solid var(--accent-purple); }
         .action-btn { background-color: var(--accent-blue); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px; }
         .modal-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 999; }
         .modal-content { background: #2c3540; padding: 30px; border-radius: 15px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; color: white; position: relative; }
         .preview-box { width: 100%; min-height: 200px; background: #000; border-radius: 8px; margin-top: 15px; display: none; flex-direction: column; align-items: center; justify-content: center; border: 2px solid var(--accent-purple); padding: 20px; text-align: center; }
         .close-btn { position: absolute; top: 15px; right: 15px; cursor: pointer; background: #1f2833; border: none; color: white; padding: 5px 10px; border-radius: 5px; }
+        label { display: block; margin-top: 10px; color: var(--accent-purple); font-weight: bold; }
+        textarea, select, input { width: 100%; padding: 10px; background: #0b0c10; border: 1px solid var(--accent-blue); color: white; border-radius: 6px; margin-top: 5px; }
     </style>
 </head>
 <body>
 
-    <header><h1>Sanjay Subedi Digital Tools & AI Studio</h1></header>
+    <header>
+        <h1>Sanjay Subedi Digital Tools & AI Studio</h1>
+    </header>
 
-    <!-- SECTION 1: AI MEDIA -->
+    <!-- SECTION: AI MEDIA -->
     <div class="section-heading">🎬 AI Media Studios</div>
     <div class="tools-grid">
-        <div class="tool-card"><h3>🎨 AI Image Studio</h3><button class="action-btn" onclick="openTool('imageModal')">Open Image Studio</button></div>
-        <div class="tool-card"><h3>🎬 AI Video Studio</h3><button class="action-btn" onclick="openTool('videoModal')">Open Video Studio</button></div>
-        <div class="tool-card"><h3>🎵 Ambient Audio</h3><button class="action-btn" onclick="openTool('audioModal')">Launch Soundscapes</button></div>
+        <div class="tool-card"><h3>🎨 AI Image Studio</h3><button class="action-btn" onclick="openTool('imageModal')">Open Studio</button></div>
+        <div class="tool-card"><h3>🎬 AI Video Studio</h3><button class="action-btn" onclick="openTool('videoModal')">Open Studio</button></div>
     </div>
 
-    <!-- SECTION 2: PRODUCTIVITY -->
+    <!-- SECTION: PRODUCTIVITY -->
     <div class="section-heading">⚡ Productivity Tools</div>
     <div class="tools-grid">
-        <div class="tool-card"><h3>⏱️ Pomodoro Timer</h3><button class="action-btn" onclick="openTool('pomodoroModal')">Start Timer</button></div>
-        <div class="tool-card"><h3>🗂️ Flashcards</h3><button class="action-btn" onclick="openTool('flashcardModal')">Study Flashcards</button></div>
-        <div class="tool-card"><h3>📈 GPA Tracker</h3><button class="action-btn" onclick="openTool('gpaModal')">Calculate GPA</button></div>
+        <div class="tool-card"><h3>⏱️ Pomodoro Timer</h3><button class="action-btn" onclick="openTool('pomodoroModal')">Open Timer</button></div>
+        <div class="tool-card"><h3>🗂️ Flashcards</h3><button class="action-btn" onclick="openTool('flashcardModal')">Open Deck</button></div>
+        <div class="tool-card"><h3>📈 GPA Tracker</h3><button class="action-btn" onclick="openTool('gpaModal')">Open Tracker</button></div>
         <div class="tool-card"><h3>📝 Notepad</h3><button class="action-btn" onclick="openTool('notesModal')">Open Notepad</button></div>
-        <div class="tool-card"><h3>📋 Task Planner</h3><button class="action-btn" onclick="openTool('taskModal')">Manage Tasks</button></div>
-        <div class="tool-card"><h3>🔑 Password Creator</h3><button class="action-btn" onclick="openTool('passwordModal')">Generate Password</button></div>
+        <div class="tool-card"><h3>📋 Task Planner</h3><button class="action-btn" onclick="openTool('taskModal')">Open Tasks</button></div>
+        <div class="tool-card"><h3>🔑 Password Creator</h3><button class="action-btn" onclick="openTool('passwordModal')">Open Generator</button></div>
+        <div class="tool-card"><h3>🔾 Base64 Encoder</h3><button class="action-btn" onclick="openTool('base64Modal')">Open Encoder</button></div>
+        <div class="tool-card"><h3>🖼️ Image Resizer</h3><button class="action-btn" onclick="openTool('resizerModal')">Open Resizer</button></div>
+        <div class="tool-card"><h3>🥞 Image Stitcher</h3><button class="action-btn" onclick="openTool('mergerModal')">Open Merger</button></div>
+        <div class="tool-card"><h3>📄 PDF Extractor</h3><button class="action-btn" onclick="openTool('pdfToImgModal')">Open Extractor</button></div>
+        <div class="tool-card"><h3>✍️ Text To PDF</h3><button class="action-btn" onclick="openTool('textToPdfModal')">Open Creator</button></div>
     </div>
 
-    <!-- Modals -->
+    <!-- MODALS: AI STUDIO -->
     <div id="imageModal" class="modal-background"><div class="modal-content"><button class="close-btn" onclick="closeTool('imageModal')">×</button>
-        <h2>AI Image Studio</h2><textarea id="imgPromptText" rows="3"></textarea>
+        <h2>AI Image Studio</h2><textarea id="imgPrompt" rows="3" placeholder="Describe your image..."></textarea>
         <button class="action-btn" onclick="runImageSimulation()">Generate Image</button>
         <div class="preview-box" id="imgBox"><div id="imgStatus"></div><button id="downloadArtBtn" style="display:none; background:var(--green);" class="action-btn" onclick="downloadFile('AI_Art.png')">Download Image</button></div>
     </div></div>
 
     <div id="videoModal" class="modal-background"><div class="modal-content"><button class="close-btn" onclick="closeTool('videoModal')">×</button>
-        <h2>AI Video Studio</h2><textarea id="vdoPromptText" rows="3"></textarea>
+        <h2>AI Video Studio</h2><textarea id="vdoPrompt" rows="3" placeholder="Describe your video..."></textarea>
         <button class="action-btn" onclick="runVideoSimulation()">Generate Video</button>
         <div class="preview-box" id="vdoBox"><div id="vdoStatus"></div><button id="downloadVdoBtn" style="display:none; background:var(--green);" class="action-btn" onclick="downloadFile('AI_Video.mp4')">Download Video</button></div>
     </div></div>
 
-    <!-- Note: Add your original pomodoroModal, flashcardModal, etc. HTML blocks here -->
-    
+    <!-- MODALS: PRODUCTIVITY -->
+    <div id="pomodoroModal" class="modal-background"><div class="modal-content"><button class="close-btn" onclick="closeTool('pomodoroModal')">×</button><h2>Pomodoro Timer</h2></div></div>
+    <div id="flashcardModal" class="modal-background"><div class="modal-content"><button class="close-btn" onclick="closeTool('flashcardModal')">×</button><h2>Flashcards</h2></div></div>
+    <div id="gpaModal" class="modal-background"><div class="modal-content"><button class="close-btn" onclick="closeTool('gpaModal')">×</button><h2>GPA Tracker</h2></div></div>
+    <div id="notesModal" class="modal-background"><div class="modal-content"><button class="close-btn" onclick="closeTool('notesModal')">×</button><h2>Notepad</h2></div></div>
+    <div id="taskModal" class="modal-background"><div class="modal-content"><button class="close-btn" onclick="closeTool('taskModal')">×</button><h2>Task Planner</h2></div></div>
+    <div id="passwordModal" class="modal-background"><div class="modal-content"><button class="close-btn" onclick="closeTool('passwordModal')">×</button><h2>Password Creator</h2></div></div>
+    <div id="base64Modal" class="modal-background"><div class="modal-content"><button class="close-btn" onclick="closeTool('base64Modal')">×</button><h2>Base64 Encoder</h2></div></div>
+    <div id="resizerModal" class="modal-background"><div class="modal-content"><button class="close-btn" onclick="closeTool('resizerModal')">×</button><h2>Image Resizer</h2></div></div>
+    <div id="mergerModal" class="modal-background"><div class="modal-content"><button class="close-btn" onclick="closeTool('mergerModal')">×</button><h2>Image Stitcher</h2></div></div>
+    <div id="pdfToImgModal" class="modal-background"><div class="modal-content"><button class="close-btn" onclick="closeTool('pdfToImgModal')">×</button><h2>PDF Extractor</h2></div></div>
+    <div id="textToPdfModal" class="modal-background"><div class="modal-content"><button class="close-btn" onclick="closeTool('textToPdfModal')">×</button><h2>Text to PDF</h2></div></div>
+
     <script>
         function openTool(id) { document.getElementById(id).style.display = "flex"; }
         function closeTool(id) { document.getElementById(id).style.display = "none"; }
 
-        // FIXED AI GENERATION LOGIC
         function runImageSimulation() {
             const box = document.getElementById('imgBox');
             const status = document.getElementById('imgStatus');
             const btn = document.getElementById('downloadArtBtn');
             box.style.display = "flex";
-            status.innerText = "Generating asset...";
+            status.innerText = "Generating high-quality asset...";
             btn.style.display = "none";
             setTimeout(() => {
                 status.innerText = "Generation Complete!";
-                btn.style.display = "block"; // Button now appears
+                btn.style.display = "block";
             }, 2000);
         }
 
@@ -87,15 +105,18 @@
             btn.style.display = "none";
             setTimeout(() => {
                 status.innerText = "Render Complete!";
-                btn.style.display = "block"; // Button now appears
+                btn.style.display = "block";
             }, 3000);
         }
 
         function downloadFile(filename) {
-            const blob = new Blob(["AI Simulated Content"], { type: "application/octet-stream" });
+            const blob = new Blob(["Simulated AI Content"], { type: "application/octet-stream" });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
-            a.href = url; a.download = filename; a.click();
+            a.href = url;
+            a.download = filename;
+            a.click();
+            window.URL.revokeObjectURL(url);
         }
     </script>
 </body>
