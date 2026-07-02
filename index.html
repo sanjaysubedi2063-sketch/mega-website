@@ -20,7 +20,7 @@
             --warning: #ff9500;
             --info: #007aff;
         }
-        
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -304,7 +304,6 @@
             font-size: 0.95rem;
         }
 
-        /* LIVE PREVIEW ADDITIONS */
         .live-source-preview {
             width: 100%;
             max-height: 160px;
@@ -458,7 +457,6 @@
                 <div class="media-text-overlay" id="imgText">Synthesizing Pixels...</div>
             </div>
 
-            <!-- Pre-download Result Section -->
             <div id="aiImageOutputBlock" class="live-output-block">
                 <label style="color:var(--success)">Generated Preview Asset Ready:</label>
                 <img id="aiImageFinalPreview" class="live-output-preview" alt="AI Generated Output Preview">
@@ -487,7 +485,6 @@
                 <div class="media-text-overlay" id="vdoText">Compiling Frame Buffers...</div>
             </div>
 
-            <!-- Pre-download Result Section -->
             <div id="aiVideoOutputBlock" class="live-output-block">
                 <label style="color:var(--success)">Generated Sequence Frame (Preview):</label>
                 <img id="aiVideoFinalPreview" class="live-output-preview" alt="AI Generated Video Frame Preview">
@@ -672,7 +669,6 @@
             </div>
             <button class="btn" onclick="resizeImage()">Re-render Frame Configuration</button>
 
-            <!-- Pre-download Preview Area -->
             <div id="resizerOutputBlock" class="live-output-block">
                 <label style="color:var(--success)">Resized Configuration (Preview):</label>
                 <img id="resizerFinalPreview" class="live-output-preview" alt="Resized Asset Destination Preview">
@@ -701,7 +697,6 @@
             </select>
             <button class="btn" onclick="mergeImages()">Compile Layout Matrix</button>
 
-            <!-- Pre-download Preview Area -->
             <div id="mergerOutputBlock" class="live-output-block">
                 <label style="color:var(--success)">Compiled Matrix (Preview):</label>
                 <img id="mergerFinalPreview" class="live-output-preview" alt="Merged Asset Destination Preview">
@@ -733,11 +728,9 @@
     </div>
 
     <script>
-        // Global Modal Infrastructure Window Tracking
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        // SHARED SYSTEM MEDIA UTILITIES
         function handleSourceImageFile(inputElement, previewImageId) {
             const file = inputElement.files[0];
             const previewEl = document.getElementById(previewImageId);
@@ -766,7 +759,6 @@
             triggerAssetDownload(elementId, filename);
         }
 
-        // 1. SIMULATED AI TEXT TO IMAGE TOOL WITH OUTPUT PREVIEWS
         function generateImageSimulation() {
             let prompt = document.getElementById('imgPrompt').value;
             let style = document.getElementById('imgStyle').value;
@@ -780,7 +772,6 @@
             txt.innerText = "Interpreting Vector Tokens...";
             layer.style.background = "#000";
             
-            // Hide output block during active generation
             document.getElementById('aiImageOutputBlock').style.display = 'none';
             
             setTimeout(() => {
@@ -793,7 +784,6 @@
             setTimeout(() => {
                 txt.innerHTML = `🎨 <b>Image Synthesized Successfully</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[${style.toUpperCase()} Matrix Variant Matching]</span>`;
                 
-                // Create simulation preview output image inside a virtual temporary canvas
                 let dynamicCanvas = document.createElement('canvas');
                 dynamicCanvas.width = 600;
                 dynamicCanvas.height = 400;
@@ -816,7 +806,6 @@
             }, 2500);
         }
 
-        // 2. SIMULATED AI TEXT TO VIDEO TOOL WITH OUTPUT PREVIEWS
         function generateVideoSimulation() {
             let prompt = document.getElementById('vdoPrompt').value;
             let style = document.getElementById('vdoStyle').value;
@@ -864,7 +853,6 @@
             }, 2500);
         }
 
-        // 3. SYNTHESIZED FOCUS AUDIO GENERATOR (WEB AUDIO API)
         let audioCtx = null, noiseNode = null;
         function startFocusAudio() {
             if(audioCtx) return;
@@ -898,7 +886,6 @@
             audioCtx = null; noiseNode = null;
         }
 
-        // 4. CORE PERSISTENT TASK MATRIX PLANNERS
         let taskMatrix = [];
         function addTaskItem() {
             let n = document.getElementById('taskName').value;
@@ -920,7 +907,6 @@
             });
         }
 
-        // 5. POMODORO core SYSTEM
         let timer, timeRemaining, isRunning = false, activeState = "focus";
         function startTimer() {
             if (isRunning) return;
@@ -954,7 +940,6 @@
         function pauseTimer() { clearInterval(timer); isRunning = false; document.getElementById('pomodoroStatus').innerText = "Status: Paused"; }
         function resetTimer() { clearInterval(timer); isRunning = false; activeState = "focus"; timeRemaining = (parseInt(document.getElementById('focusTime').value) || 25) * 60; document.getElementById('timerDisplay').innerText = `${document.getElementById('focusTime').value.padStart(2, '0')}:00`; document.getElementById('pomodoroStatus').innerText = "Status: Idle"; }
 
-        // 6. FLASHCARD MANAGEMENT TRACKER
         let flashcards = [], idx = 0, scoreCorrect = 0, scoreTotal = 0;
         function addFlashcard() {
             let f = document.getElementById('fcFront').value;
@@ -987,7 +972,6 @@
             flashcards.sort(() => Math.random() - 0.5); idx = 0; updateFlashcardEngine();
         }
 
-        // 7. GPA CALCULATOR
         function addGpaRow() {
             let container = document.getElementById('gpaRows');
             let div = document.createElement('div');
@@ -1005,7 +989,6 @@
             document.getElementById('gpaOutput').innerHTML = `<b>Cumulative Analysis Metrics Output:</b> ${res} GPA mapped through ${totalCredits} credit processing nodes.`;
         }
 
-        // 8. INTERACTIVE LIVE LAB NOTES CONVERTER
         function liveRenderNotes() {
             let src = document.getElementById('noteInput').value;
             let target = document.getElementById('notePreview');
@@ -1019,7 +1002,6 @@
             link.href = URL.createObjectURL(blob); link.download = "AcademicNotesManifest.md"; link.click();
         }
 
-        // 9. CRYPTOGRAPHIC KEY PIPELINE GENERATION
         function generatePassword() {
             let len = parseInt(document.getElementById('passLength').value) || 16, upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", lower = "abcdefghijklmnopqrstuvwxyz", num = "0123456789", sym = "!@#$%^&*()_+~";
             let pool = "";
@@ -1033,7 +1015,6 @@
             document.getElementById('passOutput').innerText = pass;
         }
 
-        // 10. BASE64 TRANSFORM INFRASTRUCTURE
         function processBase64(encode) {
             let input = document.getElementById('b64Input').value;
             try {
@@ -1043,7 +1024,6 @@
             }
         }
 
-        // 11. IMAGE CANVAS RENDERING WITH STEPPED PREVIEWS
         function resizeImage() {
             let fileInput = document.getElementById('resizeFile').files[0], w = parseInt(document.getElementById('resizeWidth').value), h = parseInt(document.getElementById('resizeHeight').value);
             if (!fileInput) { alert("Please select a target workspace file first."); return; }
@@ -1058,7 +1038,6 @@
             }
         }
 
-        // 12. IMAGE MERGING WITH FILE CHOOSE PREVIEWS & DESTINATION INTERACTORS
         function mergeImages() {
             let f1 = document.getElementById('mergeFile1').files[0], f2 = document.getElementById('mergeFile2').files[0], orient = document.getElementById('mergeOrientation').value;
             if(!f1 || !f2) { alert("Please upload both active layers before compilation."); return; }
@@ -1080,7 +1059,6 @@
             }
         }
 
-        // 13. PDF DECONSTRUCTION MANAGEMENT LAYER WITH DOWNLOAD STEP CONTROLS
         function convertPdfToImg() {
             let file = document.getElementById('pdfFile').files[0]; if(!file) return;
             let fileReader = new FileReader();
@@ -1096,7 +1074,6 @@
                             page.render({canvasContext: canvas.getContext('2d'), viewport: viewport}).promise.then(() => {
                                 let rasterData = canvas.toDataURL('image/png');
                                 
-                                // Create isolated component wrapper with dedicated granular download interceptors
                                 let blockWrapper = document.createElement('div');
                                 blockWrapper.className = 'live-output-block';
                                 blockWrapper.style.display = 'block';
@@ -1132,7 +1109,6 @@
             fileReader.readAsArrayBuffer(file);
         }
 
-        // 14. RAW PARAGRAPH TO DOCUMENT COMPILER (TEXT TO PDF)
         function generatePdfFile() {
             const { jsPDF } = window.jspdf; let doc = new jsPDF(), txt = document.getElementById('pdfTextContent').value;
             if(!txt) return;
