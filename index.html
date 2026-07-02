@@ -303,6 +303,34 @@
             overflow-y: auto;
             font-size: 0.95rem;
         }
+
+        /* LIVE PREVIEW ADDITIONS */
+        .live-source-preview {
+            width: 100%;
+            max-height: 160px;
+            object-fit: contain;
+            background: #05050a;
+            border-radius: 8px;
+            border: 1px dashed #313754;
+            margin: 0.5rem 0;
+            display: none;
+        }
+        .live-output-block {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border: 1px solid var(--accent);
+            border-radius: 10px;
+            background: #151828;
+            display: none;
+        }
+        .live-output-preview {
+            width: 100%;
+            max-height: 280px;
+            object-fit: contain;
+            background: #000;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -408,7 +436,7 @@
         </div>
     </div>
 
-    <!-- MODAL SPECIFICATION SYSTEM CONTAINER REGISTRY -->
+    <!-- MODALS SECTION -->
 
     <!-- Text to Image Modal -->
     <div id="textToImageModal" class="modal-overlay">
@@ -416,7 +444,7 @@
             <button class="close-modal" onclick="closeModal('textToImageModal')">×</button>
             <h2>🎨 Text to Image Generation Suite</h2>
             <label>Graphic Prompt Directives</label>
-            <textarea id="imgPrompt" rows="3" placeholder="e.g., Detailed study desk, digital art style, glowing computer screen, soft volumetric lighting..."></textarea>
+            <textarea id="imgPrompt" rows="3" placeholder="e.g., Detailed study desk, digital art style, glowing computer screen..."></textarea>
             <label>Art Direction Palette Preset</label>
             <select id="imgStyle">
                 <option value="photorealistic">Photorealistic Rendering</option>
@@ -429,6 +457,13 @@
                 <div class="sim-layer" id="imgLayer"></div>
                 <div class="media-text-overlay" id="imgText">Synthesizing Pixels...</div>
             </div>
+
+            <!-- Pre-download Result Section -->
+            <div id="aiImageOutputBlock" class="live-output-block">
+                <label style="color:var(--success)">Generated Preview Asset Ready:</label>
+                <img id="aiImageFinalPreview" class="live-output-preview" alt="AI Generated Output Preview">
+                <button class="btn" style="background:var(--success)" onclick="downloadAIAsset('aiImageFinalPreview', 'ai_generation.png')">Download Rendered Image</button>
+            </div>
         </div>
     </div>
 
@@ -438,7 +473,7 @@
             <button class="close-modal" onclick="closeModal('textToVideoModal')">×</button>
             <h2>🎬 Text to Video Generation Suite</h2>
             <label>Video Prompt & Frame Transitions</label>
-            <textarea id="vdoPrompt" rows="3" placeholder="e.g., Drone cinematic zoom through modern university library, time-lapse evening..."></textarea>
+            <textarea id="vdoPrompt" rows="3" placeholder="e.g., Drone cinematic zoom through modern university library..."></textarea>
             <label>Framerate & Fluidity Preset</label>
             <select id="vdoStyle">
                 <option value="cyberpunk">Cyberpunk Dynamic Motion</option>
@@ -450,6 +485,13 @@
             <div class="media-preview-box" id="vdoContainer" style="display:none;">
                 <div class="sim-layer" id="vdoLayer"></div>
                 <div class="media-text-overlay" id="vdoText">Compiling Frame Buffers...</div>
+            </div>
+
+            <!-- Pre-download Result Section -->
+            <div id="aiVideoOutputBlock" class="live-output-block">
+                <label style="color:var(--success)">Generated Sequence Frame (Preview):</label>
+                <img id="aiVideoFinalPreview" class="live-output-preview" alt="AI Generated Video Frame Preview">
+                <button class="btn" style="background:var(--success)" onclick="downloadAIAsset('aiVideoFinalPreview', 'ai_video_sequence.png')">Download Generated Video Asset</button>
             </div>
         </div>
     </div>
@@ -571,7 +613,7 @@
             <h2>📝 Markdown Interactive Lab Space</h2>
             <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.5rem;" id="noteWordCount">Metrics: 0 Words | 0 Characters</div>
             <div class="notes-split">
-                <textarea id="noteInput" placeholder="# Topic Summary&#10;Type information here using raw markdown strings...&#10;&#10;**Key Note Bold** items." oninput="liveRenderNotes()"></textarea>
+                <textarea id="noteInput" placeholder="# Topic Summary&#10;Type information here..." oninput="liveRenderNotes()"></textarea>
                 <div class="notes-preview" id="notePreview">Compiled HTML transformation yields show up right here window...</div>
             </div>
             <button class="btn" style="margin-top:1rem;" onclick="downloadNotes()">Download Structured Formatting File</button>
@@ -616,7 +658,8 @@
         <div class="modal">
             <button class="close-modal" onclick="closeModal('resizerModal')">×</button>
             <h2>🖼️ Dynamic Canvas Image Resizer</h2>
-            <input type="file" id="resizeFile" accept="image/*">
+            <input type="file" id="resizeFile" accept="image/*" onchange="handleSourceImageFile(this, 'resizerSourcePreview')">
+            <img id="resizerSourcePreview" class="live-source-preview" alt="Resizer Source Image">
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
                 <div>
                     <label>Target Width (px)</label>
@@ -628,6 +671,13 @@
                 </div>
             </div>
             <button class="btn" onclick="resizeImage()">Re-render Frame Configuration</button>
+
+            <!-- Pre-download Preview Area -->
+            <div id="resizerOutputBlock" class="live-output-block">
+                <label style="color:var(--success)">Resized Configuration (Preview):</label>
+                <img id="resizerFinalPreview" class="live-output-preview" alt="Resized Asset Destination Preview">
+                <button class="btn" style="background:var(--success)" onclick="triggerAssetDownload('resizerFinalPreview', 'resized_image.jpg')">Download Resized Image</button>
+            </div>
         </div>
     </div>
 
@@ -637,15 +687,26 @@
             <button class="close-modal" onclick="closeModal('mergerModal')">×</button>
             <h2>🥞 Multi-Layer Image Merger</h2>
             <label>Primary Background Layer</label>
-            <input type="file" id="mergeFile1" accept="image/*">
+            <input type="file" id="mergeFile1" accept="image/*" onchange="handleSourceImageFile(this, 'mergerSourcePreview1')">
+            <img id="mergerSourcePreview1" class="live-source-preview" alt="Primary Background Preview">
+            
             <label>Secondary Content Overlay</label>
-            <input type="file" id="mergeFile2" accept="image/*">
+            <input type="file" id="mergeFile2" accept="image/*" onchange="handleSourceImageFile(this, 'mergerSourcePreview2')">
+            <img id="mergerSourcePreview2" class="live-source-preview" alt="Secondary Overlay Preview">
+            
             <label>Structural Axis Alignment</label>
             <select id="mergeOrientation">
                 <option value="vertical">Stack Vertically (Y-Axis Alignment)</option>
                 <option value="horizontal">Stitch Horizontally (X-Axis Alignment)</option>
             </select>
             <button class="btn" onclick="mergeImages()">Compile Layout Matrix</button>
+
+            <!-- Pre-download Preview Area -->
+            <div id="mergerOutputBlock" class="live-output-block">
+                <label style="color:var(--success)">Compiled Matrix (Preview):</label>
+                <img id="mergerFinalPreview" class="live-output-preview" alt="Merged Asset Destination Preview">
+                <button class="btn" style="background:var(--success)" onclick="triggerAssetDownload('mergerFinalPreview', 'merged_matrix.png')">Download Merged Asset Matrix</button>
+            </div>
         </div>
     </div>
 
@@ -666,7 +727,7 @@
             <button class="close-modal" onclick="closeModal('textToPdfModal')">×</button>
             <h2>✍️ Text-to-PDF Core Assembly Engine</h2>
             <label>Raw Content Payload Data Stream</label>
-            <textarea id="pdfTextContent" rows="6" placeholder="Draft text here to export directly out to standard legal document matrices..."></textarea>
+            <textarea id="pdfTextContent" rows="6" placeholder="Draft text here to export directly out..."></textarea>
             <button class="btn" onclick="generatePdfFile()">Compile Artifact and Download</button>
         </div>
     </div>
@@ -676,7 +737,36 @@
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        // 1. SIMULATED AI TEXT TO IMAGE TOOL
+        // SHARED SYSTEM MEDIA UTILITIES
+        function handleSourceImageFile(inputElement, previewImageId) {
+            const file = inputElement.files[0];
+            const previewEl = document.getElementById(previewImageId);
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewEl.src = e.target.result;
+                    previewEl.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewEl.style.display = 'none';
+            }
+        }
+
+        function triggerAssetDownload(previewImageId, filename) {
+            const previewImg = document.getElementById(previewImageId);
+            if (!previewImg.src || previewImg.src.includes('#')) return;
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.href = previewImg.src;
+            downloadAnchor.download = filename;
+            downloadAnchor.click();
+        }
+
+        function downloadAIAsset(elementId, filename) {
+            triggerAssetDownload(elementId, filename);
+        }
+
+        // 1. SIMULATED AI TEXT TO IMAGE TOOL WITH OUTPUT PREVIEWS
         function generateImageSimulation() {
             let prompt = document.getElementById('imgPrompt').value;
             let style = document.getElementById('imgStyle').value;
@@ -690,6 +780,9 @@
             txt.innerText = "Interpreting Vector Tokens...";
             layer.style.background = "#000";
             
+            // Hide output block during active generation
+            document.getElementById('aiImageOutputBlock').style.display = 'none';
+            
             setTimeout(() => {
                 txt.innerText = "Mapping Core Color Distribution Layers...";
                 let c1 = style === 'photorealistic' ? '#3a6073' : style === 'anime' ? '#ff007f' : '#722f37';
@@ -698,11 +791,32 @@
             }, 1000);
 
             setTimeout(() => {
-                txt.innerHTML = `🎨 <b>Image Synthesized Successfully</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[${style.toUpperCase()} Matrix Variant Matching: "${prompt}"]</span>`;
+                txt.innerHTML = `🎨 <b>Image Synthesized Successfully</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[${style.toUpperCase()} Matrix Variant Matching]</span>`;
+                
+                // Create simulation preview output image inside a virtual temporary canvas
+                let dynamicCanvas = document.createElement('canvas');
+                dynamicCanvas.width = 600;
+                dynamicCanvas.height = 400;
+                let ctxt = dynamicCanvas.getContext('2d');
+                let colorGradient = ctxt.createRadialGradient(300, 200, 50, 300, 200, 300);
+                let c1 = style === 'photorealistic' ? '#3a6073' : style === 'anime' ? '#ff007f' : '#722f37';
+                let c2 = style === 'photorealistic' ? '#3a7bd5' : style === 'anime' ? '#7f00ff' : '#f4a460';
+                colorGradient.addColorStop(0, c1);
+                colorGradient.addColorStop(1, c2);
+                ctxt.fillStyle = colorGradient;
+                ctxt.fillRect(0, 0, 600, 400);
+                ctxt.fillStyle = '#ffffff';
+                ctxt.font = '16px sans-serif';
+                ctxt.textAlign = 'center';
+                ctxt.fillText(`Prompt: ${prompt.substring(0, 45)}...`, 300, 200);
+
+                let targetPreview = document.getElementById('aiImageFinalPreview');
+                targetPreview.src = dynamicCanvas.toDataURL('image/png');
+                document.getElementById('aiImageOutputBlock').style.display = 'block';
             }, 2500);
         }
 
-        // 2. SIMULATED AI TEXT TO VIDEO TOOL
+        // 2. SIMULATED AI TEXT TO VIDEO TOOL WITH OUTPUT PREVIEWS
         function generateVideoSimulation() {
             let prompt = document.getElementById('vdoPrompt').value;
             let style = document.getElementById('vdoStyle').value;
@@ -716,6 +830,8 @@
             txt.innerText = "Initializing Multi-Frame Interpolation...";
             layer.style.background = "#000";
             
+            document.getElementById('aiVideoOutputBlock').style.display = 'none';
+            
             setTimeout(() => {
                 txt.innerText = "Weaving Flow Vectors & Pacing Buffers...";
                 let c1 = style === 'cyberpunk' ? '#00f2fe' : style === 'cosmic' ? '#0f2027' : '#111';
@@ -724,7 +840,27 @@
             }, 1000);
 
             setTimeout(() => {
-                txt.innerHTML = `🎬 <b>Dynamic Motion Clip Online</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[Render Engine Sequence matching parameters: "${prompt}"]</span>`;
+                txt.innerHTML = `🎬 <b>Dynamic Motion Clip Online</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[Render Engine Sequence established]</span>`;
+                
+                let dynamicCanvas = document.createElement('canvas');
+                dynamicCanvas.width = 600;
+                dynamicCanvas.height = 400;
+                let ctxt = dynamicCanvas.getContext('2d');
+                let colorGradient = ctxt.createLinearGradient(0, 0, 600, 400);
+                let c1 = style === 'cyberpunk' ? '#00f2fe' : style === 'cosmic' ? '#0f2027' : '#111';
+                let c2 = style === 'cyberpunk' ? '#4facfe' : style === 'cosmic' ? '#2c5364' : '#555';
+                colorGradient.addColorStop(0, c1);
+                colorGradient.addColorStop(1, c2);
+                ctxt.fillStyle = colorGradient;
+                ctxt.fillRect(0, 0, 600, 400);
+                ctxt.fillStyle = '#ffffff';
+                ctxt.font = '16px sans-serif';
+                ctxt.textAlign = 'center';
+                ctxt.fillText(`Motion Node: ${prompt.substring(0, 45)}...`, 300, 200);
+
+                let targetPreview = document.getElementById('aiVideoFinalPreview');
+                targetPreview.src = dynamicCanvas.toDataURL('image/png');
+                document.getElementById('aiVideoOutputBlock').style.display = 'block';
             }, 2500);
         }
 
@@ -742,9 +878,9 @@
                     let white = Math.random() * 2 - 1;
                     output[i] = (lastOut + (0.02 * white)) / 1.02;
                     lastOut = output[i];
-                    output[i] *= 3.5; // Gain multiplier adjustments
+                    output[i] *= 3.5; 
                 }
-            } else { // Alpha Sine Waves
+            } else { 
                 for (let i = 0; i < bufferSize; i++) {
                     output[i] = Math.sin(2 * Math.PI * 10 * (i / audioCtx.sampleRate)) * 0.2;
                 }
@@ -851,7 +987,7 @@
             flashcards.sort(() => Math.random() - 0.5); idx = 0; updateFlashcardEngine();
         }
 
-        // 7. COMPREHENSIVE INTERACTIVE GRADIENT METRIC GPA CALCULATOR
+        // 7. GPA CALCULATOR
         function addGpaRow() {
             let container = document.getElementById('gpaRows');
             let div = document.createElement('div');
@@ -869,7 +1005,7 @@
             document.getElementById('gpaOutput').innerHTML = `<b>Cumulative Analysis Metrics Output:</b> ${res} GPA mapped through ${totalCredits} credit processing nodes.`;
         }
 
-        // 8. INTERACTIVE LIVE LAB NOTES CONVERTER WITH COUNTERS
+        // 8. INTERACTIVE LIVE LAB NOTES CONVERTER
         function liveRenderNotes() {
             let src = document.getElementById('noteInput').value;
             let target = document.getElementById('notePreview');
@@ -907,22 +1043,25 @@
             }
         }
 
-        // 11. IMAGE CANVAS RENDERING & ADJUSTMENTS
+        // 11. IMAGE CANVAS RENDERING WITH STEPPED PREVIEWS
         function resizeImage() {
             let fileInput = document.getElementById('resizeFile').files[0], w = parseInt(document.getElementById('resizeWidth').value), h = parseInt(document.getElementById('resizeHeight').value);
-            if (!fileInput) return;
+            if (!fileInput) { alert("Please select a target workspace file first."); return; }
             let img = new Image(); img.src = URL.createObjectURL(fileInput);
             img.onload = function() {
                 let canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
                 canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-                let a = document.createElement('a'); a.href = canvas.toDataURL('image/jpeg'); a.download = 'resized.jpg'; a.click();
+                
+                let targetPreview = document.getElementById('resizerFinalPreview');
+                targetPreview.src = canvas.toDataURL('image/jpeg');
+                document.getElementById('resizerOutputBlock').style.display = 'block';
             }
         }
 
-        // 12. IMAGE MERGING INTERACTION SCHEMES
+        // 12. IMAGE MERGING WITH FILE CHOOSE PREVIEWS & DESTINATION INTERACTORS
         function mergeImages() {
             let f1 = document.getElementById('mergeFile1').files[0], f2 = document.getElementById('mergeFile2').files[0], orient = document.getElementById('mergeOrientation').value;
-            if(!f1 || !f2) return;
+            if(!f1 || !f2) { alert("Please upload both active layers before compilation."); return; }
             let img1 = new Image(), img2 = new Image();
             img1.src = URL.createObjectURL(f1);
             img1.onload = () => {
@@ -933,12 +1072,15 @@
                     canvas.height = orient === 'vertical' ? img1.height + img2.height : Math.max(img1.height, img2.height);
                     let ctx = canvas.getContext('2d'); ctx.drawImage(img1, 0, 0);
                     if(orient === 'vertical') ctx.drawImage(img2, 0, img1.height); else ctx.drawImage(img2, img1.width, 0);
-                    let a = document.createElement('a'); a.href = canvas.toDataURL('image/png'); a.download = 'merged.png'; a.click();
+                    
+                    let targetPreview = document.getElementById('mergerFinalPreview');
+                    targetPreview.src = canvas.toDataURL('image/png');
+                    document.getElementById('mergerOutputBlock').style.display = 'block';
                 }
             }
         }
 
-        // 13. PDF DECONSTRUCTION MANAGEMENT LAYER
+        // 13. PDF DECONSTRUCTION MANAGEMENT LAYER WITH DOWNLOAD STEP CONTROLS
         function convertPdfToImg() {
             let file = document.getElementById('pdfFile').files[0]; if(!file) return;
             let fileReader = new FileReader();
@@ -952,9 +1094,36 @@
                             let viewport = page.getViewport({scale: 1.2}), canvas = document.createElement('canvas');
                             canvas.height = viewport.height; canvas.width = viewport.width;
                             page.render({canvasContext: canvas.getContext('2d'), viewport: viewport}).promise.then(() => {
-                                let outputImg = new Image(); outputImg.src = canvas.toDataURL();
-                                outputImg.style = "width:100%; border:1px solid #313754; border-radius:6px;";
-                                outArea.appendChild(outputImg);
+                                let rasterData = canvas.toDataURL('image/png');
+                                
+                                // Create isolated component wrapper with dedicated granular download interceptors
+                                let blockWrapper = document.createElement('div');
+                                blockWrapper.className = 'live-output-block';
+                                blockWrapper.style.display = 'block';
+                                
+                                let label = document.createElement('label');
+                                label.innerText = `Extracted Layer Frame Page #${i}:`;
+                                label.style.color = 'var(--info)';
+                                
+                                let outputImg = new Image(); 
+                                outputImg.src = rasterData;
+                                outputImg.className = 'live-output-preview';
+                                
+                                let downloadBtn = document.createElement('button');
+                                downloadBtn.className = 'btn';
+                                downloadBtn.style.background = 'var(--info)';
+                                downloadBtn.innerText = `Download Page Layer Data #${i}`;
+                                downloadBtn.onclick = function() {
+                                    let hiddenAnchor = document.createElement('a');
+                                    hiddenAnchor.href = rasterData;
+                                    hiddenAnchor.download = `pdf_extracted_page_${i}.png`;
+                                    hiddenAnchor.click();
+                                };
+
+                                blockWrapper.appendChild(label);
+                                blockWrapper.appendChild(outputImg);
+                                blockWrapper.appendChild(downloadBtn);
+                                outArea.appendChild(blockWrapper);
                             });
                         });
                     }
@@ -970,121 +1139,6 @@
             let splitText = doc.splitTextToSize(txt, 180); doc.text(splitText, 10, 10);
             doc.save('Compiled_System_Report.pdf');
         }
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanjay Subedi - Pro Engine v3.1</title>
-    <!-- Keep existing scripts/styles, adding this for UI feedback -->
-    <style>
-        .preview-area {
-            width: 100%;
-            max-height: 300px;
-            background: #000;
-            margin: 1rem 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border: 1px dashed var(--accent);
-            border-radius: 8px;
-        }
-        .preview-img { max-width: 100%; max-height: 300px; object-fit: contain; }
-    </style>
-</head>
-<body>
-    <!-- (Retain your header and existing structural HTML structure) -->
-
-    <!-- Example of Upgraded Image Merger Modal -->
-    <div id="mergerModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('mergerModal')">×</button>
-            <h2>🥞 Multi-Layer Image Merger</h2>
-            
-            <label>Primary Background</label>
-            <input type="file" id="mergeFile1" accept="image/*" onchange="previewFile('mergeFile1', 'preview1')">
-            <div id="preview1" class="preview-area" style="display:none;"><img class="preview-img"></div>
-            
-            <label>Secondary Content</label>
-            <input type="file" id="mergeFile2" accept="image/*" onchange="previewFile('mergeFile2', 'preview2')">
-            <div id="preview2" class="preview-area" style="display:none;"><img class="preview-img"></div>
-            
-            <label>Structural Axis</label>
-            <select id="mergeOrientation">
-                <option value="vertical">Stack Vertically</option>
-                <option value="horizontal">Stitch Horizontally</option>
-            </select>
-            
-            <button class="btn" onclick="processAndPreviewMerge()">Preview Final Merge</button>
-            
-            <!-- Final Result Preview Area -->
-            <div id="finalMergePreview" style="display:none; margin-top:1rem;">
-                <label>Final Result Preview:</label>
-                <div class="preview-area"><img id="mergedResultImg" class="preview-img"></div>
-                <button class="btn" style="background:var(--success)" onclick="downloadMerged()">Download Final Image</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // --- PREVIEW UTILITY ---
-        function previewFile(inputId, previewId) {
-            const file = document.getElementById(inputId).files[0];
-            const container = document.getElementById(previewId);
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    container.style.display = 'flex';
-                    container.querySelector('img').src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // --- UPGRADED MERGER LOGIC ---
-        let finalMergedData = null;
-        function processAndPreviewMerge() {
-            const f1 = document.getElementById('mergeFile1').files[0];
-            const f2 = document.getElementById('mergeFile2').files[0];
-            if(!f1 || !f2) { alert("Please select both images first."); return; }
-
-            const img1 = new Image(), img2 = new Image();
-            img1.src = URL.createObjectURL(f1);
-            img1.onload = () => {
-                img2.src = URL.createObjectURL(f2);
-                img2.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    const orient = document.getElementById('mergeOrientation').value;
-                    canvas.width = orient === 'vertical' ? Math.max(img1.width, img2.width) : img1.width + img2.width;
-                    canvas.height = orient === 'vertical' ? img1.height + img2.height : Math.max(img1.height, img2.height);
-                    
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img1, 0, 0);
-                    orient === 'vertical' ? ctx.drawImage(img2, 0, img1.height) : ctx.drawImage(img2, img1.width, 0);
-                    
-                    finalMergedData = canvas.toDataURL('image/png');
-                    document.getElementById('mergedResultImg').src = finalMergedData;
-                    document.getElementById('finalMergePreview').style.display = 'block';
-                };
-            };
-        }
-
-        function downloadMerged() {
-            if(!finalMergedData) return;
-            const a = document.createElement('a');
-            a.href = finalMergedData;
-            a.download = 'Merged_Asset.png';
-            a.click();
-        }
-
-        // Apply similar 'previewFile' and 'Result Preview' logic to:
-        // 1. TextToImage (set src of an <img> tag after simulation timeout)
-        // 2. TextToVideo (toggle a hidden <video> tag or animated <img>)
-        // 3. ImageResizer (add a step to render to canvas then set preview src)
     </script>
 </body>
 </html>
