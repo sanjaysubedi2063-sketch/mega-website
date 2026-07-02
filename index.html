@@ -973,3 +973,118 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanjay Subedi - Pro Engine v3.1</title>
+    <!-- Keep existing scripts/styles, adding this for UI feedback -->
+    <style>
+        .preview-area {
+            width: 100%;
+            max-height: 300px;
+            background: #000;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px dashed var(--accent);
+            border-radius: 8px;
+        }
+        .preview-img { max-width: 100%; max-height: 300px; object-fit: contain; }
+    </style>
+</head>
+<body>
+    <!-- (Retain your header and existing structural HTML structure) -->
+
+    <!-- Example of Upgraded Image Merger Modal -->
+    <div id="mergerModal" class="modal-overlay">
+        <div class="modal">
+            <button class="close-modal" onclick="closeModal('mergerModal')">×</button>
+            <h2>🥞 Multi-Layer Image Merger</h2>
+            
+            <label>Primary Background</label>
+            <input type="file" id="mergeFile1" accept="image/*" onchange="previewFile('mergeFile1', 'preview1')">
+            <div id="preview1" class="preview-area" style="display:none;"><img class="preview-img"></div>
+            
+            <label>Secondary Content</label>
+            <input type="file" id="mergeFile2" accept="image/*" onchange="previewFile('mergeFile2', 'preview2')">
+            <div id="preview2" class="preview-area" style="display:none;"><img class="preview-img"></div>
+            
+            <label>Structural Axis</label>
+            <select id="mergeOrientation">
+                <option value="vertical">Stack Vertically</option>
+                <option value="horizontal">Stitch Horizontally</option>
+            </select>
+            
+            <button class="btn" onclick="processAndPreviewMerge()">Preview Final Merge</button>
+            
+            <!-- Final Result Preview Area -->
+            <div id="finalMergePreview" style="display:none; margin-top:1rem;">
+                <label>Final Result Preview:</label>
+                <div class="preview-area"><img id="mergedResultImg" class="preview-img"></div>
+                <button class="btn" style="background:var(--success)" onclick="downloadMerged()">Download Final Image</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- PREVIEW UTILITY ---
+        function previewFile(inputId, previewId) {
+            const file = document.getElementById(inputId).files[0];
+            const container = document.getElementById(previewId);
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    container.style.display = 'flex';
+                    container.querySelector('img').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // --- UPGRADED MERGER LOGIC ---
+        let finalMergedData = null;
+        function processAndPreviewMerge() {
+            const f1 = document.getElementById('mergeFile1').files[0];
+            const f2 = document.getElementById('mergeFile2').files[0];
+            if(!f1 || !f2) { alert("Please select both images first."); return; }
+
+            const img1 = new Image(), img2 = new Image();
+            img1.src = URL.createObjectURL(f1);
+            img1.onload = () => {
+                img2.src = URL.createObjectURL(f2);
+                img2.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const orient = document.getElementById('mergeOrientation').value;
+                    canvas.width = orient === 'vertical' ? Math.max(img1.width, img2.width) : img1.width + img2.width;
+                    canvas.height = orient === 'vertical' ? img1.height + img2.height : Math.max(img1.height, img2.height);
+                    
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img1, 0, 0);
+                    orient === 'vertical' ? ctx.drawImage(img2, 0, img1.height) : ctx.drawImage(img2, img1.width, 0);
+                    
+                    finalMergedData = canvas.toDataURL('image/png');
+                    document.getElementById('mergedResultImg').src = finalMergedData;
+                    document.getElementById('finalMergePreview').style.display = 'block';
+                };
+            };
+        }
+
+        function downloadMerged() {
+            if(!finalMergedData) return;
+            const a = document.createElement('a');
+            a.href = finalMergedData;
+            a.download = 'Merged_Asset.png';
+            a.click();
+        }
+
+        // Apply similar 'previewFile' and 'Result Preview' logic to:
+        // 1. TextToImage (set src of an <img> tag after simulation timeout)
+        // 2. TextToVideo (toggle a hidden <video> tag or animated <img>)
+        // 3. ImageResizer (add a step to render to canvas then set preview src)
+    </script>
+</body>
+</html>
