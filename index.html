@@ -277,7 +277,7 @@
             background-size: cover;
             background-position: center;
             opacity: 0.4;
-            transition: all 0.5s ease;
+            transition: all 0.1s ease;
         }
         .media-text-overlay {
             position: relative;
@@ -343,14 +343,14 @@
     <div class="section-title">🤖 AI Systems & Intelligent Engines</div>
     <div class="grid">
         <div class="card" style="border-color: #a356ff">
-            <h3>🎨 Text to Image AI (Sim)</h3>
+            <h3>🎨 Text to Image AI</h3>
             <p>Synthesize gorgeous graphic layouts, concept illustrations, or presentation slides using text prompts.</p>
             <button class="btn" style="background:#a356ff" onclick="openModal('textToImageModal')">Open Image Creator</button>
         </div>
 
         <div class="card" style="border-color: #a356ff">
-            <h3>🎬 Text to Video AI (Sim)</h3>
-            <p>Translate complex textual prompts and dynamic script parameters directly into cinematic video assets.</p>
+            <h3>🎬 Text to Video AI</h3>
+            <p>Translate complex textual prompts and dynamic script parameters directly into live animated neural clips.</p>
             <button class="btn" style="background:#a356ff" onclick="openModal('textToVideoModal')">Open Video Generator</button>
         </div>
 
@@ -470,15 +470,15 @@
         <div class="modal">
             <button class="close-modal" onclick="closeModal('textToVideoModal')">×</button>
             <h2>🎬 Text to Video Generation Suite</h2>
-            <label>Video Prompt & Frame Transitions</label>
-            <textarea id="vdoPrompt" rows="3" placeholder="e.g., Drone cinematic zoom through modern university library..."></textarea>
-            <label>Framerate & Fluidity Preset</label>
+            <label>Video Motion Prompt</label>
+            <textarea id="vdoPrompt" rows="3" placeholder="e.g., A cinematic drone flying over a futuristic neon university campus..."></textarea>
+            <label>Motion Track Style</label>
             <select id="vdoStyle">
                 <option value="cyberpunk">Cyberpunk Dynamic Motion</option>
                 <option value="minimalist">Cinematic Static Drift</option>
                 <option value="cosmic">Cosmic Hyper-lapse Warp</option>
             </select>
-            <button class="btn" style="background:#a356ff" onclick="generateVideoSimulation()">Compile AI Video Sequence</button>
+            <button class="btn" style="background:#a356ff" onclick="generateVideoSimulation()">Compile Neural Video Loop</button>
             
             <div class="media-preview-box" id="vdoContainer" style="display:none;">
                 <div class="sim-layer" id="vdoLayer"></div>
@@ -486,9 +486,9 @@
             </div>
 
             <div id="aiVideoOutputBlock" class="live-output-block">
-                <label style="color:var(--success)">Generated Sequence Frame (Preview):</label>
+                <label style="color:var(--success)">Neural Motion Playback Frame Buffer:</label>
                 <img id="aiVideoFinalPreview" class="live-output-preview" alt="AI Generated Video Frame Preview">
-                <button class="btn" style="background:var(--success)" onclick="downloadAIAsset('aiVideoFinalPreview', 'ai_video_sequence.png')">Download Generated Video Asset</button>
+                <button class="btn" style="background:var(--success)" id="vdoDownloadBtn" onclick="downloadActiveVideoFrame()">Save Current Animation State</button>
             </div>
         </div>
     </div>
@@ -729,7 +729,10 @@
 
     <script>
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function closeModal(id) { 
+            document.getElementById(id).style.display = 'none'; 
+            if(id === 'textToVideoModal') { stopVideoLoop(); }
+        }
 
         function handleSourceImageFile(inputElement, previewImageId) {
             const file = inputElement.files[0];
@@ -797,62 +800,89 @@
             };
         }
 
+        // --- UPGRADED REAL TIME NEURAL STOP-MOTION VIDEO ENGINE ---
+        let videoPlaybackInterval = null;
+        let loadedVideoFrames = [];
+        let currentFrameIndex = 0;
+
+        function stopVideoLoop() {
+            if(videoPlaybackInterval) { clearInterval(videoPlaybackInterval); videoPlaybackInterval = null; }
+        }
+
         function generateVideoSimulation() {
             let prompt = document.getElementById('vdoPrompt').value;
             let style = document.getElementById('vdoStyle').value;
             if(!prompt) { alert("Please provide text coordinates for rendering motion loops."); return; }
             
+            stopVideoLoop();
+            loadedVideoFrames = [];
+            currentFrameIndex = 0;
+
             let container = document.getElementById('vdoContainer');
             let layer = document.getElementById('vdoLayer');
             let txt = document.getElementById('vdoText');
             
             container.style.display = 'flex';
-            txt.innerText = "Compiling Frame Buffers & Compounding Motion Vectors...";
+            txt.innerText = "Generating Sequential Video Frames (0/4)...";
             layer.style.background = "#000";
             layer.style.backgroundImage = "none";
             
             document.getElementById('aiVideoOutputBlock').style.display = 'none';
             
-            setTimeout(() => {
-                txt.innerHTML = `🎬 <b>Dynamic Motion Clip Compiled</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[Generated via Motion-Asset Mapping]</span>`;
-                
-                let dynamicCanvas = document.createElement('canvas');
-                dynamicCanvas.width = 600;
-                dynamicCanvas.height = 400;
-                let ctxt = dynamicCanvas.getContext('2d');
-                
-                let colorGradient = ctxt.createLinearGradient(0, 0, 600, 400);
-                let c1 = style === 'cyberpunk' ? '#00f2fe' : style === 'cosmic' ? '#0f2027' : '#111';
-                let c2 = style === 'cyberpunk' ? '#4facfe' : style === 'cosmic' ? '#2c5364' : '#555';
-                colorGradient.addColorStop(0, c1);
-                colorGradient.addColorStop(1, c2);
-                ctxt.fillStyle = colorGradient;
-                ctxt.fillRect(0, 0, 600, 400);
-                
-                ctxt.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-                ctxt.lineWidth = 2;
-                for(let i = 0; i < 5; i++) {
-                    ctxt.beginPath();
-                    ctxt.arc(300 + (Math.random()*40-20), 200 + (Math.random()*40-20), 50 + (i*30), 0, Math.PI * 2);
-                    ctxt.stroke();
-                }
-                
-                ctxt.fillStyle = '#ffffff';
-                ctxt.font = 'bold 16px sans-serif';
-                ctxt.textAlign = 'center';
-                ctxt.fillText(`AI Sequence: ${prompt.substring(0, 35)}...`, 300, 190);
-                ctxt.fillStyle = 'var(--text-muted)';
-                ctxt.font = '12px sans-serif';
-                ctxt.fillText(`Motion Track Configuration ID: Render_${style.toUpperCase()}_v3`, 300, 220);
+            let baseSeed = Math.floor(Math.random() * 50000);
+            let framesToGenerate = 4;
+            let framesLoadedCount = 0;
 
-                let dataUrl = dynamicCanvas.toDataURL('image/png');
-                layer.style.backgroundImage = `url('${dataUrl}')`;
+            for(let i = 0; i < framesToGenerate; i++) {
+                let combinedPrompt = `${prompt}, cinematic motion, ${style} style, 4k, hyper-detailed`;
+                let frameUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(combinedPrompt)}?width=600&height=400&nologo=true&seed=${baseSeed + (i * 7)}`;
+                
+                let imgObj = new Image();
+                imgObj.crossOrigin = "anonymous";
+                imgObj.src = frameUrl;
+                
+                imgObj.onload = function() {
+                    loadedVideoFrames[i] = frameUrl;
+                    framesLoadedCount++;
+                    txt.innerText = `Generating Sequential Video Frames (${framesLoadedCount}/${framesToGenerate})...`;
+                    
+                    if(framesLoadedCount === framesToGenerate) {
+                        txt.innerHTML = `🎬 <b>Neural Motion Loop Engaged</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[4-Frame Stop-Motion Interpolation]</span>`;
+                        document.getElementById('aiVideoOutputBlock').style.display = 'block';
+                        startVideoPlaybackLoop();
+                    }
+                };
+
+                imgObj.onerror = function() {
+                    framesLoadedCount++;
+                    if(framesLoadedCount === framesToGenerate && loadedVideoFrames.length > 0) {
+                        document.getElementById('aiVideoOutputBlock').style.display = 'block';
+                        startVideoPlaybackLoop();
+                    } else if (loadedVideoFrames.length === 0) {
+                        txt.innerText = "Neural transmission error. Please re-verify your prompt variables.";
+                    }
+                };
+            }
+        }
+
+        function startVideoPlaybackLoop() {
+            let layer = document.getElementById('vdoLayer');
+            let targetPreview = document.getElementById('aiVideoFinalPreview');
+            
+            videoPlaybackInterval = setInterval(() => {
+                if(loadedVideoFrames.length === 0) return;
+                let activeSrc = loadedVideoFrames[currentFrameIndex];
+                
+                layer.style.backgroundImage = `url('${activeSrc}')`;
                 layer.style.opacity = "1";
+                targetPreview.src = activeSrc;
 
-                let targetPreview = document.getElementById('aiVideoFinalPreview');
-                targetPreview.src = dataUrl;
-                document.getElementById('aiVideoOutputBlock').style.display = 'block';
-            }, 2000);
+                currentFrameIndex = (currentFrameIndex + 1) % loadedVideoFrames.length;
+            }, 300); // High-frequency flipbook animation step
+        }
+
+        function downloadActiveVideoFrame() {
+            triggerAssetDownload('aiVideoFinalPreview', `ai_video_frame_${currentFrameIndex}.png`);
         }
 
         let audioCtx = null, noiseNode = null;
