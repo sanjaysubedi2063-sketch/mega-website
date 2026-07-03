@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanjay Subedi v3.5 - Autonomous AI Client-Side Suite</title>
-    <!-- Dependencies for Document Management Core -->
+    <title>Sanjay Subedi Pro Engine v3.6 - Autonomous AI & Student Suite</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -215,7 +214,6 @@
             border-radius: 8px;
             border: 1px dashed #313754;
             margin-top: 1.2rem;
-            position: relative;
         }
 
         .timer-display {
@@ -259,7 +257,7 @@
         .flashcard-front { background: linear-gradient(135deg, var(--accent) 0%, #4341b7 100%); color: white; }
         .flashcard-back { background: #22263f; color: white; transform: rotateY(180deg); border: 1px solid #313754; }
 
-        /* ADVANCED TEXT TO VIDEO CANVASES */
+        /* ADVANCED TEXT TO VIDEO VIEWPORTS */
         .video-canvas-container {
             position: relative;
             width: 100%;
@@ -319,15 +317,17 @@
             z-index: 10;
         }
         .ai-thought-box {
-            background: rgba(88, 86, 214, 0.1);
-            border: 1px solid rgba(88, 86, 214, 0.3);
+            background: rgba(88, 86, 214, 0.08);
+            border: 1px solid rgba(88, 86, 214, 0.25);
             border-radius: 8px;
-            padding: 0.8rem;
+            padding: 1rem;
             margin-top: 0.8rem;
             font-size: 0.85rem;
-            color: var(--text-main);
+            font-family: monospace;
+            color: #a5b4fc;
             display: none;
-            line-height: 1.4;
+            line-height: 1.5;
+            white-space: pre-wrap;
         }
 
         .notes-split {
@@ -376,115 +376,109 @@
 <body>
 
     <header>
-        <h1>Sanjay Subedi Pro Engine v3.5</h1>
-        <p>Advanced client-side neural simulators and rapid student development utilities.</p>
+        <h1>Sanjay Subedi Pro Engine v3.6</h1>
+        <p>Advanced client-side neural simulators and comprehensive student development utilities.</p>
     </header>
 
-    <!-- SECTION: AI GENERATION SYSTEM -->
     <div class="section-title">🤖 AI Systems & Intelligent Engines</div>
     <div class="grid">
         <div class="card" style="border-color: #a356ff">
-            <h3>🎨 Text to Image AI</h3>
-            <p>Synthesize graphic layouts, concept illustrations, or presentation slides using text prompts.</p>
-            <button class="btn" style="background:#a356ff" onclick="openModal('textToImageModal')">Open Image Creator</button>
-        </div>
-
-        <div class="card" style="border-color: #a356ff">
             <h3>🎬 Autonomous Text to Video AI</h3>
-            <p>Runs a native script parsing engine to interpret prompts and output real-time continuous vector simulations.</p>
+            <p>Runs an integrated natural semantic interpreter to parse complex prompt contexts and output continuous mathematics loops.</p>
             <button class="btn" style="background:#a356ff" onclick="openModal('textToVideoModal')">Open Video Generator</button>
         </div>
 
         <div class="card" style="border-color: #a356ff">
+            <h3>🎨 Text to Image AI</h3>
+            <p>Synthesize graphic layouts, concept illustrations, or presentation assets using real-time structural API models.</p>
+            <button class="btn" style="background:#a356ff" onclick="openModal('textToImageModal')">Open Image Creator</button>
+        </div>
+
+        <div class="card" style="border-color: #a356ff">
             <h3>🎵 Focus Audio Space</h3>
-            <p>Generate isolated study frequencies (Binaural Beats / White Noise) natively via Web Audio synthesizers.</p>
+            <p>Generate isolated study frequencies (Binaural Beats / Deep Brownian Noise) natively via your browser hardware.</p>
             <button class="btn" style="background:#a356ff" onclick="openModal('audioSpaceModal')">Launch Soundscapes</button>
         </div>
     </div>
 
-    <!-- SECTION: STUDENT UTILITIES -->
     <div class="section-title">⏱️ Academic Performance & Study Kits</div>
     <div class="grid">
         <div class="card" style="border-color: var(--success)">
             <h3>⚡ Pomodoro Study Timer</h3>
-            <p>Equipped with automatic switching parameters for long focused learning intervals.</p>
+            <p>Equipped with automatic switching metrics for long focused learning intervals and restful alerts.</p>
             <button class="btn" style="background:var(--success)" onclick="openModal('pomodoroModal')">Launch Timer</button>
         </div>
 
         <div class="card" style="border-color: var(--success)">
             <h3>🗂️ Flashcard Maker & Quizzer</h3>
-            <p>Track your score matrix, mark answers correct/incorrect, and randomize the active review queue.</p>
+            <p>Track your score matrix, log analytical review passes, and randomize the active evaluation sequence.</p>
             <button class="btn" style="background:var(--success)" onclick="openModal('flashcardModal')">Open Flashcards</button>
         </div>
 
         <div class="card" style="border-color: var(--success)">
             <h3>📊 Academic GPA Calculator</h3>
-            <p>Multi-semester grading support with advanced cumulative targets and weighted points breakdown.</p>
+            <p>Multi-semester grading module with integrated total point aggregators and overall metrics summary.</p>
             <button class="btn" style="background:var(--success)" onclick="openModal('gpaModal')">Calculate GPA</button>
         </div>
 
         <div class="card" style="border-color: var(--success)">
             <h3>📝 Markdown Lab Space</h3>
-            <p>Write standard notes with live markdown previews, real-time word counting metric trackers, and file exports.</p>
+            <p>Draft notes with live text transforms, immediate word counts, and structural Markdown export assets.</p>
             <button class="btn" style="background:var(--success)" onclick="openModal('notesModal')">Launch Editor</button>
         </div>
 
         <div class="card" style="border-color: var(--success)">
             <h3>📋 Task Matrix Planner</h3>
-            <p>Organize assignments with specific urgency color-tags, task descriptions, and persistent tracking arrays.</p>
-            <button class="btn" style="background:var(--success)" onclick="taskModal('taskModal')">View Board</button>
+            <p>Organize immediate workflows using custom priority flags and simple persistent layout boards.</p>
+            <button class="btn" style="background:var(--success)" onclick="openModal('taskModal')">View Board</button>
         </div>
     </div>
 
-    <!-- CORE UTILITIES SECTION -->
     <div class="section-title">⚙️ System Architecture & Document Engines</div>
     <div class="grid">
         <div class="card">
             <h3>🔑 Password Generator</h3>
-            <p>Granular character filtering strings, random selection seeds, and built-in password security checks.</p>
+            <p>Granular filtering configuration scales, random assignment seeds, and multi-class key string checks.</p>
             <button class="btn" onclick="openModal('passwordModal')">Launch Tool</button>
         </div>
 
         <div class="card">
             <h3>🔾 Base64 Toolkit</h3>
-            <p>Safely encode and decode regular plaintext blocks to and from standard Base64 parsing schemes.</p>
+            <p>Convert structural paragraphs into encrypted standard Base64 byte loops or vice-versa.</p>
             <button class="btn" onclick="openModal('base64Modal')">Launch Tool</button>
         </div>
 
         <div class="card">
             <h3>🖼️ Image Resizer</h3>
-            <p>Specify explicit frame resolution dimensions with quick layout canvas preview logic windows.</p>
+            <p>Specify direct structural width and height dimensions with quick layout browser preview vectors.</p>
             <button class="btn" onclick="openModal('resizerModal')">Launch Tool</button>
         </div>
 
         <div class="card">
             <h3>🥞 Image Merger</h3>
-            <p>Stitch secondary layout assets cleanly across either vertical axes or horizontal structural configurations.</p>
+            <p>Stitch secondary structural layouts cleanly across sequential structural layers (Vertical or Horizontal).</p>
             <button class="btn" onclick="openModal('mergerModal')">Launch Tool</button>
         </div>
 
         <div class="card">
             <h3>📄 PDF to Images</h3>
-            <p>Process document page layers and export individual assets directly out into graphic previews.</p>
+            <p>Deconstruct structural document vector pages and convert them out directly into individual PNG graphics.</p>
             <button class="btn" onclick="openModal('pdfToImgModal')">Launch Tool</button>
         </div>
 
         <div class="card">
             <h3>✍️ Text to PDF</h3>
-            <p>Convert customized paragraphs and layout sequences into standard system downloadable PDFs.</p>
+            <p>Compile complex layout sentences or notes into fully compliant downloadable system PDFs.</p>
             <button class="btn" onclick="openModal('textToPdfModal')">Launch Tool</button>
         </div>
     </div>
 
-    <!-- MODALS SECTION -->
-
-    <!-- Text to Image Modal -->
     <div id="textToImageModal" class="modal-overlay">
         <div class="modal">
             <button class="close-modal" onclick="closeModal('textToImageModal')">×</button>
             <h2>🎨 Text to Image Generation Suite</h2>
             <label>Graphic Prompt Directives</label>
-            <textarea id="imgPrompt" rows="3" placeholder="e.g., Detailed study desk, digital art style, glowing computer screen..."></textarea>
+            <textarea id="imgPrompt" rows="3" placeholder="e.g., Cyberpunk student hub desk, digital painting, soft neon backlight..."></textarea>
             <label>Art Direction Palette Preset</label>
             <select id="imgStyle">
                 <option value="photorealistic">Photorealistic Rendering</option>
@@ -495,56 +489,42 @@
             
             <div id="aiImageOutputBlock" class="live-output-block">
                 <label style="color:var(--success)">Generated Preview Asset Ready:</label>
-                <img id="aiImageFinalPreview" class="live-output-preview" alt="AI Generated Output Preview">
+                <img id="aiImageFinalPreview" class="live-output-preview" alt="AI Generated Preview">
                 <button class="btn" style="background:var(--success)" onclick="downloadAIAsset('aiImageFinalPreview', 'ai_generation.png')">Download Rendered Image</button>
             </div>
         </div>
     </div>
 
-    <!-- SELF-CONTAINED INTELLIGENT TEXT TO VIDEO SIMULATOR -->
     <div id="textToVideoModal" class="modal-overlay">
         <div class="modal">
             <button class="close-modal" onclick="closeModal('textToVideoModal')">×</button>
-            <h2>🎬 Autonomous AI Text-to-Video Engine</h2>
-            <label>Natural Language Motion Request</label>
-            <textarea id="vdoPrompt" rows="3" placeholder="e.g., Cyberpunk drone cruising down a dark valley, digital stream, wormhole traverse..."></textarea>
+            <h2>🎬 Self-Thinking Text-to-Video Engine</h2>
+            <label>Natural Language Prompt Input</label>
+            <textarea id="vdoPrompt" rows="3" placeholder="e.g., rapid golden matrix code cascade down or slow deep red nebula galaxy..."></textarea>
             
-            <label>Movement Core Vector</label>
-            <select id="vdoStyle">
-                <option value="matrix">Matrix Code Stream Space</option>
-                <option value="nebula">Interstellar Nebula Warp</option>
-                <option value="cyber">Neural Network Pipeline Pulse</option>
-            </select>
-            
-            <button class="btn" style="background:#a356ff" onclick="initiateAIVideoSynthesis()">Compile & Synthesize Video Engine</button>
+            <button class="btn" style="background:#a356ff" onclick="initiateAIVideoSynthesis()">Analyze Intent & Synthesize</button>
             
             <div id="aiThoughtProcess" class="ai-thought-box"></div>
 
             <div class="video-canvas-container" id="videoViewport" style="display: none;">
-                <div class="video-status-badge" id="videoStatusBadge">Engine Initializing...</div>
-                
-                <!-- Pure dynamic rendering canvas instead of frame swapping -->
+                <div class="video-status-badge" id="videoStatusBadge">Awaiting Brain Matrix...</div>
                 <canvas id="generativeVideoCanvas" width="640" height="360"></canvas>
-                
                 <div class="video-control-hud">
                     <span id="vdoPlayPauseBtn" style="cursor:pointer; font-weight:bold;" onclick="toggleVideoPlayback()">⏸ PAUSE</span>
-                    <div class="video-timeline-bar">
-                        <div class="video-timeline-progress" id="vdoTimelineProgress"></div>
-                    </div>
+                    <div class="video-timeline-bar"><div class="video-timeline-progress" id="vdoTimelineProgress"></div></div>
                     <span style="font-family:monospace; font-size:0.85rem;" id="vdoTimecode">0.0s / 10.0s</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Focus Audio Space Modal -->
     <div id="audioSpaceModal" class="modal-overlay">
         <div class="modal">
             <button class="close-modal" onclick="closeModal('audioSpaceModal')">×</button>
             <h2>🎵 Synthesized Focus Audio Space</h2>
             <label>Acoustic Engine Frequency Profile</label>
             <select id="noiseType">
-                <option value="brownian">Brownian Noise (Deep Focus/Muffled Rumbles)</option>
+                <option value="brownian">Brownian Noise (Deep Focus / Muffled Rumbles)</option>
                 <option value="binaural">Alpha Wave Frequencies (Cognitive Processing)</option>
             </select>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-top:1rem;">
@@ -554,7 +534,6 @@
         </div>
     </div>
 
-    <!-- Task Planner Modal -->
     <div id="taskModal" class="modal-overlay">
         <div class="modal">
             <button class="close-modal" onclick="closeModal('taskModal')">×</button>
@@ -572,7 +551,6 @@
         </div>
     </div>
 
-    <!-- Pomodoro Timer -->
     <div id="pomodoroModal" class="modal-overlay">
         <div class="modal">
             <button class="close-modal" onclick="closeModal('pomodoroModal')">×</button>
@@ -591,7 +569,6 @@
         </div>
     </div>
 
-    <!-- Flashcards Grid -->
     <div id="flashcardModal" class="modal-overlay">
         <div class="modal">
             <button class="close-modal" onclick="closeModal('flashcardModal')">×</button>
@@ -621,7 +598,6 @@
         </div>
     </div>
 
-    <!-- GPA Calculator -->
     <div id="gpaModal" class="modal-overlay">
         <div class="modal">
             <button class="close-modal" onclick="closeModal('gpaModal')">×</button>
@@ -646,7 +622,6 @@
         </div>
     </div>
 
-    <!-- Markdown Lab Space -->
     <div id="notesModal" class="modal-overlay">
         <div class="modal" style="max-width:850px;">
             <button class="close-modal" onclick="closeModal('notesModal')">×</button>
@@ -654,13 +629,12 @@
             <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.5rem;" id="noteWordCount">Metrics: 0 Words | 0 Characters</div>
             <div class="notes-split">
                 <textarea id="noteInput" placeholder="# Topic Summary&#10;Type information here..." oninput="liveRenderNotes()"></textarea>
-                <div class="notes-preview" id="notePreview">Compiled HTML transformation yields show up right here window...</div>
+                <div class="notes-preview" id="notePreview">Compiled HTML transformations show up right here...</div>
             </div>
             <button class="btn" style="margin-top:1rem;" onclick="downloadNotes()">Download Structured Formatting File</button>
         </div>
     </div>
 
-    <!-- Password Generator -->
     <div id="passwordModal" class="modal-overlay">
         <div class="modal">
             <button class="close-modal" onclick="closeModal('passwordModal')">×</button>
@@ -670,7 +644,7 @@
             <div class="checkbox-group">
                 <label class="checkbox-label"><input type="checkbox" id="passUpper" checked> Uppercase Layers</label>
                 <label class="checkbox-label"><input type="checkbox" id="passLower" checked> Lowercase Layers</label>
-                <label class="checkbox-label"><input type="checkbox" id="passNum" checked> Numeric Int Strings</label>
+                <label class="checkbox-label"><input type="checkbox" id="passNum" checked> Numeric Strings</label>
                 <label class="checkbox-label"><input type="checkbox" id="passSym" checked> Encoded Symbols</label>
             </div>
             <button class="btn" onclick="generatePassword()">Compute Key Vector</button>
@@ -678,7 +652,6 @@
         </div>
     </div>
 
-    <!-- Base64 Toolkit -->
     <div id="base64Modal" class="modal-overlay">
         <div class="modal">
             <button class="close-modal" onclick="closeModal('base64Modal')">×</button>
@@ -693,13 +666,12 @@
         </div>
     </div>
 
-    <!-- Image Resizer -->
     <div id="resizerModal" class="modal-overlay">
         <div class="modal">
             <button class="close-modal" onclick="closeModal('resizerModal')">×</button>
             <h2>🖼️ Dynamic Canvas Image Resizer</h2>
             <input type="file" id="resizeFile" accept="image/*" onchange="handleSourceImageFile(this, 'resizerSourcePreview')">
-            <img id="resizerSourcePreview" class="live-source-preview" alt="Resizer Source Image">
+            <img id="resizerSourcePreview" class="live-source-preview" alt="Source Preview">
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
                 <div>
                     <label>Target Width (px)</label>
@@ -714,41 +686,39 @@
 
             <div id="resizerOutputBlock" class="live-output-block">
                 <label style="color:var(--success)">Resized Configuration (Preview):</label>
-                <img id="resizerFinalPreview" class="live-output-preview" alt="Resized Asset Destination Preview">
+                <img id="resizerFinalPreview" class="live-output-preview" alt="Destination Preview">
                 <button class="btn" style="background:var(--success)" onclick="triggerAssetDownload('resizerFinalPreview', 'resized_image.jpg')">Download Resized Image</button>
             </div>
         </div>
     </div>
 
-    <!-- Image Merger -->
     <div id="mergerModal" class="modal-overlay">
         <div class="modal">
             <button class="close-modal" onclick="closeModal('mergerModal')">×</button>
             <h2>🥞 Multi-Layer Image Merger</h2>
             <label>Primary Background Layer</label>
             <input type="file" id="mergeFile1" accept="image/*" onchange="handleSourceImageFile(this, 'mergerSourcePreview1')">
-            <img id="mergerSourcePreview1" class="live-source-preview" alt="Primary Background Preview">
+            <img id="mergerSourcePreview1" class="live-source-preview" alt="Background Preview">
             
             <label>Secondary Content Overlay</label>
             <input type="file" id="mergeFile2" accept="image/*" onchange="handleSourceImageFile(this, 'mergerSourcePreview2')">
-            <img id="mergerSourcePreview2" class="live-source-preview" alt="Secondary Overlay Preview">
+            <img id="mergerSourcePreview2" class="live-source-preview" alt="Overlay Preview">
             
             <label>Structural Axis Alignment</label>
             <select id="mergeOrientation">
-                <option value="vertical">Stack Vertically (Y-Axis Alignment)</option>
-                <option value="horizontal">Stitch Horizontally (X-Axis Alignment)</option>
+                <option value="vertical">Stack Vertically (Y-Axis)</option>
+                <option value="horizontal">Stitch Horizontally (X-Axis)</option>
             </select>
             <button class="btn" onclick="mergeImages()">Compile Layout Matrix</button>
 
             <div id="mergerOutputBlock" class="live-output-block">
                 <label style="color:var(--success)">Compiled Matrix (Preview):</label>
-                <img id="mergerFinalPreview" class="live-output-preview" alt="Merged Asset Destination Preview">
-                <button class="btn" style="background:var(--success)" onclick="triggerAssetDownload('mergerFinalPreview', 'merged_matrix.png')">Download Merged Asset Matrix</button>
+                <img id="mergerFinalPreview" class="live-output-preview" alt="Merged Matrix Preview">
+                <button class="btn" style="background:var(--success)" onclick="triggerAssetDownload('mergerFinalPreview', 'merged_matrix.png')">Download Merged Asset</button>
             </div>
         </div>
     </div>
 
-    <!-- PDF To Image -->
     <div id="pdfToImgModal" class="modal-overlay">
         <div class="modal">
             <button class="close-modal" onclick="closeModal('pdfToImgModal')">×</button>
@@ -759,7 +729,6 @@
         </div>
     </div>
 
-    <!-- Text To PDF -->
     <div id="textToPdfModal" class="modal-overlay">
         <div class="modal">
             <button class="close-modal" onclick="closeModal('textToPdfModal')">×</button>
@@ -808,7 +777,7 @@
         function generateImageSimulation() {
             let prompt = document.getElementById('imgPrompt').value;
             let style = document.getElementById('imgStyle').value;
-            if(!prompt) { alert("Please supply text parameters for image generation matrices."); return; }
+            if(!prompt) { alert("Please supply text parameters for image generation."); return; }
             
             document.getElementById('aiImageOutputBlock').style.display = 'none';
             let combinedPrompt = `${prompt}, ${style} style, 4k resolution, highly detailed`;
@@ -825,13 +794,11 @@
             };
         }
 
-        // --- CLIENT-SIDE CLIENT AUTONOMOUS TEXT TO VIDEO SIMULATION MATRIX ---
+        // --- DEEP REASONING COGNITIVE TEXT TO VIDEO ENGINE ---
         let canvasElement = null, canvasCtx = null;
-        let vdoAnimationId = null;
-        let vdoIsPlaying = false;
-        let vdoCurrentTime = 0.0;
-        const vdoDuration = 10.0; // 10 second cinematic rendering frame array
-        let videoMotionVectors = { seed: 0, theme: 'matrix', speed: 1.0, tracking: 'standard' };
+        let vdoAnimationId = null, vdoIsPlaying = false, vdoCurrentTime = 0.0;
+        const vdoDuration = 10.0;
+        let aiVideoMind = { theme: 'matrix', speed: 1.0, colorScheme: 'classic', density: 40 };
 
         function stopAIVideoEngine() {
             vdoIsPlaying = false;
@@ -840,23 +807,15 @@
         }
 
         function toggleVideoPlayback() {
-            if(vdoIsPlaying) {
-                stopAIVideoEngine();
-            } else {
-                vdoIsPlaying = true;
-                document.getElementById('vdoPlayPauseBtn').innerText = "⏸ PAUSE";
-                renderGenerativeVideoTick();
-            }
+            if(vdoIsPlaying) { stopAIVideoEngine(); } 
+            else { vdoIsPlaying = true; document.getElementById('vdoPlayPauseBtn').innerText = "⏸ PAUSE"; renderGenerativeVideoTick(); }
         }
 
         function initiateAIVideoSynthesis() {
-            let prompt = document.getElementById('vdoPrompt').value.trim();
-            let styleVector = document.getElementById('vdoStyle').value;
-            if(!prompt) { alert("Please input a natural language prompt for the AI to parse."); return; }
+            let prompt = document.getElementById('vdoPrompt').value.trim().toLowerCase();
+            if(!prompt) { alert("Please enter architectural prompts to begin parsing loops."); return; }
 
             stopAIVideoEngine();
-            
-            // Activate structural canvas context elements
             canvasElement = document.getElementById('generativeVideoCanvas');
             canvasCtx = canvasElement.getContext('2d');
             document.getElementById('videoViewport').style.display = 'block';
@@ -865,118 +824,113 @@
             thoughtBox.style.display = 'block';
             
             let badge = document.getElementById('videoStatusBadge');
-            badge.innerText = "AI is thinking...";
+            badge.innerText = "LLM Thinking Loop...";
             badge.style.color = "var(--warning)";
 
-            // SIMULATED INTERNAL NLP ENGINE PARSING (The AI "understands" itself)
-            let parsedEntities = prompt.toLowerCase().match(/(cyberpunk|drone|neon|space|stars|matrix|digital|galaxy|wormhole|water|fire)/g) || ["generative stream"];
-            let enhancedScript = `[AI Core Parser] Interpreted prompt token: "${prompt}".\n` + 
-                                 `-> Mapping movement nodes: Latent seed spatial warping initialized.\n` +
-                                 `-> Injecting procedural animation properties configured via style array: "${styleVector}".\n` +
-                                 `-> Compiling high-frequency continuous generative frame matrix loops. Rendering live.`;
-            
-            thoughtBox.innerText = enhancedScript;
+            // Cognitive Context Classification Layers
+            let targetTheme = 'matrix';
+            if(prompt.includes('solar') || prompt.includes('fire') || prompt.includes('nebula') || prompt.includes('space') || prompt.includes('galaxy')) targetTheme = 'nebula';
+            if(prompt.includes('cyber') || prompt.includes('grid') || prompt.includes('wave') || prompt.includes('network') || prompt.includes('lattice')) targetTheme = 'cyber';
 
-            // Save variables to pass straight down into the live render pipeline context
-            videoMotionVectors.seed = Math.floor(Math.random() * 5000);
-            videoMotionVectors.theme = styleVector;
-            videoMotionVectors.speed = prompt.toLowerCase().includes('fast') ? 2.5 : 1.0;
-            
+            let dynamicSpeed = prompt.includes('fast') || prompt.includes('rapid') || prompt.includes('cruise') ? 2.3 : prompt.includes('slow') || prompt.includes('delayed') ? 0.4 : 1.0;
+            let dynamicColor = prompt.includes('red') || prompt.includes('gold') || prompt.includes('fire') ? 'crimson' : prompt.includes('blue') || prompt.includes('cyan') ? 'cyan' : prompt.includes('yellow') || prompt.includes('amber') ? 'amber' : 'classic';
+            let dynamicDensity = prompt.includes('dense') || prompt.includes('heavy') || prompt.includes('thick') ? 80 : 35;
+
+            aiVideoMind.theme = targetTheme;
+            aiVideoMind.speed = dynamicSpeed;
+            aiVideoMind.colorScheme = dynamicColor;
+            aiVideoMind.density = dynamicDensity;
+
+            thoughtBox.innerText = `> [System Core Info]: Initializing latent translation array...\n` +
+                                   `> [Intent Analysis]: User requested descriptive concept: "${prompt}"\n` +
+                                   `> [1. Atmosphere Domain]: Mapped visual matrix onto structural profile [${targetTheme.toUpperCase()}]\n` +
+                                   `> [2. Motion Dynamics]: Computed speed scale coefficient [${dynamicSpeed}x vector velocity]\n` +
+                                   `> [3. Physics Rendering]: Target palette signature isolated: [Color: ${dynamicColor.toUpperCase()} | Density Multiplier: ${dynamicDensity}]\n` +
+                                   `> [Compilation Status]: Generation engine fully synchronized. Executing native pipeline vectors...`;
+
             setTimeout(() => {
-                badge.innerText = "Neural Clip Operational";
+                badge.innerText = "Simulation Active";
                 badge.style.color = "var(--success)";
                 vdoCurrentTime = 0.0;
                 vdoIsPlaying = true;
                 document.getElementById('vdoPlayPauseBtn').innerText = "⏸ PAUSE";
                 renderGenerativeVideoTick();
-            }, 1200);
+            }, 1400);
         }
 
         function renderGenerativeVideoTick() {
             if(!vdoIsPlaying) return;
 
-            // Increment systemic temporal time tracking parameters (approx 60 fps base configuration)
             vdoCurrentTime += 0.016; 
-            if(vdoCurrentTime >= vdoDuration) vdoCurrentTime = 0.0; // Loop seamlessly
+            if(vdoCurrentTime >= vdoDuration) vdoCurrentTime = 0.0; 
 
-            // Update UI dashboard counters
             let progressPercent = (vdoCurrentTime / vdoDuration) * 100;
             document.getElementById('vdoTimelineProgress').style.width = `${progressPercent}%`;
             document.getElementById('vdoTimecode').innerText = `${vdoCurrentTime.toFixed(1)}s / ${vdoDuration.toFixed(1)}s`;
 
-            // CLEAR CANVAS VIEWPORT
-            canvasCtx.fillStyle = "#020306";
+            canvasCtx.fillStyle = "#030408";
             canvasCtx.fillRect(0, 0, canvasElement.width, canvasElement.height);
 
-            // PROCEDURAL ADVANCED MATH RENDERING NODE - ACTS AS CONTINUOUS GENERATIVE VIDEO
-            let timeModifier = vdoCurrentTime * videoMotionVectors.speed;
-            
-            if(videoMotionVectors.theme === 'matrix') {
+            let timeModifier = vdoCurrentTime * aiVideoMind.speed;
+
+            let colorMap = {
+                classic: { matrix: 'rgba(0, brightness, 70)', nebula: 'rgba(colorShift, 50, 240, 0.4)', cyber: 'rgba(88, 86, 214, 0.3)' },
+                crimson: { matrix: 'rgba(brightness, 10, 20)', nebula: 'rgba(240, colorShift/4, 50, 0.4)', cyber: 'rgba(239, 68, 68, 0.3)' },
+                cyan:    { matrix: 'rgba(10, brightness, brightness)', nebula: 'rgba(50, 180, colorShift, 0.4)', cyber: 'rgba(6, 182, 212, 0.3)' },
+                amber:   { matrix: 'rgba(brightness, brightness*0.7, 10)', nebula: 'rgba(245, colorShift, 10, 0.4)', cyber: 'rgba(245, 158, 11, 0.3)' }
+            };
+            let selection = colorMap[aiVideoMind.colorScheme] || colorMap['classic'];
+
+            if(aiVideoMind.theme === 'matrix') {
                 canvasCtx.font = "11px monospace";
-                for(let x = 0; x < canvasElement.width; x += 15) {
-                    let fallDelta = (Math.sin(x + videoMotionVectors.seed) * 200) + (timeModifier * 250);
+                let spacing = Math.max(10, 120 - aiVideoMind.density);
+                for(let x = 0; x < canvasElement.width; x += spacing) {
+                    let fallDelta = (Math.sin(x + 40) * 200) + (timeModifier * 260);
                     let yPos = fallDelta % canvasElement.height;
-                    
                     let brightness = Math.floor((yPos / canvasElement.height) * 255);
-                    canvasCtx.fillStyle = `rgb(0, ${brightness}, 70)`;
                     
-                    let charCode = 33 + Math.floor(Math.sin(x + timeModifier) * 50);
+                    canvasCtx.fillStyle = selection.matrix.replace('brightness', brightness);
+                    let charCode = 33 + Math.floor(Math.sin(x + timeModifier) * 45);
                     canvasCtx.fillText(String.fromCharCode(charCode), x, yPos);
                 }
             } 
-            else if(videoMotionVectors.theme === 'nebula') {
+            else if(aiVideoMind.theme === 'nebula') {
                 let centerX = canvasElement.width / 2;
                 let centerY = canvasElement.height / 2;
-                
-                // Draw evolutionary cosmic space cloud clusters
-                for(let i = 0; i < 60; i++) {
-                    let angle = (i * 0.2) + (timeModifier * 0.15);
-                    let radius = (i * 4) + (timeModifier * 40) % 250;
+                for(let i = 0; i < aiVideoMind.density; i++) {
+                    let angle = (i * 0.25) + (timeModifier * 0.18);
+                    let radius = (i * 5 + timeModifier * 45) % 260;
                     let pX = centerX + Math.cos(angle) * radius;
                     let pY = centerY + Math.sin(angle) * radius;
+                    let size = 5 + (radius * 0.07);
                     
-                    let size = 4 + (radius * 0.08);
                     let grad = canvasCtx.createRadialGradient(pX, pY, 0, pX, pY, size);
-                    let colorShift = Math.floor(Math.sin(timeModifier + i) * 50) + 180;
+                    let colorShift = Math.floor(Math.sin(timeModifier + i) * 60) + 170;
                     
-                    grad.addColorStop(0, `rgba(${colorShift}, 50, 240, 0.4)`);
+                    grad.addColorStop(0, selection.nebula.replace('colorShift', colorShift));
                     grad.addColorStop(1, 'transparent');
                     
                     canvasCtx.fillStyle = grad;
-                    canvasCtx.beginPath();
-                    canvasCtx.arc(pX, pY, size, 0, Math.PI * 2);
-                    canvasCtx.fill();
+                    canvasCtx.beginPath(); canvasCtx.arc(pX, pY, size, 0, Math.PI * 2); canvasCtx.fill();
                 }
             } 
-            else if(videoMotionVectors.theme === 'cyber') {
-                // Generate deep topological matrix networking lattice frames
-                canvasCtx.strokeStyle = "rgba(88, 86, 214, 0.25)";
-                canvasCtx.lineWidth = 1;
-                
-                for(let l = 0; l < canvasElement.height; l += 30) {
-                    let waveOffset = Math.sin((l * 0.05) + timeModifier) * 45;
+            else if(aiVideoMind.theme === 'cyber') {
+                canvasCtx.strokeStyle = selection.cyber;
+                canvasCtx.lineWidth = 1.5;
+                let gridGap = Math.max(15, 75 - aiVideoMind.density);
+                for(let l = 0; l < canvasElement.height; l += gridGap) {
+                    let waveOffset = Math.sin((l * 0.04) + timeModifier) * 40;
                     canvasCtx.beginPath();
                     canvasCtx.moveTo(0, l + waveOffset);
                     canvasCtx.lineTo(canvasElement.width, l - waveOffset);
                     canvasCtx.stroke();
-                }
-                
-                // Track geometric node vectors rushing into view space
-                for(let k = 0; k < 8; k++) {
-                    let travelX = (videoMotionVectors.seed * k + timeModifier * 180) % canvasElement.width;
-                    let targetY = (canvasElement.height / 8) * k + (Math.sin(timeModifier + k) * 20);
-                    
-                    canvasCtx.fillStyle = "var(--success)";
-                    canvasCtx.shadowColor = "var(--success)";
-                    canvasCtx.shadowBlur = 10;
-                    canvasCtx.fillRect(travelX, targetY, 6, 6);
-                    canvasCtx.shadowBlur = 0; // Restore shadow properties instantly
                 }
             }
 
             vdoAnimationId = requestAnimationFrame(renderGenerativeVideoTick);
         }
 
+        // --- FOCUS AUDIO ENGINE ---
         let audioCtx = null, noiseNode = null;
         function startFocusAudio() {
             if(audioCtx) return;
@@ -1010,6 +964,7 @@
             audioCtx = null; noiseNode = null;
         }
 
+        // --- TASK BOARD AGGREGATOR ---
         let taskMatrix = [];
         function addTaskItem() {
             let n = document.getElementById('taskName').value.trim();
@@ -1031,6 +986,7 @@
             });
         }
 
+        // --- POMODORO METRICS LOOP ---
         let timer, timeRemaining, isRunning = false, activeState = "focus";
         function startTimer() {
             if (isRunning) return;
@@ -1046,7 +1002,6 @@
                 } else {
                     clearInterval(timer);
                     isRunning = false;
-                    try { new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==").play(); } catch(e){}
                     if(activeState === "focus") {
                         activeState = "break";
                         timeRemaining = (parseInt(document.getElementById('breakTime').value) || 5) * 60;
@@ -1064,6 +1019,7 @@
         function pauseTimer() { clearInterval(timer); isRunning = false; document.getElementById('pomodoroStatus').innerText = "Status: Paused"; }
         function resetTimer() { clearInterval(timer); isRunning = false; activeState = "focus"; timeRemaining = (parseInt(document.getElementById('focusTime').value) || 25) * 60; document.getElementById('timerDisplay').innerText = `${document.getElementById('focusTime').value.toString().padStart(2, '0')}:00`; document.getElementById('pomodoroStatus').innerText = "Status: Idle"; }
 
+        // --- FLASHCARD REVIEW FRAMEWORK ---
         let flashcards = [], idx = 0, scoreCorrect = 0, scoreTotal = 0;
         function addFlashcard() {
             let f = document.getElementById('fcFront').value.trim();
@@ -1087,24 +1043,18 @@
             if(flashcards.length === 0) return;
             scoreTotal++;
             if(known) scoreCorrect++;
-            if(idx < flashcards.length - 1) {
-                nextCard();
-            } else {
-                updateFlashcardEngine();
-            }
+            if(idx < flashcards.length - 1) { nextCard(); } else { updateFlashcardEngine(); }
         }
         function nextCard() { if(idx < flashcards.length - 1) { idx++; updateFlashcardEngine(); } }
         function prevCard() { if(idx > 0) { idx--; updateFlashcardEngine(); } }
-        function shuffleCards() {
-            if(flashcards.length < 2) return;
-            flashcards.sort(() => Math.random() - 0.5); idx = 0; updateFlashcardEngine();
-        }
+        function shuffleCards() { if(flashcards.length < 2) return; flashcards.sort(() => Math.random() - 0.5); idx = 0; updateFlashcardEngine(); }
 
+        // --- SYSTEM GPA CALCULATOR ---
         function addGpaRow() {
             let container = document.getElementById('gpaRows');
             let div = document.createElement('div');
             div.style = "display:flex; gap:0.5rem; margin-bottom:0.5rem;";
-            div.innerHTML = `<input type="text" placeholder="Course Structure Name" style="margin:0;"><input type="number" placeholder="Credits" class="gpa-credit" style="margin:0;" min="1"><select class="gpa-grade" style="margin:0;"><option value="4.0">A (4.0)</option><option value="3.5">B+ (3.5)</option><option value="3.0">B (3.0)</option><option value="2.5">C+ (2.5)</option><option value="2.0">C (2.0)</option><option value="0.0">F (0.0)</option></select>`;
+            div.innerHTML = `<input type="text" placeholder="Course Name" style="margin:0;"><input type="number" placeholder="Credits" class="gpa-credit" style="margin:0;" min="1"><select class="gpa-grade" style="margin:0;"><option value="4.0">A (4.0)</option><option value="3.5">B+ (3.5)</option><option value="3.0">B (3.0)</option><option value="2.5">C+ (2.5)</option><option value="2.0">C (2.0)</option><option value="0.0">F (0.0)</option></select>`;
             container.appendChild(div);
         }
         function calculateGPA() {
@@ -1117,6 +1067,7 @@
             document.getElementById('gpaOutput').innerHTML = `<b>Cumulative Grade Result:</b> ${res} GPA across ${totalCredits} credits.`;
         }
 
+        // --- MARKDOWN LABORATORY ---
         function liveRenderNotes() {
             let src = document.getElementById('noteInput').value;
             let target = document.getElementById('notePreview');
@@ -1130,6 +1081,7 @@
             link.href = URL.createObjectURL(blob); link.download = "AcademicNotes.md"; link.click();
         }
 
+        // --- PASSWORD PIPELINE ---
         function generatePassword() {
             let len = parseInt(document.getElementById('passLength').value) || 16, upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", lower = "abcdefghijklmnopqrstuvwxyz", num = "0123456789", sym = "!@#$%^&*()_+~";
             let pool = "";
@@ -1143,15 +1095,14 @@
             document.getElementById('passOutput').innerText = pass;
         }
 
+        // --- BASE64 PARSER ---
         function processBase64(encode) {
             let input = document.getElementById('b64Input').value;
-            try {
-                document.getElementById('b64Output').innerText = encode ? btoa(input) : atob(input);
-            } catch(e) {
-                document.getElementById('b64Output').innerText = "Invalid formatting properties.";
-            }
+            try { document.getElementById('b64Output').innerText = encode ? btoa(input) : atob(input); } 
+            catch(e) { document.getElementById('b64Output').innerText = "Invalid formatting properties."; }
         }
 
+        // --- CANVAS RENDER RESIZER ---
         function resizeImage() {
             let fileInput = document.getElementById('resizeFile').files[0], w = parseInt(document.getElementById('resizeWidth').value), h = parseInt(document.getElementById('resizeHeight').value);
             if (!fileInput) { alert("Please select a file first."); return; }
@@ -1165,6 +1116,7 @@
             }
         }
 
+        // --- IMAGE LAYER MERGER ---
         function mergeImages() {
             let f1 = document.getElementById('mergeFile1').files[0], f2 = document.getElementById('mergeFile2').files[0], orient = document.getElementById('mergeOrientation').value;
             if(!f1 || !f2) { alert("Please upload both active layers."); return; }
@@ -1185,56 +1137,31 @@
             }
         }
 
+        // --- PDF EXTRACTOR ---
         function convertPdfToImg() {
             let file = document.getElementById('pdfFile').files[0];
             if (!file) return;
-
             let fileReader = new FileReader();
             fileReader.onload = function () {
                 let typedarray = new Uint8Array(this.result);
                 pdfjsLib.getDocument(typedarray).promise.then(pdf => {
-                    let outArea = document.getElementById('pdfOutputArea');
-                    outArea.innerHTML = "";
-                    
+                    let outArea = document.getElementById('pdfOutputArea'); outArea.innerHTML = "";
                     for (let i = 1; i <= pdf.numPages; i++) {
                         pdf.getPage(i).then(page => {
                             let viewport = page.getViewport({ scale: 1.5 });
                             let canvas = document.createElement('canvas');
-                            canvas.height = viewport.height;
-                            canvas.width = viewport.width;
-                            
-                            page.render({ 
-                                canvasContext: canvas.getContext('2d'), 
-                                viewport: viewport 
-                            }).promise.then(() => {
+                            canvas.height = viewport.height; canvas.width = viewport.width;
+                            page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise.then(() => {
                                 let rasterData = canvas.toDataURL('image/png');
                                 let blockWrapper = document.createElement('div');
-                                blockWrapper.className = 'live-output-block';
-                                blockWrapper.style.display = 'block';
-                                
-                                let label = document.createElement('label');
-                                label.innerText = `Extracted Page #${i}:`;
-                                label.style.color = 'var(--info)';
-                                
-                                let outputImg = new Image();
-                                outputImg.src = rasterData;
-                                outputImg.className = 'live-output-preview';
-                                
-                                let downloadBtn = document.createElement('button');
-                                downloadBtn.className = 'btn';
-                                downloadBtn.style.background = 'var(--info)';
-                                downloadBtn.innerText = `Download Page #${i}`;
+                                blockWrapper.className = 'live-output-block'; blockWrapper.style.display = 'block';
+                                let label = document.createElement('label'); label.innerText = `Extracted Page #${i}:`; label.style.color = 'var(--info)';
+                                let outputImg = new Image(); outputImg.src = rasterData; outputImg.className = 'live-output-preview';
+                                let downloadBtn = document.createElement('button'); downloadBtn.className = 'btn'; downloadBtn.style.background = 'var(--info)'; downloadBtn.innerText = `Download Page #${i}`;
                                 downloadBtn.onclick = function () {
-                                    let hiddenAnchor = document.createElement('a');
-                                    hiddenAnchor.href = rasterData;
-                                    hiddenAnchor.download = `page_${i}.png`;
-                                    hiddenAnchor.click();
+                                    let hiddenAnchor = document.createElement('a'); hiddenAnchor.href = rasterData; hiddenAnchor.download = `page_${i}.png`; hiddenAnchor.click();
                                 };
-                                
-                                blockWrapper.appendChild(label);
-                                blockWrapper.appendChild(outputImg);
-                                blockWrapper.appendChild(downloadBtn);
-                                outArea.appendChild(blockWrapper);
+                                blockWrapper.appendChild(label); blockWrapper.appendChild(outputImg); blockWrapper.appendChild(downloadBtn); outArea.appendChild(blockWrapper);
                             });
                         });
                     }
@@ -1243,26 +1170,17 @@
             fileReader.readAsArrayBuffer(file);
         }
 
+        // --- VECTOR PDF WRITER ---
         function generatePdfFile() {
             const { jsPDF } = window.jspdf;
             let doc = new jsPDF();
             let txt = document.getElementById('pdfTextContent').value;
             if (!txt) return;
-
-            let splitText = doc.splitTextToSize(txt, 180);
-            let pageHeight = doc.internal.pageSize.height;
-            let y = 10; 
-            let lineHeight = 7; 
-
+            let splitText = doc.splitTextToSize(txt, 180), pageHeight = doc.internal.pageSize.height, y = 10, lineHeight = 7;
             for (let i = 0; i < splitText.length; i++) {
-                if (y + lineHeight > pageHeight - 10) {
-                    doc.addPage();
-                    y = 10; 
-                }
-                doc.text(splitText[i], 10, y);
-                y += lineHeight;
+                if (y + lineHeight > pageHeight - 10) { doc.addPage(); y = 10; }
+                doc.text(splitText[i], 10, y); y += lineHeight;
             }
-
             doc.save('Compiled_Document.pdf');
         }
     </script>
