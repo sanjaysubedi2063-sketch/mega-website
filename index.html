@@ -259,35 +259,73 @@
         .flashcard-front { background: linear-gradient(135deg, var(--accent) 0%, #4341b7 100%); color: white; }
         .flashcard-back { background: #22263f; color: white; transform: rotateY(180deg); border: 1px solid #313754; }
 
-        .media-preview-box {
+        /* ADVANCED TEXT TO VIDEO PLAYBACK CONTROLLER ELEMENTS */
+        .video-canvas-container {
+            position: relative;
             width: 100%;
             aspect-ratio: 16/9;
             background: #000;
-            border-radius: 10px;
-            margin-top: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 12px;
+            margin-top: 1.2rem;
             overflow: hidden;
-            position: relative;
+            border: 1px solid #313754;
         }
-        .sim-layer {
+        .video-buffer-track {
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             background-size: cover;
             background-position: center;
-            opacity: 0.4;
-            transition: all 0.1s ease;
+            transition: opacity 0.25s ease-in-out;
+            opacity: 0;
         }
-        .media-text-overlay {
-            position: relative;
-            z-index: 2;
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-            text-align: center;
+        .video-buffer-track.active-frame {
+            opacity: 1;
+        }
+        .video-control-hud {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
             padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10;
+        }
+        .video-timeline-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+            margin: 0 1rem;
+            border-radius: 3px;
+            position: relative;
+            cursor: pointer;
+        }
+        .video-timeline-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+        .video-status-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(9, 10, 15, 0.75);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(4px);
+            z-index: 10;
         }
 
         .notes-split {
@@ -453,11 +491,6 @@
             </select>
             <button class="btn" style="background:#a356ff" onclick="generateImageSimulation()">Synthesize Visual Asset</button>
             
-            <div class="media-preview-box" id="imgContainer" style="display:none;">
-                <div class="sim-layer" id="imgLayer"></div>
-                <div class="media-text-overlay" id="imgText">Synthesizing Pixels...</div>
-            </div>
-
             <div id="aiImageOutputBlock" class="live-output-block">
                 <label style="color:var(--success)">Generated Preview Asset Ready:</label>
                 <img id="aiImageFinalPreview" class="live-output-preview" alt="AI Generated Output Preview">
@@ -466,30 +499,38 @@
         </div>
     </div>
 
-    <!-- Text to Video Modal -->
+    <!-- HIGH-LEVEL OVERHAULED TEXT TO VIDEO MODAL -->
     <div id="textToVideoModal" class="modal-overlay">
         <div class="modal">
             <button class="close-modal" onclick="closeModal('textToVideoModal')">×</button>
-            <h2>🎬 Text to Video Generation Suite</h2>
+            <h2>🎬 High-Level Neural Text to Video Engine</h2>
             <label>Video Motion Prompt</label>
-            <textarea id="vdoPrompt" rows="3" placeholder="e.g., A cinematic drone flying over a futuristic neon university campus..."></textarea>
-            <label>Motion Track Style</label>
-            <select id="vdoStyle">
-                <option value="cyberpunk">Cyberpunk Dynamic Motion</option>
-                <option value="minimalist">Cinematic Static Drift</option>
-                <option value="cosmic">Cosmic Hyper-lapse Warp</option>
-            </select>
-            <button class="btn" style="background:#a356ff" onclick="generateVideoSimulation()">Compile Neural Video Loop</button>
+            <textarea id="vdoPrompt" rows="3" placeholder="A cinematic drone flying over a futuristic neon university campus, high detail, 4k..."></textarea>
             
-            <div class="media-preview-box" id="vdoContainer" style="display:none;">
-                <div class="sim-layer" id="vdoLayer"></div>
-                <div class="media-text-overlay" id="vdoText">Compiling Frame Buffers...</div>
-            </div>
-
-            <div id="aiVideoOutputBlock" class="live-output-block">
-                <label style="color:var(--success)">Neural Motion Playback Frame Buffer:</label>
-                <img id="aiVideoFinalPreview" class="live-output-preview" alt="AI Generated Video Frame Preview">
-                <button class="btn" style="background:var(--success)" id="vdoDownloadBtn" onclick="downloadActiveVideoFrame()">Save Current Animation State</button>
+            <label>Cinematic Camera Tracking Vector</label>
+            <select id="vdoStyle">
+                <option value="pan-left">Horizontal Tracking Pan (Left to Right)</option>
+                <option value="zoom-in">Forward Z-Axis Push (Zoom In)</option>
+                <option value="ambient">Ambient Atmospheric Pulsation Loop</option>
+            </select>
+            
+            <button class="btn" style="background:#a356ff" onclick="compileHighLevelVideo()">Compile High-Level Video Matrix</button>
+            
+            <!-- ADVANCED DYNAMIC RENDER WINDOW -->
+            <div class="video-canvas-container" id="videoViewport" style="display: none;">
+                <div class="video-status-badge" id="videoStatusBadge">Engine Idle</div>
+                <div class="video-buffer-track active-frame" id="vFrame0"></div>
+                <div class="video-buffer-track" id="vFrame1"></div>
+                <div class="video-buffer-track" id="vFrame2"></div>
+                <div class="video-buffer-track" id="vFrame3"></div>
+                
+                <div class="video-control-hud">
+                    <span id="vdoPlayPauseBtn" style="cursor:pointer; font-weight:bold;" onclick="toggleVideoPlayback()">⏸ PAUSE</span>
+                    <div class="video-timeline-bar">
+                        <div class="video-timeline-progress" id="vdoTimelineProgress"></div>
+                    </div>
+                    <span style="font-family:monospace; font-size:0.85rem;" id="vdoTimecode">0.0s / 4.0s</span>
+                </div>
             </div>
         </div>
     </div>
@@ -732,7 +773,7 @@
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { 
             document.getElementById(id).style.display = 'none'; 
-            if(id === 'textToVideoModal') { stopVideoLoop(); }
+            if(id === 'textToVideoModal') { stopHighLevelVideo(); }
         }
 
         function handleSourceImageFile(inputElement, previewImageId) {
@@ -768,17 +809,7 @@
             let style = document.getElementById('imgStyle').value;
             if(!prompt) { alert("Please supply text parameters for image generation matrices."); return; }
             
-            let container = document.getElementById('imgContainer');
-            let layer = document.getElementById('imgLayer');
-            let txt = document.getElementById('imgText');
-            
-            container.style.display = 'flex';
-            txt.innerText = "Connecting to Neural Core & Synthesizing Pixels...";
-            layer.style.background = "#000";
-            layer.style.backgroundImage = "none";
-            
             document.getElementById('aiImageOutputBlock').style.display = 'none';
-            
             let combinedPrompt = `${prompt}, ${style} style, 4k resolution, highly detailed`;
             let aiUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(combinedPrompt)}?width=600&height=400&nologo=true&seed=${Math.floor(Math.random() * 100000)}`;
 
@@ -787,103 +818,116 @@
             imgLoader.src = aiUrl;
             
             imgLoader.onload = function() {
-                txt.innerHTML = `🎨 <b>Image Synthesized Successfully</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[${style.toUpperCase()} Model Engine]</span>`;
-                layer.style.backgroundImage = `url('${aiUrl}')`;
-                layer.style.opacity = "1";
-
                 let targetPreview = document.getElementById('aiImageFinalPreview');
                 targetPreview.src = aiUrl;
                 document.getElementById('aiImageOutputBlock').style.display = 'block';
             };
-
-            imgLoader.onerror = function() {
-                txt.innerText = "Generation pipeline timed out. Please try modifying your prompt text.";
-            };
         }
 
-        // --- UPGRADED REAL TIME NEURAL STOP-MOTION VIDEO ENGINE ---
-        let videoPlaybackInterval = null;
-        let loadedVideoFrames = [];
-        let currentFrameIndex = 0;
+        // --- HIGH-LEVEL HIGH-PERFORMANCE VIDEO COMPILATION ALGORITHM ---
+        let vdoPlaybackTimer = null;
+        let vdoIsPlaying = false;
+        let vdoCurrentTime = 0.0;
+        const vdoDuration = 4.0; 
+        let compiledFrameUrls = [];
 
-        function stopVideoLoop() {
-            if(videoPlaybackInterval) { clearInterval(videoPlaybackInterval); videoPlaybackInterval = null; }
+        function stopHighLevelVideo() {
+            vdoIsPlaying = false;
+            if(vdoPlaybackTimer) { clearInterval(vdoPlaybackTimer); vdoPlaybackTimer = null; }
+            document.getElementById('vdoPlayPauseBtn').innerText = "▶ PLAY";
         }
 
-        function generateVideoSimulation() {
-            let prompt = document.getElementById('vdoPrompt').value;
-            let style = document.getElementById('vdoStyle').value;
-            if(!prompt) { alert("Please provide text coordinates for rendering motion loops."); return; }
-            
-            stopVideoLoop();
-            loadedVideoFrames = [];
-            currentFrameIndex = 0;
+        function toggleVideoPlayback() {
+            if(vdoIsPlaying) {
+                stopHighLevelVideo();
+            } else {
+                vdoIsPlaying = true;
+                document.getElementById('vdoPlayPauseBtn').innerText = "⏸ PAUSE";
+                runVideoRenderLoop();
+            }
+        }
 
-            let container = document.getElementById('vdoContainer');
-            let layer = document.getElementById('vdoLayer');
-            let txt = document.getElementById('vdoText');
-            
-            container.style.display = 'flex';
-            txt.innerText = "Generating Sequential Video Frames (0/4)...";
-            layer.style.background = "#000";
-            layer.style.backgroundImage = "none";
-            
-            document.getElementById('aiVideoOutputBlock').style.display = 'none';
-            
-            let baseSeed = Math.floor(Math.random() * 50000);
-            let framesToGenerate = 4;
-            let framesLoadedCount = 0;
+        function compileHighLevelVideo() {
+            let prompt = document.getElementById('vdoPrompt').value.trim();
+            let motion = document.getElementById('vdoStyle').value;
+            if(!prompt) { alert("Please supply text directives for the video workspace."); return; }
 
-            for(let i = 0; i < framesToGenerate; i++) {
-                let combinedPrompt = `${prompt}, cinematic motion, ${style} style, 4k, hyper-detailed`;
-                let frameUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(combinedPrompt)}?width=600&height=400&nologo=true&seed=${baseSeed + (i * 7)}`;
+            stopHighLevelVideo();
+            document.getElementById('videoViewport').style.display = 'block';
+            let badge = document.getElementById('videoStatusBadge');
+            badge.innerText = "Initializing Hyper-Frames (0/4)...";
+            badge.style.color = "var(--warning)";
+
+            compiledFrameUrls = [];
+            let baseSeed = Math.floor(Math.random() * 900000);
+            let framesLoaded = 0;
+
+            // Generate contextual motion modifiers for neural coherence
+            for(let i = 0; i < 4; i++) {
+                let motionModifier = "";
+                if(motion === "pan-left") motionModifier = `, camera shifting tracking right view offset ${i * 10} percent`;
+                else if(motion === "zoom-in") motionModifier = `, dynamic linear zoom close perspective focus ${i * 15}`;
+                else if(motion === "ambient") motionModifier = `, evolutionary atmospheric color shifting flux mutation variant ${i}`;
+
+                let fullPrompt = `${prompt}${motionModifier}, cinematic cinematography, 8k grade, smooth movement, realistic motion vectors`;
+                let frameUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(fullPrompt)}?width=640&height=360&nologo=true&seed=${baseSeed + (i * 25)}`;
                 
-                let imgObj = new Image();
-                imgObj.crossOrigin = "anonymous";
-                imgObj.src = frameUrl;
+                let img = new Image();
+                img.crossOrigin = "anonymous";
+                img.src = frameUrl;
                 
-                imgObj.onload = function() {
-                    loadedVideoFrames[i] = frameUrl;
-                    framesLoadedCount++;
-                    txt.innerText = `Generating Sequential Video Frames (${framesLoadedCount}/${framesToGenerate})...`;
+                let currentFrameIndex = i;
+                img.onload = function() {
+                    compiledFrameUrls[currentFrameIndex] = frameUrl;
+                    let targetLayer = document.getElementById(`vFrame${currentFrameIndex}`);
+                    targetLayer.style.backgroundImage = `url('${frameUrl}')`;
                     
-                    if(framesLoadedCount === framesToGenerate) {
-                        txt.innerHTML = `🎬 <b>Neural Motion Loop Engaged</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[4-Frame Stop-Motion Interpolation]</span>`;
-                        document.getElementById('aiVideoOutputBlock').style.display = 'block';
-                        startVideoPlaybackLoop();
+                    framesLoaded++;
+                    badge.innerText = `Caching Neural Frames (${framesLoaded}/4)...`;
+                    
+                    if(framesLoaded === 4) {
+                        badge.innerText = "Neural Loop Coherent";
+                        badge.style.color = "var(--success)";
+                        vdoCurrentTime = 0.0;
+                        vdoIsPlaying = true;
+                        document.getElementById('vdoPlayPauseBtn').innerText = "⏸ PAUSE";
+                        runVideoRenderLoop();
                     }
                 };
-
-                imgObj.onerror = function() {
-                    framesLoadedCount++;
-                    if(framesLoadedCount === framesToGenerate && loadedVideoFrames.length > 0) {
-                        document.getElementById('aiVideoOutputBlock').style.display = 'block';
-                        startVideoPlaybackLoop();
-                    } else if (loadedVideoFrames.length === 0) {
-                        txt.innerText = "Neural transmission error. Please re-verify your prompt variables.";
-                    }
+                img.onerror = function() {
+                    badge.innerText = "Link dropped. Re-fetching frame segment...";
+                    img.src = frameUrl + "&retry=true";
                 };
             }
         }
 
-        function startVideoPlaybackLoop() {
-            let layer = document.getElementById('vdoLayer');
-            let targetPreview = document.getElementById('aiVideoFinalPreview');
+        function runVideoRenderLoop() {
+            if(vdoPlaybackTimer) clearInterval(vdoPlaybackTimer);
             
-            videoPlaybackInterval = setInterval(() => {
-                if(loadedVideoFrames.length === 0) return;
-                let activeSrc = loadedVideoFrames[currentFrameIndex];
-                
-                layer.style.backgroundImage = `url('${activeSrc}')`;
-                layer.style.opacity = "1";
-                targetPreview.src = activeSrc;
+            vdoPlaybackTimer = setInterval(() => {
+                if(!vdoIsPlaying) return;
 
-                currentFrameIndex = (currentFrameIndex + 1) % loadedVideoFrames.length;
-            }, 300);
-        }
+                vdoCurrentTime += 0.05;
+                if(vdoCurrentTime >= vdoDuration) {
+                    vdoCurrentTime = 0.0; // Perfect seamless looping structure
+                }
 
-        function downloadActiveVideoFrame() {
-            triggerAssetDownload('aiVideoFinalPreview', `ai_video_frame_${currentFrameIndex}.png`);
+                // Update visual playback HUD
+                let progressPercent = (vdoCurrentTime / vdoDuration) * 100;
+                document.getElementById('vdoTimelineProgress').style.width = `${progressPercent}%`;
+                document.getElementById('vdoTimecode').innerText = `${vdoCurrentTime.toFixed(1)}s / ${vdoDuration.toFixed(1)}s`;
+
+                // Multi-track Crossfade Engine Map
+                let activeFrameIndex = Math.floor((vdoCurrentTime / vdoDuration) * 4);
+                for(let i = 0; i < 4; i++) {
+                    let layer = document.getElementById(`vFrame${i}`);
+                    if(i === activeFrameIndex) {
+                        layer.classList.add('active-frame');
+                    } else {
+                        layer.classList.remove('active-frame');
+                    }
+                }
+            }, 50); // High-frequency 20 FPS polling layer
         }
 
         let audioCtx = null, noiseNode = null;
@@ -1070,7 +1114,7 @@
                 canvas.getContext('2d').drawImage(img, 0, 0, w, h);
                 
                 let targetPreview = document.getElementById('resizerFinalPreview');
-                targetPreview.src = canvas.toToDataURL ? canvas.toDataURL('image/jpeg') : canvas.toDataURL();
+                targetPreview.src = canvas.toDataURL('image/jpeg');
                 document.getElementById('resizerOutputBlock').style.display = 'block';
             }
         }
