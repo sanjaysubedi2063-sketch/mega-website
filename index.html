@@ -3,1186 +3,1116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanjay Subedi Pro Engine v3.6 - Autonomous AI & Student Suite</title>
+    <title>Sanjay Subedi HyperEngine v4.0 - Cognitive AI Suite & Academic Terminal</title>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
     <style>
         :root {
-            --bg-primary: #090a0f;
-            --bg-secondary: #121420;
-            --bg-card: #1a1d30;
-            --accent: #5856d6;
-            --accent-hover: #4341b7;
-            --text-main: #f1f3f9;
-            --text-muted: #8e95a5;
-            --success: #34c759;
-            --danger: #ff3b30;
-            --warning: #ff9500;
-            --info: #007aff;
+            --bg-master: #05060b;
+            --bg-primary: #090b11;
+            --bg-secondary: #111422;
+            --bg-card: #171b2f;
+            --bg-card-hover: #1f253f;
+            --accent-core: #5856d6;
+            --accent-glow: rgba(88, 86, 214, 0.35);
+            --accent-success: #34c759;
+            --accent-danger: #ff3b30;
+            --accent-warning: #ff9500;
+            --accent-info: #007aff;
+            --text-main: #f1f4f9;
+            --text-muted: #868e9e;
+            --text-dark: #4b526d;
+            --border-thin: #222842;
+            --border-bright: #3a436e;
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
         }
+
+        /* Micro Scrollbar Architecture */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-master); }
+        ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-core); }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            background-color: var(--bg-primary);
+            background-color: var(--bg-master);
             color: var(--text-main);
             line-height: 1.6;
-            padding: 2rem;
+            padding: 2.5rem;
+            overflow-x: hidden;
         }
 
-        header {
-            text-align: center;
+        /* Main Workspace Frame Container */
+        .workspace-container {
+            max-width: 1650px;
+            margin: 0 auto;
+        }
+
+        /* Premium Workspace Header Dashboard */
+        .app-header {
+            background: linear-gradient(145deg, var(--bg-primary), var(--bg-secondary));
+            border: 1px solid var(--border-thin);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
             margin-bottom: 3rem;
-            border-bottom: 1px solid #22263f;
-            padding-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
 
-        header h1 {
-            font-size: 2.8rem;
-            background: linear-gradient(135deg, #fff 0%, var(--text-muted) 100%);
+        .app-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(88,86,214,0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-tag {
+            display: inline-block;
+            background: rgba(88, 86, 214, 0.15);
+            color: #a5a4ff;
+            border: 1px solid rgba(88, 86, 214, 0.3);
+            padding: 0.35rem 0.9rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .app-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 30%, #a3a2ff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
         }
 
-        header p {
+        .app-subtitle {
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            max-width: 800px;
         }
 
-        .section-title {
-            max-width: 1400px;
-            margin: 2rem auto 1rem auto;
+        /* Grid Categories Hierarchy */
+        .section-separator {
+            margin: 3.5rem auto 1.5rem auto;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .separator-title {
             color: var(--text-muted);
-            text-transform: uppercase;
             font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
             letter-spacing: 2px;
+            white-space: nowrap;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .section-title::after {
-            content: '';
+        .separator-line {
             flex: 1;
             height: 1px;
-            background: #22263f;
+            background: linear-gradient(90deg, var(--border-thin), transparent);
         }
 
-        .grid {
+        /* Matrix Core Grid */
+        .system-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
-            max-width: 1400px;
-            margin: 0 auto 3rem auto;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
 
-        .card {
-            background: var(--bg-secondary);
-            border: 1px solid #22263f;
-            border-radius: 14px;
-            padding: 1.8rem;
+        /* Premium Dashboard Cards */
+        .functional-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-thin);
+            border-radius: var(--radius-md);
+            padding: 2.2rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.25s, border-color 0.25s;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
+        .functional-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--border-bright);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3), 0 0 20px rgba(88,86,214,0.1);
         }
 
-        .card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.6rem;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 1.8rem;
-        }
-
-        .btn {
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            padding: 0.75rem 1.2rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            text-align: center;
-            transition: background 0.2s, transform 0.1s;
-            width: 100%;
-        }
-
-        .btn:hover { background: var(--accent-hover); }
-        .btn:active { transform: scale(0.98); }
-
-        .modal-overlay {
-            position: fixed;
+        .functional-card::after {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(5, 5, 10, 0.85);
-            backdrop-filter: blur(8px);
+            border-radius: var(--radius-md);
+            box-shadow: inset 0 0 15px rgba(255,255,255,0.02);
+            pointer-events: none;
+        }
+
+        .card-header-zone {
+            margin-bottom: 2rem;
+        }
+
+        .card-icon-badge {
+            width: 48px;
+            height: 48px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-thin);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .functional-card:hover .card-icon-badge {
+            background: var(--accent-core);
+            border-color: transparent;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .card-headline {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.6rem;
+        }
+
+        .card-description {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            line-height: 1.5;
+        }
+
+        /* Form Controls UI elements */
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="password"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.95rem 1.2rem;
+            background-color: var(--bg-master);
+            border: 1px solid var(--border-bright);
+            color: var(--text-main);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-core);
+            box-shadow: 0 0 10px rgba(88,86,214,0.2);
+        }
+
+        .checkbox-flex-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .custom-checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            user-select: none;
+            padding: 0.6rem;
+            background: var(--bg-master);
+            border: 1px solid var(--border-thin);
+            border-radius: var(--radius-sm);
+        }
+
+        .custom-checkbox-wrapper input {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-core);
+        }
+
+        /* Structural Button Matrix */
+        .action-button {
+            background: var(--accent-core);
+            color: #ffffff;
+            border: none;
+            padding: 0.9rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .action-button:hover {
+            background: #4341b7;
+            box-shadow: 0 0 20px rgba(88,86,214,0.4);
+        }
+
+        .action-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Overlays & Modals Framework */
+        .modal-overlay-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(3, 4, 7, 0.9);
+            backdrop-filter: blur(12px);
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 2000;
-            padding: 1.5rem;
+            z-index: 5000;
+            padding: 2rem;
+            animation: fadeIn 0.25s ease forwards;
         }
 
-        .modal {
+        .modal-window-box {
             background: var(--bg-card);
-            border-radius: 18px;
-            max-width: 650px;
+            border: 1px solid var(--border-bright);
+            border-radius: var(--radius-lg);
+            max-width: 800px;
             width: 100%;
-            max-height: 85vh;
+            max-height: 90vh;
             overflow-y: auto;
-            padding: 2.2rem;
+            padding: 3rem;
             position: relative;
-            border: 1px solid #313754;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            animation: slideUp 0.3s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
         }
 
-        .close-modal {
+        .modal-dismiss-btn {
             position: absolute;
-            top: 1.2rem;
-            right: 1.2rem;
-            background: #22263f;
-            border: none;
-            color: var(--text-main);
-            width: 32px;
-            height: 32px;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-thin);
+            color: var(--text-muted);
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s ease;
         }
 
-        label {
-            display: block;
-            margin-top: 1.2rem;
-            margin-bottom: 0.4rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-muted);
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 0.8rem;
-            background: var(--bg-primary);
-            border: 1px solid #313754;
+        .modal-dismiss-btn:hover {
+            background: var(--accent-danger);
             color: #fff;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
+            border-color: transparent;
         }
 
-        .checkbox-group {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
+        /* Generic Framework Components */
+        .output-terminal-display {
+            background: var(--bg-master);
+            border: 1px solid var(--border-thin);
+            border-radius: var(--radius-sm);
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+            font-family: var(--font-mono);
             font-size: 0.9rem;
-        }
-        .checkbox-label input { width: auto; margin: 0; }
-
-        .output-box {
-            background: var(--bg-primary);
-            padding: 1.2rem;
-            border-radius: 8px;
-            border: 1px dashed #313754;
-            margin-top: 1.2rem;
+            color: #d1d9e6;
+            overflow-x: auto;
+            white-space: pre-wrap;
         }
 
-        .timer-display {
-            font-size: 3.5rem;
-            text-align: center;
-            font-weight: 700;
-            margin: 1.5rem 0;
-            font-family: monospace;
-            color: var(--success);
-            text-shadow: 0 0 10px rgba(52, 199, 89, 0.2);
-        }
-
-        .flashcard-box {
-            perspective: 1000px;
-            height: 180px;
-            margin: 1.5rem 0;
+        /* Flashcard Physical Dynamics */
+        .flashcard-viewport {
+            perspective: 1200px;
+            height: 240px;
+            margin: 2rem 0;
             cursor: pointer;
         }
-        .flashcard-inner {
+
+        .flashcard-flipper-core {
             position: relative;
             width: 100%;
             height: 100%;
             text-align: center;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             transform-style: preserve-3d;
         }
-        .flashcard-box.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-front, .flashcard-back {
+
+        .flashcard-viewport.is-flipped .flashcard-flipper-core {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-surface-front, .flashcard-surface-back {
             position: absolute;
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
-            padding: 1.5rem;
-            font-weight: 600;
-            font-size: 1.1rem;
+            border-radius: var(--radius-md);
+            padding: 2.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
-        .flashcard-front { background: linear-gradient(135deg, var(--accent) 0%, #4341b7 100%); color: white; }
-        .flashcard-back { background: #22263f; color: white; transform: rotateY(180deg); border: 1px solid #313754; }
 
-        /* ADVANCED TEXT TO VIDEO VIEWPORTS */
-        .video-canvas-container {
+        .flashcard-surface-front {
+            background: linear-gradient(135deg, var(--accent-core) 0%, #3b3994 100%);
+            color: #ffffff;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .flashcard-surface-back {
+            background: var(--bg-secondary);
+            color: var(--text-main);
+            transform: rotateY(180deg);
+            border: 1px solid var(--border-bright);
+        }
+
+        .card-surface-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 1rem;
+        }
+
+        /* Advanced Cognitive Video Canvas Interface Styles */
+        .video-player-frame {
             position: relative;
             width: 100%;
             aspect-ratio: 16/9;
-            background: #000;
-            border-radius: 12px;
-            margin-top: 1.2rem;
+            background: #020204;
+            border-radius: var(--radius-md);
+            margin-top: 1.5rem;
             overflow: hidden;
-            border: 1px solid #313754;
+            border: 1px solid var(--border-bright);
         }
+
         #generativeVideoCanvas {
             width: 100%;
             height: 100%;
             display: block;
         }
-        .video-control-hud {
+
+        .hud-control-container {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            padding: 1rem;
+            background: linear-gradient(to top, rgba(3,4,7,0.95) 0%, rgba(3,4,7,0.7) 70%, transparent 100%);
+            padding: 1.25rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            z-index: 10;
+            z-index: 20;
         }
-        .video-timeline-bar {
+
+        .hud-scrubber-bar {
             flex: 1;
             height: 6px;
-            background: rgba(255,255,255,0.2);
-            margin: 0 1rem;
-            border-radius: 3px;
+            background: rgba(255,255,255,0.15);
+            margin: 0 1.25rem;
+            border-radius: 10px;
             position: relative;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
-        .video-timeline-progress {
+
+        .hud-scrubber-bar:hover { height: 8px; }
+
+        .hud-scrubber-progress {
             position: absolute;
             left: 0;
             top: 0;
             height: 100%;
             width: 0%;
-            background: var(--accent);
-            border-radius: 3px;
-        }
-        .video-status-badge {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background: rgba(9, 10, 15, 0.85);
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            border: 1px solid rgba(255,255,255,0.15);
-            backdrop-filter: blur(4px);
-            z-index: 10;
-        }
-        .ai-thought-box {
-            background: rgba(88, 86, 214, 0.08);
-            border: 1px solid rgba(88, 86, 214, 0.25);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 0.8rem;
-            font-size: 0.85rem;
-            font-family: monospace;
-            color: #a5b4fc;
-            display: none;
-            line-height: 1.5;
-            white-space: pre-wrap;
-        }
-
-        .notes-split {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            height: 300px;
-        }
-        .notes-preview {
-            background: var(--bg-primary);
-            border: 1px solid #313754;
-            border-radius: 8px;
-            padding: 1rem;
-            overflow-y: auto;
-            font-size: 0.95rem;
-        }
-
-        .live-source-preview {
-            width: 100%;
-            max-height: 160px;
-            object-fit: contain;
-            background: #05050a;
-            border-radius: 8px;
-            border: 1px dashed #313754;
-            margin: 0.5rem 0;
-            display: none;
-        }
-        .live-output-block {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            border: 1px solid var(--accent);
+            background: var(--accent-core);
             border-radius: 10px;
-            background: #151828;
+            box-shadow: 0 0 8px var(--accent-core);
+        }
+
+        .hud-status-capsule {
+            position: absolute;
+            top: 1.25rem;
+            left: 1.25rem;
+            background: rgba(9, 11, 17, 0.85);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            border: 1px solid var(--border-bright);
+            backdrop-filter: blur(8px);
+            z-index: 20;
+        }
+
+        /* Cognitive Reflection Interface Module */
+        .cognitive-thought-box {
+            background: rgba(88, 86, 214, 0.05);
+            border: 1px solid rgba(88, 86, 214, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 1.5rem;
+            margin-top: 1rem;
+            font-size: 0.88rem;
+            font-family: var(--font-mono);
+            color: #9ba5df;
+            display: none;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            border-left: 4px solid var(--accent-core);
+        }
+
+        /* File Resource Layout Forms */
+        .live-resource-view-canvas {
+            width: 100%;
+            max-height: 180px;
+            object-fit: contain;
+            background: #030407;
+            border-radius: var(--radius-sm);
+            border: 1px dashed var(--border-bright);
+            margin: 0.75rem 0;
             display: none;
         }
-        .live-output-preview {
-            width: 100%;
-            max-height: 280px;
-            object-fit: contain;
-            background: #000;
-            border-radius: 6px;
-            margin-bottom: 1rem;
+
+        .processing-result-block {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-core);
+            border-radius: var(--radius-md);
+            background: #0d0f1a;
+            display: none;
         }
+
+        .processing-result-preview {
+            width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            background: #000000;
+            border-radius: var(--radius-sm);
+            margin-bottom: 1.25rem;
+            border: 1px solid var(--border-thin);
+        }
+
+        /* Animations Framework */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
-
-    <header>
-        <h1>Sanjay Subedi Pro Engine v3.6</h1>
-        <p>Advanced client-side neural simulators and comprehensive student development utilities.</p>
-    </header>
-
-    <div class="section-title">🤖 AI Systems & Intelligent Engines</div>
-    <div class="grid">
-        <div class="card" style="border-color: #a356ff">
-            <h3>🎬 Autonomous Text to Video AI</h3>
-            <p>Runs an integrated natural semantic interpreter to parse complex prompt contexts and output continuous mathematics loops.</p>
-            <button class="btn" style="background:#a356ff" onclick="openModal('textToVideoModal')">Open Video Generator</button>
-        </div>
-
-        <div class="card" style="border-color: #a356ff">
-            <h3>🎨 Text to Image AI</h3>
-            <p>Synthesize graphic layouts, concept illustrations, or presentation assets using real-time structural API models.</p>
-            <button class="btn" style="background:#a356ff" onclick="openModal('textToImageModal')">Open Image Creator</button>
-        </div>
-
-        <div class="card" style="border-color: #a356ff">
-            <h3>🎵 Focus Audio Space</h3>
-            <p>Generate isolated study frequencies (Binaural Beats / Deep Brownian Noise) natively via your browser hardware.</p>
-            <button class="btn" style="background:#a356ff" onclick="openModal('audioSpaceModal')">Launch Soundscapes</button>
-        </div>
-    </div>
-
-    <div class="section-title">⏱️ Academic Performance & Study Kits</div>
-    <div class="grid">
-        <div class="card" style="border-color: var(--success)">
-            <h3>⚡ Pomodoro Study Timer</h3>
-            <p>Equipped with automatic switching metrics for long focused learning intervals and restful alerts.</p>
-            <button class="btn" style="background:var(--success)" onclick="openModal('pomodoroModal')">Launch Timer</button>
-        </div>
-
-        <div class="card" style="border-color: var(--success)">
-            <h3>🗂️ Flashcard Maker & Quizzer</h3>
-            <p>Track your score matrix, log analytical review passes, and randomize the active evaluation sequence.</p>
-            <button class="btn" style="background:var(--success)" onclick="openModal('flashcardModal')">Open Flashcards</button>
-        </div>
-
-        <div class="card" style="border-color: var(--success)">
-            <h3>📊 Academic GPA Calculator</h3>
-            <p>Multi-semester grading module with integrated total point aggregators and overall metrics summary.</p>
-            <button class="btn" style="background:var(--success)" onclick="openModal('gpaModal')">Calculate GPA</button>
-        </div>
-
-        <div class="card" style="border-color: var(--success)">
-            <h3>📝 Markdown Lab Space</h3>
-            <p>Draft notes with live text transforms, immediate word counts, and structural Markdown export assets.</p>
-            <button class="btn" style="background:var(--success)" onclick="openModal('notesModal')">Launch Editor</button>
-        </div>
-
-        <div class="card" style="border-color: var(--success)">
-            <h3>📋 Task Matrix Planner</h3>
-            <p>Organize immediate workflows using custom priority flags and simple persistent layout boards.</p>
-            <button class="btn" style="background:var(--success)" onclick="openModal('taskModal')">View Board</button>
-        </div>
-    </div>
-
-    <div class="section-title">⚙️ System Architecture & Document Engines</div>
-    <div class="grid">
-        <div class="card">
-            <h3>🔑 Password Generator</h3>
-            <p>Granular filtering configuration scales, random assignment seeds, and multi-class key string checks.</p>
-            <button class="btn" onclick="openModal('passwordModal')">Launch Tool</button>
-        </div>
-
-        <div class="card">
-            <h3>🔾 Base64 Toolkit</h3>
-            <p>Convert structural paragraphs into encrypted standard Base64 byte loops or vice-versa.</p>
-            <button class="btn" onclick="openModal('base64Modal')">Launch Tool</button>
-        </div>
-
-        <div class="card">
-            <h3>🖼️ Image Resizer</h3>
-            <p>Specify direct structural width and height dimensions with quick layout browser preview vectors.</p>
-            <button class="btn" onclick="openModal('resizerModal')">Launch Tool</button>
-        </div>
-
-        <div class="card">
-            <h3>🥞 Image Merger</h3>
-            <p>Stitch secondary structural layouts cleanly across sequential structural layers (Vertical or Horizontal).</p>
-            <button class="btn" onclick="openModal('mergerModal')">Launch Tool</button>
-        </div>
-
-        <div class="card">
-            <h3>📄 PDF to Images</h3>
-            <p>Deconstruct structural document vector pages and convert them out directly into individual PNG graphics.</p>
-            <button class="btn" onclick="openModal('pdfToImgModal')">Launch Tool</button>
-        </div>
-
-        <div class="card">
-            <h3>✍️ Text to PDF</h3>
-            <p>Compile complex layout sentences or notes into fully compliant downloadable system PDFs.</p>
-            <button class="btn" onclick="openModal('textToPdfModal')">Launch Tool</button>
-        </div>
-    </div>
-
-    <div id="textToImageModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('textToImageModal')">×</button>
-            <h2>🎨 Text to Image Generation Suite</h2>
-            <label>Graphic Prompt Directives</label>
-            <textarea id="imgPrompt" rows="3" placeholder="e.g., Cyberpunk student hub desk, digital painting, soft neon backlight..."></textarea>
-            <label>Art Direction Palette Preset</label>
-            <select id="imgStyle">
-                <option value="photorealistic">Photorealistic Rendering</option>
-                <option value="anime">Anime Stylization Vector</option>
-                <option value="oil">Classic Structural Oil Canvas</option>
-            </select>
-            <button class="btn" style="background:#a356ff" onclick="generateImageSimulation()">Synthesize Visual Asset</button>
-            
-            <div id="aiImageOutputBlock" class="live-output-block">
-                <label style="color:var(--success)">Generated Preview Asset Ready:</label>
-                <img id="aiImageFinalPreview" class="live-output-preview" alt="AI Generated Preview">
-                <button class="btn" style="background:var(--success)" onclick="downloadAIAsset('aiImageFinalPreview', 'ai_generation.png')">Download Rendered Image</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="textToVideoModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('textToVideoModal')">×</button>
-            <h2>🎬 Self-Thinking Text-to-Video Engine</h2>
-            <label>Natural Language Prompt Input</label>
-            <textarea id="vdoPrompt" rows="3" placeholder="e.g., rapid golden matrix code cascade down or slow deep red nebula galaxy..."></textarea>
-            
-            <button class="btn" style="background:#a356ff" onclick="initiateAIVideoSynthesis()">Analyze Intent & Synthesize</button>
-            
-            <div id="aiThoughtProcess" class="ai-thought-box"></div>
-
-            <div class="video-canvas-container" id="videoViewport" style="display: none;">
-                <div class="video-status-badge" id="videoStatusBadge">Awaiting Brain Matrix...</div>
-                <canvas id="generativeVideoCanvas" width="640" height="360"></canvas>
-                <div class="video-control-hud">
-                    <span id="vdoPlayPauseBtn" style="cursor:pointer; font-weight:bold;" onclick="toggleVideoPlayback()">⏸ PAUSE</span>
-                    <div class="video-timeline-bar"><div class="video-timeline-progress" id="vdoTimelineProgress"></div></div>
-                    <span style="font-family:monospace; font-size:0.85rem;" id="vdoTimecode">0.0s / 10.0s</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="audioSpaceModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('audioSpaceModal')">×</button>
-            <h2>🎵 Synthesized Focus Audio Space</h2>
-            <label>Acoustic Engine Frequency Profile</label>
-            <select id="noiseType">
-                <option value="brownian">Brownian Noise (Deep Focus / Muffled Rumbles)</option>
-                <option value="binaural">Alpha Wave Frequencies (Cognitive Processing)</option>
-            </select>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-top:1rem;">
-                <button class="btn" style="background:var(--success)" onclick="startFocusAudio()">Activate Waveform</button>
-                <button class="btn" style="background:var(--danger)" onclick="stopFocusAudio()">Terminate Stream</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="taskModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('taskModal')">×</button>
-            <h2>📋 Task Matrix Planner</h2>
-            <div style="display:flex; gap:0.5rem; margin-top:1rem;">
-                <input type="text" id="taskName" placeholder="Assignment or operation item..." style="margin:0;">
-                <select id="taskPriority" style="margin:0; width:130px;">
-                    <option value="🔴 High">High</option>
-                    <option value="🟡 Mid">Medium</option>
-                    <option value="🟢 Low">Low</option>
-                </select>
-                <button class="btn" style="width:auto; white-space:nowrap;" onclick="addTaskItem()">Add Task</button>
-            </div>
-            <div id="taskListContainer" style="margin-top:1.5rem;"></div>
-        </div>
-    </div>
-
-    <div id="pomodoroModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('pomodoroModal')">×</button>
-            <h2>⏱️ Advanced Pomodoro Core</h2>
-            <div id="pomodoroStatus" style="text-align:center; color:var(--text-muted);">Status: Idle Focus Loop</div>
-            <div class="timer-display" id="timerDisplay">25:00</div>
-            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
-                <button class="btn" onclick="startTimer()">Start Session</button>
-                <button class="btn" style="background:var(--warning)" onclick="pauseTimer()">Pause</button>
-                <button class="btn" style="background:var(--danger)" onclick="resetTimer()">Reset Loop</button>
-            </div>
-            <label>Focus Duration Setting (Minutes)</label>
-            <input type="number" id="focusTime" value="25" min="1">
-            <label>Interval Break Setting (Minutes)</label>
-            <input type="number" id="breakTime" value="5" min="1">
-        </div>
-    </div>
-
-    <div id="flashcardModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('flashcardModal')">×</button>
-            <h2>🗂️ Flashcard Deck Engine</h2>
-            <div id="fcScoreBoard" style="color:var(--text-muted); font-size:0.9rem; text-align:right;">Deck Size: 0 | Current Score: 0/0</div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-top:1rem;">
-                <input type="text" id="fcFront" placeholder="Front Query Layer" style="margin:0;">
-                <input type="text" id="fcBack" placeholder="Back Execution Key" style="margin:0;">
-            </div>
-            <button class="btn" style="margin-top:0.5rem;" onclick="addFlashcard()">Append to Live Stack</button>
-            
-            <div class="flashcard-box" id="cardViewer" onclick="this.classList.toggle('flipped')">
-                <div class="flashcard-inner">
-                    <div class="flashcard-front" id="viewFront">No Flashcards loaded. Insert queries above.</div>
-                    <div class="flashcard-back" id="viewBack">Backside Response Panel.</div>
-                </div>
-            </div>
-            <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
-                <button class="btn" style="background:var(--success);" onclick="logCardScore(true)">Know It 👍</button>
-                <button class="btn" style="background:var(--danger);" onclick="logCardScore(false)">Forgot It 👎</button>
-            </div>
-            <div style="display:flex; gap:1rem;">
-                <button class="btn" style="background:#22263f; border:1px solid #313754;" onclick="prevCard()">Previous</button>
-                <button class="btn" style="background:#22263f; border:1px solid #313754;" onclick="nextCard()">Next</button>
-                <button class="btn" style="background:var(--warning);" onclick="shuffleCards()">Shuffle Deck</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="gpaModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('gpaModal')">×</button>
-            <h2>📊 Academic GPA Calculator</h2>
-            <div id="gpaRows">
-                <div style="display:flex; gap:0.5rem; margin-bottom:0.5rem;">
-                    <input type="text" placeholder="Course Structure Name" style="margin:0;">
-                    <input type="number" placeholder="Credits" class="gpa-credit" style="margin:0;" min="1">
-                    <select class="gpa-grade" style="margin:0;">
-                        <option value="4.0">A (4.0)</option>
-                        <option value="3.5">B+ (3.5)</option>
-                        <option value="3.0">B (3.0)</option>
-                        <option value="2.5">C+ (2.5)</option>
-                        <option value="2.0">C (2.0)</option>
-                        <option value="0.0">F (0.0)</option>
-                    </select>
-                </div>
-            </div>
-            <button class="btn" style="background:#22263f; border:1px solid #313754; margin-bottom:1rem;" onclick="addGpaRow()">+ Append Course Module</button>
-            <button class="btn" onclick="calculateGPA()">Run Analytics Compilation</button>
-            <div class="output-box" id="gpaOutput">Transcript logs manifest here...</div>
-        </div>
-    </div>
-
-    <div id="notesModal" class="modal-overlay">
-        <div class="modal" style="max-width:850px;">
-            <button class="close-modal" onclick="closeModal('notesModal')">×</button>
-            <h2>📝 Markdown Interactive Lab Space</h2>
-            <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.5rem;" id="noteWordCount">Metrics: 0 Words | 0 Characters</div>
-            <div class="notes-split">
-                <textarea id="noteInput" placeholder="# Topic Summary&#10;Type information here..." oninput="liveRenderNotes()"></textarea>
-                <div class="notes-preview" id="notePreview">Compiled HTML transformations show up right here...</div>
-            </div>
-            <button class="btn" style="margin-top:1rem;" onclick="downloadNotes()">Download Structured Formatting File</button>
-        </div>
-    </div>
-
-    <div id="passwordModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('passwordModal')">×</button>
-            <h2>🔑 Password Generation Pipeline</h2>
-            <label>Length Configuration</label>
-            <input type="number" id="passLength" value="16" min="6" max="128">
-            <div class="checkbox-group">
-                <label class="checkbox-label"><input type="checkbox" id="passUpper" checked> Uppercase Layers</label>
-                <label class="checkbox-label"><input type="checkbox" id="passLower" checked> Lowercase Layers</label>
-                <label class="checkbox-label"><input type="checkbox" id="passNum" checked> Numeric Strings</label>
-                <label class="checkbox-label"><input type="checkbox" id="passSym" checked> Encoded Symbols</label>
-            </div>
-            <button class="btn" onclick="generatePassword()">Compute Key Vector</button>
-            <div class="output-box" id="passOutput" style="font-family:monospace; user-select:all; word-break:break-all;">Awaiting vector initialization...</div>
-        </div>
-    </div>
-
-    <div id="base64Modal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('base64Modal')">×</button>
-            <h2>🔾 Base64 Toolkit</h2>
-            <label>Input Text Data Block</label>
-            <textarea id="b64Input" rows="4"></textarea>
-            <div style="display:flex; gap:0.5rem;">
-                <button class="btn" onclick="processBase64(true)">Encode Payload</button>
-                <button class="btn" style="background:#22263f; border:1px solid #313754;" onclick="processBase64(false)">Decode Byte Sequence</button>
-            </div>
-            <div class="output-box" id="b64Output">Process stream returns...</div>
-        </div>
-    </div>
-
-    <div id="resizerModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('resizerModal')">×</button>
-            <h2>🖼️ Dynamic Canvas Image Resizer</h2>
-            <input type="file" id="resizeFile" accept="image/*" onchange="handleSourceImageFile(this, 'resizerSourcePreview')">
-            <img id="resizerSourcePreview" class="live-source-preview" alt="Source Preview">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
-                <div>
-                    <label>Target Width (px)</label>
-                    <input type="number" id="resizeWidth" value="800">
-                </div>
-                <div>
-                    <label>Target Height (px)</label>
-                    <input type="number" id="resizeHeight" value="600">
-                </div>
-            </div>
-            <button class="btn" onclick="resizeImage()">Re-render Frame Configuration</button>
-
-            <div id="resizerOutputBlock" class="live-output-block">
-                <label style="color:var(--success)">Resized Configuration (Preview):</label>
-                <img id="resizerFinalPreview" class="live-output-preview" alt="Destination Preview">
-                <button class="btn" style="background:var(--success)" onclick="triggerAssetDownload('resizerFinalPreview', 'resized_image.jpg')">Download Resized Image</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="mergerModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('mergerModal')">×</button>
-            <h2>🥞 Multi-Layer Image Merger</h2>
-            <label>Primary Background Layer</label>
-            <input type="file" id="mergeFile1" accept="image/*" onchange="handleSourceImageFile(this, 'mergerSourcePreview1')">
-            <img id="mergerSourcePreview1" class="live-source-preview" alt="Background Preview">
-            
-            <label>Secondary Content Overlay</label>
-            <input type="file" id="mergeFile2" accept="image/*" onchange="handleSourceImageFile(this, 'mergerSourcePreview2')">
-            <img id="mergerSourcePreview2" class="live-source-preview" alt="Overlay Preview">
-            
-            <label>Structural Axis Alignment</label>
-            <select id="mergeOrientation">
-                <option value="vertical">Stack Vertically (Y-Axis)</option>
-                <option value="horizontal">Stitch Horizontally (X-Axis)</option>
-            </select>
-            <button class="btn" onclick="mergeImages()">Compile Layout Matrix</button>
-
-            <div id="mergerOutputBlock" class="live-output-block">
-                <label style="color:var(--success)">Compiled Matrix (Preview):</label>
-                <img id="mergerFinalPreview" class="live-output-preview" alt="Merged Matrix Preview">
-                <button class="btn" style="background:var(--success)" onclick="triggerAssetDownload('mergerFinalPreview', 'merged_matrix.png')">Download Merged Asset</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="pdfToImgModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('pdfToImgModal')">×</button>
-            <h2>📄 Document-to-Raster Image Extraction</h2>
-            <input type="file" id="pdfFile" accept=".pdf">
-            <button class="btn" onclick="convertPdfToImg()">Deconstruct PDF Elements</button>
-            <div id="pdfOutputArea" style="margin-top:1rem; display:grid; gap:1rem;"></div>
-        </div>
-    </div>
-
-    <div id="textToPdfModal" class="modal-overlay">
-        <div class="modal">
-            <button class="close-modal" onclick="closeModal('textToPdfModal')">×</button>
-            <h2>✍️ Text-to-PDF Core Assembly Engine</h2>
-            <label>Raw Content Payload Data Stream</label>
-            <textarea id="pdfTextContent" rows="6" placeholder="Draft text here to export directly out..."></textarea>
-            <button class="btn" onclick="generatePdfFile()">Compile Artifact and Download</button>
-        </div>
-    </div>
-
-    <script>
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { 
-            document.getElementById(id).style.display = 'none'; 
-            if(id === 'textToVideoModal') { stopAIVideoEngine(); }
+<div class="workspace-container">
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanjay Subedi HyperEngine v4.0 - Cognitive AI Suite & Academic Terminal</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-master: #05060b;
+            --bg-primary: #090b11;
+            --bg-secondary: #111422;
+            --bg-card: #171b2f;
+            --bg-card-hover: #1f253f;
+            --accent-core: #5856d6;
+            --accent-glow: rgba(88, 86, 214, 0.35);
+            --accent-success: #34c759;
+            --accent-danger: #ff3b30;
+            --accent-warning: #ff9500;
+            --accent-info: #007aff;
+            --text-main: #f1f4f9;
+            --text-muted: #868e9e;
+            --text-dark: #4b526d;
+            --border-thin: #222842;
+            --border-bright: #3a436e;
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
         }
 
-        function handleSourceImageFile(inputElement, previewImageId) {
-            const file = inputElement.files[0];
-            const previewEl = document.getElementById(previewImageId);
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewEl.src = e.target.result;
-                    previewEl.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            } else {
-                previewEl.style.display = 'none';
-            }
+        /* Micro Scrollbar Architecture */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-master); }
+        ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-core); }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
-        function triggerAssetDownload(previewImageId, filename) {
-            const previewImg = document.getElementById(previewImageId);
-            if (!previewImg.src || previewImg.src.includes('#') || previewImg.src === "") return;
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.href = previewImg.src;
-            downloadAnchor.download = filename;
-            downloadAnchor.click();
+        body {
+            background-color: var(--bg-master);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2.5rem;
+            overflow-x: hidden;
         }
 
-        function downloadAIAsset(elementId, filename) {
-            triggerAssetDownload(elementId, filename);
+        /* Main Workspace Frame Container */
+        .workspace-container {
+            max-width: 1650px;
+            margin: 0 auto;
         }
 
-        function generateImageSimulation() {
-            let prompt = document.getElementById('imgPrompt').value;
-            let style = document.getElementById('imgStyle').value;
-            if(!prompt) { alert("Please supply text parameters for image generation."); return; }
-            
-            document.getElementById('aiImageOutputBlock').style.display = 'none';
-            let combinedPrompt = `${prompt}, ${style} style, 4k resolution, highly detailed`;
-            let aiUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(combinedPrompt)}?width=600&height=400&nologo=true&seed=${Math.floor(Math.random() * 100000)}`;
-
-            let imgLoader = new Image();
-            imgLoader.crossOrigin = "anonymous";
-            imgLoader.src = aiUrl;
-            
-            imgLoader.onload = function() {
-                let targetPreview = document.getElementById('aiImageFinalPreview');
-                targetPreview.src = aiUrl;
-                document.getElementById('aiImageOutputBlock').style.display = 'block';
-            };
+        /* Premium Workspace Header Dashboard */
+        .app-header {
+            background: linear-gradient(145deg, var(--bg-primary), var(--bg-secondary));
+            border: 1px solid var(--border-thin);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
 
-        // --- DEEP REASONING COGNITIVE TEXT TO VIDEO ENGINE ---
-        let canvasElement = null, canvasCtx = null;
-        let vdoAnimationId = null, vdoIsPlaying = false, vdoCurrentTime = 0.0;
-        const vdoDuration = 10.0;
-        let aiVideoMind = { theme: 'matrix', speed: 1.0, colorScheme: 'classic', density: 40 };
-
-        function stopAIVideoEngine() {
-            vdoIsPlaying = false;
-            if(vdoAnimationId) { cancelAnimationFrame(vdoAnimationId); vdoAnimationId = null; }
-            document.getElementById('vdoPlayPauseBtn').innerText = "▶ PLAY";
+        .app-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(88,86,214,0.08) 0%, transparent 60%);
+            pointer-events: none;
         }
 
-        function toggleVideoPlayback() {
-            if(vdoIsPlaying) { stopAIVideoEngine(); } 
-            else { vdoIsPlaying = true; document.getElementById('vdoPlayPauseBtn').innerText = "⏸ PAUSE"; renderGenerativeVideoTick(); }
+        .header-content {
+            position: relative;
+            z-index: 2;
         }
 
-        function initiateAIVideoSynthesis() {
-            let prompt = document.getElementById('vdoPrompt').value.trim().toLowerCase();
-            if(!prompt) { alert("Please enter architectural prompts to begin parsing loops."); return; }
-
-            stopAIVideoEngine();
-            canvasElement = document.getElementById('generativeVideoCanvas');
-            canvasCtx = canvasElement.getContext('2d');
-            document.getElementById('videoViewport').style.display = 'block';
-            
-            let thoughtBox = document.getElementById('aiThoughtProcess');
-            thoughtBox.style.display = 'block';
-            
-            let badge = document.getElementById('videoStatusBadge');
-            badge.innerText = "LLM Thinking Loop...";
-            badge.style.color = "var(--warning)";
-
-            // Cognitive Context Classification Layers
-            let targetTheme = 'matrix';
-            if(prompt.includes('solar') || prompt.includes('fire') || prompt.includes('nebula') || prompt.includes('space') || prompt.includes('galaxy')) targetTheme = 'nebula';
-            if(prompt.includes('cyber') || prompt.includes('grid') || prompt.includes('wave') || prompt.includes('network') || prompt.includes('lattice')) targetTheme = 'cyber';
-
-            let dynamicSpeed = prompt.includes('fast') || prompt.includes('rapid') || prompt.includes('cruise') ? 2.3 : prompt.includes('slow') || prompt.includes('delayed') ? 0.4 : 1.0;
-            let dynamicColor = prompt.includes('red') || prompt.includes('gold') || prompt.includes('fire') ? 'crimson' : prompt.includes('blue') || prompt.includes('cyan') ? 'cyan' : prompt.includes('yellow') || prompt.includes('amber') ? 'amber' : 'classic';
-            let dynamicDensity = prompt.includes('dense') || prompt.includes('heavy') || prompt.includes('thick') ? 80 : 35;
-
-            aiVideoMind.theme = targetTheme;
-            aiVideoMind.speed = dynamicSpeed;
-            aiVideoMind.colorScheme = dynamicColor;
-            aiVideoMind.density = dynamicDensity;
-
-            thoughtBox.innerText = `> [System Core Info]: Initializing latent translation array...\n` +
-                                   `> [Intent Analysis]: User requested descriptive concept: "${prompt}"\n` +
-                                   `> [1. Atmosphere Domain]: Mapped visual matrix onto structural profile [${targetTheme.toUpperCase()}]\n` +
-                                   `> [2. Motion Dynamics]: Computed speed scale coefficient [${dynamicSpeed}x vector velocity]\n` +
-                                   `> [3. Physics Rendering]: Target palette signature isolated: [Color: ${dynamicColor.toUpperCase()} | Density Multiplier: ${dynamicDensity}]\n` +
-                                   `> [Compilation Status]: Generation engine fully synchronized. Executing native pipeline vectors...`;
-
-            setTimeout(() => {
-                badge.innerText = "Simulation Active";
-                badge.style.color = "var(--success)";
-                vdoCurrentTime = 0.0;
-                vdoIsPlaying = true;
-                document.getElementById('vdoPlayPauseBtn').innerText = "⏸ PAUSE";
-                renderGenerativeVideoTick();
-            }, 1400);
+        .header-tag {
+            display: inline-block;
+            background: rgba(88, 86, 214, 0.15);
+            color: #a5a4ff;
+            border: 1px solid rgba(88, 86, 214, 0.3);
+            padding: 0.35rem 0.9rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
         }
 
-        function renderGenerativeVideoTick() {
-            if(!vdoIsPlaying) return;
-
-            vdoCurrentTime += 0.016; 
-            if(vdoCurrentTime >= vdoDuration) vdoCurrentTime = 0.0; 
-
-            let progressPercent = (vdoCurrentTime / vdoDuration) * 100;
-            document.getElementById('vdoTimelineProgress').style.width = `${progressPercent}%`;
-            document.getElementById('vdoTimecode').innerText = `${vdoCurrentTime.toFixed(1)}s / ${vdoDuration.toFixed(1)}s`;
-
-            canvasCtx.fillStyle = "#030408";
-            canvasCtx.fillRect(0, 0, canvasElement.width, canvasElement.height);
-
-            let timeModifier = vdoCurrentTime * aiVideoMind.speed;
-
-            let colorMap = {
-                classic: { matrix: 'rgba(0, brightness, 70)', nebula: 'rgba(colorShift, 50, 240, 0.4)', cyber: 'rgba(88, 86, 214, 0.3)' },
-                crimson: { matrix: 'rgba(brightness, 10, 20)', nebula: 'rgba(240, colorShift/4, 50, 0.4)', cyber: 'rgba(239, 68, 68, 0.3)' },
-                cyan:    { matrix: 'rgba(10, brightness, brightness)', nebula: 'rgba(50, 180, colorShift, 0.4)', cyber: 'rgba(6, 182, 212, 0.3)' },
-                amber:   { matrix: 'rgba(brightness, brightness*0.7, 10)', nebula: 'rgba(245, colorShift, 10, 0.4)', cyber: 'rgba(245, 158, 11, 0.3)' }
-            };
-            let selection = colorMap[aiVideoMind.colorScheme] || colorMap['classic'];
-
-            if(aiVideoMind.theme === 'matrix') {
-                canvasCtx.font = "11px monospace";
-                let spacing = Math.max(10, 120 - aiVideoMind.density);
-                for(let x = 0; x < canvasElement.width; x += spacing) {
-                    let fallDelta = (Math.sin(x + 40) * 200) + (timeModifier * 260);
-                    let yPos = fallDelta % canvasElement.height;
-                    let brightness = Math.floor((yPos / canvasElement.height) * 255);
-                    
-                    canvasCtx.fillStyle = selection.matrix.replace('brightness', brightness);
-                    let charCode = 33 + Math.floor(Math.sin(x + timeModifier) * 45);
-                    canvasCtx.fillText(String.fromCharCode(charCode), x, yPos);
-                }
-            } 
-            else if(aiVideoMind.theme === 'nebula') {
-                let centerX = canvasElement.width / 2;
-                let centerY = canvasElement.height / 2;
-                for(let i = 0; i < aiVideoMind.density; i++) {
-                    let angle = (i * 0.25) + (timeModifier * 0.18);
-                    let radius = (i * 5 + timeModifier * 45) % 260;
-                    let pX = centerX + Math.cos(angle) * radius;
-                    let pY = centerY + Math.sin(angle) * radius;
-                    let size = 5 + (radius * 0.07);
-                    
-                    let grad = canvasCtx.createRadialGradient(pX, pY, 0, pX, pY, size);
-                    let colorShift = Math.floor(Math.sin(timeModifier + i) * 60) + 170;
-                    
-                    grad.addColorStop(0, selection.nebula.replace('colorShift', colorShift));
-                    grad.addColorStop(1, 'transparent');
-                    
-                    canvasCtx.fillStyle = grad;
-                    canvasCtx.beginPath(); canvasCtx.arc(pX, pY, size, 0, Math.PI * 2); canvasCtx.fill();
-                }
-            } 
-            else if(aiVideoMind.theme === 'cyber') {
-                canvasCtx.strokeStyle = selection.cyber;
-                canvasCtx.lineWidth = 1.5;
-                let gridGap = Math.max(15, 75 - aiVideoMind.density);
-                for(let l = 0; l < canvasElement.height; l += gridGap) {
-                    let waveOffset = Math.sin((l * 0.04) + timeModifier) * 40;
-                    canvasCtx.beginPath();
-                    canvasCtx.moveTo(0, l + waveOffset);
-                    canvasCtx.lineTo(canvasElement.width, l - waveOffset);
-                    canvasCtx.stroke();
-                }
-            }
-
-            vdoAnimationId = requestAnimationFrame(renderGenerativeVideoTick);
+        .app-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 30%, #a3a2ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
         }
 
-        // --- FOCUS AUDIO ENGINE ---
-        let audioCtx = null, noiseNode = null;
-        function startFocusAudio() {
-            if(audioCtx) return;
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            let bufferSize = 2 * audioCtx.sampleRate, noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate), output = noiseBuffer.getChannelData(0);
-            let type = document.getElementById('noiseType').value;
-
-            if(type === 'brownian') {
-                let lastOut = 0.0;
-                for (let i = 0; i < bufferSize; i++) {
-                    let white = Math.random() * 2 - 1;
-                    output[i] = (lastOut + (0.02 * white)) / 1.02;
-                    lastOut = output[i];
-                    output[i] *= 3.5; 
-                }
-            } else { 
-                for (let i = 0; i < bufferSize; i++) {
-                    output[i] = Math.sin(2 * Math.PI * 10 * (i / audioCtx.sampleRate)) * 0.2;
-                }
-            }
-            
-            noiseNode = audioCtx.createBufferSource();
-            noiseNode.buffer = noiseBuffer;
-            noiseNode.loop = true;
-            noiseNode.connect(audioCtx.destination);
-            noiseNode.start();
-        }
-        function stopFocusAudio() {
-            if(noiseNode) { try { noiseNode.stop(); } catch(e){} noiseNode.disconnect(); }
-            if(audioCtx) { audioCtx.close(); }
-            audioCtx = null; noiseNode = null;
+        .app-subtitle {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 800px;
         }
 
-        // --- TASK BOARD AGGREGATOR ---
-        let taskMatrix = [];
-        function addTaskItem() {
-            let n = document.getElementById('taskName').value.trim();
-            let p = document.getElementById('taskPriority').value;
-            if(!n) return;
-            taskMatrix.push({id: Date.now(), title: n, priority: p});
-            document.getElementById('taskName').value = '';
-            renderTaskDashboard();
-        }
-        function deleteTask(id) { taskMatrix = taskMatrix.filter(t => t.id !== id); renderTaskDashboard(); }
-        function renderTaskDashboard() {
-            let target = document.getElementById('taskListContainer');
-            target.innerHTML = '';
-            taskMatrix.forEach(t => {
-                let row = document.createElement('div');
-                row.style = "display:flex; justify-content:space-between; align-items:center; background:var(--bg-primary); padding:0.6rem 1rem; border-radius:6px; margin-bottom:0.4rem; border-left:4px solid var(--accent);";
-                row.innerHTML = `<div><span style="font-size:0.8rem; background:#22263f; padding:2px 6px; border-radius:4px; margin-right:0.5rem;">${t.priority}</span> ${t.title}</div><button onclick="deleteTask(${t.id})" style="background:none; border:none; color:var(--danger); cursor:pointer; font-weight:bold;">✕</button>`;
-                target.appendChild(row);
-            });
+        /* Grid Categories Hierarchy */
+        .section-separator {
+            margin: 3.5rem auto 1.5rem auto;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
-        // --- POMODORO METRICS LOOP ---
-        let timer, timeRemaining, isRunning = false, activeState = "focus";
-        function startTimer() {
-            if (isRunning) return;
-            isRunning = true;
-            if (!timeRemaining) timeRemaining = (parseInt(document.getElementById('focusTime').value) || 25) * 60;
-            document.getElementById('pomodoroStatus').innerText = `Status: In ${activeState.toUpperCase()} Block`;
-            timer = setInterval(() => {
-                if (timeRemaining > 0) {
-                    timeRemaining--;
-                    let mins = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
-                    let secs = (timeRemaining % 60).toString().padStart(2, '0');
-                    document.getElementById('timerDisplay').innerText = `${mins}:${secs}`;
-                } else {
-                    clearInterval(timer);
-                    isRunning = false;
-                    if(activeState === "focus") {
-                        activeState = "break";
-                        timeRemaining = (parseInt(document.getElementById('breakTime').value) || 5) * 60;
-                        alert("Focus block elapsed!");
-                        startTimer();
-                    } else {
-                        activeState = "focus";
-                        timeRemaining = (parseInt(document.getElementById('focusTime').value) || 25) * 60;
-                        alert("Break completed.");
-                        startTimer();
-                    }
-                }
-            }, 1000);
-        }
-        function pauseTimer() { clearInterval(timer); isRunning = false; document.getElementById('pomodoroStatus').innerText = "Status: Paused"; }
-        function resetTimer() { clearInterval(timer); isRunning = false; activeState = "focus"; timeRemaining = (parseInt(document.getElementById('focusTime').value) || 25) * 60; document.getElementById('timerDisplay').innerText = `${document.getElementById('focusTime').value.toString().padStart(2, '0')}:00`; document.getElementById('pomodoroStatus').innerText = "Status: Idle"; }
-
-        // --- FLASHCARD REVIEW FRAMEWORK ---
-        let flashcards = [], idx = 0, scoreCorrect = 0, scoreTotal = 0;
-        function addFlashcard() {
-            let f = document.getElementById('fcFront').value.trim();
-            let b = document.getElementById('fcBack').value.trim();
-            if (f && b) {
-                flashcards.push({front: f, back: b});
-                document.getElementById('fcFront').value = '';
-                document.getElementById('fcBack').value = '';
-                idx = flashcards.length - 1;
-                updateFlashcardEngine();
-            }
-        }
-        function updateFlashcardEngine() {
-            if(flashcards.length === 0) return;
-            document.getElementById('fcScoreBoard').innerText = `Deck Size: ${flashcards.length} | Frame: #${idx + 1} | Score: ${scoreCorrect}/${scoreTotal}`;
-            document.getElementById('cardViewer').classList.remove('flipped');
-            document.getElementById('viewFront').innerText = flashcards[idx].front;
-            document.getElementById('viewBack').innerText = flashcards[idx].back;
-        }
-        function logCardScore(known) {
-            if(flashcards.length === 0) return;
-            scoreTotal++;
-            if(known) scoreCorrect++;
-            if(idx < flashcards.length - 1) { nextCard(); } else { updateFlashcardEngine(); }
-        }
-        function nextCard() { if(idx < flashcards.length - 1) { idx++; updateFlashcardEngine(); } }
-        function prevCard() { if(idx > 0) { idx--; updateFlashcardEngine(); } }
-        function shuffleCards() { if(flashcards.length < 2) return; flashcards.sort(() => Math.random() - 0.5); idx = 0; updateFlashcardEngine(); }
-
-        // --- SYSTEM GPA CALCULATOR ---
-        function addGpaRow() {
-            let container = document.getElementById('gpaRows');
-            let div = document.createElement('div');
-            div.style = "display:flex; gap:0.5rem; margin-bottom:0.5rem;";
-            div.innerHTML = `<input type="text" placeholder="Course Name" style="margin:0;"><input type="number" placeholder="Credits" class="gpa-credit" style="margin:0;" min="1"><select class="gpa-grade" style="margin:0;"><option value="4.0">A (4.0)</option><option value="3.5">B+ (3.5)</option><option value="3.0">B (3.0)</option><option value="2.5">C+ (2.5)</option><option value="2.0">C (2.0)</option><option value="0.0">F (0.0)</option></select>`;
-            container.appendChild(div);
-        }
-        function calculateGPA() {
-            let credits = document.querySelectorAll('.gpa-credit'), grades = document.querySelectorAll('.gpa-grade'), totalPoints = 0, totalCredits = 0;
-            for(let i=0; i<credits.length; i++) {
-                let c = parseFloat(credits[i].value), g = parseFloat(grades[i].value);
-                if(!isNaN(c) && c > 0) { totalPoints += (c * g); totalCredits += c; }
-            }
-            let res = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
-            document.getElementById('gpaOutput').innerHTML = `<b>Cumulative Grade Result:</b> ${res} GPA across ${totalCredits} credits.`;
+        .separator-title {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        // --- MARKDOWN LABORATORY ---
-        function liveRenderNotes() {
-            let src = document.getElementById('noteInput').value;
-            let target = document.getElementById('notePreview');
-            let words = src.trim() === "" ? 0 : src.trim().split(/\s+/).length;
-            document.getElementById('noteWordCount').innerText = `Metrics: ${words} Words | ${src.length} Characters`;
-            target.innerHTML = src.replace(/^# (.*$)/gim, '<h1>$1</h1>').replace(/^## (.*$)/gim, '<h2>$1</h2>').replace(/^\* (.*$)/gim, '<ul><li>$1</li></ul>').replace(/\*\*(.*)\*\*/gim, '<b>$1</b>');
-        }
-        function downloadNotes() {
-            let content = document.getElementById('noteInput').value;
-            let blob = new Blob([content], {type: "text/plain;charset=utf-8"}), link = document.createElement("a");
-            link.href = URL.createObjectURL(blob); link.download = "AcademicNotes.md"; link.click();
+        .separator-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border-thin), transparent);
         }
 
-        // --- PASSWORD PIPELINE ---
-        function generatePassword() {
-            let len = parseInt(document.getElementById('passLength').value) || 16, upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", lower = "abcdefghijklmnopqrstuvwxyz", num = "0123456789", sym = "!@#$%^&*()_+~";
-            let pool = "";
-            if(document.getElementById('passUpper').checked) pool += upper;
-            if(document.getElementById('passLower').checked) pool += lower;
-            if(document.getElementById('passNum').checked) pool += num;
-            if(document.getElementById('passSym').checked) pool += sym;
-            if(!pool) { document.getElementById('passOutput').innerText = "Select at least one layer."; return; }
-            let pass = "";
-            for (let i = 0; i < len; i++) pass += pool.charAt(Math.floor(Math.random() * pool.length));
-            document.getElementById('passOutput').innerText = pass;
+        /* Matrix Core Grid */
+        .system-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
 
-        // --- BASE64 PARSER ---
-        function processBase64(encode) {
-            let input = document.getElementById('b64Input').value;
-            try { document.getElementById('b64Output').innerText = encode ? btoa(input) : atob(input); } 
-            catch(e) { document.getElementById('b64Output').innerText = "Invalid formatting properties."; }
+        /* Premium Dashboard Cards */
+        .functional-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-thin);
+            border-radius: var(--radius-md);
+            padding: 2.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        // --- CANVAS RENDER RESIZER ---
-        function resizeImage() {
-            let fileInput = document.getElementById('resizeFile').files[0], w = parseInt(document.getElementById('resizeWidth').value), h = parseInt(document.getElementById('resizeHeight').value);
-            if (!fileInput) { alert("Please select a file first."); return; }
-            let img = new Image(); img.src = URL.createObjectURL(fileInput);
-            img.onload = function() {
-                let canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
-                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-                let targetPreview = document.getElementById('resizerFinalPreview');
-                targetPreview.src = canvas.toDataURL('image/jpeg');
-                document.getElementById('resizerOutputBlock').style.display = 'block';
-            }
+        .functional-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--border-bright);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3), 0 0 20px rgba(88,86,214,0.1);
         }
 
-        // --- IMAGE LAYER MERGER ---
-        function mergeImages() {
-            let f1 = document.getElementById('mergeFile1').files[0], f2 = document.getElementById('mergeFile2').files[0], orient = document.getElementById('mergeOrientation').value;
-            if(!f1 || !f2) { alert("Please upload both active layers."); return; }
-            let img1 = new Image(), img2 = new Image();
-            img1.src = URL.createObjectURL(f1);
-            img1.onload = () => {
-                img2.src = URL.createObjectURL(f2);
-                img2.onload = () => {
-                    let canvas = document.createElement('canvas');
-                    canvas.width = orient === 'vertical' ? Math.max(img1.width, img2.width) : img1.width + img2.width;
-                    canvas.height = orient === 'vertical' ? img1.height + img2.height : Math.max(img1.height, img2.height);
-                    let ctx = canvas.getContext('2d'); ctx.drawImage(img1, 0, 0);
-                    if(orient === 'vertical') ctx.drawImage(img2, 0, img1.height); else ctx.drawImage(img2, img1.width, 0);
-                    let targetPreview = document.getElementById('mergerFinalPreview');
-                    targetPreview.src = canvas.toDataURL('image/png');
-                    document.getElementById('mergerOutputBlock').style.display = 'block';
-                }
-            }
+        .functional-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--radius-md);
+            box-shadow: inset 0 0 15px rgba(255,255,255,0.02);
+            pointer-events: none;
         }
 
-        // --- PDF EXTRACTOR ---
-        function convertPdfToImg() {
-            let file = document.getElementById('pdfFile').files[0];
-            if (!file) return;
-            let fileReader = new FileReader();
-            fileReader.onload = function () {
-                let typedarray = new Uint8Array(this.result);
-                pdfjsLib.getDocument(typedarray).promise.then(pdf => {
-                    let outArea = document.getElementById('pdfOutputArea'); outArea.innerHTML = "";
-                    for (let i = 1; i <= pdf.numPages; i++) {
-                        pdf.getPage(i).then(page => {
-                            let viewport = page.getViewport({ scale: 1.5 });
-                            let canvas = document.createElement('canvas');
-                            canvas.height = viewport.height; canvas.width = viewport.width;
-                            page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise.then(() => {
-                                let rasterData = canvas.toDataURL('image/png');
-                                let blockWrapper = document.createElement('div');
-                                blockWrapper.className = 'live-output-block'; blockWrapper.style.display = 'block';
-                                let label = document.createElement('label'); label.innerText = `Extracted Page #${i}:`; label.style.color = 'var(--info)';
-                                let outputImg = new Image(); outputImg.src = rasterData; outputImg.className = 'live-output-preview';
-                                let downloadBtn = document.createElement('button'); downloadBtn.className = 'btn'; downloadBtn.style.background = 'var(--info)'; downloadBtn.innerText = `Download Page #${i}`;
-                                downloadBtn.onclick = function () {
-                                    let hiddenAnchor = document.createElement('a'); hiddenAnchor.href = rasterData; hiddenAnchor.download = `page_${i}.png`; hiddenAnchor.click();
-                                };
-                                blockWrapper.appendChild(label); blockWrapper.appendChild(outputImg); blockWrapper.appendChild(downloadBtn); outArea.appendChild(blockWrapper);
-                            });
-                        });
-                    }
-                });
-            };
-            fileReader.readAsArrayBuffer(file);
+        .card-header-zone {
+            margin-bottom: 2rem;
         }
 
-        // --- VECTOR PDF WRITER ---
-        function generatePdfFile() {
-            const { jsPDF } = window.jspdf;
-            let doc = new jsPDF();
-            let txt = document.getElementById('pdfTextContent').value;
-            if (!txt) return;
-            let splitText = doc.splitTextToSize(txt, 180), pageHeight = doc.internal.pageSize.height, y = 10, lineHeight = 7;
-            for (let i = 0; i < splitText.length; i++) {
-                if (y + lineHeight > pageHeight - 10) { doc.addPage(); y = 10; }
-                doc.text(splitText[i], 10, y); y += lineHeight;
-            }
-            doc.save('Compiled_Document.pdf');
+        .card-icon-badge {
+            width: 48px;
+            height: 48px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-thin);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            transition: all 0.3s ease;
         }
-    </script>
-</body>
-</html>
+
+        .functional-card:hover .card-icon-badge {
+            background: var(--accent-core);
+            border-color: transparent;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .card-headline {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.6rem;
+        }
+
+        .card-description {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            line-height: 1.5;
+        }
+
+        /* Form Controls UI elements */
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="password"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.95rem 1.2rem;
+            background-color: var(--bg-master);
+            border: 1px solid var(--border-bright);
+            color: var(--text-main);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-core);
+            box-shadow: 0 0 10px rgba(88,86,214,0.2);
+        }
+
+        .checkbox-flex-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .custom-checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            user-select: none;
+            padding: 0.6rem;
+            background: var(--bg-master);
+            border: 1px solid var(--border-thin);
+            border-radius: var(--radius-sm);
+        }
+
+        .custom-checkbox-wrapper input {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-core);
+        }
+
+        /* Structural Button Matrix */
+        .action-button {
+            background: var(--accent-core);
+            color: #ffffff;
+            border: none;
+            padding: 0.9rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .action-button:hover {
+            background: #4341b7;
+            box-shadow: 0 0 20px rgba(88,86,214,0.4);
+        }
+
+        .action-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Overlays & Modals Framework */
+        .modal-overlay-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(3, 4, 7, 0.9);
+            backdrop-filter: blur(12px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 5000;
+            padding: 2rem;
+            animation: fadeIn 0.25s ease forwards;
+        }
+
+        .modal-window-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-bright);
+            border-radius: var(--radius-lg);
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 3rem;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            animation: slideUp 0.3s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+        }
+
+        .modal-dismiss-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-thin);
+            color: var(--text-muted);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-dismiss-btn:hover {
+            background: var(--accent-danger);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        /* Generic Framework Components */
+        .output-terminal-display {
+            background: var(--bg-master);
+            border: 1px solid var(--border-thin);
+            border-radius: var(--radius-sm);
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: #d1d9e6;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        /* Flashcard Physical Dynamics */
+        .flashcard-viewport {
+            perspective: 1200px;
+            height: 240px;
+            margin: 2rem 0;
+            cursor: pointer;
+        }
+
+        .flashcard-flipper-core {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flashcard-viewport.is-flipped .flashcard-flipper-core {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-surface-front, .flashcard-surface-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-md);
+            padding: 2.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .flashcard-surface-front {
+            background: linear-gradient(135deg, var(--accent-core) 0%, #3b3994 100%);
+            color: #ffffff;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .flashcard-surface-back {
+            background: var(--bg-secondary);
+            color: var(--text-main);
+            transform: rotateY(180deg);
+            border: 1px solid var(--border-bright);
+        }
+
+        .card-surface-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 1rem;
+        }
+
+        /* Advanced Cognitive Video Canvas Interface Styles */
+        .video-player-frame {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #020204;
+            border-radius: var(--radius-md);
+            margin-top: 1.5rem;
+            overflow: hidden;
+            border: 1px solid var(--border-bright);
+        }
+
+        #generativeVideoCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .hud-control-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(3,4,7,0.95) 0%, rgba(3,4,7,0.7) 70%, transparent 100%);
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 20;
+        }
+
+        .hud-scrubber-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(255,255,255,0.15);
+            margin: 0 1.25rem;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .hud-scrubber-bar:hover { height: 8px; }
+
+        .hud-scrubber-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0%;
+            background: var(--accent-core);
+            border-radius: 10px;
+            box-shadow: 0 0 8px var(--accent-core);
+        }
+
+        .hud-status-capsule {
+            position: absolute;
+            top: 1.25rem;
+            left: 1.25rem;
+            background: rgba(9, 11, 17, 0.85);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            border: 1px solid var(--border-bright);
+            backdrop-filter: blur(8px);
+            z-index: 20;
+        }
+
+        /* Cognitive Reflection Interface Module */
+        .cognitive-thought-box {
+            background: rgba(88, 86, 214, 0.05);
+            border: 1px solid rgba(88, 86, 214, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 1.5rem;
+            margin-top: 1rem;
+            font-size: 0.88rem;
+            font-family: var(--font-mono);
+            color: #9ba5df;
+            display: none;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            border-left: 4px solid var(--accent-core);
+        }
+
+        /* File Resource Layout Forms */
+        .live-resource-view-canvas {
+            width: 100%;
+            max-height: 180px;
+            object-fit: contain;
+            background: #030407;
+            border-radius: var(--radius-sm);
+            border: 1px dashed var(--border-bright);
+            margin: 0.75rem 0;
+            display: none;
+        }
+
+        .processing-result-block {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-core);
+            border-radius: var(--radius-md);
+            background: #0d0f1a;
+            display: none;
+        }
+
+        .processing-result-preview {
+            width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            background: #000000;
+            border-radius: var(--radius-sm);
+            margin-bottom: 1.25rem;
+            border: 1px solid var(--border-thin);
+        }
+
+        /* Animations Framework */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    </style>
+</head>
+<body>
+<div class="workspace-container">
