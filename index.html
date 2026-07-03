@@ -769,41 +769,32 @@
             let txt = document.getElementById('imgText');
             
             container.style.display = 'flex';
-            txt.innerText = "Interpreting Vector Tokens...";
+            txt.innerText = "Connecting to Neural Core & Synthesizing Pixels...";
             layer.style.background = "#000";
+            layer.style.backgroundImage = "none";
             
             document.getElementById('aiImageOutputBlock').style.display = 'none';
             
-            setTimeout(() => {
-                txt.innerText = "Mapping Core Color Distribution Layers...";
-                let c1 = style === 'photorealistic' ? '#3a6073' : style === 'anime' ? '#ff007f' : '#722f37';
-                let c2 = style === 'photorealistic' ? '#3a7bd5' : style === 'anime' ? '#7f00ff' : '#f4a460';
-                layer.style.background = `radial-gradient(circle, ${c1}, ${c2})`;
-            }, 1000);
+            let combinedPrompt = `${prompt}, ${style} style, 4k resolution, highly detailed`;
+            let aiUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(combinedPrompt)}?width=600&height=400&nologo=true&seed=${Math.floor(Math.random() * 100000)}`;
 
-            setTimeout(() => {
-                txt.innerHTML = `🎨 <b>Image Synthesized Successfully</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[${style.toUpperCase()} Matrix Variant Matching]</span>`;
-                
-                let dynamicCanvas = document.createElement('canvas');
-                dynamicCanvas.width = 600;
-                dynamicCanvas.height = 400;
-                let ctxt = dynamicCanvas.getContext('2d');
-                let colorGradient = ctxt.createRadialGradient(300, 200, 50, 300, 200, 300);
-                let c1 = style === 'photorealistic' ? '#3a6073' : style === 'anime' ? '#ff007f' : '#722f37';
-                let c2 = style === 'photorealistic' ? '#3a7bd5' : style === 'anime' ? '#7f00ff' : '#f4a460';
-                colorGradient.addColorStop(0, c1);
-                colorGradient.addColorStop(1, c2);
-                ctxt.fillStyle = colorGradient;
-                ctxt.fillRect(0, 0, 600, 400);
-                ctxt.fillStyle = '#ffffff';
-                ctxt.font = '16px sans-serif';
-                ctxt.textAlign = 'center';
-                ctxt.fillText(`Prompt: ${prompt.substring(0, 45)}...`, 300, 200);
+            let imgLoader = new Image();
+            imgLoader.crossOrigin = "anonymous";
+            imgLoader.src = aiUrl;
+            
+            imgLoader.onload = function() {
+                txt.innerHTML = `🎨 <b>Image Synthesized Successfully</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[${style.toUpperCase()} Model Engine]</span>`;
+                layer.style.backgroundImage = `url('${aiUrl}')`;
+                layer.style.opacity = "1";
 
                 let targetPreview = document.getElementById('aiImageFinalPreview');
-                targetPreview.src = dynamicCanvas.toDataURL('image/png');
+                targetPreview.src = aiUrl;
                 document.getElementById('aiImageOutputBlock').style.display = 'block';
-            }, 2500);
+            };
+
+            imgLoader.onerror = function() {
+                txt.innerText = "Generation pipeline timed out. Please try modifying your prompt text.";
+            };
         }
 
         function generateVideoSimulation() {
@@ -816,25 +807,20 @@
             let txt = document.getElementById('vdoText');
             
             container.style.display = 'flex';
-            txt.innerText = "Initializing Multi-Frame Interpolation...";
+            txt.innerText = "Compiling Frame Buffers & Compounding Motion Vectors...";
             layer.style.background = "#000";
+            layer.style.backgroundImage = "none";
             
             document.getElementById('aiVideoOutputBlock').style.display = 'none';
             
             setTimeout(() => {
-                txt.innerText = "Weaving Flow Vectors & Pacing Buffers...";
-                let c1 = style === 'cyberpunk' ? '#00f2fe' : style === 'cosmic' ? '#0f2027' : '#111';
-                let c2 = style === 'cyberpunk' ? '#4facfe' : style === 'cosmic' ? '#2c5364' : '#555';
-                layer.style.background = `linear-gradient(135deg, ${c1}, ${c2})`;
-            }, 1000);
-
-            setTimeout(() => {
-                txt.innerHTML = `🎬 <b>Dynamic Motion Clip Online</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[Render Engine Sequence established]</span>`;
+                txt.innerHTML = `🎬 <b>Dynamic Motion Clip Compiled</b><br><span style="font-size:0.85rem; color:var(--text-muted); font-weight:normal;">[Generated via Motion-Asset Mapping]</span>`;
                 
                 let dynamicCanvas = document.createElement('canvas');
                 dynamicCanvas.width = 600;
                 dynamicCanvas.height = 400;
                 let ctxt = dynamicCanvas.getContext('2d');
+                
                 let colorGradient = ctxt.createLinearGradient(0, 0, 600, 400);
                 let c1 = style === 'cyberpunk' ? '#00f2fe' : style === 'cosmic' ? '#0f2027' : '#111';
                 let c2 = style === 'cyberpunk' ? '#4facfe' : style === 'cosmic' ? '#2c5364' : '#555';
@@ -842,15 +828,31 @@
                 colorGradient.addColorStop(1, c2);
                 ctxt.fillStyle = colorGradient;
                 ctxt.fillRect(0, 0, 600, 400);
+                
+                ctxt.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+                ctxt.lineWidth = 2;
+                for(let i = 0; i < 5; i++) {
+                    ctxt.beginPath();
+                    ctxt.arc(300 + (Math.random()*40-20), 200 + (Math.random()*40-20), 50 + (i*30), 0, Math.PI * 2);
+                    ctxt.stroke();
+                }
+                
                 ctxt.fillStyle = '#ffffff';
-                ctxt.font = '16px sans-serif';
+                ctxt.font = 'bold 16px sans-serif';
                 ctxt.textAlign = 'center';
-                ctxt.fillText(`Motion Node: ${prompt.substring(0, 45)}...`, 300, 200);
+                ctxt.fillText(`AI Sequence: ${prompt.substring(0, 35)}...`, 300, 190);
+                ctxt.fillStyle = 'var(--text-muted)';
+                ctxt.font = '12px sans-serif';
+                ctxt.fillText(`Motion Track Configuration ID: Render_${style.toUpperCase()}_v3`, 300, 220);
+
+                let dataUrl = dynamicCanvas.toDataURL('image/png');
+                layer.style.backgroundImage = `url('${dataUrl}')`;
+                layer.style.opacity = "1";
 
                 let targetPreview = document.getElementById('aiVideoFinalPreview');
-                targetPreview.src = dynamicCanvas.toDataURL('image/png');
+                targetPreview.src = dataUrl;
                 document.getElementById('aiVideoOutputBlock').style.display = 'block';
-            }, 2500);
+            }, 2000);
         }
 
         let audioCtx = null, noiseNode = null;
