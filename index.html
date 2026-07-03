@@ -748,7 +748,7 @@
 
         function triggerAssetDownload(previewImageId, filename) {
             const previewImg = document.getElementById(previewImageId);
-            if (!previewImg.src || previewImg.src.includes('#')) return;
+            if (!previewImg.src || previewImg.src.includes('#') || previewImg.src === "") return;
             const downloadAnchor = document.createElement('a');
             downloadAnchor.href = previewImg.src;
             downloadAnchor.download = filename;
@@ -881,14 +881,14 @@
             noiseNode.start();
         }
         function stopFocusAudio() {
-            if(noiseNode) { noiseNode.stop(); noiseNode.disconnect(); }
+            if(noiseNode) { try { noiseNode.stop(); } catch(e){} noiseNode.disconnect(); }
             if(audioCtx) { audioCtx.close(); }
             audioCtx = null; noiseNode = null;
         }
 
         let taskMatrix = [];
         function addTaskItem() {
-            let n = document.getElementById('taskName').value;
+            let n = document.getElementById('taskName').value.trim();
             let p = document.getElementById('taskPriority').value;
             if(!n) return;
             taskMatrix.push({id: Date.now(), title: n, priority: p});
@@ -938,12 +938,12 @@
             }, 1000);
         }
         function pauseTimer() { clearInterval(timer); isRunning = false; document.getElementById('pomodoroStatus').innerText = "Status: Paused"; }
-        function resetTimer() { clearInterval(timer); isRunning = false; activeState = "focus"; timeRemaining = (parseInt(document.getElementById('focusTime').value) || 25) * 60; document.getElementById('timerDisplay').innerText = `${document.getElementById('focusTime').value.padStart(2, '0')}:00`; document.getElementById('pomodoroStatus').innerText = "Status: Idle"; }
+        function resetTimer() { clearInterval(timer); isRunning = false; activeState = "focus"; timeRemaining = (parseInt(document.getElementById('focusTime').value) || 25) * 60; document.getElementById('timerDisplay').innerText = `${document.getElementById('focusTime').value.toString().padStart(2, '0')}:00`; document.getElementById('pomodoroStatus').innerText = "Status: Idle"; }
 
         let flashcards = [], idx = 0, scoreCorrect = 0, scoreTotal = 0;
         function addFlashcard() {
-            let f = document.getElementById('fcFront').value;
-            let b = document.getElementById('fcBack').value;
+            let f = document.getElementById('fcFront').value.trim();
+            let b = document.getElementById('fcBack').value.trim();
             if (f && b) {
                 flashcards.push({front: f, back: b});
                 document.getElementById('fcFront').value = '';
@@ -963,7 +963,11 @@
             if(flashcards.length === 0) return;
             scoreTotal++;
             if(known) scoreCorrect++;
-            nextCard();
+            if(idx < flashcards.length - 1) {
+                nextCard();
+            } else {
+                updateFlashcardEngine();
+            }
         }
         function nextCard() { if(idx < flashcards.length - 1) { idx++; updateFlashcardEngine(); } }
         function prevCard() { if(idx > 0) { idx--; updateFlashcardEngine(); } }
@@ -976,7 +980,7 @@
             let container = document.getElementById('gpaRows');
             let div = document.createElement('div');
             div.style = "display:flex; gap:0.5rem; margin-bottom:0.5rem;";
-            div.innerHTML = `<input type="text" placeholder="Course Structure Name" style="margin:0;"><input type="number" placeholder="Credits" class="gpa-credit" style="margin:0;"><select class="gpa-grade" style="margin:0;"><option value="4.0">A (4.0)</option><option value="3.5">B+ (3.5)</option><option value="3.0">B (3.0)</option><option value="2.5">C+ (2.5)</option><option value="2.0">C (2.0)</option><option value="0.0">F (0.0)</option></select>`;
+            div.innerHTML = `<input type="text" placeholder="Course Structure Name" style="margin:0;"><input type="number" placeholder="Credits" class="gpa-credit" style="margin:0;" min="1"><select class="gpa-grade" style="margin:0;"><option value="4.0">A (4.0)</option><option value="3.5">B+ (3.5)</option><option value="3.0">B (3.0)</option><option value="2.5">C+ (2.5)</option><option value="2.0">C (2.0)</option><option value="0.0">F (0.0)</option></select>`;
             container.appendChild(div);
         }
         function calculateGPA() {
@@ -1060,20 +1064,28 @@
         }
 
         function convertPdfToImg() {
-            let file = document.getElementById('pdfFile').files[0]; if(!file) return;
+            let file = document.getElementById('pdfFile').files[0];
+            if (!file) return;
+
             let fileReader = new FileReader();
-            fileReader.onload = function() {
+            fileReader.onload = function () {
                 let typedarray = new Uint8Array(this.result);
                 pdfjsLib.getDocument(typedarray).promise.then(pdf => {
-                    let outArea = document.getElementById('pdfOutputArea'); outArea.innerHTML = "";
-                    let maxPages = Math.min(pdf.numPages, 3);
-                    for(let i=1; i<=maxPages; i++) {
+                    let outArea = document.getElementById('pdfOutputArea');
+                    outArea.innerHTML = "";
+                    
+                    for (let i = 1; i <= pdf.numPages; i++) {
                         pdf.getPage(i).then(page => {
-                            let viewport = page.getViewport({scale: 1.2}), canvas = document.createElement('canvas');
-                            canvas.height = viewport.height; canvas.width = viewport.width;
-                            page.render({canvasContext: canvas.getContext('2d'), viewport: viewport}).promise.then(() => {
+                            let viewport = page.getViewport({ scale: 1.5 });
+                            let canvas = document.createElement('canvas');
+                            canvas.height = viewport.height;
+                            canvas.width = viewport.width;
+                            
+                            page.render({ 
+                                canvasContext: canvas.getContext('2d'), 
+                                viewport: viewport 
+                            }).promise.then(() => {
                                 let rasterData = canvas.toDataURL('image/png');
-                                
                                 let blockWrapper = document.createElement('div');
                                 blockWrapper.className = 'live-output-block';
                                 blockWrapper.style.display = 'block';
@@ -1082,7 +1094,7 @@
                                 label.innerText = `Extracted Layer Frame Page #${i}:`;
                                 label.style.color = 'var(--info)';
                                 
-                                let outputImg = new Image(); 
+                                let outputImg = new Image();
                                 outputImg.src = rasterData;
                                 outputImg.className = 'live-output-preview';
                                 
@@ -1090,13 +1102,13 @@
                                 downloadBtn.className = 'btn';
                                 downloadBtn.style.background = 'var(--info)';
                                 downloadBtn.innerText = `Download Page Layer Data #${i}`;
-                                downloadBtn.onclick = function() {
+                                downloadBtn.onclick = function () {
                                     let hiddenAnchor = document.createElement('a');
                                     hiddenAnchor.href = rasterData;
                                     hiddenAnchor.download = `pdf_extracted_page_${i}.png`;
                                     hiddenAnchor.click();
                                 };
-
+                                
                                 blockWrapper.appendChild(label);
                                 blockWrapper.appendChild(outputImg);
                                 blockWrapper.appendChild(downloadBtn);
@@ -1110,9 +1122,25 @@
         }
 
         function generatePdfFile() {
-            const { jsPDF } = window.jspdf; let doc = new jsPDF(), txt = document.getElementById('pdfTextContent').value;
-            if(!txt) return;
-            let splitText = doc.splitTextToSize(txt, 180); doc.text(splitText, 10, 10);
+            const { jsPDF } = window.jspdf;
+            let doc = new jsPDF();
+            let txt = document.getElementById('pdfTextContent').value;
+            if (!txt) return;
+
+            let splitText = doc.splitTextToSize(txt, 180);
+            let pageHeight = doc.internal.pageSize.height;
+            let y = 10; 
+            let lineHeight = 7; 
+
+            for (let i = 0; i < splitText.length; i++) {
+                if (y + lineHeight > pageHeight - 10) {
+                    doc.addPage();
+                    y = 10; 
+                }
+                doc.text(splitText[i], 10, y);
+                y += lineHeight;
+            }
+
             doc.save('Compiled_System_Report.pdf');
         }
     </script>
