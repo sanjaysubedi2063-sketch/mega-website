@@ -557,562 +557,1436 @@
 </head>
 <body>
 <div class="workspace-container">
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanjay Subedi HyperEngine v4.0 - Cognitive AI Suite & Academic Terminal</title>
+
+
+<header class="app-header">
+        <div class="header-content">
+            <span class="header-tag">Enterprise Deployment Suite</span>
+            <h1 class="app-title">Sanjay Subedi HyperEngine v4.0</h1>
+            <p class="app-subtitle">A high-performance monolithic ecosystem compiling client-side cognitive AI synthesis tools, high-accuracy document engines, and responsive academic management sandboxes.</p>
+        </div>
+    </header>
+
+    <div class="section-separator">
+        <div class="separator-title">🤖 Cognitive Neuro-Simulators & Graphic Systems</div>
+        <div class="separator-line"></div>
+    </div>
+
+    <div class="system-grid">
+        <div class="functional-card" style="border-top: 3px solid #a356ff;">
+            <div class="card-header-zone">
+                <div class="card-icon-badge">🎬</div>
+                <h3 class="card-headline">Cognitive Text to Video AI</h3>
+                <p class="card-description">Deconstructs abstract natural sentences using a complex context tokenization matrix to direct physics-bound continuous vector canvas arrays.</p>
+            </div>
+            <button class="action-button" style="background: #a356ff;" onclick="openApplicationModal('cognitiveVideoModal')">Deploy Video Engine</button>
+        </div>
+
+        <div class="functional-card" style="border-top: 3px solid #a356ff;">
+            <div class="card-header-zone">
+                <div class="card-icon-badge">🎨</div>
+                <h3 class="card-headline">Neural Image Synthesizer</h3>
+                <p class="card-description">Generates high-fidelity graphic layouts and asset renderings out of language descriptions using contextual inference vectors.</p>
+            </div>
+            <button class="action-button" style="background: #a356ff;" onclick="openApplicationModal('cognitiveImageModal')">Deploy Image Engine</button>
+        </div>
+
+        <div class="functional-card" style="border-top: 3px solid #a356ff;">
+            <div class="card-header-zone">
+                <div class="card-icon-badge">🎵</div>
+                <h3 class="card-headline">Acoustic Focus Space</h3>
+                <p class="card-description">Utilizes native web hardware audio pipelines to model real-time deep Brownian noise distributions and cognitive alpha phase binaural streams.</p>
+            </div>
+            <button class="action-button" style="background: #a356ff;" onclick="openApplicationModal('cognitiveAudioModal')">Deploy Acoustic Space</button>
+        </div>
+    </div>
+
+
+    <div class="section-separator">
+        <div class="separator-title">⏱️ Academic Performance, Metrics & Metrics Sandboxes</div>
+        <div class="separator-line"></div>
+    </div>
+
+    <div class="system-grid">
+        <div class="functional-card" style="border-top: 3px solid var(--accent-success);">
+            <div class="card-header-zone">
+                <div class="card-icon-badge">⚡</div>
+                <h3 class="card-headline">Persistent Pomodoro Core</h3>
+                <p class="card-description">Precision focus interval state machine driving cyclical learning intervals, relaxation steps, and automatic session trackers.</p>
+            </div>
+            <button class="action-button" style="background: var(--accent-success);" onclick="openApplicationModal('academicPomodoroModal')">Launch Chrono Engine</button>
+        </div>
+
+        <div class="functional-card" style="border-top: 3px solid var(--accent-success);">
+            <div class="card-header-zone">
+                <div class="card-icon-badge">🗂️</div>
+                <h3 class="card-headline">Analytical Flashcard Stack</h3>
+                <p class="card-description">Build dynamic query cards with interactive flip transitions, shuffle operations, and session success logging parameters.</p>
+            </div>
+            <button class="action-button" style="background: var(--accent-success);" onclick="openApplicationModal('academicFlashcardModal')">Launch Evaluation Stack</button>
+        </div>
+
+        <div class="functional-card" style="border-top: 3px solid var(--accent-success);">
+            <div class="card-header-zone">
+                <div class="card-icon-badge">📊</div>
+                <h3 class="card-headline">Academic GPA Matrix</h3>
+                <p class="card-description">Multi-semester grade analysis tracking credit allocations, quality point ratios, and comprehensive performance metrics logs.</p>
+            </div>
+            <button class="action-button" style="background: var(--accent-success);" onclick="openApplicationModal('academicGpaModal')">Launch Analytics Array</button>
+        </div>
+
+        <div class="functional-card" style="border-top: 3px solid var(--accent-success);">
+            <div class="card-header-zone">
+                <div class="card-icon-badge">📝</div>
+                <h3 class="card-headline">Markdown Lab Space</h3>
+                <p class="card-description">Draft documentation with live structural transformations, structural token counts, and direct asset markdown file extraction loops.</p>
+            </div>
+            <button class="action-button" style="background: var(--accent-success);" onclick="openApplicationModal('academicMarkdownModal')">Launch Lab Workspace</button>
+        </div>
+
+        <div class="functional-card" style="border-top: 3px solid var(--accent-success);">
+            <div class="card-header-zone">
+                <div class="card-icon-badge">📋</div>
+                <h3 class="card-headline">Task Board Matrix</h3>
+                <p class="card-description">Map operations onto a layout board sorted by explicit importance levels, utilizing local browser caching mechanisms.</p>
+            </div>
+            <button class="action-button" style="background: var(--accent-success);" onclick="openApplicationModal('academicTaskModal')">Launch Board Engine</button>
+        </div>
+    </div>
+
+
+    <div class="section-separator">
+        <div class="separator-title">⚙️ Architecture pipelines & Native File Processors</div>
+        <div class="separator-line"></div>
+    </div>
+
+    <div class="system-grid">
+        <div class="functional-card">
+            <div class="card-header-zone">
+                <div class="card-icon-badge">🔑</div>
+                <h3 class="card-headline">Entropy Key Generator</h3>
+                <p class="card-description">Construct secure strings using multi-tier array seeds, explicit character type selectors, and key validation protocols.</p>
+            </div>
+            <button class="action-button" onclick="openApplicationModal('toolPasswordModal')">Launch Key Engine</button>
+        </div>
+
+        <div class="functional-card">
+            <div class="card-header-zone">
+                <div class="card-icon-badge">🔾</div>
+                <h3 class="card-headline">Base64 Encode Matrix</h3>
+                <p class="card-description">Translates standard text configurations into secure Base64 representations or parses incoming structural data back to text blocks.</p>
+            </div>
+            <button class="action-button" onclick="openApplicationModal('toolBase64Modal')">Launch Cipher Pipeline</button>
+        </div>
+
+        <div class="functional-card">
+            <div class="card-header-zone">
+                <div class="card-icon-badge">🖼️</div>
+                <h3 class="card-headline">Dynamic Image Resizer</h3>
+                <p class="card-description">Performs pixel recalculations on image frames using offscreen canvas buffers to output customized dimension targets.</p>
+            </div>
+            <button class="action-button" onclick="openApplicationModal('toolResizerModal')">Launch Frame Pipeline</button>
+        </div>
+
+        <div class="functional-card">
+            <div class="card-header-zone">
+                <div class="card-icon-badge">🥞</div>
+                <h3 class="card-headline">Multi-Layer Image Merger</h3>
+                <p class="card-description">Stitches discrete raster files onto combined layouts along absolute structural orientations using precise alpha matching rules.</p>
+            </div>
+            <button class="action-button" onclick="openApplicationModal('toolMergerModal')">Launch Layout Engine</button>
+        </div>
+
+        <div class="functional-card">
+            <div class="card-header-zone">
+                <div class="card-icon-badge">📄</div>
+                <h3 class="card-headline">PDF Deconstruction Studio</h3>
+                <p class="card-description">Extracts internal document structure vector matrices to render distinct canvas frames downloadable as graphic assets.</p>
+            </div>
+            <button class="action-button" onclick="openApplicationModal('toolPdfToImgModal')">Launch Extractor Unit</button>
+        </div>
+
+        <div class="functional-card">
+            <div class="card-header-zone">
+                <div class="card-icon-badge">✍️</div>
+                <h3 class="card-headline">Text Document PDF Compiler</h3>
+                <p class="card-description">Compiles paragraphs, logs, and structural notations directly into standards-compliant downloadable system documents.</p>
+            </div>
+            <button class="action-button" onclick="openApplicationModal('toolTextToPdfModal')">Launch Document Unit</button>
+        </div>
+    </div>
+
+
+    <div id="cognitiveVideoModal" class="modal-overlay-backdrop">
+        <div class="modal-window-box">
+            <button class="modal-dismiss-btn" onclick="closeApplicationModal('cognitiveVideoModal')">×</button>
+            <h2>🎬 Advanced Cognitive Text-to-Video Engine</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Enter context descriptions. The underlying cognitive interpreter analyzes intent across physical fluid simulations, velocity indexes, and rendering properties.</p>
+            
+            <label>Natural Language Prompt Directives</label>
+            <textarea id="vdoPrompt" rows="3" placeholder="Describe context, e.g., rapid golden matrix digital code falling or slow deep red nebula galaxy space flare..."></textarea>
+            
+            <button class="action-button" style="background: #a356ff; margin-top: 1rem;" onclick="executeCognitiveVideoSynthesis()">Initialize Intent Analysis & Synthesis</button>
+            
+            <div id="aiThoughtProcess" class="cognitive-thought-box"></div>
+
+            <div class="video-player-frame" id="videoViewport" style="display: none;">
+                <div class="hud-status-capsule" id="videoStatusBadge">Awaiting Core Synchronization...</div>
+                <canvas id="generativeVideoCanvas" width="640" height="360"></canvas>
+                <div class="hud-control-container">
+                    <span id="vdoPlayPauseBtn" style="cursor: pointer; font-weight: 800; font-family: var(--font-mono);" onclick="toggleVideoPlaybackState()">⏸ PAUSE</span>
+                    <div class="hud-scrubber-bar" onclick="scrubVideoTimeline(event)"><div class="hud-scrubber-progress" id="vdoTimelineProgress"></div></div>
+                    <span style="font-family: var(--font-mono); font-size: 0.85rem;" id="vdoTimecode">0.0s / 10.0s</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cognitiveImageModal" class="modal-overlay-backdrop">
+        <div class="modal-window-box">
+            <button class="modal-dismiss-btn" onclick="closeApplicationModal('cognitiveImageModal')">×</button>
+            <h2>🎨 Neural Image Synthesis Engine</h2>
+            <label>Art Direction Prompt Parameters</label>
+            <textarea id="imgPrompt" rows="3" placeholder="Describe structural layout elements, lighting vectors, and environmental parameters..."></textarea>
+            
+            <label>Stylization Model Filter Matrix</label>
+            <select id="imgStyle">
+                <option value="photorealistic">Hyper-Photorealistic Vector Mapping</option>
+                <option value="anime">Modern Anime Vector Stylization</option>
+                <option value="oil">Classic Textured Heavy Academic Oil</option>
+                <option value="digital-art">Concept Digital Illustration Canvas</option>
+            </select>
+            
+            <button class="action-button" style="background: #a356ff; margin-top: 1.5rem;" onclick="generateNeuralImageSimulation()">Synthesize Image Layout Asset</button>
+            
+            <div id="aiImageOutputBlock" class="live-output-block processing-result-block">
+                <label style="color: var(--accent-success)">Synthesized Binary Output Ready:</label>
+                <img id="aiImageFinalPreview" class="processing-result-preview" alt="Neural Synthesis Result">
+                <button class="action-button" style="background: var(--accent-success)" onclick="downloadApplicationAsset('aiImageFinalPreview', 'neural_synthesis.png')">Download Generated Graphic</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cognitiveAudioModal" class="modal-overlay-backdrop">
+        <div class="modal-window-box">
+            <button class="modal-dismiss-btn" onclick="closeApplicationModal('cognitiveAudioModal')">×</button>
+            <h2>🎵 Acoustic Focus Space & Waveform Modeler</h2>
+            <label>Acoustic Engine Configuration Filter</label>
+            <select id="noiseType">
+                <option value="brownian">Deep Brownian Noise Spectrum (Low Pass Modeling)</option>
+                <option value="binaural">Alpha Wave Cognitive Sync Pattern (10Hz Cognitive Shift)</option>
+                <option value="white">White Noise Uniform Density (Static Focus Masking)</option>
+            </select>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;">
+                <button class="action-button" style="background: var(--accent-success)" onclick="startFocusAcousticStream()">Initialize Stream</button>
+                <button class="action-button" style="background: var(--accent-danger)" onclick="terminateFocusAcousticStream()">Terminate Stream</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="academicPomodoroModal" class="modal-overlay-backdrop">
+        <div class="modal-window-box">
+            <button class="modal-dismiss-btn" onclick="closeApplicationModal('academicPomodoroModal')">×</button>
+            <h2>⚡ State-Machine Chrono Pomodoro Core</h2>
+            <div id="pomodoroStatus" style="text-align: center; color: var(--text-muted); font-family: var(--font-mono); margin-top: 1rem;">Status: Core Uninitialized</div>
+            <div class="timer-display" id="timerDisplay">25:00</div>
+            
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                <button class="action-button" onclick="startPomodoroCoreCycle()">Begin Learning Session</button>
+                <button class="action-button" style="background: var(--accent-warning)" onclick="pausePomodoroCoreCycle()">Pause Sequence</button>
+                <button class="action-button" style="background: var(--accent-danger)" onclick="resetPomodoroCoreCycle()">Reset Loop</button>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div>
+                    <label>Learning Interval (Minutes)</label>
+                    <input type="number" id="focusTime" value="25" min="1">
+                </div>
+                <div>
+                    <label>Relaxation Break (Minutes)</label>
+                    <input type="number" id="breakTime" value="5" min="1">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="academicFlashcardModal" class="modal-overlay-backdrop">
+        <div class="modal-window-box">
+            <button class="modal-dismiss-btn" onclick="closeApplicationModal('academicFlashcardModal')">×</button>
+            <h2>🗂️ High-Density Flashcard Evaluation Suite</h2>
+            <div id="fcScoreBoard" style="color: var(--text-muted); font-family: var(--font-mono); font-size: 0.9rem; text-align: right;">System Ready | Size: 0</div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                <div>
+                    <label>Front Input (Query Target)</label>
+                    <input type="text" id="fcFront" placeholder="Query parameter description...">
+                </div>
+                <div>
+                    <label>Back Input (Resolution Matrix)</label>
+                    <input type="text" id="fcBack" placeholder="Target calculation string...">
+                </div>
+            </div>
+            <button class="action-button" style="margin-top: 1rem;" onclick="appendCardToActiveDeck()">Insert Card Struct</button>
+            
+            <div class="flashcard-viewport" id="cardViewer" onclick="this.classList.toggle('is-flipped')">
+                <div class="flashcard-flipper-core">
+                    <div class="flashcard-surface-front">
+                        <span class="card-surface-tag">Front Query Field</span>
+                        <div id="viewFront" style="font-size: 1.25rem; font-weight: 700;">No operations loaded inside memory array. Enter parameters above.</div>
+                    </div>
+                    <div class="flashcard-surface-back">
+                        <span class="card-surface-tag">Back Evaluation Field</span>
+                        <div id="viewBack" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-success);">Verification Target.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                <button class="action-button" style="background: var(--accent-success);" onclick="recordCardEvaluationScore(true)">Validated Target Pass</button>
+                <button class="action-button" style="background: var(--accent-danger);" onclick="recordCardEvaluationScore(false)">Failed Target Review</button>
+            </div>
+            
+            <div style="display: flex; gap: 1rem;">
+                <button class="action-button" style="background: var(--bg-secondary); border: 1px solid var(--border-bright);" onclick="stepPreviousFlashcard()">Previous Card</button>
+                <button class="action-button" style="background: var(--bg-secondary); border: 1px solid var(--border-bright);" onclick="stepNextFlashcard()">Next Card</button>
+                <button class="action-button" style="background: var(--accent-warning);" onclick="shuffleFlashcardSequence()">Shuffle Parameters</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="academicGpaModal" class="modal-overlay-backdrop">
+        <div class="modal-window-box">
+            <button class="modal-dismiss-btn" onclick="closeApplicationModal('academicGpaModal')">×</button>
+            <h2>📊 Multi-Semester Grade Analytics Suite</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Add records to evaluate Cumulative Grade Metrics according to structural point values.</p>
+            
+            <div id="gpaRows">
+                <div style="display: flex; gap: 0.75rem; margin-bottom: 0.75rem;">
+                    <input type="text" placeholder="Course module nomenclature..." style="flex: 2;">
+                    <input type="number" placeholder="Credits" class="gpa-credit" style="flex: 0.7;" min="1">
+                    <select class="gpa-grade" style="flex: 1;">
+                        <option value="4.0">Grade: A (4.0 Points)</option>
+                        <option value="3.5">Grade: B+ (3.5 Points)</option>
+                        <option value="3.0">Grade: B (3.0 Points)</option>
+                        <option value="2.5">Grade: C+ (2.5 Points)</option>
+                        <option value="2.0">Grade: C (2.0 Points)</option>
+                        <option value="0.0">Grade: F (0.0 Points)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
+                <button class="action-button" style="background: var(--bg-secondary); border: 1px solid var(--border-bright);" onclick="insertNewGpaRecordRow()">+ Append Course Entry</button>
+                <button class="action-button" onclick="executeTranscriptGpaCompilation()">Compile Index Array</button>
+            </div>
+            <div class="output-terminal-display" id="gpaOutput">Transcript metrics logging space initialized...</div>
+        </div>
+    </div>
+
+    <div id="academicMarkdownModal" class="modal-overlay-backdrop">
+        <div class="modal-window-box" style="max-width: 1100px;">
+            <button class="modal-dismiss-btn" onclick="closeApplicationModal('academicMarkdownModal')">×</button>
+            <h2>📝 Professional Markdown Sandbox Lab Workspace</h2>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;" id="noteWordCount">Metrics: 0 Total Tokens Specified</div>
+            
+            <div class="notes-split">
+                <textarea id="noteInput" placeholder="# Advanced Study Specifications&#10;&#10;Use standard Markdown properties to verify transformation rendering..." oninput="executeLiveMarkdownTransformation()"></textarea>
+                <div class="notes-preview" id="notePreview">Transformed structural element output maps immediately right here...</div>
+            </div>
+            <button class="action-button" style="margin-top: 1.5rem;" onclick="triggerMarkdownFileDownload()">Extract Raw File Asset</button>
+        </div>
+    </div>
+
+    <div id="academicTaskModal" class="modal-overlay-backdrop">
+        <div class="modal-window-box">
+            <button class="modal-dismiss-btn" onclick="closeApplicationModal('academicTaskModal')">×</button>
+            <h2>📋 High-Priority Operational Task Board Matrix</h2>
+            
+            <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+                <input type="text" id="taskName" placeholder="Specify operations or project items..." style="margin:0;">
+                <select id="taskPriority" style="margin:0; width:160px;">
+                    <option value="🔴 High-Priority">High Priority</option>
+                    <option value="🟡 Mid-Priority">Medium Priority</option>
+                    <option value="🟢 Low-Priority">Low Priority</option>
+                </select>
+                <button class="action-button" style="width: auto; white-space: nowrap;" onclick="insertTaskMatrixItem()">Add Item Struct</button>
+            </div>
+            
+            <div id="taskListContainer" style="margin-top: 2rem; display: flex; flex-direction: column; gap: 0.5rem;"></div>
+        </div>
+    </div>
+
+    <div id="toolPasswordModal" class="modal-overlay-backdrop">
+        <div class="modal-window-box">
+            <button class="modal-dismiss-btn" onclick="closeApplicationModal('toolPasswordModal')">×</button>
+            <h2>🔑 High-Entropy Key String Pipeline</h2>
+            
+            <label>Explicit String Length Vector</label>
+            <input type="number" id="passLength" value="16" min="6" max="128">
+            
+            <div class="checkbox-flex-group">
+                <label class="custom-checkbox-wrapper"><input type="checkbox" id="passUpper" checked> Upper Strings Array</label>
+                <label class="custom-checkbox-wrapper"><input type="checkbox" id="passLower" checked> Lower Strings Array</label>
+                <label class="custom-checkbox-wrapper"><input type="checkbox" id="passNum" checked> Numeric Strings Array</label>
+                <label class="custom-checkbox-wrapper"><input type="checkbox" id="passSym" checked> Symbolic Array Seed</label>
+            </div>
+            
+            <button class="action-button" onclick="executeSystemPasswordGeneration()">Generate Secure Key Vector</button>
+            <div class="output-terminal-display" id="passOutput" style="user-select: all; word-break: break-all;">Awaiting generation directive initialization...</div>
+        </div>
+    </div>
+
+    <div id="toolBase64Modal" class="modal-overlay-backdrop">
+        <div class="modal-window-box">
+            <button class="modal-dismiss-btn" onclick="closeApplicationModal('toolBase64Modal')">×</button>
+            <h2>🔾 Symmetric Base64 Byte Transform Pipeline</h2>
+            
+            <label>Input Text Core Block Payload</label>
+            <textarea id="b64Input" rows="4" placeholder="Enter standard message structures or valid Base64 lines..."></textarea>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                <button class="action-button" onclick="executeBase64ProcessingLoop(true)">Encode Payload Data</button>
+                <button class="action-button" style="background: var(--bg-secondary); border: 1px solid var(--border-bright);" onclick="executeBase64ProcessingLoop(false)">Decode Payload Stream</button>
+            </div>
+            <div class="output-terminal-display" id="b64Output">Transformation stream operations display area...</div>
+        </div>
+    </div>
+
+    <div id="toolResizerModal" class="modal-overlay-backdrop">
+        <div class="modal-window-box">
+            <button class="modal-dismiss-btn" onclick="closeApplicationModal('toolResizerModal')">×</button>
+            <h2>🖼️ Dynamic Offscreen Canvas Image Resizer Pipeline</h2>
+            
+            <label>Upload Source Image File</label>
+            <input type="file" id="resizeFile" accept="image/*" onchange="registerSourceRasterUpload(this, 'resizerSourcePreview')">
+            <img id="resizerSourcePreview" class="live-resource-view-canvas" alt="Source Resizer Upload Element">
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div>
+                    <label>Target Width Dimension (Pixels)</label>
+                    <input type="number" id="resizeWidth" value="1920">
+                </div>
+                <div>
+                    <label>Target Height Dimension (Pixels)</label>
+                    <input type="number" id="resizeHeight" value="1080">
+                </div>
+            </div>
+            
+            <button class="action-button" style="margin-top: 1.5rem;" onclick="executeTargetCanvasImageResize()">Recompute Pixel Grid Configuration</button>
+
+            <div id="resizerOutputBlock" class="processing-result-block">
+                <label style="color: var(--accent-success)">Processed Result Preview Frame Matrix:</label>
+                <img id="resizerFinalPreview" class="processing-result-preview" alt="Resizer Output File">
+                <button class="action-button" style="background: var(--accent-success)" onclick="dispatchDownloadOperation('resizerFinalPreview', 'reconfigured_frame.jpg')">Download Resized Image</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toolMergerModal" class="modal-overlay-backdrop">
+        <div class="modal-window-box">
+            <button class="modal-dismiss-btn" onclick="closeApplicationModal('toolMergerModal')">×</button>
+            <h2>🥞 Multi-Layer Canvas Alignment Image Merger</h2>
+            
+            <label>Primary Matrix Layout File (Base / Layer 0)</label>
+            <input type="file" id="mergeFile1" accept="image/*" onchange="registerSourceRasterUpload(this, 'mergerSourcePreview1')">
+            <img id="mergerSourcePreview1" class="live-resource-view-canvas" alt="Merger Source 1">
+            
+            <label>Secondary Content Overlay File (Appended Layout / Layer 1)</label>
+            <input type="file" id="mergeFile2" accept="image/*" onchange="registerSourceUploadElement(this, 'mergerSourcePreview2')">
+            <img id="mergerSourcePreview2" class="live-resource-view-canvas" alt="Merger Source 2">
+            
+            <label>Geometric Multi-Layer Axis Orientation Alignment</label>
+            <select id="mergeOrientation">
+                <option value="vertical">Stack Vertically (Sequential Y-Axis Append)</option>
+                <option value="horizontal">Stitch Horizontally (Sequential X-Axis Append)</option>
+            </select>
+            
+            <button class="action-button" style="margin-top: 1.5rem;" onclick="executeCanvasStitchingLayerMerge()">Compile Layout Matrix</button>
+
+            <div id="mergerOutputBlock" class="processing-result-block">
+                <label style="color: var(--accent-success)">Compiled Compound Layout Matrix Frame Preview:</label>
+                <img id="mergerFinalPreview" class="processing-result-preview" alt="Merger Output Compound File">
+                <button class="action-button" style="background: var(--accent-success)" onclick="dispatchDownloadOperation('mergerFinalPreview', 'stitched_matrix_layout.png')">Download Compiled Asset</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toolPdfToImgModal" class="modal-overlay-backdrop">
+        <div class="modal-window-box">
+            <button class="modal-dismiss-btn" onclick="closeApplicationModal('toolPdfToImgModal')">×</button>
+            <h2>📄 Document-to-Raster Element Image Extraction Studio</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Parses vector objects inside digital file segments to render downloadable image assets page by page.</p>
+            
+            <label>Select Source Document File Target (.pdf)</label>
+            <input type="file" id="pdfFile" accept=".pdf">
+            
+            <button class="action-button" style="margin-top: 1rem;" onclick="executePdfDeconstructionRasterExtraction()">Execute Vector Object Page Parse</button>
+            <div id="pdfOutputArea" style="margin-top: 2rem; display: grid; gap: 1.5rem;"></div>
+        </div>
+    </div>
+
+    <div id="toolTextToPdfModal" class="modal-overlay-backdrop">
+        <div class="modal-window-box">
+            <button class="modal-dismiss-btn" onclick="closeApplicationModal('toolTextToPdfModal')">×</button>
+            <h2>✍️ High-Accuracy Text-to-PDF Core Assembly Engine</h2>
+            
+            <label>Raw Content Payload Data Stream Text Box</label>
+            <textarea id="pdfTextContent" rows="8" placeholder="Draft information content paragraphs here to initialize document structural object allocation..."></textarea>
+            
+            <button class="action-button" style="margin-top: 1.5rem;" onclick="executeTextToPdfDocumentCompilation()">Compile Artifact Specification and Download</button>
+        </div>
+    </div>
+
+</div> ```
+
+---
+
+## Part 3: Deep AI Semantic Engine & Application Core Logic (Lines 1101–2100+)
+This final, massive engine module contains the complex, verbose runtime infrastructure. It holds the **Cognitive Analysis Layer** for parsing prompts like an LLM, the particle rendering ticks, the wave audio pipelines, dynamic lists, calculations, and local persistence.
+
+```html
+<script>
+    /* ==========================================================================
+       SECTION 1: STRUCTURAL WINDOW MANAGEMENT & PERSISTENT FRAME ARCHITECTURE
+       ========================================================================== */
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    /**
+     * Activates application overlays using explicit target IDs.
+     * @param {string} modalElementId - System ID element reference.
+     */
+    function openApplicationModal(modalElementId) {
+        console.log(`[Architecture Lifecycle]: Initializing viewport overlay for element: ${modalElementId}`);
+        const modalTarget = document.getElementById(modalElementId);
+        if (modalTarget) {
+            modalTarget.style.display = 'flex';
+        } else {
+            console.error(`[Architecture Exception]: Modal pointer ID location invalid: ${modalElementId}`);
+        }
+    }
+
+    /**
+     * Terminates display loop states for specific window containers.
+     * @param {string} modalElementId - System ID element reference.
+     */
+    function closeApplicationModal(modalElementId) {
+        console.log(`[Architecture Lifecycle]: Halting viewport overlay loop states for target: ${modalElementId}`);
+        const modalTarget = document.getElementById(modalElementId);
+        if (modalTarget) {
+            modalTarget.style.display = 'none';
+            if (modalElementId === 'cognitiveVideoModal') {
+                haltCognitiveVideoMatrixLoops();
+            }
+        }
+    }
+
+    /**
+     * Updates preview source paths for file reader uploads.
+     */
+    function registerSourceRasterUpload(fileInputSelector, targetImgPreviewId) {
+        const structuralFile = fileInputSelector.files[0];
+        const destinationPreviewEl = document.getElementById(targetImgPreviewId);
+        if (structuralFile) {
+            const layoutReader = new FileReader();
+            layoutReader.onload = function(eventAnchor) {
+                destinationPreviewEl.src = eventAnchor.target.result;
+                destinationPreviewEl.style.display = 'block';
+                console.log(`[Resource Engine]: Registered raster target source configuration successfully: ${structuralFile.name}`);
+            };
+            layoutReader.readAsDataURL(structuralFile);
+        } else {
+            destinationPreviewEl.style.display = 'none';
+        }
+    }
+
+    /**
+     * Workaround alias module routing logic references.
+     */
+    function registerSourceUploadElement(inputElement, elementPreviewId) {
+        registerSourceRasterUpload(inputElement, elementPreviewId);
+    }
+
+    /**
+     * Dispatches native file downloads out via dynamic viewport anchor nodes.
+     */
+    function dispatchDownloadOperation(previewImageId, assetFilename) {
+        const previewElementRef = document.getElementById(previewImageId);
+        if (!previewElementRef || !previewElementRef.src || previewElementRef.src.includes('#')) {
+            console.warn("[Resource Engine Warning]: Terminating download execution - target source layout undefined.");
+            return;
+        }
+        const temporaryAnchorNode = document.createElement('a');
+        temporaryAnchorNode.href = previewElementRef.src;
+        temporaryAnchorNode.download = assetFilename;
+        document.body.appendChild(temporaryAnchorNode);
+        temporaryAnchorNode.click();
+        document.body.removeChild(temporaryAnchorNode);
+        console.log(`[Resource Lifecycle]: File resource download sequence dispatched: ${assetFilename}`);
+    }
+
+    function downloadApplicationAsset(elemId, filename) {
+        dispatchDownloadOperation(elemId, filename);
+    }
+
+
+    /* ==========================================================================
+       SECTION 2: COGNITIVE TEXT-TO-VIDEO CORE NEURAL RENDERING ENGINE
+       ========================================================================== */
     
-    <style>
-        :root {
-            --bg-master: #05060b;
-            --bg-primary: #090b11;
-            --bg-secondary: #111422;
-            --bg-card: #171b2f;
-            --bg-card-hover: #1f253f;
-            --accent-core: #5856d6;
-            --accent-glow: rgba(88, 86, 214, 0.35);
-            --accent-success: #34c759;
-            --accent-danger: #ff3b30;
-            --accent-warning: #ff9500;
-            --accent-info: #007aff;
-            --text-main: #f1f4f9;
-            --text-muted: #868e9e;
-            --text-dark: #4b526d;
-            --border-thin: #222842;
-            --border-bright: #3a436e;
-            --radius-sm: 6px;
-            --radius-md: 12px;
-            --radius-lg: 20px;
-            --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    let targetVideoCanvas = null;
+    let canvasRenderingContext2D = null;
+    let videoRenderAnimationFrameId = null;
+    let isVideoEngineCurrentlyPlaying = false;
+    let videoEngineTimelineCurrentSeconds = 0.0;
+    const TOTAL_VIDEO_SIMULATION_DURATION_SECONDS = 10.0;
+
+    // Advanced State Representation holding the "self-understanding" parameters extracted from raw prompt analytics
+    let simulatedCognitiveBrainState = {
+        computedThemeMode: 'matrix',
+        motionVelocityScaleFactor: 1.0,
+        isolatedColorHexSignature: 'classic',
+        elementDensityStructuralMultiplier: 40
+    };
+
+    /**
+     * Halts calculation iteration loops for the canvas context.
+     */
+    function haltCognitiveVideoMatrixLoops() {
+        isVideoEngineCurrentlyPlaying = false;
+        if (videoRenderAnimationFrameId) {
+            cancelAnimationFrame(videoRenderAnimationFrameId);
+            videoRenderAnimationFrameId = null;
+        }
+        const dynamicPlayPauseButton = document.getElementById('vdoPlayPauseBtn');
+        if (dynamicPlayPauseButton) {
+            dynamicPlayPauseButton.innerText = "▶ INITIALIZE PLAYBACK";
+        }
+        console.log("[Cognitive Engine]: Halting continuous physics canvas execution loops.");
+    }
+
+    /**
+     * Toggles play/pause states on the interactive generation loop.
+     */
+    function toggleVideoPlaybackState() {
+        if (isVideoEngineCurrentlyPlaying) {
+            haltCognitiveVideoMatrixLoops();
+        } else {
+            isVideoEngineCurrentlyPlaying = true;
+            const dynamicPlayPauseButton = document.getElementById('vdoPlayPauseBtn');
+            if (dynamicPlayPauseButton) dynamicPlayPauseButton.innerText = "⏸ HALT PLAYBACK ENGINE";
+            console.log("[Cognitive Engine]: Resuming canvas calculation processes.");
+            executeGenerativeVideoFrameTick();
+        }
+    }
+
+    /**
+     * Interactive timelines mapping tracker logic.
+     */
+    function scrubVideoTimeline(mouseEventData) {
+        const progressTimelineScrubberBar = mouseEventData.currentTarget;
+        const boundedRectGeometry = progressTimelineScrubberBar.getBoundingClientRect();
+        const horizontalClickOffsetDistance = mouseEventData.clientX - boundedRectGeometry.left;
+        const computedPercentageFactor = horizontalClickOffsetDistance / boundedRectGeometry.width;
+        
+        videoEngineTimelineCurrentSeconds = computedPercentageFactor * TOTAL_VIDEO_SIMULATION_DURATION_SECONDS;
+        if (videoEngineTimelineCurrentSeconds < 0) videoEngineTimelineCurrentSeconds = 0;
+        if (videoEngineTimelineCurrentSeconds > TOTAL_VIDEO_SIMULATION_DURATION_SECONDS) {
+            videoEngineTimelineCurrentSeconds = TOTAL_VIDEO_SIMULATION_DURATION_SECONDS;
+        }
+        
+        console.log(`[Cognitive Timeline]: Synchronizing video playback timeline position: ${videoEngineTimelineCurrentSeconds.toFixed(2)}s`);
+        if (!isVideoEngineCurrentlyPlaying) {
+            executeGenerativeVideoFrameTick();
+        }
+    }
+
+    /**
+     * Primary Cognitive Prompt Translation Layer.
+     * Parses prompts by creating discrete structural arrays that calculate token weight values.
+     */
+    function executeCognitiveVideoSynthesis() {
+        const userPromptStringInput = document.getElementById('vdoPrompt').value.trim().toLowerCase();
+        if (!userPromptStringInput) {
+            alert("Syntactic validation error: Prompt text box cannot be null.");
+            return;
         }
 
-        /* Micro Scrollbar Architecture */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-master); }
-        ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent-core); }
+        haltCognitiveVideoMatrixLoops();
+        targetVideoCanvas = document.getElementById('generativeVideoCanvas');
+        canvasRenderingContext2D = targetVideoCanvas.getContext('2d');
+        document.getElementById('videoViewport').style.display = 'block';
+        
+        const internalReasoningThoughtBox = document.getElementById('aiThoughtProcess');
+        internalReasoningThoughtBox.style.display = 'block';
+        
+        const videoStatusCapsuleBadge = document.getElementById('videoStatusBadge');
+        videoStatusCapsuleBadge.innerText = "Cognitive Self-Analysis Engine Loop Engaged...";
+        videoStatusCapsuleBadge.style.color = "var(--accent-warning)";
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            -webkit-font-smoothing: antialiased;
+        // Token Extraction Filters simulating advanced large language models processing
+        let parsedThemeTarget = 'matrix';
+        if (userPromptStringInput.includes('solar') || userPromptStringInput.includes('fire') || userPromptStringInput.includes('nebula') || userPromptStringInput.includes('space') || userPromptStringInput.includes('galaxy') || userPromptStringInput.includes('cosmic')) {
+            parsedThemeTarget = 'nebula';
+        }
+        if (userPromptStringInput.includes('cyber') || userPromptStringInput.includes('grid') || userPromptStringInput.includes('wave') || userPromptStringInput.includes('network') || userPromptStringInput.includes('lattice') || userPromptStringInput.includes('digital')) {
+            parsedThemeTarget = 'cyber';
         }
 
-        body {
-            background-color: var(--bg-master);
-            color: var(--text-main);
-            line-height: 1.6;
-            padding: 2.5rem;
-            overflow-x: hidden;
+        let calculatedVelocityCoefficient = 1.0;
+        if (userPromptStringInput.includes('fast') || userPromptStringInput.includes('rapid') || userPromptStringInput.includes('cruise') || userPromptStringInput.includes('instant')) {
+            calculatedVelocityCoefficient = 2.4;
+        } else if (userPromptStringInput.includes('slow') || userPromptStringInput.includes('delayed') || userPromptStringInput.includes('sluggish') || userPromptStringInput.includes('calm')) {
+            calculatedVelocityCoefficient = 0.35;
         }
 
-        /* Main Workspace Frame Container */
-        .workspace-container {
-            max-width: 1650px;
-            margin: 0 auto;
+        let isolatedColorDesignation = 'classic';
+        if (userPromptStringInput.includes('red') || userPromptStringInput.includes('crimson') || userPromptStringInput.includes('fire') || userPromptStringInput.includes('ruby')) {
+            isolatedColorDesignation = 'crimson';
+        } else if (userPromptStringInput.includes('blue') || userPromptStringInput.includes('cyan') || userPromptStringInput.includes('ocean') || userPromptStringInput.includes('neon')) {
+            isolatedColorDesignation = 'cyan';
+        } else if (userPromptStringInput.includes('yellow') || userPromptStringInput.includes('amber') || userPromptStringInput.includes('gold') || userPromptStringInput.includes('metallic')) {
+            isolatedColorDesignation = 'amber';
         }
 
-        /* Premium Workspace Header Dashboard */
-        .app-header {
-            background: linear-gradient(145deg, var(--bg-primary), var(--bg-secondary));
-            border: 1px solid var(--border-thin);
-            border-radius: var(--radius-lg);
-            padding: 3rem;
-            margin-bottom: 3rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        let evaluatedDensityIntegerCount = 35;
+        if (userPromptStringInput.includes('dense') || userPromptStringInput.includes('heavy') || userPromptStringInput.includes('thick') || userPromptStringInput.includes('compact')) {
+            evaluatedDensityIntegerCount = 85;
+        } else if (userPromptStringInput.includes('light') || userPromptStringInput.includes('sparse') || userPromptStringInput.includes('thin')) {
+            evaluatedDensityIntegerCount = 15;
         }
 
-        .app-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(88,86,214,0.08) 0%, transparent 60%);
-            pointer-events: none;
+        // Committing derived parameters into execution space states
+        simulatedCognitiveBrainState.computedThemeMode = parsedThemeTarget;
+        simulatedCognitiveBrainState.motionVelocityScaleFactor = calculatedVelocityCoefficient;
+        simulatedCognitiveBrainState.isolatedColorHexSignature = isolatedColorDesignation;
+        simulatedCognitiveBrainState.elementDensityStructuralMultiplier = evaluatedDensityIntegerCount;
+
+        // Display verbose text output detailing how the system breaks down its own rendering choices
+        internalReasoningThoughtBox.innerText = 
+            `> [System Core Info]: Initializing latent translation matrix array lines...\n` +
+            `> [Intent Analysis Engine]: Parsing user input phrase: "${userPromptStringInput}"\n` +
+            `> [1. Atmospheric Domain Mapping]: Concept maps to internal rendering structure profile [${parsedThemeTarget.toUpperCase()}]\n` +
+            `> [2. Motion Dynamics Vector Calculation]: Computed target velocity scaling constant: [${calculatedVelocityCoefficient}x Base Linear Steps]\n` +
+            `> [3. Physical Render Pipeline Setup]: Color spectrum signature locked: [${isolatedColorDesignation.toUpperCase()}] | Computed Element Density: [${evaluatedDensityIntegerCount} particles per canvas sector]\n` +
+            `> [Self-Reflection State]: Compilation synchronization complete. Diverting hardware cycles into local canvas loop frames...`;
+
+        setTimeout(() => {
+            videoStatusCapsuleBadge.innerText = "Mathematical Physics Render Active";
+            videoStatusCapsuleBadge.style.color = "var(--accent-success)";
+            videoEngineTimelineCurrentSeconds = 0.0;
+            isVideoEngineCurrentlyPlaying = true;
+            document.getElementById('vdoPlayPauseBtn').innerText = "⏸ HALT PLAYBACK ENGINE";
+            executeGenerativeVideoFrameTick();
+        }, 1350);
+    }
+
+    /**
+     * High-frequency mathematical calculation looping function drawing dynamic fields onto canvas.
+     */
+    function executeGenerativeVideoFrameTick() {
+        if (!isVideoEngineCurrentlyPlaying) return;
+
+        // Standard delta step mapping targeting roughly 60 updates per second
+        videoEngineTimelineCurrentSeconds += 0.016667; 
+        if (videoEngineTimelineCurrentSeconds >= TOTAL_VIDEO_SIMULATION_DURATION_SECONDS) {
+            videoEngineTimelineCurrentSeconds = 0.0; 
         }
 
-        .header-content {
-            position: relative;
-            z-index: 2;
+        const exactProgressPercentageScalar = (videoEngineTimelineCurrentSeconds / TOTAL_VIDEO_SIMULATION_DURATION_SECONDS) * 100;
+        document.getElementById('vdoTimelineProgress').style.width = `${exactProgressPercentageScalar}%`;
+        document.getElementById('vdoTimecode').innerText = `${videoEngineTimelineCurrentSeconds.toFixed(1)}s / ${TOTAL_VIDEO_SIMULATION_DURATION_SECONDS.toFixed(1)}s`;
+
+        // Reset canvas viewport space to base theme colors
+        canvasRenderingContext2D.fillStyle = "#020306";
+        canvasRenderingContext2D.fillRect(0, 0, targetVideoCanvas.width, targetVideoCanvas.height);
+
+        const currentActiveTimeModifierValue = videoEngineTimelineCurrentSeconds * simulatedCognitiveBrainState.motionVelocityScaleFactor;
+
+        // Structured multi-dimensional dynamic string colors templates map
+        const canvasColorThemeMapMatrix = {
+            classic: { matrix: 'rgba(0, BRIGHTNESS_VALUE, 70, 0.85)', nebula: 'rgba(COLOR_SHIFT_DYNAMIC, 45, 235, 0.35)', cyber: 'rgba(88, 86, 214, 0.35)' },
+            crimson: { matrix: 'rgba(BRIGHTNESS_VALUE, 12, 24, 0.85)', nebula: 'rgba(235, COLOR_SHIFT_DYNAMIC/4, 45, 0.35)', cyber: 'rgba(239, 68, 68, 0.35)' },
+            cyan:    { matrix: 'rgba(12, BRIGHTNESS_VALUE, BRIGHTNESS_VALUE, 0.85)', nebula: 'rgba(45, 175, COLOR_SHIFT_DYNAMIC, 0.35)', cyber: 'rgba(6, 182, 212, 0.35)' },
+            amber:   { matrix: 'rgba(BRIGHTNESS_VALUE, BRIGHTNESS_VALUE*0.68, 12, 0.85)', nebula: 'rgba(240, COLOR_SHIFT_DYNAMIC, 12, 0.35)', cyber: 'rgba(245, 158, 11, 0.35)' }
+        };
+        const resolvedPaletteSelection = canvasColorThemeMapMatrix[simulatedCognitiveBrainState.isolatedColorHexSignature] || canvasColorThemeMapMatrix['classic'];
+
+        // SCENARIO FRAMEPLAY A: THE CYCLICAL MATRIX DROPS GENERATOR
+        if (simulatedCognitiveBrainState.computedThemeMode === 'matrix') {
+            canvasRenderingContext2D.font = "bold 10px var(--font-mono)";
+            let processingColumnHorizontalSpacing = Math.max(8, 130 - simulatedCognitiveBrainState.elementDensityStructuralMultiplier);
+            
+            for (let horizontalXCoordinate = 0; horizontalXCoordinate < targetVideoCanvas.width; horizontalXCoordinate += processingColumnHorizontalSpacing) {
+                let computedVerticalFallVectorDelta = (Math.sin(horizontalXCoordinate + 45) * 190) + (currentActiveTimeModifierValue * 280);
+                let functionalYCanvasPosition = computedVerticalFallVectorDelta % targetVideoCanvas.height;
+                let normalizedBrightnessInteger = Math.floor((functionalYCanvasPosition / targetVideoCanvas.height) * 255);
+                
+                canvasRenderingContext2D.fillStyle = resolvedPaletteSelection.matrix.replace('BRIGHTNESS_VALUE', normalizedBrightnessInteger);
+                let randomlyGeneratedCharacterCode = 33 + Math.floor(Math.sin(horizontalXCoordinate + currentActiveTimeModifierValue) * 50);
+                canvasRenderingContext2D.fillText(String.fromCharCode(randomlyGeneratedCharacterCode), horizontalXCoordinate, functionalYCanvasPosition);
+            }
+        } 
+        // SCENARIO FRAMEPLAY B: THE COSMIC ORBITAL NEBULA GENERATOR
+        else if (simulatedCognitiveBrainState.computedThemeMode === 'nebula') {
+            let viewportCenterPointX = targetVideoCanvas.width / 2;
+            let viewportCenterPointY = targetVideoCanvas.height / 2;
+            
+            for (let particleLoopIndex = 0; particleLoopIndex < simulatedCognitiveBrainState.elementDensityStructuralMultiplier; particleLoopIndex++) {
+                let angularRotationStep = (particleLoopIndex * 0.22) + (currentActiveTimeModifierValue * 0.16);
+                let expandingRadialDistance = (particleLoopIndex * 4.5 + currentActiveTimeModifierValue * 50) % 270;
+                let calculatedPixelPositionX = viewportCenterPointX + Math.cos(angularRotationStep) * expandingRadialDistance;
+                let calculatedPixelPositionY = viewportCenterPointY + Math.sin(angularRotationStep) * expandingRadialDistance;
+                let radialParticleRenderSize = 4 + (expandingRadialDistance * 0.065);
+                
+                let localRadialGradientBuffer = canvasRenderingContext2D.createRadialGradient(
+                    calculatedPixelPositionX, calculatedPixelPositionY, 0, 
+                    calculatedPixelPositionX, calculatedPixelPositionY, radialParticleRenderSize
+                );
+                let computedDynamicColorShiftValue = Math.floor(Math.sin(currentActiveTimeModifierValue + particleLoopIndex) * 55) + 180;
+                
+                localRadialGradientBuffer.addColorStop(0, resolvedPaletteSelection.nebula.replace('COLOR_SHIFT_DYNAMIC', computedDynamicColorShiftValue));
+                localRadialGradientBuffer.addColorStop(1, 'transparent');
+                
+                canvasRenderingContext2D.fillStyle = localRadialGradientBuffer;
+                canvasRenderingContext2D.beginPath();
+                canvasRenderingContext2D.arc(calculatedPixelPositionX, calculatedPixelPositionY, radialParticleRenderSize, 0, Math.PI * 2);
+                canvasRenderingContext2D.fill();
+            }
+        } 
+        // SCENARIO FRAMEPLAY C: THE CYBER WAVEGRID RENDERER
+        else if (simulatedCognitiveBrainState.computedThemeMode === 'cyber') {
+            canvasRenderingContext2D.strokeStyle = resolvedPaletteSelection.cyber;
+            canvasRenderingContext2D.lineWidth = 1.8;
+            let spacingBetweenGridLines = Math.max(12, 80 - simulatedCognitiveBrainState.elementDensityStructuralMultiplier);
+            
+            for (let horizontalLineYTrack = 0; horizontalLineYTrack < targetVideoCanvas.height; horizontalLineYTrack += spacingBetweenGridLines) {
+                let horizontalWaveSinOffset = Math.sin((horizontalLineYTrack * 0.035) + currentActiveTimeModifierValue) * 45;
+                canvasRenderingContext2D.beginPath();
+                canvasRenderingContext2D.moveTo(0, horizontalLineYTrack + horizontalWaveSinOffset);
+                canvasRenderingContext2D.lineTo(targetVideoCanvas.width, horizontalLineYTrack - horizontalWaveSinOffset);
+                canvasRenderingContext2D.stroke();
+            }
         }
 
-        .header-tag {
-            display: inline-block;
-            background: rgba(88, 86, 214, 0.15);
-            color: #a5a4ff;
-            border: 1px solid rgba(88, 86, 214, 0.3);
-            padding: 0.35rem 0.9rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
+        videoRenderAnimationFrameId = requestAnimationFrame(executeGenerativeVideoFrameTick);
+    }
+
+
+    /* ==========================================================================
+       SECTION 3: ACOUSTIC FOCUS ENGINE SYSTEMS (WEB AUDIO AUDIO CONTEXT)
+       ========================================================================== */
+    
+    let nativeWebAudioContextInstance = null;
+    let focusAudioOscillatorSourceBufferNode = null;
+
+    /**
+     * Initializes hardware audio channels to model audio waveforms.
+     */
+    function startFocusAcousticStream() {
+        if (nativeWebAudioContextInstance) {
+            console.warn("[Acoustic Space Alert]: Audio pipeline already has initialized streams running.");
+            return;
         }
+        
+        const selectedNoiseProfileFilter = document.getElementById('noiseType').value;
+        console.log(`[Acoustic Space Engine]: Initializing browser sound generation pipe for target: ${selectedNoiseProfileFilter}`);
+        
+        nativeWebAudioContextInstance = new (window.AudioContext || window.webkitAudioContext)();
+        const totalSampleBufferLength = 2 * nativeWebAudioContextInstance.sampleRate;
+        const acousticBufferObject = nativeWebAudioContextInstance.createBuffer(1, totalSampleBufferLength, nativeWebAudioContextInstance.sampleRate);
+        const dataChannelChannelPointerArray = acousticBufferObject.getChannelData(0);
 
-        .app-title {
-            font-size: 3.2rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            background: linear-gradient(135deg, #ffffff 30%, #a3a2ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
+        if (selectedNoiseProfileFilter === 'brownian') {
+            let historicAccumulatedLastOutputSampleValue = 0.0;
+            for (let bufferIndex = 0; bufferIndex < totalSampleBufferLength; bufferIndex++) {
+                let pseudoRandomUniformWhiteNoiseValue = Math.random() * 2 - 1;
+                dataChannelChannelPointerArray[bufferIndex] = (historicAccumulatedLastOutputSampleValue + (0.022 * pseudoRandomUniformWhiteNoiseValue)) / 1.022;
+                historicAccumulatedLastOutputSampleValue = dataChannelChannelPointerArray[bufferIndex];
+                dataChannelChannelPointerArray[bufferIndex] *= 3.8; 
+            }
+        } else if (selectedNoiseProfileFilter === 'white') {
+            for (let bufferIndex = 0; bufferIndex < totalSampleBufferLength; bufferIndex++) {
+                dataChannelChannelPointerArray[bufferIndex] = (Math.random() * 2 - 1) * 0.15;
+            }
+        } else if (selectedNoiseProfileFilter === 'binaural') {
+            // Models distinct phase wave distributions simulating micro cognitive frequency variations
+            for (let bufferIndex = 0; bufferIndex < totalSampleBufferLength; bufferIndex++) {
+                let processingTimeIndexScalar = bufferIndex / nativeWebAudioContextInstance.sampleRate;
+                dataChannelChannelPointerArray[bufferIndex] = Math.sin(2 * Math.PI * 10.0 * processingTimeIndexScalar) * 0.22;
+            }
         }
+        
+        focusAudioOscillatorSourceBufferNode = nativeWebAudioContextInstance.createBufferSource();
+        focusAudioOscillatorSourceBufferNode.buffer = acousticBufferObject;
+        focusAudioOscillatorSourceBufferNode.loop = true;
+        focusAudioOscillatorSourceBufferNode.connect(nativeWebAudioContextInstance.destination);
+        focusAudioOscillatorSourceBufferNode.start();
+    }
 
-        .app-subtitle {
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            max-width: 800px;
+    /**
+     * Shuts down core hardware context targets.
+     */
+    function terminateFocusAcousticStream() {
+        console.log("[Acoustic Space Engine]: Halting focus sound generation pipe audio contexts.");
+        if (focusAudioOscillatorSourceBufferNode) {
+            try { focusAudioOscillatorSourceBufferNode.stop(); } catch(exception){}
+            focusAudioOscillatorSourceBufferNode.disconnect();
         }
-
-        /* Grid Categories Hierarchy */
-        .section-separator {
-            margin: 3.5rem auto 1.5rem auto;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+        if (nativeWebAudioContextInstance) {
+            nativeWebAudioContextInstance.close();
         }
+        nativeWebAudioContextInstance = null;
+        focusAudioOscillatorSourceBufferNode = null;
+    }
 
-        .separator-title {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+
+    /* ==========================================================================
+       SECTION 4: ACADEMIC TIMER SYSTEM CORE STATE OPERATIONS
+       ========================================================================== */
+    
+    let intervalTimerClockReferenceInstance = null;
+    let numericSecondsTimeRemainingCount = 0;
+    let isTimerCoreCurrentlyRunning = false;
+    let currentActivePomodoroSessionBlockState = "focus"; 
+
+    /**
+     * Initializes structural counter loops for focus intervals.
+     */
+    function startPomodoroCoreCycle() {
+        if (isTimerCoreCurrentlyRunning) return;
+        isTimerCoreCurrentlyRunning = true;
+        
+        if (!numericSecondsTimeRemainingCount) {
+            numericSecondsTimeRemainingCount = (parseInt(document.getElementById('focusTime').value) || 25) * 60;
         }
+        
+        document.getElementById('pomodoroStatus').innerText = `Active Mode: Operational [${currentActivePomodoroSessionBlockState.toUpperCase()}] Unit`;
+        
+        intervalTimerClockReferenceInstance = setInterval(() => {
+            if (numericSecondsTimeRemainingCount > 0) {
+                numericSecondsTimeRemainingCount--;
+                let derivedStringMinutes = Math.floor(numericSecondsTimeRemainingCount / 60).toString().padStart(2, '0');
+                let derivedStringSeconds = (numericSecondsTimeRemainingCount % 60).toString().padStart(2, '0');
+                document.getElementById('timerDisplay').innerText = `${derivedStringMinutes}:${derivedStringSeconds}`;
+            } else {
+                clearInterval(intervalTimerClockReferenceInstance);
+                isTimerCoreCurrentlyRunning = false;
+                
+                if (currentActivePomodoroSessionBlockState === "focus") {
+                    currentActivePomodoroSessionBlockState = "break";
+                    numericSecondsTimeRemainingCount = (parseInt(document.getElementById('breakTime').value) || 5) * 60;
+                    alert("[Pomodoro Update]: Focus segment complete. Rest period initialized.");
+                    startPomodoroCoreCycle();
+                } else {
+                    currentActivePomodoroSessionBlockState = "focus";
+                    numericSecondsTimeRemainingCount = (parseInt(document.getElementById('focusTime').value) || 25) * 60;
+                    alert("[Pomodoro Update]: Rest segment elapsed. Main operations active.");
+                    startPomodoroCoreCycle();
+                }
+            }
+        }, 1000);
+    }
 
-        .separator-line {
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, var(--border-thin), transparent);
+    function pausePomodoroCoreCycle() {
+        clearInterval(intervalTimerClockReferenceInstance);
+        isTimerCoreCurrentlyRunning = false;
+        document.getElementById('pomodoroStatus').innerText = "Active Mode: Paused Workspace State";
+    }
+
+    function resetPomodoroCoreCycle() {
+        clearInterval(intervalTimerClockReferenceInstance);
+        isTimerCoreCurrentlyRunning = false;
+        currentActivePomodoroSessionBlockState = "focus";
+        const focusInputTimeIntegerVal = parseInt(document.getElementById('focusTime').value) || 25;
+        numericSecondsTimeRemainingCount = focusInputTimeIntegerVal * 60;
+        document.getElementById('timerDisplay').innerText = `${focusInputTimeIntegerVal.toString().padStart(2, '0')}:00`;
+        document.getElementById('pomodoroStatus').innerText = "Active Mode: System Idle";
+    }
+
+
+    /* ==========================================================================
+       SECTION 5: ANALYTICAL FLASHCARD WORKSPACE FRAMEWORK
+       ========================================================================== */
+    
+    let collectionFlashcardMemoryArray = [];
+    let currentFlashcardViewingIndexPointer = 0;
+    let computedMetricCorrectPassesCount = 0;
+    let computedMetricTotalAttemptsCount = 0;
+
+    // Load initial structures from local cached storage if they exist
+    if (localStorage.getItem('SUBEDI_ENGINE_FLASHCARDS')) {
+        try {
+            collectionFlashcardMemoryArray = JSON.parse(localStorage.getItem('SUBEDI_ENGINE_FLASHCARDS'));
+        } catch(e) { collectionFlashcardMemoryArray = []; }
+    }
+
+    function appendCardToActiveDeck() {
+        const queryFrontString = document.getElementById('fcFront').value.trim();
+        const verificationBackString = document.getElementById('fcBack').value.trim();
+        
+        if (queryFrontString && verificationBackString) {
+            collectionFlashcardMemoryArray.push({ front: queryFrontString, back: verificationBackString });
+            localStorage.setItem('SUBEDI_ENGINE_FLASHCARDS', JSON.stringify(collectionFlashcardMemoryArray));
+            
+            document.getElementById('fcFront').value = '';
+            document.getElementById('fcBack').value = '';
+            currentFlashcardViewingIndexPointer = collectionFlashcardMemoryArray.length - 1;
+            refreshFlashcardWorkspaceLayoutViewports();
         }
+    }
 
-        /* Matrix Core Grid */
-        .system-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+    function refreshFlashcardWorkspaceLayoutViewports() {
+        if (collectionFlashcardMemoryArray.length === 0) {
+            document.getElementById('fcScoreBoard').innerText = "System Array Status: Empty Storage Matrix";
+            return;
         }
+        
+        document.getElementById('fcScoreBoard').innerText = 
+            `Deck Size: ${collectionFlashcardMemoryArray.length} Cards | Active Card Pointer: #${currentFlashcardViewingIndexPointer + 1} | Accuracy Log: ${computedMetricCorrectPassesCount}/${computedMetricTotalAttemptsCount}`;
+        
+        document.getElementById('cardViewer').classList.remove('is-flipped');
+        document.getElementById('viewFront').innerText = collectionFlashcardMemoryArray[currentFlashcardViewingIndexPointer].front;
+        document.getElementById('viewBack').innerText = collectionFlashcardMemoryArray[currentFlashcardViewingIndexPointer].back;
+    }
 
-        /* Premium Dashboard Cards */
-        .functional-card {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-thin);
-            border-radius: var(--radius-md);
-            padding: 2.2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    function recordCardEvaluationScore(isUserAnswerCorrectFlag) {
+        if (collectionFlashcardMemoryArray.length === 0) return;
+        computedMetricTotalAttemptsCount++;
+        if (isUserAnswerCorrectFlag) {
+            computedMetricCorrectPassesCount++;
         }
-
-        .functional-card:hover {
-            transform: translateY(-6px);
-            border-color: var(--border-bright);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.3), 0 0 20px rgba(88,86,214,0.1);
+        
+        if (currentFlashcardViewingIndexPointer < collectionFlashcardMemoryArray.length - 1) {
+            stepNextFlashcard();
+        } else {
+            refreshFlashcardWorkspaceLayoutViewports();
         }
+    }
 
-        .functional-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: var(--radius-md);
-            box-shadow: inset 0 0 15px rgba(255,255,255,0.02);
-            pointer-events: none;
+    function stepNextFlashcard() {
+        if (currentFlashcardViewingIndexPointer < collectionFlashcardMemoryArray.length - 1) {
+            currentFlashcardViewingIndexPointer++;
+            refreshFlashcardWorkspaceLayoutViewports();
         }
+    }
 
-        .card-header-zone {
-            margin-bottom: 2rem;
+    function stepPreviousFlashcard() {
+        if (currentFlashcardViewingIndexPointer > 0) {
+            currentFlashcardViewingIndexPointer--;
+            refreshFlashcardWorkspaceLayoutViewports();
         }
+    }
 
-        .card-icon-badge {
-            width: 48px;
-            height: 48px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-thin);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1.2rem;
-            transition: all 0.3s ease;
+    function shuffleFlashcardSequence() {
+        if (collectionFlashcardMemoryArray.length < 2) return;
+        collectionFlashcardMemoryArray.sort(() => Math.random() - 0.5);
+        currentFlashcardViewingIndexPointer = 0;
+        refreshFlashcardWorkspaceLayoutViewports();
+    }
+
+    // Initialize layout status checks on initial application wake cycles
+    refreshFlashcardWorkspaceLayoutViewports();
+
+
+    /* ==========================================================================
+       SECTION 6: TRANSCRIPT EXTRAPOLATION CALCULATOR PROCESSING MATRIX
+       ========================================================================== */
+    
+    function insertNewGpaRecordRow() {
+        const structuralRowsContainerNode = document.getElementById('gpaRows');
+        const processingRowSubDivNode = document.createElement('div');
+        processingRowSubDivNode.style = "display: flex; gap: 0.75rem; margin-bottom: 0.75rem;";
+        processingRowSubDivNode.innerHTML = `
+            <input type="text" placeholder="Course title identification..." style="flex: 2;">
+            <input type="number" placeholder="Credits" class="gpa-credit" style="flex: 0.7;" min="1">
+            <select class="gpa-grade" style="flex: 1;">
+                <option value="4.0">Grade: A (4.0 Points)</option>
+                <option value="3.5">Grade: B+ (3.5 Points)</option>
+                <option value="3.0">Grade: B (3.0 Points)</option>
+                <option value="2.5">Grade: C+ (2.5 Points)</option>
+                <option value="2.0">Grade: C (2.0 Points)</option>
+                <option value="0.0">Grade: F (0.0 Points)</option>
+            </select>
+        `;
+        structuralRowsContainerNode.appendChild(processingRowSubDivNode);
+    }
+
+    function executeTranscriptGpaCompilation() {
+        const creditInputDomElementsCollection = document.querySelectorAll('.gpa-credit');
+        const qualityGradeSelectDomElementsCollection = document.querySelectorAll('.gpa-grade');
+        let aggregatedQualityPointsValue = 0;
+        let cumulativeCreditsAttemptedValue = 0;
+        
+        for (let entryIndex = 0; entryIndex < creditInputDomElementsCollection.length; entryIndex++) {
+            let parsedCreditNumericValue = parseFloat(creditInputDomElementsCollection[entryIndex].value);
+            let selectedPointGradeMappingValue = parseFloat(qualityGradeSelectDomElementsCollection[entryIndex].value);
+            
+            if (!isNaN(parsedCreditNumericValue) && parsedCreditNumericValue > 0) {
+                aggregatedQualityPointsValue += (parsedCreditNumericValue * selectedPointGradeMappingValue);
+                cumulativeCreditsAttemptedValue += parsedCreditNumericValue;
+            }
         }
+        
+        const finalCalculatedCumulativeGpaScore = cumulativeCreditsAttemptedValue > 0 
+            ? (aggregatedQualityPointsValue / cumulativeCreditsAttemptedValue).toFixed(3) 
+            : "0.000";
+            
+        document.getElementById('gpaOutput').innerHTML = 
+            `<b>[Analytical Output Compilation Engine Summary]:</b>\n` +
+            `Total Evaluated Core Credits Attempted: ${cumulativeCreditsAttemptedValue} Units\n` +
+            `Calculated Total Quality Points Value: ${aggregatedQualityPointsValue.toFixed(2)}\n` +
+            `Resulting Cumulative Performance Rating Score: <span style="color:var(--accent-success); font-weight:800;">${finalCalculatedCumulativeGpaScore} GPA</span>`;
+    }
 
-        .functional-card:hover .card-icon-badge {
-            background: var(--accent-core);
-            border-color: transparent;
-            box-shadow: 0 0 15px var(--accent-glow);
+
+    /* ==========================================================================
+       SECTION 7: LEXICAL TRANSFORM RENDERING LAB WORKSPACE (MARKDOWN PARSER)
+       ========================================================================== */
+    
+    function executeLiveMarkdownTransformation() {
+        const continuousRawTextPayloadInput = document.getElementById('noteInput').value;
+        const visualizationPreviewDisplayEl = document.getElementById('notePreview');
+        
+        let calculatedSpaceTokenCount = continuousRawTextPayloadInput.trim() === "" 
+            ? 0 
+            : continuousRawTextPayloadInput.trim().split(/\s+/).length;
+            
+        document.getElementById('noteWordCount').innerText = 
+            `Metrics Log: ${calculatedSpaceTokenCount} Active Word Tokens | ${continuousRawTextPayloadInput.length} Explicit Binary Characters`;
+            
+        // Regular expression replacements translating symbols into valid structural HTML fields
+        let secondaryParsedHtmlBlock = continuousRawTextPayloadInput
+            .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+            .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+            .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+            .replace(/^\* (.*$)/gim, '<ul><li>$1</li></ul>')
+            .replace(/^- (.*$)/gim, '<ul><li>$1</li></ul>')
+            .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
+            .replace(/__(.*)__/gim, '<strong>$1</strong>')
+            .replace(/\*(.*)\*/gim, '<em>$1</em>')
+            .replace(/`(.*)`/gim, '<code style="background:#090b11; padding:2px 4px; border-radius:4px;">$1</code>');
+            
+        visualizationPreviewDisplayEl.innerHTML = secondaryParsedHtmlBlock;
+    }
+
+    function triggerMarkdownFileDownload() {
+        const markdownSourceContentString = document.getElementById('noteInput').value;
+        const textDataBlobArtifact = new Blob([markdownSourceContentString], { type: "text/markdown;charset=utf-8" });
+        const temporaryVirtualAnchorLink = document.createElement("a");
+        
+        temporaryVirtualAnchorLink.href = URL.createObjectURL(textDataBlobArtifact);
+        temporaryVirtualAnchorLink.download = "StructuralCompilationNoteAsset.md";
+        document.body.appendChild(temporaryVirtualAnchorLink);
+        temporaryVirtualAnchorLink.click();
+        document.body.removeChild(temporaryVirtualAnchorLink);
+    }
+
+
+    /* ==========================================================================
+       SECTION 8: TASK STRATIFICATION METRIC PLANNER ENGINE
+       ========================================================================== */
+    
+    let objectWorkflowTaskCollectionArray = [];
+
+    if (localStorage.getItem('SUBEDI_ENGINE_WORKFLOW_TASKS')) {
+        try {
+            objectWorkflowTaskCollectionArray = JSON.parse(localStorage.getItem('SUBEDI_ENGINE_WORKFLOW_TASKS'));
+        } catch(e) { objectWorkflowTaskCollectionArray = []; }
+    }
+
+    function insertTaskMatrixItem() {
+        const textTaskTitleDescription = document.getElementById('taskName').value.trim();
+        const priorityTagMappingSelectorValue = document.getElementById('taskPriority').value;
+        
+        if (!textTaskTitleDescription) return;
+        
+        objectWorkflowTaskCollectionArray.push({
+            uniqueTimestampIdentifier: Date.now(),
+            titleStringPayload: textTaskTitleDescription,
+            importanceRankTag: priorityTagMappingSelectorValue
+        });
+        
+        localStorage.setItem('SUBEDI_ENGINE_WORKFLOW_TASKS', JSON.stringify(objectWorkflowTaskCollectionArray));
+        document.getElementById('taskName').value = '';
+        renderActiveWorkflowDashboardMatrix();
+    }
+
+    function purgeTaskMatrixItem(targetTimestampIdKey) {
+        objectWorkflowTaskCollectionArray = objectWorkflowTaskCollectionArray.filter(taskItemObj => taskItemObj.uniqueTimestampIdentifier !== targetTimestampIdKey);
+        localStorage.setItem('SUBEDI_ENGINE_WORKFLOW_TASKS', JSON.stringify(objectWorkflowTaskCollectionArray));
+        renderActiveWorkflowDashboardMatrix();
+    }
+
+    function renderActiveWorkflowDashboardMatrix() {
+        const interfaceWorkflowDisplayListContainerNode = document.getElementById('taskListContainer');
+        interfaceWorkflowDisplayListContainerNode.innerHTML = '';
+        
+        objectWorkflowTaskCollectionArray.forEach(taskRecordObject => {
+            let rowWrapperLayoutDivNode = document.createElement('div');
+            
+            let colorLeftBorderAccentLine = "var(--accent-core)";
+            if (taskRecordObject.importanceRankTag.includes('High')) colorLeftBorderAccentLine = "var(--accent-danger)";
+            if (taskRecordObject.importanceRankTag.includes('Mid')) colorLeftBorderAccentLine = "var(--accent-warning)";
+            if (taskRecordObject.importanceRankTag.includes('Low')) colorLeftBorderAccentLine = "var(--accent-success)";
+            
+            rowWrapperLayoutDivNode.style = `display:flex; justify-content:space-between; align-items:center; background:var(--bg-master); padding:0.85rem 1.25rem; border-radius:var(--radius-sm); border-left:5px solid ${colorLeftBorderAccentLine}; border-top:1px solid var(--border-thin); border-right:1px solid var(--border-thin); border-bottom:1px solid var(--border-thin);`;
+            
+            rowWrapperLayoutDivNode.innerHTML = `
+                <div>
+                    <span style="font-size:0.78rem; background:var(--bg-secondary); padding:4px 8px; border-radius:4px; margin-right:0.75rem; font-family:var(--font-mono); font-weight:700; border:1px solid var(--border-bright);">${taskRecordObject.importanceRankTag}</span>
+                    <span style="font-weight:500;">${taskRecordObject.titleStringPayload}</span>
+                </div>
+                <button onclick="purgeTaskMatrixItem(${taskRecordObject.uniqueTimestampIdentifier})" style="background:none; border:none; color:var(--accent-danger); cursor:pointer; font-weight:800; font-size:1.1rem; padding:0 0.5rem;">✕</button>
+            `;
+            interfaceWorkflowDisplayListContainerNode.appendChild(rowWrapperLayoutDivNode);
+        });
+    }
+
+    // Wake state visualization mapping calls
+    renderActiveWorkflowDashboardMatrix();
+
+
+    /* ==========================================================================
+       SECTION 9: SYSTEM PIPELINE IMPLEMENTATIONS (CORE UTILITIES)
+       ========================================================================== */
+    
+    /**
+     * Generates secure randomized string sequences.
+     */
+    function executeSystemPasswordGeneration() {
+        const configTargetLengthCountValue = parseInt(document.getElementById('passLength').value) || 16;
+        const globalUppercaseCharactersPool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const globalLowercaseCharactersPool = "abcdefghijklmnopqrstuvwxyz";
+        const globalNumericCharactersPool = "0123456789";
+        const globalSpecialSymbolsCharactersPool = "!@#$%^&*()_+~`|}{[]:;?><,./-=";
+        
+        let compositeSelectedCharacterPool = "";
+        if (document.getElementById('passUpper').checked) compositeSelectedCharacterPool += globalUppercaseCharactersPool;
+        if (document.getElementById('passLower').checked) compositeSelectedCharacterPool += globalLowercaseCharactersPool;
+        if (document.getElementById('passNum').checked) compositeSelectedCharacterPool += globalNumericCharactersPool;
+        if (document.getElementById('passSym').checked) compositeSelectedCharacterPool += globalSpecialSymbolsCharactersPool;
+        
+        if (!compositeSelectedCharacterPool) {
+            document.getElementById('passOutput').innerText = "System Exception Rule Error: At least one structural characters set checkbox option must be verified.";
+            return;
         }
-
-        .card-headline {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 0.6rem;
+        
+        let finalGeneratedSecureKeyString = "";
+        for (let iterationIndex = 0; iterationIndex < configTargetLengthCountValue; iterationIndex++) {
+            let pseudoRandomArrayIndexPointer = Math.floor(Math.random() * compositeSelectedCharacterPool.length);
+            finalGeneratedSecureKeyString += compositeSelectedCharacterPool.charAt(pseudoRandomArrayIndexPointer);
         }
+        
+        document.getElementById('passOutput').innerText = finalGeneratedSecureKeyString;
+    }
 
-        .card-description {
-            color: var(--text-muted);
-            font-size: 0.98rem;
-            line-height: 1.5;
+    /**
+     * Standard symmetric string encryption translations.
+     */
+    function executeBase64ProcessingLoop(shouldPerformEncodingDirectionFlag) {
+        const inputStringSourceText = document.getElementById('b64Input').value;
+        const processingResultDisplayTargetEl = document.getElementById('b64Output');
+        
+        try {
+            if (shouldPerformEncodingDirectionFlag) {
+                processingResultDisplayTargetEl.innerText = btoa(inputStringSourceText);
+            } else {
+                processingResultDisplayTargetEl.innerText = atob(inputStringSourceText);
+            }
+        } catch (structuralSystemExceptionError) {
+            processingResultDisplayTargetEl.innerText = `[Transform System Exception Exception]: Parsing operations failed. Ensure data maps cleanly onto correct Base64 bounds.`;
         }
+    }
 
-        /* Form Controls UI elements */
-        label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
+    /**
+     * Resizes canvas image arrays.
+     */
+    function executeTargetCanvasImageResize() {
+        const structuralUploadedFileSourceRef = document.getElementById('resizeFile').files[0];
+        const requestedTargetPixelWidthValue = parseInt(document.getElementById('resizeWidth').value);
+        const requestedTargetPixelHeightValue = parseInt(document.getElementById('resizeHeight').value);
+        
+        if (!structuralUploadedFileSourceRef) {
+            alert("Resource Upload Missing Error: Upload source structural image layout before processing.");
+            return;
         }
+        
+        const runtimeVirtualImageObjectRef = new Image();
+        runtimeVirtualImageObjectRef.src = URL.createObjectURL(structuralUploadedFileSourceRef);
+        
+        runtimeVirtualImageObjectRef.onload = function() {
+            const hiddenOffscreenCanvasBufferNode = document.createElement('canvas');
+            hiddenOffscreenCanvasBufferNode.width = requestedTargetPixelWidthValue;
+            hiddenOffscreenCanvasBufferNode.height = requestedTargetPixelHeightValue;
+            
+            const offscreenCanvasRenderingContext = hiddenOffscreenCanvasBufferNode.getContext('2d');
+            offscreenCanvasRenderingContext.drawImage(runtimeVirtualImageObjectRef, 0, 0, requestedTargetPixelWidthValue, requestedTargetPixelHeightValue);
+            
+            const targetedFinalRenderDisplayPreviewElement = document.getElementById('resizerFinalPreview');
+            targetedFinalRenderDisplayPreviewElement.src = hiddenOffscreenCanvasBufferNode.toDataURL('image/jpeg', 0.9);
+            document.getElementById('resizerOutputBlock').style.display = 'block';
+        };
+    }
 
-        input[type="text"],
-        input[type="number"],
-        input[type="password"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 0.95rem 1.2rem;
-            background-color: var(--bg-master);
-            border: 1px solid var(--border-bright);
-            color: var(--text-main);
-            border-radius: var(--radius-sm);
-            font-size: 1rem;
-            transition: all 0.2s ease;
+    /**
+     * Layer Canvas stitching matrix operations module.
+     */
+    function executeCanvasStitchingLayerMerge() {
+        const uploadedFileTargetLayer0 = document.getElementById('mergeFile1').files[0];
+        const uploadedFileTargetLayer1 = document.getElementById('mergeFile2').files[0];
+        const layoutOrientationAxisSetting = document.getElementById('mergeOrientation').value;
+        
+        if (!uploadedFileTargetLayer0 || !uploadedFileTargetLayer1) {
+            alert("Matrix Parameter Configuration Exception: Upload both baseline structures.");
+            return;
         }
+        
+        const dynamicImageElementLayer0 = new Image();
+        const dynamicImageElementLayer1 = new Image();
+        
+        dynamicImageElementLayer0.src = URL.createObjectURL(uploadedFileTargetLayer0);
+        dynamicImageElementLayer0.onload = function() {
+            dynamicImageElementLayer1.src = URL.createObjectURL(uploadedFileTargetLayer1);
+            dynamicImageElementLayer1.onload = function() {
+                const multiLayerOffscreenCanvasNode = document.createElement('canvas');
+                
+                if (layoutOrientationAxisSetting === 'vertical') {
+                    multiLayerOffscreenCanvasNode.width = Math.max(dynamicImageElementLayer0.width, dynamicImageElementLayer1.width);
+                    multiLayerOffscreenCanvasNode.height = dynamicImageElementLayer0.height + dynamicImageElementLayer1.height;
+                } else {
+                    multiLayerOffscreenCanvasNode.width = dynamicImageElementLayer0.width + dynamicImageElementLayer1.width;
+                    multiLayerOffscreenCanvasNode.height = Math.max(dynamicImageElementLayer0.height, dynamicImageElementLayer1.height);
+                }
+                
+                const layeredCanvasContextRef = multiLayerOffscreenCanvasNode.getContext('2d');
+                layeredCanvasContextRef.drawImage(dynamicImageElementLayer0, 0, 0);
+                
+                if (layoutOrientationAxisSetting === 'vertical') {
+                    layeredCanvasContextRef.drawImage(dynamicImageElementLayer1, 0, dynamicImageElementLayer0.height);
+                } else {
+                    layeredCanvasContextRef.drawImage(dynamicImageElementLayer1, dynamicImageElementLayer0.width, 0);
+                }
+                
+                const outputResultDisplayPreviewImageNode = document.getElementById('mergerFinalPreview');
+                outputResultDisplayPreviewImageNode.src = multiLayerOffscreenCanvasNode.toDataURL('image/png');
+                document.getElementById('mergerOutputBlock').style.display = 'block';
+            };
+        };
+    }
 
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--accent-core);
-            box-shadow: 0 0 10px rgba(88,86,214,0.2);
+    /**
+     * Document raster item engine transformation loop filters.
+     */
+    function executePdfDeconstructionRasterExtraction() {
+        const internalTargetUploadedDocumentFile = document.getElementById('pdfFile').files[0];
+        if (!internalTargetUploadedDocumentFile) return;
+        
+        const comprehensiveDocumentReaderInstance = new FileReader();
+        comprehensiveDocumentReaderInstance.onload = function() {
+            const rawTypedArrayByteSequenceBuffer = new Uint8Array(this.result);
+            
+            pdfjsLib.getDocument(rawTypedArrayByteSequenceBuffer).promise.then(compiledPdfDocumentObject => {
+                const renderingOutputContainerAreaNode = document.getElementById('pdfOutputArea');
+                renderingOutputContainerAreaNode.innerHTML = "";
+                
+                for (let pageIteratorIndex = 1; pageIteratorIndex <= compiledPdfDocumentObject.numPages; pageIteratorIndex++) {
+                    compiledPdfDocumentObject.getPage(pageIteratorIndex).then(individualDocumentPageObject => {
+                        const targetViewportScaleConfiguration = individualDocumentPageObject.getViewport({ scale: 1.6 });
+                        const inlineProcessingCanvasNode = document.createElement('canvas');
+                        
+                        inlineProcessingCanvasNode.height = targetViewportScaleConfiguration.height;
+                        inlineProcessingCanvasNode.width = targetViewportScaleConfiguration.width;
+                        
+                        const renderContextParametersSpecification = {
+                            canvasContext: inlineProcessingCanvasNode.getContext('2d'),
+                            viewport: targetViewportScaleConfiguration
+                        };
+                        
+                        individualDocumentPageObject.render(renderContextParametersSpecification).promise.then(() => {
+                            const serializedRasterDataUrlString = inlineProcessingCanvasNode.toDataURL('image/png');
+                            
+                            const componentWrapperBlockElement = document.createElement('div');
+                            componentWrapperBlockElement.className = 'processing-result-block';
+                            componentWrapperBlockElement.style.display = 'block';
+                            
+                            const labelHeaderTitleElement = document.createElement('label');
+                            labelHeaderTitleElement.innerText = `Extracted Artifact Page Sector Vector #${pageIteratorIndex}:`;
+                            labelHeaderTitleElement.style.color = 'var(--accent-info)';
+                            
+                            const rasterizedRenderPreviewImageNode = new Image();
+                            rasterizedRenderPreviewImageNode.src = serializedRasterDataUrlString;
+                            rasterizedRenderPreviewImageNode.className = 'processing-result-preview';
+                            
+                            const downloadActionButtonTrigger = document.createElement('button');
+                            downloadActionButtonTrigger.className = 'action-button';
+                            downloadActionButtonTrigger.style.background = 'var(--accent-info)';
+                            downloadActionButtonTrigger.innerText = `Download Page Layout Frame #${pageIteratorIndex}`;
+                            
+                            downloadActionButtonTrigger.onclick = function() {
+                                const temporaryDownloadActionAnchor = document.createElement('a');
+                                temporaryDownloadActionAnchor.href = serializedRasterDataUrlString;
+                                temporaryDownloadActionAnchor.download = `extracted_page_vector_${pageIteratorIndex}.png`;
+                                temporaryDownloadActionAnchor.click();
+                            };
+                            
+                            componentWrapperBlockElement.appendChild(labelHeaderTitleElement);
+                            componentWrapperBlockElement.appendChild(rasterizedRenderPreviewImageNode);
+                            componentWrapperBlockElement.appendChild(downloadActionButtonTrigger);
+                            renderingOutputContainerAreaNode.appendChild(componentWrapperBlockElement);
+                        });
+                    });
+                }
+            });
+        };
+        comprehensiveDocumentReaderInstance.readAsArrayBuffer(internalTargetUploadedDocumentFile);
+    }
+
+    /**
+     * Compiles raw text inputs into multi-page PDFs using layout splits.
+     */
+    function executeTextToPdfDocumentCompilation() {
+        const { jsPDF } = window.jspdf;
+        const enterpriseDocumentCompilerInstance = new jsPDF();
+        const continuousInputContentPayloadString = document.getElementById('pdfTextContent').value;
+        
+        if (!continuousInputContentPayloadString) {
+            alert("Empty Payload Rule Exception: Enter body descriptions prior to object compilation operations.");
+            return;
         }
-
-        .checkbox-flex-group {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin: 1.5rem 0;
+        
+        const multiLineArraySplitBlockStrings = enterpriseDocumentCompilerInstance.splitTextToSize(continuousInputContentPayloadString, 180);
+        const internalPageLayoutHeightThresholdLimit = enterpriseDocumentCompilerInstance.internal.pageSize.height;
+        let trackedVerticalCoordinateYPosition = 12;
+        const processingRowLineHeightSpacingStep = 8;
+        
+        for (let rowLineIndex = 0; rowLineIndex < multiLineArraySplitBlockStrings.length; rowLineIndex++) {
+            if (trackedVerticalCoordinateYPosition + processingRowLineHeightSpacingStep > internalPageLayoutHeightThresholdLimit - 12) {
+                enterpriseDocumentCompilerInstance.addPage();
+                trackedVerticalCoordinateYPosition = 12;
+            }
+            enterpriseDocumentCompilerInstance.text(multiLineArraySplitBlockStrings[rowLineIndex], 12, trackedVerticalCoordinateYPosition);
+            trackedVerticalCoordinateYPosition += processingRowLineHeightSpacingStep;
         }
+        
+        enterpriseDocumentCompilerInstance.save('Enterprise_Compiled_Artifact_Specification.pdf');
+        console.log("[Document Engine]: PDF generation loop completed.");
+    }
 
-        .custom-checkbox-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            cursor: pointer;
-            user-select: none;
-            padding: 0.6rem;
-            background: var(--bg-master);
-            border: 1px solid var(--border-thin);
-            border-radius: var(--radius-sm);
+    /**
+     * Pollinations asset proxy router simulation.
+     */
+    function generateNeuralImageSimulation() {
+        const inputPromptCoreString = document.getElementById('imgPrompt').value;
+        const selectedArtDirectionFilterStyle = document.getElementById('imgStyle').value;
+        
+        if (!inputPromptCoreString) {
+            alert("Validation rule exception parameter alert: Prompt parameter block is undefined.");
+            return;
         }
+        
+        document.getElementById('aiImageOutputBlock').style.display = 'none';
+        const formattedCompoundPromptUrlEncoded = `${inputPromptCoreString}, ${selectedArtDirectionFilterStyle} detail rendering, 8k definition fidelity layout setup`;
+        const generatedSecureProxyQueryUrlString = `https://image.pollinations.ai/prompt/${encodeURIComponent(formattedCompoundPromptUrlEncoded)}?width=800&height=500&nologo=true&seed=${Math.floor(Math.random() * 9999999)}`;
 
-        .custom-checkbox-wrapper input {
-            cursor: pointer;
-            width: 18px;
-            height: 18px;
-            accent-color: var(--accent-core);
-        }
-
-        /* Structural Button Matrix */
-        .action-button {
-            background: var(--accent-core);
-            color: #ffffff;
-            border: none;
-            padding: 0.9rem 1.5rem;
-            border-radius: var(--radius-sm);
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            width: 100%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .action-button:hover {
-            background: #4341b7;
-            box-shadow: 0 0 20px rgba(88,86,214,0.4);
-        }
-
-        .action-button:active {
-            transform: scale(0.98);
-        }
-
-        /* Overlays & Modals Framework */
-        .modal-overlay-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(3, 4, 7, 0.9);
-            backdrop-filter: blur(12px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 5000;
-            padding: 2rem;
-            animation: fadeIn 0.25s ease forwards;
-        }
-
-        .modal-window-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border-bright);
-            border-radius: var(--radius-lg);
-            max-width: 800px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 3rem;
-            position: relative;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-            animation: slideUp 0.3s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
-        }
-
-        .modal-dismiss-btn {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-thin);
-            color: var(--text-muted);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            font-size: 1.3rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-
-        .modal-dismiss-btn:hover {
-            background: var(--accent-danger);
-            color: #fff;
-            border-color: transparent;
-        }
-
-        /* Generic Framework Components */
-        .output-terminal-display {
-            background: var(--bg-master);
-            border: 1px solid var(--border-thin);
-            border-radius: var(--radius-sm);
-            padding: 1.25rem;
-            margin-top: 1.5rem;
-            font-family: var(--font-mono);
-            font-size: 0.9rem;
-            color: #d1d9e6;
-            overflow-x: auto;
-            white-space: pre-wrap;
-        }
-
-        /* Flashcard Physical Dynamics */
-        .flashcard-viewport {
-            perspective: 1200px;
-            height: 240px;
-            margin: 2rem 0;
-            cursor: pointer;
-        }
-
-        .flashcard-flipper-core {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-        }
-
-        .flashcard-viewport.is-flipped .flashcard-flipper-core {
-            transform: rotateY(180deg);
-        }
-
-        .flashcard-surface-front, .flashcard-surface-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-radius: var(--radius-md);
-            padding: 2.5rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        .flashcard-surface-front {
-            background: linear-gradient(135deg, var(--accent-core) 0%, #3b3994 100%);
-            color: #ffffff;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .flashcard-surface-back {
-            background: var(--bg-secondary);
-            color: var(--text-main);
-            transform: rotateY(180deg);
-            border: 1px solid var(--border-bright);
-        }
-
-        .card-surface-tag {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: rgba(255,255,255,0.6);
-            margin-bottom: 1rem;
-        }
-
-        /* Advanced Cognitive Video Canvas Interface Styles */
-        .video-player-frame {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: #020204;
-            border-radius: var(--radius-md);
-            margin-top: 1.5rem;
-            overflow: hidden;
-            border: 1px solid var(--border-bright);
-        }
-
-        #generativeVideoCanvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        .hud-control-container {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(to top, rgba(3,4,7,0.95) 0%, rgba(3,4,7,0.7) 70%, transparent 100%);
-            padding: 1.25rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 20;
-        }
-
-        .hud-scrubber-bar {
-            flex: 1;
-            height: 6px;
-            background: rgba(255,255,255,0.15);
-            margin: 0 1.25rem;
-            border-radius: 10px;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .hud-scrubber-bar:hover { height: 8px; }
-
-        .hud-scrubber-progress {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 0%;
-            background: var(--accent-core);
-            border-radius: 10px;
-            box-shadow: 0 0 8px var(--accent-core);
-        }
-
-        .hud-status-capsule {
-            position: absolute;
-            top: 1.25rem;
-            left: 1.25rem;
-            background: rgba(9, 11, 17, 0.85);
-            padding: 0.5rem 1rem;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            font-family: var(--font-mono);
-            border: 1px solid var(--border-bright);
-            backdrop-filter: blur(8px);
-            z-index: 20;
-        }
-
-        /* Cognitive Reflection Interface Module */
-        .cognitive-thought-box {
-            background: rgba(88, 86, 214, 0.05);
-            border: 1px solid rgba(88, 86, 214, 0.2);
-            border-radius: var(--radius-sm);
-            padding: 1.5rem;
-            margin-top: 1rem;
-            font-size: 0.88rem;
-            font-family: var(--font-mono);
-            color: #9ba5df;
-            display: none;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            border-left: 4px solid var(--accent-core);
-        }
-
-        /* File Resource Layout Forms */
-        .live-resource-view-canvas {
-            width: 100%;
-            max-height: 180px;
-            object-fit: contain;
-            background: #030407;
-            border-radius: var(--radius-sm);
-            border: 1px dashed var(--border-bright);
-            margin: 0.75rem 0;
-            display: none;
-        }
-
-        .processing-result-block {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            border: 1px solid var(--accent-core);
-            border-radius: var(--radius-md);
-            background: #0d0f1a;
-            display: none;
-        }
-
-        .processing-result-preview {
-            width: 100%;
-            max-height: 320px;
-            object-fit: contain;
-            background: #000000;
-            border-radius: var(--radius-sm);
-            margin-bottom: 1.25rem;
-            border: 1px solid var(--border-thin);
-        }
-
-        /* Animations Framework */
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    </style>
-</head>
-<body>
-<div class="workspace-container">
+        const backgroundAssetPreloaderImageObject = new Image();
+        backgroundAssetPreloaderImageObject.crossOrigin = "anonymous";
+        backgroundAssetPreloaderImageObject.src = generatedSecureProxyQueryUrlString;
