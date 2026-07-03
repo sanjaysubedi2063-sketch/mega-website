@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sanjay Subedi - Ultimate Enterprise Utility & Student Engine</title>
+    <!-- Dependencies for Document Management Core -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -878,7 +879,7 @@
                 targetPreview.src = activeSrc;
 
                 currentFrameIndex = (currentFrameIndex + 1) % loadedVideoFrames.length;
-            }, 300); // High-frequency flipbook animation step
+            }, 300);
         }
 
         function downloadActiveVideoFrame() {
@@ -1069,7 +1070,7 @@
                 canvas.getContext('2d').drawImage(img, 0, 0, w, h);
                 
                 let targetPreview = document.getElementById('resizerFinalPreview');
-                targetPreview.src = canvas.toDataURL('image/jpeg');
+                targetPreview.src = canvas.toToDataURL ? canvas.toDataURL('image/jpeg') : canvas.toDataURL();
                 document.getElementById('resizerOutputBlock').style.display = 'block';
             }
         }
