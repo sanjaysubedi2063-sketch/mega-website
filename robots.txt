@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sanjaysubedi2063-sketch.github.io/mega-website/sitemap.xml
