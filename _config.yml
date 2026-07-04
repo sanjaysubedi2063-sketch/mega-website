@@ -1,0 +1,19 @@
+# GitHub Pages Jekyll Configuration
+# This enables proper file serving and headers for GitHub Pages
+
+# Build settings
+markdown: kramdown
+theme: null
+
+# Exclude files from processing
+exclude:
+  - .gitignore
+  - README.md
+  - CNAME
+
+# Include files that Jekyll would normally exclude
+include:
+  - .github
+
+# Output settings
+permalink: /:path/
