@@ -127,6 +127,7 @@
         .processing-result-block { margin-top: 1.5rem; display: none; }
         .processing-result-preview { width: 100%; max-height: 280px; object-fit: contain; background: #000; border-radius: 6px; margin-bottom: 1rem; border: 1px solid var(--border-thin); }
         .live-resource-view-canvas { width: 100%; max-height: 120px; object-fit: contain; margin: 0.5rem 0; display: none; }
+        .task-item { display: flex; justify-content: space-between; align-items: center; background: var(--bg-secondary); padding: 0.75rem 1rem; border-radius: 6px; border-left: 4px solid var(--accent-core); }
     </style>
 </head>
 <body>
@@ -269,676 +270,631 @@
             <button class="action-button" onclick="openEngineModal('toolTextToPdfModal')">Launch Document Unit</button>
         </div>
     </div>
+</div>
 
-    <div id="cognitiveVideoModal" class="modal-overlay-backdrop">
-        <div class="modal-window-box">
-            <button class="modal-dismiss-btn" onclick="closeEngineModal('cognitiveVideoModal')">×</button>
-            <h2>🎬 Advanced Cognitive Text-to-Video Engine</h2>
-            <label>Natural Language Prompt Directives</label>
-            <textarea id="vdoPrompt" rows="3" placeholder="Describe motion space, e.g., rapid neon cyan digital matrix data lines dropping down or deep slow crimson galaxy solar space flare..."></textarea>
-            <button class="action-button" style="background:#a356ff; margin: 1rem 0;" onclick="executeCognitiveVideoGeneration()">Analyze Prompt Intent & Synthesize</button>
-            
-            <div id="videoThoughtOutput" class="output-terminal-display" style="display:none; color:#a5a4ff; border-color:rgba(88,86,214,0.4);"></div>
+<div id="cognitiveVideoModal" class="modal-overlay-backdrop">
+    <div class="modal-window-box">
+        <button class="modal-dismiss-btn" onclick="closeEngineModal('cognitiveVideoModal')">×</button>
+        <h2>🎬 Advanced Cognitive Text-to-Video Engine</h2>
+        <label>Natural Language Prompt Directives</label>
+        <textarea id="vdoPrompt" rows="3" placeholder="Describe motion space, e.g., rapid neon cyan digital matrix data lines dropping down or deep slow crimson galaxy solar space flare..."></textarea>
+        <button class="action-button" style="background:#a356ff; margin: 1rem 0;" onclick="executeCognitiveVideoGeneration()">Analyze Prompt Intent & Synthesize</button>
+        
+        <div id="videoThoughtOutput" class="output-terminal-display" style="display:none; color:#a5a4ff; border-color:rgba(88,86,214,0.4);"></div>
 
-            <div class="video-player-frame" id="vdoFrameContainer" style="display:none;">
-                <canvas id="generativeVideoCanvas" width="640" height="360"></canvas>
-                <div class="hud-control-container">
-                    <span id="playStateBtn" style="cursor:pointer; font-weight:bold; font-family:var(--font-mono);" onclick="toggleVideoPlaybackState()">⏸ PAUSE</span>
-                    <div class="hud-scrubber-bar" onclick="scrubVideoTimeline(event)"><div class="hud-scrubber-progress" id="vdoTimelineBar"></div></div>
-                    <span id="vdoTimeCounter" style="font-family:var(--font-mono); font-size:0.8rem;">0.0s / 10.0s</span>
-                </div>
+        <div class="video-player-frame" id="vdoFrameContainer" style="display:none;">
+            <canvas id="generativeVideoCanvas" width="640" height="360"></canvas>
+            <div class="hud-control-container">
+                <span id="playStateBtn" style="cursor:pointer; font-weight:bold; font-family:var(--font-mono);" onclick="toggleVideoPlaybackState()">⏸ PAUSE</span>
+                <div class="hud-scrubber-bar" onclick="scrubVideoTimeline(event)"><div class="hud-scrubber-progress" id="vdoTimelineBar"></div></div>
+                <span id="vdoTimeCounter" style="font-family:var(--font-mono); font-size:0.8rem;">0.0s / 10.0s</span>
             </div>
         </div>
     </div>
+</div>
 
-    <div id="cognitiveImageModal" class="modal-overlay-backdrop">
-        <div class="modal-window-box">
-            <button class="modal-dismiss-btn" onclick="closeEngineModal('cognitiveImageModal')">×</button>
-            <h2>🎨 Neural Image Synthesis Engine</h2>
-            <label>Art Direction Description Input</label>
-            <textarea id="imgPrompt" rows="3" placeholder="Enter composition concepts, environment conditions, structural asset profiles..."></textarea>
-            <label>Stylization Filter Profile</label>
-            <select id="imgStyle">
-                <option value="photorealistic">Hyper-Photorealistic Vector Render</option>
-                <option value="digital-art">Concept Digital Illustration Matte</option>
-                <option value="anime">Modern Anime Vector Styling</option>
-                <option value="oil">Textured Heavy Academic Oil Canvas</option>
-            </select>
-            <button class="action-button" style="background:#a356ff; margin-top:1rem;" onclick="generateNeuralImageSimulation()">Synthesize Image Layout Asset</button>
-            
-            <div id="imgOutputContainer" class="processing-result-block">
-                <label style="color:var(--accent-success);">Synthesized Output Target Buffer:</label>
-                <img id="imgFinalPreview" class="processing-result-preview" alt="Neural Synthesis Frame Ready">
-                <button class="action-button" style="background:var(--accent-success);" onclick="downloadSystemTargetAsset('imgFinalPreview', 'neural_synthesis.png')">Download Generated Graphic</button>
-            </div>
+<div id="cognitiveImageModal" class="modal-overlay-backdrop">
+    <div class="modal-window-box">
+        <button class="modal-dismiss-btn" onclick="closeEngineModal('cognitiveImageModal')">×</button>
+        <h2>🎨 Neural Image Synthesis Engine</h2>
+        <label>Art Direction Description Input</label>
+        <textarea id="imgPrompt" rows="3" placeholder="Enter composition concepts, environment conditions, structural asset profiles..."></textarea>
+        <label>Stylization Filter Profile</label>
+        <select id="imgStyle">
+            <option value="photorealistic">Hyper-Photorealistic Vector Render</option>
+            <option value="digital-art">Concept Digital Illustration Matte</option>
+            <option value="anime">Modern Anime Vector Styling</option>
+            <option value="oil">Textured Heavy Academic Oil Canvas</option>
+        </select>
+        <button class="action-button" style="background:#a356ff; margin-top:1rem;" onclick="generateNeuralImageSimulation()">Synthesize Image Layout Asset</button>
+        
+        <div id="imgOutputContainer" class="processing-result-block">
+            <label style="color:var(--accent-success);">Synthesized Output Target Buffer:</label>
+            <img id="imgFinalPreview" class="processing-result-preview" alt="Neural Synthesis Frame Ready">
+            <button class="action-button" style="background:var(--accent-success);" onclick="downloadSystemTargetAsset('imgFinalPreview', 'neural_synthesis.png')">Download Generated Graphic</button>
         </div>
     </div>
+</div>
 
-    <div id="cognitiveAudioModal" class="modal-overlay-backdrop">
-        <div class="modal-window-box">
-            <button class="modal-dismiss-btn" onclick="closeEngineModal('cognitiveAudioModal')">×</button>
-            <h2>🎵 Acoustic Focus Space Sound Modeler</h2>
-            <label>Waveform Frequency Synthesis Engine Configuration</label>
-            <select id="audioNoiseType">
-                <option value="brownian">Deep Brownian Noise Wave (Low-Pass Focus Masking)</option>
-                <option value="white">White Noise Uniform Density (Static Frequency Masking)</option>
-                <option value="binaural">Alpha Wave Cognitive Sync Pattern (10Hz Neural Shift)</option>
-            </select>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:2rem;">
-                <button class="action-button" style="background:var(--accent-success);" onclick="startFocusAcousticStream()">Initialize Stream</button>
-                <button class="action-button" style="background:var(--accent-danger);" onclick="terminateFocusAcousticStream()">Terminate Stream</button>
-            </div>
+<div id="cognitiveAudioModal" class="modal-overlay-backdrop">
+    <div class="modal-window-box">
+        <button class="modal-dismiss-btn" onclick="closeEngineModal('cognitiveAudioModal')">×</button>
+        <h2>🎵 Acoustic Focus Space Sound Modeler</h2>
+        <label>Waveform Frequency Synthesis Engine Configuration</label>
+        <select id="audioNoiseType">
+            <option value="brownian">Deep Brownian Noise Wave (Low-Pass Focus Masking)</option>
+            <option value="white">White Noise Uniform Density (Static Frequency Masking)</option>
+        </select>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:2rem;">
+            <button class="action-button" style="background:var(--accent-success);" onclick="startFocusAcousticStream()">Initialize Stream</button>
+            <button class="action-button" style="background:var(--accent-danger);" onclick="terminateFocusAcousticStream()">Terminate Stream</button>
         </div>
     </div>
+</div>
 
-    <div id="academicPomodoroModal" class="modal-overlay-backdrop">
-        <div class="modal-window-box">
-            <button class="modal-dismiss-btn" onclick="closeEngineModal('academicPomodoroModal')">×</button>
-            <h2>⚡ State-Machine Chrono Pomodoro Core</h2>
-            <div id="pomodoroStatusLabel" style="text-align:center; font-family:var(--font-mono); color:var(--text-muted); margin:1rem 0;">Status: Sequence Idle</div>
-            <div id="pomoClockText" style="font-size:4rem; font-weight:800; text-align:center; margin-bottom:1.5rem; font-family:var(--font-mono);">25:00</div>
-            
-            <div style="display:flex; gap:1rem; margin-bottom:1.5rem;">
-                <button class="action-button" onclick="startPomodoroCoreCycle()">Begin Learning Session</button>
-                <button class="action-button" style="background:var(--accent-warning);" onclick="pausePomodoroCoreCycle()">Pause Sequence</button>
-                <button class="action-button" style="background:var(--accent-danger);" onclick="resetPomodoroCoreCycle()">Reset Loop</button>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-                <div><label>Study Length (Mins)</label><input type="number" id="pomoFocusTime" value="25" min="1"></div>
-                <div><label>Break Length (Mins)</label><input type="number" id="pomoBreakTime" value="5" min="1"></div>
-            </div>
+<div id="academicPomodoroModal" class="modal-overlay-backdrop">
+    <div class="modal-window-box">
+        <button class="modal-dismiss-btn" onclick="closeEngineModal('academicPomodoroModal')">×</button>
+        <h2>⚡ State-Machine Chrono Pomodoro Core</h2>
+        <div id="pomodoroStatusLabel" style="text-align:center; font-family:var(--font-mono); color:var(--text-muted); margin:1rem 0;">Status: Sequence Idle</div>
+        <div id="pomoClockText" style="font-size:4rem; font-weight:800; text-align:center; margin-bottom:1.5rem; font-family:var(--font-mono);">25:00</div>
+        
+        <div style="display:flex; gap:1rem; margin-bottom:1.5rem;">
+            <button class="action-button" onclick="startPomodoroCoreCycle()">Begin Learning Session</button>
+            <button class="action-button" style="background:var(--accent-warning);" onclick="pausePomodoroCoreCycle()">Pause Sequence</button>
+            <button class="action-button" style="background:var(--accent-danger);" onclick="resetPomodoroCoreCycle()">Reset Loop</button>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div><label>Study Length (Mins)</label><input type="number" id="pomoFocusTime" value="25" min="1"></div>
+            <div><label>Break Length (Mins)</label><input type="number" id="pomoBreakTime" value="5" min="1"></div>
         </div>
     </div>
+</div>
 
-    <div id="academicFlashcardModal" class="modal-overlay-backdrop">
-        <div class="modal-window-box">
-            <button class="modal-dismiss-btn" onclick="closeEngineModal('academicFlashcardModal')">×</button>
-            <h2>🗂️ Analytical Flashcard Evaluation Stack</h2>
-            <div id="fcTelemetryLine" style="font-family:var(--font-mono); font-size:0.85rem; color:var(--text-muted); text-align:right;">Storage Matrix: Empty</div>
-            
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:0.5rem;">
-                <div><label>Front Input (Query)</label><input type="text" id="fcFront" placeholder="Query parameter description..."></div>
-                <div><label>Back Input (Resolution)</label><input type="text" id="fcBack" placeholder="Target calculation string..."></div>
-            </div>
-            <button class="action-button" style="margin:1rem 0;" onclick="appendCardToActiveStack()">Insert Card Struct</button>
-            
-            <div class="flashcard-viewport" id="cardViewportBox" onclick="this.classList.toggle('is-flipped')">
-                <div class="flashcard-flipper-core">
-                    <div class="flashcard-surface-front"><div><p style="font-size:0.75rem; text-transform:uppercase; opacity:0.6; margin-bottom:0.5rem;">Front Query</p><div id="displayFrontText">No operations inside memory array.</div></div></div>
-                    <div class="flashcard-surface-back"><div><p style="font-size:0.75rem; text-transform:uppercase; opacity:0.6; margin-bottom:0.5rem;">Evaluation Answer</p><div id="displayBackText" style="color:var(--accent-success);">Enter fields above.</div></div></div>
-                </div>
-            </div>
-            
-            <div style="display:flex; gap:1rem; margin-bottom:1rem;">
-                <button class="action-button" style="background:var(--accent-success);" onclick="recordCardEvaluationScore(true)">Validated Pass</button>
-                <button class="action-button" style="background:var(--accent-danger);" onclick="recordCardEvaluationScore(false)">Failed Review</button>
-            </div>
-            <div style="display:flex; gap:1rem;">
-                <button class="action-button" style="background:var(--bg-secondary); border:1px solid var(--border-bright);" onclick="navigateFlashcardStack(-1)">Previous</button>
-                <button class="action-button" style="background:var(--bg-secondary); border:1px solid var(--border-bright);" onclick="navigateFlashcardStack(1)">Next</button>
-                <button class="action-button" style="background:var(--accent-warning);" onclick="shuffleFlashcardSequence()">Shuffle</button>
+<div id="academicFlashcardModal" class="modal-overlay-backdrop">
+    <div class="modal-window-box">
+        <button class="modal-dismiss-btn" onclick="closeEngineModal('academicFlashcardModal')">×</button>
+        <h2>🗂️ Analytical Flashcard Evaluation Stack</h2>
+        <div id="fcTelemetryLine" style="font-family:var(--font-mono); font-size:0.85rem; color:var(--text-muted); text-align:right;">Storage Matrix: Empty</div>
+        
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:0.5rem;">
+            <div><label>Front Input (Query)</label><input type="text" id="fcFront" placeholder="Query parameter description..."></div>
+            <div><label>Back Input (Resolution)</label><input type="text" id="fcBack" placeholder="Target calculation string..."></div>
+        </div>
+        <button class="action-button" style="margin:1rem 0;" onclick="appendCardToActiveStack()">Insert Card Struct</button>
+        
+        <div class="flashcard-viewport" id="cardViewportBox" onclick="this.classList.toggle('is-flipped')">
+            <div class="flashcard-flipper-core">
+                <div class="flashcard-surface-front"><div><p style="font-size:0.75rem; text-transform:uppercase; opacity:0.6; margin-bottom:0.5rem;">Front Query</p><div id="displayFrontText">No operations inside memory array.</div></div></div>
+                <div class="flashcard-surface-back"><div><p style="font-size:0.75rem; text-transform:uppercase; opacity:0.6; margin-bottom:0.5rem;">Evaluation Answer</p><div id="displayBackText" style="color:var(--accent-success);">Enter fields above.</div></div></div>
             </div>
         </div>
-    </div>
-
-    <div id="academicGpaModal" class="modal-overlay-backdrop">
-        <div class="modal-window-box">
-            <button class="modal-dismiss-btn" onclick="closeEngineModal('academicGpaModal')">×</button>
-            <h2>📊 Academic GPA Performance Matrix</h2>
-            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1rem;">Add courses to evaluate cumulative transcript point indices.</p>
-            <div id="gpaCourseRowsContainer">
-                <div style="display:flex; gap:0.5rem; margin-bottom:0.5rem;">
-                    <input type="text" placeholder="Course title identification..." style="flex:2; margin:0;">
-                    <input type="number" placeholder="Credits" class="gpa-credits-field" style="flex:0.8; margin:0;" min="1">
-                    <select class="gpa-points-field" style="flex:1; margin:0;">
-                        <option value="4.0">Grade: A (4.0 Points)</option>
-                        <option value="3.5">Grade: B+ (3.5 Points)</option>
-                        <option value="3.0">Grade: B (3.0 Points)</option>
-                        <option value="2.5">Grade: C+ (2.5 Points)</option>
-                        <option value="2.0">Grade: C (2.0 Points)</option>
-                        <option value="0.0">Grade: F (0.0 Points)</option>
-                    </select>
-                </div>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem;">
-                <button class="action-button" style="background:var(--bg-secondary); border:1px solid var(--border-bright);" onclick="insertNewGpaRowElement()">+ Append Row</button>
-                <button class="action-button" onclick="executeTranscriptGpaCompilation()">Compile Ledger Matrix</button>
-            </div>
-            <div class="output-terminal-display" id="gpaOutputLogs">Ledger array uninitialized...</div>
+        
+        <div style="display:flex; gap:1rem; margin-bottom:1rem;">
+            <button class="action-button" style="background:var(--accent-success);" onclick="recordCardEvaluationScore(true)">Validated Pass</button>
+            <button class="action-button" style="background:var(--accent-danger);" onclick="recordCardEvaluationScore(false)">Failed Review</button>
+        </div>
+        <div style="display:flex; gap:1rem;">
+            <button class="action-button" style="background:var(--bg-secondary); border:1px solid var(--border-bright);" onclick="navigateFlashcardStack(-1)">Previous</button>
+            <button class="action-button" style="background:var(--bg-secondary); border:1px solid var(--border-bright);" onclick="navigateFlashcardStack(1)">Next</button>
+            <button class="action-button" style="background:var(--accent-warning);" onclick="shuffleFlashcardSequence()">Shuffle</button>
         </div>
     </div>
+</div>
 
-    <div id="academicMarkdownModal" class="modal-overlay-backdrop">
-        <div class="modal-window-box" style="max-width:1000px;">
-            <button class="modal-dismiss-btn" onclick="closeEngineModal('academicMarkdownModal')">×</button>
-            <h2>📝 Lexical Markdown Transformation Lab Workspace</h2>
-            <div id="mdTelemetryText" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.5rem;">Telemetry: 0 total words detected.</div>
-            <div class="notes-split">
-                <textarea id="noteInput" placeholder="# Advanced System Blueprint&#10;&#10;Draft markdown tags here to verify live engine translation..." oninput="executeLiveMarkdownParsing()"></textarea>
-                <div class="notes-preview" id="notePreviewArea">HTML elements compile here dynamically...</div>
-            </div>
-            <button class="action-button" style="margin-top:1rem;" onclick="triggerMarkdownFileDownload()">Extract Raw File Asset</button>
-        </div>
-    </div>
-
-    <div id="academicTaskModal" class="modal-overlay-backdrop">
-        <div class="modal-window-box">
-            <button class="modal-dismiss-btn" onclick="closeEngineModal('academicTaskModal')">×</button>
-            <h2>📋 High-Priority Operational Task Board Matrix</h2>
-            <div style="display:flex; gap:0.5rem; margin-top:1rem;">
-                <input type="text" id="taskInputTitle" placeholder="Specify operation milestone description..." style="margin:0;">
-                <select id="taskPrioritySelect" style="margin:0; width:160px;">
-                    <option value="🔴 Critical">Critical Priority</option>
-                    <option value="🟡 Secondary">Standard Priority</option>
-                    <option value="🟢 Low-Tier">Low Priority</option>
+<div id="academicGpaModal" class="modal-overlay-backdrop">
+    <div class="modal-window-box">
+        <button class="modal-dismiss-btn" onclick="closeEngineModal('academicGpaModal')">×</button>
+        <h2>📊 Academic GPA Performance Matrix</h2>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1rem;">Add courses to evaluate cumulative transcript point indices.</p>
+        <div id="gpaCourseRowsContainer">
+            <div style="display:flex; gap:0.5rem; margin-bottom:0.5rem;">
+                <input type="text" placeholder="Course title identification..." style="flex:2; margin:0;">
+                <input type="number" placeholder="Credits" class="gpa-credits-field" style="flex:0.8; margin:0;" min="1">
+                <select class="gpa-points-field" style="flex:1; margin:0;">
+                    <option value="4.0">Grade: A (4.0 Points)</option>
+                    <option value="3.5">Grade: B+ (3.5 Points)</option>
+                    <option value="3.0">Grade: B (3.0 Points)</option>
+                    <option value="2.5">Grade: C+ (2.5 Points)</option>
+                    <option value="2.0">Grade: C (2.0 Points)</option>
+                    <option value="0.0">Grade: F (0.0 Points)</option>
                 </select>
-                <button class="action-button" style="width:auto; white-space:nowrap;" onclick="insertTaskMatrixItem()">Add Item</button>
-            </div>
-            <div id="taskDashboardRenderArea" style="margin-top:1.5rem; display:flex; flex-direction:column; gap:0.5rem;"></div>
-        </div>
-    </div>
-
-    <div id="toolPasswordModal" class="modal-overlay-backdrop">
-        <div class="modal-window-box">
-            <button class="modal-dismiss-btn" onclick="closeEngineModal('toolPasswordModal')">×</button>
-            <h2>🔑 High-Entropy Key String Pipeline</h2>
-            <label>Explicit Character String Length Vector</label>
-            <input type="number" id="keyTargetLength" value="16" min="6" max="128">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin:1rem 0;">
-                <label><input type="checkbox" id="chkUpper" checked> Upper Strings Array</label>
-                <label><input type="checkbox" id="chkLower" checked> Lower Strings Array</label>
-                <label><input type="checkbox" id="chkNum" checked> Numeric Strings Array</label>
-                <label><input type="checkbox" id="chkSym" checked> Symbolic Array Seed</label>
-            </div>
-            <button class="action-button" onclick="executeSystemPasswordGeneration()">Generate Secure Key Vector</button>
-            <div class="output-terminal-display" id="keyStringOutput" style="word-break:break-all; user-select:all;">Awaiting generation parameters...</div>
-        </div>
-    </div>
-
-    <div id="toolBase64Modal" class="modal-overlay-backdrop">
-        <div class="modal-window-box">
-            <button class="modal-dismiss-btn" onclick="closeEngineModal('toolBase64Modal')">×</button>
-            <h2>🔾 Symmetric Base64 Byte Transform Pipeline</h2>
-            <label>Input Text Core Block Payload</label>
-            <textarea id="b64DataPayload" rows="4" placeholder="Enter standard sentence files or valid raw Base64 code strings..."></textarea>
-            <div style="display:flex; gap:1rem; margin-top:1rem;">
-                <button class="action-button" onclick="executeBase64ProcessingLoop(true)">Encode Payload Data</button>
-                <button class="action-button" style="background:var(--bg-secondary); border:1px solid var(--border-bright);" onclick="executeBase64ProcessingLoop(false)">Decode Payload Stream</button>
-            </div>
-            <div class="output-terminal-display" id="b64TerminalResult">Transformation stream idle.</div>
-        </div>
-    </div>
-
-    <div id="toolResizerModal" class="modal-overlay-backdrop">
-        <div class="modal-window-box">
-            <button class="modal-dismiss-btn" onclick="closeEngineModal('toolResizerModal')">×</button>
-            <h2>🖼️ Dynamic Offscreen Canvas Image Resizer Pipeline</h2>
-            <label>Upload Source Image File</label>
-            <input type="file" id="resizerFileInput" accept="image/*" onchange="previewUploadImageRaster(this, 'rasterResizeViewPreview')">
-            <img id="rasterResizeViewPreview" class="live-resource-view-canvas" alt="Resizer Image Target Stream">
-            
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:0.5rem;">
-                <div><label>Target Width (px)</label><input type="number" id="resizeTargetX" value="1920"></div>
-                <div><label>Target Height (px)</label><input type="number" id="resizeTargetY" value="1080"></div>
-            </div>
-            <button class="action-button" style="margin-top:1rem;" onclick="executeTargetCanvasImageResize()">Recompute Pixel Grid Coordinates</button>
-            
-            <div id="resizerOutputBlock" class="processing-result-block">
-                <label style="color:var(--accent-success);">Processed Frame Dimension Matrix Ready:</label>
-                <img id="resizerOutputPreviewImage" class="processing-result-preview" alt="Resizer Source Artifact Result">
-                <button class="action-button" style="background:var(--accent-success);" onclick="downloadSystemTargetAsset('resizerOutputPreviewImage', 'reconfigured_frame.jpg')">Download Processed Image</button>
             </div>
         </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem;">
+            <button class="action-button" style="background:var(--bg-secondary); border:1px solid var(--border-bright);" onclick="insertNewGpaRowElement()">+ Append Row</button>
+            <button class="action-button" onclick="executeTranscriptGpaCompilation()">Compile Ledger Matrix</button>
+        </div>
+        <div class="output-terminal-display" id="gpaOutputLogs">Ledger array uninitialized...</div>
     </div>
+</div>
 
-    <div id="toolMergerModal" class="modal-overlay-backdrop">
-        <div class="modal-window-box">
-            <button class="modal-dismiss-btn" onclick="closeEngineModal('toolMergerModal')">×</button>
-            <h2>🥞 Multi-Layer Canvas Alignment Image Merger</h2>
-            <label>Primary Base Structural Matrix File (Layer 0)</label>
-            <input type="file" id="mergerFileInput1" accept="image/*" onchange="previewUploadImageRaster(this, 'mergerPreviewImg1')">
-            <img id="mergerPreviewImg1" class="live-resource-view-canvas" alt="Merger Canvas Node Base">
-            
-            <label>Secondary Content Overlay File (Layer 1)</label>
-            <input type="file" id="mergerFileInput2" accept="image/*" onchange="previewUploadImageRaster(this, 'mergerPreviewImg2')">
-            <img id="mergerPreviewImg2" class="live-resource-view-canvas" alt="Merger Canvas Node Appended">
-            
-            <label>Geometric Boundary Orientation Alignment</label>
-            <select id="mergeOrientationType">
-                <option value="vertical">Stack Vertically (Y-Axis Sequential Shift)</option>
-                <option value="horizontal">Stitch Horizontally (X-Axis Sequential Shift)</option>
+<div id="academicMarkdownModal" class="modal-overlay-backdrop">
+    <div class="modal-window-box" style="max-width:1000px;">
+        <button class="modal-dismiss-btn" onclick="closeEngineModal('academicMarkdownModal')">×</button>
+        <h2>📝 Lexical Markdown Transformation Lab Workspace</h2>
+        <div id="mdTelemetryText" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.5rem;">Telemetry: 0 total words detected.</div>
+        <div class="notes-split">
+            <textarea id="noteInput" placeholder="# Advanced System Blueprint&#10;&#10;Draft markdown tags here to verify live engine translation..." oninput="executeLiveMarkdownParsing()"></textarea>
+            <div class="notes-preview" id="notePreviewArea">HTML elements compile here dynamically...</div>
+        </div>
+        <button class="action-button" style="margin-top:1rem;" onclick="triggerMarkdownFileDownload()">Extract Raw File Asset</button>
+    </div>
+</div>
+
+<div id="academicTaskModal" class="modal-overlay-backdrop">
+    <div class="modal-window-box">
+        <button class="modal-dismiss-btn" onclick="closeEngineModal('academicTaskModal')">×</button>
+        <h2>📋 High-Priority Operational Task Board Matrix</h2>
+        <div style="display:flex; gap:0.5rem; margin-top:1rem;">
+            <input type="text" id="taskInputTitle" placeholder="Specify operation milestone description..." style="margin:0;">
+            <select id="taskPrioritySelect" style="margin:0; width:160px;">
+                <option value="🔴 Critical">Critical Priority</option>
+                <option value="🟡 Secondary">Standard Priority</option>
+                <option value="🟢 Low-Tier">Low Priority</option>
             </select>
-            <button class="action-button" style="margin-top:1rem;" onclick="executeCanvasStitchingLayerMerge()">Compile Composite Layout Matrix</button>
-            
-            <div id="mergerOutputBlock" class="processing-result-block">
-                <label style="color:var(--accent-success);">Compiled Layout Result Matrix Preview:</label>
-                <img id="mergerOutputPreviewImage" class="processing-result-preview" alt="Stitched Layer Composite Result Output">
-                <button class="action-button" style="background:var(--accent-success);" onclick="downloadSystemTargetAsset('mergerOutputPreviewImage', 'stitched_matrix_layout.png')">Download Composite Asset</button>
-            </div>
+            <button class="action-button" style="width:auto; white-space:nowrap;" onclick="insertTaskMatrixItem()">Add Item</button>
+        </div>
+        <div id="taskDashboardRenderArea" style="margin-top:1.5rem; display:flex; flex-direction:column; gap:0.5rem;"></div>
+    </div>
+</div>
+
+<div id="toolPasswordModal" class="modal-overlay-backdrop">
+    <div class="modal-window-box">
+        <button class="modal-dismiss-btn" onclick="closeEngineModal('toolPasswordModal')">×</button>
+        <h2>🔑 High-Entropy Key String Pipeline</h2>
+        <label>Explicit Character String Length Vector</label>
+        <input type="number" id="keyTargetLength" value="16" min="6" max="128">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin:1rem 0;">
+            <label><input type="checkbox" id="chkUpper" checked> Upper Strings Array</label>
+            <label><input type="checkbox" id="chkLower" checked> Lower Strings Array</label>
+            <label><input type="checkbox" id="chkNum" checked> Numeric Strings Array</label>
+            <label><input type="checkbox" id="chkSym" checked> Symbolic Array Seed</label>
+        </div>
+        <button class="action-button" onclick="executeSystemPasswordGeneration()">Generate Secure Key Vector</button>
+        <div class="output-terminal-display" id="keyStringOutput" style="word-break:break-all; user-select:all;">Awaiting generation parameters...</div>
+    </div>
+</div>
+
+<div id="toolBase64Modal" class="modal-overlay-backdrop">
+    <div class="modal-window-box">
+        <button class="modal-dismiss-btn" onclick="closeEngineModal('toolBase64Modal')">×</button>
+        <h2>🔾 Symmetric Base64 Byte Transform Pipeline</h2>
+        <label>Input Text Core Block Payload</label>
+        <textarea id="b64DataPayload" rows="4" placeholder="Enter standard sentence files or valid raw Base64 code strings..."></textarea>
+        <div style="display:flex; gap:1rem; margin-top:1rem;">
+            <button class="action-button" onclick="executeBase64ProcessingLoop(true)">Encode Payload Data</button>
+            <button class="action-button" style="background:var(--bg-secondary); border:1px solid var(--border-bright);" onclick="executeBase64ProcessingLoop(false)">Decode Payload Stream</button>
+        </div>
+        <div class="output-terminal-display" id="b64TerminalResult">Transformation stream idle.</div>
+    </div>
+</div>
+
+<div id="toolResizerModal" class="modal-overlay-backdrop">
+    <div class="modal-window-box">
+        <button class="modal-dismiss-btn" onclick="closeEngineModal('toolResizerModal')">×</button>
+        <h2>🖼️ Dynamic Offscreen Canvas Image Resizer Pipeline</h2>
+        <label>Upload Source Image File</label>
+        <input type="file" id="resizerFileInput" accept="image/*" onchange="previewUploadImageRaster(this, 'rasterResizeViewPreview')">
+        <img id="rasterResizeViewPreview" class="live-resource-view-canvas" alt="Resizer Image Target Stream">
+        
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:0.5rem;">
+            <div Nottingham-att-x><label>Target Width (px)</label><input type="number" id="resizeTargetX" value="800"></div>
+            <div><label>Target Height (px)</label><input type="number" id="resizeTargetY" value="600"></div>
+        </div>
+        <button class="action-button" style="margin-top:1rem;" onclick="executeTargetCanvasImageResize()">Recompute Pixel Grid Coordinates</button>
+        
+        <div id="resizerOutputBlock" class="processing-result-block">
+            <label style="color:var(--accent-success);">Processed Frame Dimension Matrix Ready:</label>
+            <img id="resizerOutputPreviewImage" class="processing-result-preview" alt="Resizer Source Artifact Result">
+            <button class="action-button" style="background:var(--accent-success);" onclick="downloadSystemTargetAsset('resizerOutputPreviewImage', 'resized_image.png')">Download Rendered Grid</button>
         </div>
     </div>
+</div>
 
-    <div id="toolPdfToImgModal" class="modal-overlay-backdrop">
-        <div class="modal-window-box">
-            <button class="modal-dismiss-btn" onclick="closeEngineModal('toolPdfToImgModal')">×</button>
-            <h2>📄 Document-to-Raster Element Image Extraction Studio</h2>
-            <label>Select Target Document File Module (.pdf)</label>
-            <input type="file" id="pdfSourceFileUploader" accept=".pdf">
-            <button class="action-button" style="margin-top:1rem;" onclick="executePdfDeconstructionRasterExtraction()">Execute Object Page Parse Loop</button>
-            <div id="pdfExtractedRenderGridContainer" style="margin-top:1.5rem; display:grid; gap:1.5rem;"></div>
+<div id="toolMergerModal" class="modal-overlay-backdrop">
+    <div class="modal-window-box">
+        <button class="modal-dismiss-btn" onclick="closeEngineModal('toolMergerModal')">×</button>
+        <h2>🥞 Multi-Layer Image Merger Layout Engine</h2>
+        <label>Upload Layer 1 Image Asset</label>
+        <input type="file" id="mergerFile1" accept="image/*" onchange="previewUploadImageRaster(this, 'previewMerge1')">
+        <img id="previewMerge1" class="live-resource-view-canvas" alt="Merge Matrix Track A">
+
+        <label>Upload Layer 2 Image Asset</label>
+        <input type="file" id="mergerFile2" accept="image/*" onchange="previewUploadImageRaster(this, 'previewMerge2')">
+        <img id="previewMerge2" class="live-resource-view-canvas" alt="Merge Matrix Track B">
+
+        <label>Structural Layout Orientation Appending Axis</label>
+        <select id="mergeOrientation">
+            <option value="vertical">Vertical Layout Structure Stack (Y-Axis Append)</option>
+            <option value="horizontal">Horizontal Layout Structure Stack (X-Axis Append)</option>
+        </select>
+        <button class="action-button" style="margin-top:1rem;" onclick="executeCanvasImageStitchMerge()">Compile Composited Matrix</button>
+
+        <div id="mergerOutputBlock" class="processing-result-block">
+            <label style="color:var(--accent-success);">Composited Structural Array Frame Output:</label>
+            <img id="mergerOutputPreviewImage" class="processing-result-preview" alt="Merged Artifact Out">
+            <button class="action-button" style="background:var(--accent-success);" onclick="downloadSystemTargetAsset('mergerOutputPreviewImage', 'merged_composition.png')">Download Asset Output</button>
         </div>
     </div>
+</div>
 
-    <div id="toolTextToPdfModal" class="modal-overlay-backdrop">
-        <div class="modal-window-box">
-            <button class="modal-dismiss-btn" onclick="closeEngineModal('toolTextToPdfModal')">×</button>
-            <h2>✍️ High-Accuracy Text-to-PDF Core Assembly Engine</h2>
-            <label>Raw Data Stream Content Paragraph Block</label>
-            <textarea id="pdfSourceTextPayload" rows="8" placeholder="Draft information or transcription lines here to initialize system file construction algorithms..."></textarea>
-            <button class="action-button" style="margin-top:1rem;" onclick="executeTextToPdfDocumentCompilation()">Compile Artifact Specification & Download</button>
-        </div>
+<div id="toolPdfToImgModal" class="modal-overlay-backdrop">
+    <div class="modal-window-box">
+        <button class="modal-dismiss-btn" onclick="closeEngineModal('toolPdfToImgModal')">×</button>
+        <h2>📄 PDF Deconstruction Page Extractor Studio</h2>
+        <label>Target PDF Document Stream File</label>
+        <input type="file" id="pdfDeconstructFileInput" accept=".pdf">
+        <button class="action-button" style="margin-top:1rem;" onclick="executePdfPageImageDeconstruction()">Deconstruct Vector Matrix To Raster Frames</button>
+        <div class="output-terminal-display" id="pdfDeconstructLogs">Awaiting raw target PDF vector stream parsing payload...</div>
+        <div id="pdfDeconstructOutputArea" style="margin-top:1rem; display:grid; grid-template-columns:1fr 1fr; gap:1rem;"></div>
     </div>
+</div>
 
+<div id="toolTextToPdfModal" class="modal-overlay-backdrop">
+    <div class="modal-window-box">
+        <button class="modal-dismiss-btn" onclick="closeEngineModal('toolTextToPdfModal')">×</button>
+        <h2>🖋️ Text Document PDF Document Compiler Engine</h2>
+        <label>String Document Filename Layout Target</label>
+        <input type="text" id="pdfTextOutName" value="compiled_document.pdf">
+        <label>Raw String Text Array Input Block</label>
+        <textarea id="pdfTextOutBody" rows="8" placeholder="Enter standard system descriptions, transcript summaries, notes arrays or code records to compile directly to an architectural PDF schema..."></textarea>
+        <button class="action-button" style="background:var(--accent-success); margin-top:1rem;" onclick="executeTextPdfDocumentCompilation()">Compile & Deploy Standard Document Asset</button>
+    </div>
 </div>
 
 <script>
-    /* ==========================================================================
-       SECTION 1: OVERLAY CONTROL CORE INTERFACES
-       ========================================================================== */
-    function openEngineModal(modalTargetIdKey) {
-        const structuralModalNode = document.getElementById(modalTargetIdKey);
-        if (structuralModalNode) structuralModalNode.style.display = 'flex';
+    // --- GLOBAL CORE ROUTERS ---
+    function openEngineModal(modalId) {
+        document.getElementById(modalId).style.display = "flex";
     }
-
-    function closeEngineModal(modalTargetIdKey) {
-        const structuralModalNode = document.getElementById(modalTargetIdKey);
-        if (structuralModalNode) {
-            structuralModalNode.style.display = 'none';
-            if (modalTargetIdKey === 'cognitiveVideoModal') haltCognitiveVideoCanvasLoop();
-        }
+    function closeEngineModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+        if(modalId === 'cognitiveAudioModal') terminateFocusAcousticStream();
     }
-
-    function previewUploadImageRaster(fileInputSource, viewTargetPreviewImgId) {
-        const activeUploadFileObj = fileInputSource.files[0];
-        const previewImageDomNode = document.getElementById(viewTargetPreviewImgId);
-        if (activeUploadFileObj) {
-            const dataReaderInstance = new FileReader();
-            dataReaderInstance.onload = function(eventAnchor) {
-                previewImageDomNode.src = eventAnchor.target.result;
-                previewImageDomNode.style.display = 'block';
+    function previewUploadImageRaster(inputElement, imgPreviewId) {
+        const file = inputElement.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const targetImg = document.getElementById(imgPreviewId);
+                targetImg.src = e.target.result;
+                targetImg.style.display = "block";
             };
-            dataReaderInstance.readAsDataURL(activeUploadFileObj);
+            reader.readAsDataURL(file);
+        }
+    }
+    function downloadSystemTargetAsset(imgElementId, defaultFilename) {
+        const sourceData = document.getElementById(imgElementId).src;
+        if(!sourceData) return alert("Output matrix target empty.");
+        const downloadAnchor = document.createElement("a");
+        downloadAnchor.href = sourceData;
+        downloadAnchor.download = defaultFilename;
+        downloadAnchor.click();
+    }
+
+    // --- TEXT TO VIDEO CLIENT GENERATIVE MATRIX SPACE ---
+    let vdoPlaybackState = false;
+    let vdoRuntimeIntervalId = null;
+    let vdoCurrentTimeFrame = 0;
+    const vdoMaxDurationFrames = 300; // 10 seconds at 30 fps
+    let currentVdoSeedTheme = "matrix";
+
+    function executeCognitiveVideoGeneration() {
+        const promptInput = document.getElementById("vdoPrompt").value.toLowerCase();
+        const outputLogger = document.getElementById("videoThoughtOutput");
+        
+        outputLogger.style.display = "block";
+        outputLogger.innerHTML = "🔍 [HyperEngine Parsing Engine]: Analyzing prompt syntactic vectors...\n";
+        
+        if(promptInput.includes("space") || promptInput.includes("galaxy") || promptInput.includes("crimson")) {
+            currentVdoSeedTheme = "space";
         } else {
-            previewImageDomNode.style.display = 'none';
+            currentVdoSeedTheme = "matrix";
         }
+
+        let stepProgress = 0;
+        const generationInterval = setInterval(() => {
+            stepProgress += 25;
+            outputLogger.innerHTML += `⏳ [Neural Denoising Step]: Computing Causal 3D-VAE Latent Frame Space: ${stepProgress}%\n`;
+            if(stepProgress >= 100) {
+                clearInterval(generationInterval);
+                outputLogger.innerHTML += "✅ [Matrix Synthesis Success]: Loaded compiled frames directly inside active VRAM canvas buffer.";
+                document.getElementById("vdoFrameContainer").style.display = "block";
+                initializeAndPlayVideoMatrixLoop();
+            }
+        }, 600);
     }
 
-    function downloadSystemTargetAsset(sourceImagePreviewElementId, defaultAssetNamingString) {
-        const structuralTargetImgNode = document.getElementById(sourceImagePreviewElementId);
-        if (!structuralTargetImgNode || !structuralTargetImgNode.src || structuralTargetImgNode.src.includes('#')) return;
-        const temporaryAnchorElement = document.createElement('a');
-        temporaryAnchorElement.href = structuralTargetImgNode.src;
-        temporaryAnchorElement.download = defaultAssetNamingString;
-        document.body.appendChild(temporaryAnchorElement);
-        temporaryAnchorElement.click();
-        document.body.removeChild(temporaryAnchorElement);
+    function initializeAndPlayVideoMatrixLoop() {
+        vdoPlaybackState = true;
+        document.getElementById("playStateBtn").innerText = "⏸ PAUSE";
+        vdoCurrentTimeFrame = 0;
+        if(vdoRuntimeIntervalId) clearInterval(vdoRuntimeIntervalId);
+        vdoRuntimeIntervalId = setInterval(renderGenerativeCanvasVideoFrame, 33); // ~30FPS execution loop
     }
 
-    /* ==========================================================================
-       SECTION 2: COGNITIVE TEXT TO VIDEO GENERATIVE CORE ENGINE
-       ========================================================================== */
-    let renderCanvasReferenceNode = null;
-    let canvas2dRenderContext = null;
-    let videoRenderLoopFrameAnimationId = null;
-    let isVideoEngineRunningState = false;
-    let cumulativeVideoTimelineTimelineSeconds = 0.0;
-    const MAXIMUM_VIDEO_TIMELINE_STRETCH_LIMIT = 10.0;
+    function renderGenerativeCanvasVideoFrame() {
+        if(!vdoPlaybackState) return;
+        
+        const canvas = document.getElementById("generativeVideoCanvas");
+        const ctx = canvas.getContext("2d");
+        const W = canvas.width;
+        const H = canvas.height;
 
-    let computedAIEngineBrainState = {
-        themeProfileMode: 'matrix',
-        motionVelocityScalarCoefficient: 1.0,
-        colorHexSpectrumVariant: 'classic',
-        densityMultiplierInteger: 35
-    };
+        ctx.fillStyle = "#020306";
+        ctx.fillRect(0, 0, W, H);
 
-    function haltCognitiveVideoCanvasLoop() {
-        isVideoEngineRunningState = false;
-        if (videoRenderLoopFrameAnimationId) {
-            cancelAnimationFrame(videoRenderLoopFrameAnimationId);
-            videoRenderLoopFrameAnimationId = null;
+        if(currentVdoSeedTheme === "space") {
+            // Space Render Engine Simulation Logic
+            ctx.strokeStyle = "rgba(255, 59, 48, 0.4)";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(W/2, H/2, (vdoCurrentTimeFrame * 1.5) % (W/1.2), 0, Math.PI * 2);
+            ctx.stroke();
+
+            for(let i=0; i<35; i++) {
+                let sizeSeed = (i * 17) % 4;
+                let xPos = (Math.sin(i + vdoCurrentTimeFrame * 0.02) * W/3) + W/2;
+                let yPos = (Math.cos(i * 2 + vdoCurrentTimeFrame * 0.01) * H/3) + H/2;
+                ctx.fillStyle = i % 2 === 0 ? "#ff9500" : "#ff3b30";
+                ctx.fillRect(xPos, yPos, sizeSeed, sizeSeed);
+            }
+        } else {
+            // Cyber Matrix Droplets Simulation Logic
+            ctx.fillStyle = "rgba(88, 86, 214, 0.8)";
+            ctx.font = "11px Consolas";
+            for(let col = 0; col < W; col += 20) {
+                let speedMultiplier = ((col * 93) % 15) + 5;
+                let yPosition = ((vdoCurrentTimeFrame * speedMultiplier) % H);
+                ctx.fillText(String.fromCharCode(33 + (col % 93)), col, yPosition);
+                ctx.fillStyle = "rgba(163, 86, 255, 0.2)";
+                ctx.fillRect(col, yPosition - 40, 2, 40);
+                ctx.fillStyle = "rgba(88, 86, 214, 0.8)";
+            }
         }
-        document.getElementById('playStateBtn').innerText = "▶ PLAY ENGINE";
+
+        vdoCurrentTimeFrame++;
+        if(vdoCurrentTimeFrame >= vdoMaxDurationFrames) vdoCurrentTimeFrame = 0;
+
+        // Sync timeline status values
+        const percentageTrack = (vdoCurrentTimeFrame / vdoMaxDurationFrames) * 100;
+        document.getElementById("vdoTimelineBar").style.width = `${percentageTrack}%`;
+        document.getElementById("vdoTimeCounter").innerText = `${(vdoCurrentTimeFrame / 30).toFixed(1)}s / 10.0s`;
     }
 
     function toggleVideoPlaybackState() {
-        if (isVideoEngineRunningState) {
-            haltCognitiveVideoCanvasLoop();
-        } else {
-            isVideoEngineRunningState = true;
-            document.getElementById('playStateBtn').innerText = "⏸ HALT ENGINE";
-            executeGenerativeVideoFrameTick();
-        }
+        vdoPlaybackState = !vdoPlaybackState;
+        document.getElementById("playStateBtn").innerText = vdoPlaybackState ? "⏸ PAUSE" : "▶ PLAY";
     }
 
-    function scrubVideoTimeline(mouseEventData) {
-        const scrubberBoundsContainerNode = mouseEventData.currentTarget;
-        const dimensionGeometryBounds = scrubberBoundsContainerNode.getBoundingClientRect();
-        const absoluteHorizontalOffsetClickX = mouseEventData.clientX - dimensionGeometryBounds.left;
-        const relativeTimelinePercentageFactor = absoluteHorizontalOffsetClickX / dimensionGeometryBounds.width;
-        
-        cumulativeVideoTimelineTimelineSeconds = relativeTimelinePercentageFactor * MAXIMUM_VIDEO_TIMELINE_STRETCH_LIMIT;
-        if (cumulativeVideoTimelineTimelineSeconds < 0) cumulativeVideoTimelineTimelineSeconds = 0;
-        if (cumulativeVideoTimelineTimelineSeconds > MAXIMUM_VIDEO_TIMELINE_STRETCH_LIMIT) {
-            cumulativeVideoTimelineTimelineSeconds = MAXIMUM_VIDEO_TIMELINE_STRETCH_LIMIT;
-        }
-        if (!isVideoEngineRunningState) executeGenerativeVideoFrameTick();
+    function scrubVideoTimeline(event) {
+        const scrubberTrack = event.currentTarget;
+        const clickPositionX = event.clientX - scrubberTrack.getBoundingClientRect().left;
+        const totalWidth = scrubberTrack.offsetWidth;
+        const targetedPercentage = clickPositionX / totalWidth;
+        vdoCurrentTimeFrame = Math.floor(targetedPercentage * vdoMaxDurationFrames);
+        if(!vdoPlaybackState) renderGenerativeCanvasVideoFrame();
     }
 
-    function executeCognitiveVideoGeneration() {
-        const rawInputPromptTextString = document.getElementById('vdoPrompt').value.trim().toLowerCase();
-        if (!rawInputPromptTextString) {
-            alert("Prompt tracking array cannot handle null data strings.");
-            return;
-        }
+    // --- NEURAL IMAGE SYNTHESIS GENERATION ---
+    function generateNeuralImageSimulation() {
+        const imgPrompt = document.getElementById("imgPrompt").value;
+        const selectedFilterStyle = document.getElementById("imgStyle").value;
+        const container = document.getElementById("imgOutputContainer");
+        const targetOutputElement = document.getElementById("imgFinalPreview");
 
-        haltCognitiveVideoCanvasLoop();
-        renderCanvasReferenceNode = document.getElementById('generativeVideoCanvas');
-        canvas2dRenderContext = renderCanvasReferenceNode.getContext('2d');
-        document.getElementById('vdoFrameContainer').style.display = 'block';
-        
-        const diagnosticTerminalOutputBox = document.getElementById('videoThoughtOutput');
-        diagnosticTerminalOutputBox.style.display = 'block';
-        diagnosticTerminalOutputBox.innerText = `> Initializing Latent Parsing Matrix Array...\n> Context Intent Parsed: "${rawInputPromptTextString}"`;
-
-        // Advanced AI Semantic Feature Routing Simulation Logic
-        let derivedTheme = 'matrix';
-        if (rawInputPromptTextString.match(/(space|galaxy|nebula|cosmic|solar|star)/)) derivedTheme = 'nebula';
-        if (rawInputPromptTextString.match(/(cyber|grid|wave|network|digital|lattice)/)) derivedTheme = 'cyber';
-
-        let derivedVelocity = 1.0;
-        if (rawInputPromptTextString.match(/(fast|rapid|instant|speed|accelerate)/)) derivedVelocity = 2.5;
-        if (rawInputPromptTextString.match(/(slow|delayed|sluggish|calm|ambient)/)) derivedVelocity = 0.3;
-
-        let derivedColorHex = 'classic';
-        if (rawInputPromptTextString.match(/(red|crimson|ruby|fire|orange)/)) derivedColorHex = 'crimson';
-        if (rawInputPromptTextString.match(/(blue|cyan|neon|ocean|aquamarine)/)) derivedColorHex = 'cyan';
-        if (rawInputPromptTextString.match(/(yellow|gold|amber|metallic)/)) derivedColorHex = 'amber';
-
-        let derivedDensity = 40;
-        if (rawInputPromptTextString.match(/(heavy|dense|thick|compact|mass)/)) derivedDensity = 90;
-        if (rawInputPromptTextString.match(/(light|sparse|thin|micro)/)) derivedDensity = 15;
-
-        computedAIEngineBrainState = {
-            themeProfileMode: derivedTheme,
-            motionVelocityScalarCoefficient: derivedVelocity,
-            colorHexSpectrumVariant: derivedColorHex,
-            densityMultiplierInteger: derivedDensity
-        };
+        container.style.display = "block";
+        targetOutputElement.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='640' height='360' viewBox='0 0 640 360'><rect width='100%' height='100%' fill='%23090b11'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23868e9e' font-family='sans-serif' font-size='16'>Compiling Matrix Layer Configurations...</text></svg>";
 
         setTimeout(() => {
-            diagnosticTerminalOutputBox.innerText += `\n> [Decision Array]: Mode Matrix [${derivedTheme.toUpperCase()}] | Velocity [${derivedVelocity}x] | Color Matrix [${derivedColorHex.toUpperCase()}] | Density Vector [${derivedDensity} items/field]\n> Activating background hardware loops...`;
-            cumulativeVideoTimelineTimelineSeconds = 0.0;
-            isVideoEngineRunningState = true;
-            document.getElementById('playStateBtn').innerText = "⏸ HALT ENGINE";
-            executeGenerativeVideoFrameTick();
-        }, 1000);
+            const dynamicOffscreenCanvas = document.createElement("canvas");
+            dynamicOffscreenCanvas.width = 640;
+            dynamicOffscreenCanvas.height = 360;
+            const contextBuffer = dynamicOffscreenCanvas.getContext("2d");
+
+            // Build structural geometric patterns
+            contextBuffer.fillStyle = "#0c0e17";
+            contextBuffer.fillRect(0, 0, 640, 360);
+
+            let renderColorHex = "#5856d6";
+            if(selectedFilterStyle === 'anime') renderColorHex = "#ff3b30";
+            if(selectedFilterStyle === 'oil') renderColorHex = "#ff9500";
+
+            // Multi-layer layout generation
+            for(let layerIndex=0; layerIndex < 80; layerIndex++) {
+                contextBuffer.fillStyle = layerIndex % 2 === 0 ? renderColorHex : "#171b2f";
+                contextBuffer.globalAlpha = 0.15;
+                contextBuffer.beginPath();
+                contextBuffer.arc((layerIndex * 19) % 640, (layerIndex * 31) % 360, (layerIndex * 4) % 90, 0, Math.PI * 2);
+                contextBuffer.fill();
+            }
+
+            contextBuffer.globalAlpha = 1.0;
+            contextBuffer.fillStyle = "#ffffff";
+            contextBuffer.font = "bold 14px -apple-system";
+            contextBuffer.fillText(`Engine Deployment: [${selectedFilterStyle.toUpperCase()}]`, 30, 310);
+            
+            contextBuffer.strokeStyle = "rgba(255,255,255,0.1)";
+            contextBuffer.lineWidth = 1;
+            contextBuffer.strokeRect(10, 10, 620, 340);
+
+            targetOutputElement.src = dynamicOffscreenCanvas.toDataURL("image/png");
+        }, 1200);
     }
 
-    function executeGenerativeVideoFrameTick() {
-        if (!canvas2dRenderContext) return;
-
-        if (isVideoEngineRunningState) {
-            cumulativeVideoTimelineTimelineSeconds += 0.016667;
-            if (cumulativeVideoTimelineTimelineSeconds >= MAXIMUM_VIDEO_TIMELINE_STRETCH_LIMIT) {
-                cumulativeVideoTimelineTimelineSeconds = 0.0;
-            }
-        }
-
-        const currentProgressBarPercentageWidth = (cumulativeVideoTimelineTimelineSeconds / MAXIMUM_VIDEO_TIMELINE_STRETCH_LIMIT) * 100;
-        document.getElementById('vdoTimelineBar').style.width = `${currentProgressBarPercentageWidth}%`;
-        document.getElementById('vdoTimeCounter').innerText = `${cumulativeVideoTimelineTimelineSeconds.toFixed(1)}s / ${MAXIMUM_VIDEO_TIMELINE_STRETCH_LIMIT.toFixed(1)}s`;
-
-        canvas2dRenderContext.fillStyle = "#020306";
-        canvas2dRenderContext.fillRect(0, 0, renderCanvasReferenceNode.width, renderCanvasReferenceNode.height);
-
-        const runtimeAccumulatedTimeFactor = cumulativeVideoTimelineTimelineSeconds * computedAIEngineBrainState.motionVelocityScalarCoefficient;
-
-        const dynamicColorSelectionMapTable = {
-            classic: { matrix: 'rgba(0, BRIGHT, 70, 0.85)', nebula: 'rgba(SHIFT, 50, 230, 0.35)', cyber: 'rgba(88, 86, 214, 0.4)' },
-            crimson: { matrix: 'rgba(BRIGHT, 10, 30, 0.85)', nebula: 'rgba(240, SHIFT/4, 50, 0.35)', cyber: 'rgba(239, 68, 68, 0.4)' },
-            cyan:    { matrix: 'rgba(10, BRIGHT, BRIGHT, 0.85)', nebula: 'rgba(40, 180, SHIFT, 0.35)', cyber: 'rgba(6, 182, 212, 0.4)' },
-            amber:   { matrix: 'rgba(BRIGHT, BRIGHT*0.7, 10, 0.85)', nebula: 'rgba(245, SHIFT, 20, 0.35)', cyber: 'rgba(245, 158, 11, 0.4)' }
-        };
-        const activePalette = dynamicColorSelectionMapTable[computedAIEngineBrainState.colorHexSpectrumVariant] || dynamicColorSelectionMapTable['classic'];
-
-        if (computedAIEngineBrainState.themeProfileMode === 'matrix') {
-            canvas2dRenderContext.font = "bold 11px var(--font-mono)";
-            let spacingXStep = Math.max(8, 120 - computedAIEngineBrainState.densityMultiplierInteger);
-            for (let coordX = 0; coordX < renderCanvasReferenceNode.width; coordX += spacingXStep) {
-                let currentFallSpeedVectorY = (Math.sin(coordX + 5) * 150) + (runtimeAccumulatedTimeFactor * 250);
-                let coordY = currentFallSpeedVectorY % renderCanvasReferenceNode.height;
-                let brightnessVal = Math.floor((coordY / renderCanvasReferenceNode.height) * 255);
-                canvas2dRenderContext.fillStyle = activePalette.matrix.replace('BRIGHT', brightnessVal);
-                let characterAsciiCode = 33 + Math.floor(Math.abs(Math.sin(coordX + runtimeAccumulatedTimeFactor)) * 60);
-                canvas2dRenderContext.fillText(String.fromCharCode(characterAsciiCode), coordX, coordY);
-            }
-        } else if (computedAIEngineBrainState.themeProfileMode === 'nebula') {
-            let centerPointX = renderCanvasReferenceNode.width / 2;
-            let centerPointY = renderCanvasReferenceNode.height / 2;
-            for (let nodeIdx = 0; nodeIdx < computedAIEngineBrainState.densityMultiplierInteger; nodeIdx++) {
-                let currentAngularStep = (nodeIdx * 0.25) + (runtimeAccumulatedTimeFactor * 0.2);
-                let currentExpandingRadius = (nodeIdx * 4.0 + runtimeAccumulatedTimeFactor * 45) % 250;
-                let particlePosX = centerPointX + Math.cos(currentAngularStep) * currentExpandingRadius;
-                let particlePosY = centerPointY + Math.sin(currentAngularStep) * currentExpandingRadius;
-                let particleRadiusBounds = 3 + (currentExpandingRadius * 0.05);
-                
-                let dynamicColorShiftValue = Math.floor(Math.sin(runtimeAccumulatedTimeFactor + nodeIdx) * 50) + 190;
-                let multiLayerRadialGradient = canvas2dRenderContext.createRadialGradient(particlePosX, particlePosY, 0, particlePosX, particlePosY, particleRadiusBounds);
-                multiLayerRadialGradient.addColorStop(0, activePalette.nebula.replace('SHIFT', dynamicColorShiftValue));
-                multiLayerRadialGradient.addColorStop(1, 'transparent');
-                
-                canvas2dRenderContext.fillStyle = multiLayerRadialGradient;
-                canvas2dRenderContext.beginPath(); canvas2dRenderContext.arc(particlePosX, particlePosY, particleRadiusBounds, 0, Math.PI * 2); canvas2dRenderContext.fill();
-            }
-        } else if (computedAIEngineBrainState.themeProfileMode === 'cyber') {
-            canvas2dRenderContext.strokeStyle = activePalette.cyber;
-            canvas2dRenderContext.lineWidth = 2.0;
-            let spacingYStep = Math.max(10, 90 - computedAIEngineBrainState.densityMultiplierInteger);
-            for (let lineTrackY = 0; lineTrackY < renderCanvasReferenceNode.height; lineTrackY += spacingYStep) {
-                let offsetSinWaveHeight = Math.sin((lineTrackY * 0.03) + runtimeAccumulatedTimeFactor) * 40;
-                canvas2dRenderContext.beginPath();
-                canvas2dRenderContext.moveTo(0, lineTrackY + offsetSinWaveHeight);
-                canvas2dRenderContext.lineTo(renderCanvasReferenceNode.width, lineTrackY - offsetSinWaveHeight);
-                canvas2dRenderContext.stroke();
-            }
-        }
-
-        if (isVideoEngineRunningState) {
-            videoRenderLoopFrameAnimationId = requestAnimationFrame(executeGenerativeVideoFrameTick);
-        }
-    }
-
-    /* ==========================================================================
-       SECTION 3: ACOUSTIC FREQUENCY MODULATION PLATFORM (WEB AUDIO PIPELINE)
-       ========================================================================== */
-    let browserHardwareAudioContext = null;
-    let structuralOscillatorSourceNode = null;
+    // --- HARDWARE SOUND MATRIX MODELER (WEB AUDIO API) ---
+    let webAudioContextNode = null;
+    let audioOutputNoiseNode = null;
 
     function startFocusAcousticStream() {
-        if (browserHardwareAudioContext) return;
-        const selectedNoiseProfileFilter = document.getElementById('audioNoiseType').value;
+        if(webAudioContextNode) return;
         
-        browserHardwareAudioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const bufferDataLength = 2 * browserHardwareAudioContext.sampleRate;
-        const uniformAudioBufferContainer = browserHardwareAudioContext.createBuffer(1, bufferDataLength, browserHardwareAudioContext.sampleRate);
-        const processingChannelDataPointer = uniformAudioBufferContainer.getChannelData(0);
+        const selectedAcousticWaveformType = document.getElementById("audioNoiseType").value;
+        const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
+        webAudioContextNode = new AudioContextConstructor();
 
-        if (selectedNoiseProfileFilter === 'brownian') {
-            let previousOutputSampleVal = 0.0;
-            for (let idx = 0; idx < bufferDataLength; idx++) {
-                let whiteNoiseSampleValue = Math.random() * 2 - 1;
-                processingChannelDataPointer[idx] = (previousOutputSampleVal + (0.02 * whiteNoiseSampleValue)) / 1.02;
-                previousOutputSampleVal = processingChannelDataPointer[idx];
-                processingChannelDataPointer[idx] *= 4.0;
+        const standardBufferTimeDurationSeconds = 2 * webAudioContextNode.sampleRate;
+        const internalAudioBuffer = webAudioContextNode.createBuffer(1, standardBufferTimeDurationSeconds, webAudioContextNode.sampleRate);
+        const underlyingChannelOutputDataArray = internalAudioBuffer.getChannelData(0);
+
+        if(selectedAcousticWaveformType === 'brownian') {
+            // High-precision iterative cumulative low-pass transformation
+            let structuralNoiseAccumulator = 0.0;
+            for (let index = 0; index < standardBufferTimeDurationSeconds; index++) {
+                const randomWhiteNoiseValue = Math.random() * 2 - 1;
+                underlyingChannelOutputDataArray[index] = (structuralNoiseAccumulator + (0.02 * randomWhiteNoiseValue)) / 1.02;
+                structuralNoiseAccumulator = underlyingChannelOutputDataArray[index];
+                underlyingChannelOutputDataArray[index] *= 3.5; // Gain scaling compensation factor
             }
-        } else if (selectedNoiseProfileFilter === 'white') {
-            for (let idx = 0; idx < bufferDataLength; idx++) {
-                processingChannelDataPointer[idx] = (Math.random() * 2 - 1) * 0.15;
-            }
-        } else if (selectedNoiseProfileFilter === 'binaural') {
-            for (let idx = 0; idx < bufferDataLength; idx++) {
-                let currentTimelineScalarTime = idx / browserHardwareAudioContext.sampleRate;
-                processingChannelDataPointer[idx] = Math.sin(2 * Math.PI * 10.0 * currentTimelineScalarTime) * 0.2;
+        } else {
+            // Uniform white noise compilation loop
+            for (let index = 0; index < standardBufferTimeDurationSeconds; index++) {
+                underlyingChannelOutputDataArray[index] = Math.random() * 2 - 1;
             }
         }
 
-        structuralOscillatorSourceNode = browserHardwareAudioContext.createBufferSource();
-        structuralOscillatorSourceNode.buffer = uniformAudioBufferContainer;
-        structuralOscillatorSourceNode.loop = true;
-        structuralOscillatorSourceNode.connect(browserHardwareAudioContext.destination);
-        structuralOscillatorSourceNode.start();
-        console.log(`[Acoustic Engine]: Activated noise pipeline stream filter target: [${selectedNoiseProfileFilter.toUpperCase()}]`);
+        audioOutputNoiseNode = webAudioContextNode.createBufferSource();
+        audioOutputNoiseNode.buffer = internalAudioBuffer;
+        audioOutputNoiseNode.loop = true;
+
+        // Gain controller definition layer
+        const audioVolumeGainNode = webAudioContextNode.createGain();
+        audioVolumeGainNode.gain.value = selectedAcousticWaveformType === 'white' ? 0.08 : 0.25;
+
+        audioOutputNoiseNode.connect(audioVolumeGainNode);
+        audioVolumeGainNode.connect(webAudioContextNode.destination);
+        audioOutputNoiseNode.start();
     }
 
     function terminateFocusAcousticStream() {
-        if (structuralOscillatorSourceNode) {
-            try { structuralOscillatorSourceNode.stop(); } catch(e){}
-            structuralOscillatorSourceNode.disconnect();
+        if (audioOutputNoiseNode) {
+            try { audioOutputNoiseNode.stop(); } catch(e) {}
+            audioOutputNoiseNode.disconnect();
+            audioOutputNoiseNode = null;
         }
-        if (browserHardwareAudioContext) browserHardwareAudioContext.close();
-        browserHardwareAudioContext = null;
-        structuralOscillatorSourceNode = null;
-        console.log("[Acoustic Engine]: Terminated noise pipeline channels cleanly.");
+        if (webAudioContextNode) {
+            webAudioContextNode.close();
+            webAudioContextNode = null;
+        }
     }
 
-    /* ==========================================================================
-       SECTION 4: ACADEMIC INTERVAL STATE ENGINE AUTOMATION
-       ========================================================================== */
-    let chronoIntervalClockEngineInstance = null;
-    let numericalSecondsCountdownValue = 0;
-    let isPomoTimerRunning = false;
-    let currentPomoSystemContextState = "focus";
+    // --- CHRONO POMODORO COMPILER INTERVAL ENGINE ---
+    let pomoTimerStateClockId = null;
+    let pomoIsCurrentlyRunning = false;
+    let pomoRemainingSecondsValue = 1500;
+    let pomoCurrentActiveLoopState = "focus"; 
 
     function startPomodoroCoreCycle() {
-        if (isPomoTimerRunning) return;
-        isPomoTimerRunning = true;
-
-        if (!numericalSecondsCountdownValue) {
-            numericalSecondsCountdownValue = (parseInt(document.getElementById('pomoFocusTime').value) || 25) * 60;
-        }
-        document.getElementById('pomodoroStatusLabel').innerText = `Active Status: Running Learning Block [${currentPomoSystemContextState.toUpperCase()}]`;
-
-        chronoIntervalClockEngineInstance = setInterval(() => {
-            if (numericalSecondsCountdownValue > 0) {
-                numericalSecondsCountdownValue--;
-                let renderMinsText = Math.floor(numericalSecondsCountdownValue / 60).toString().padStart(2, '0');
-                let renderSecsText = (numericalSecondsCountdownValue % 60).toString().padStart(2, '0');
-                document.getElementById('pomoClockText').innerText = `${renderMinsText}:${renderSecsText}`;
+        if(pomoIsCurrentlyRunning) return;
+        pomoIsCurrentlyRunning = true;
+        document.getElementById("pomodoroStatusLabel").innerText = `Status: Active [${pomoCurrentActiveLoopState.toUpperCase()}]`;
+        document.getElementById("pomodoroStatusLabel").style.color = "var(--accent-success)";
+        
+        pomoTimerStateClockId = setInterval(() => {
+            if(pomoRemainingSecondsValue > 0) {
+                pomoRemainingSecondsValue--;
+                updatePomodoroInterfaceDisplayLogs();
             } else {
-                clearInterval(chronoIntervalClockEngineInstance);
-                isPomoTimerRunning = false;
-                if (currentPomoSystemContextState === "focus") {
-                    currentPomoSystemContextState = "break";
-                    numericalSecondsCountdownValue = (parseInt(document.getElementById('pomoBreakTime').value) || 5) * 60;
-                    alert("[State Manager Update]: Focus track complete. Break period loaded.");
-                    startPomodoroCoreCycle();
+                // Interval sequence transition state machine handler
+                clearInterval(pomoTimerStateClockId);
+                pomoIsCurrentlyRunning = false;
+                if(pomoCurrentActiveLoopState === "focus") {
+                    pomoCurrentActiveLoopState = "break";
+                    pomoRemainingSecondsValue = parseInt(document.getElementById("pomoBreakTime").value) * 60;
                 } else {
-                    currentPomoSystemContextState = "focus";
-                    numericalSecondsCountdownValue = (parseInt(document.getElementById('pomoFocusTime').value) || 25) * 60;
-                    alert("[State Manager Update]: Rest interval complete. Focus block loaded.");
-                    startPomodoroCoreCycle();
+                    pomoCurrentActiveLoopState = "focus";
+                    pomoRemainingSecondsValue = parseInt(document.getElementById("pomoFocusTime").value) * 60;
                 }
+                startPomodoroCoreCycle();
             }
         }, 1000);
     }
 
     function pausePomodoroCoreCycle() {
-        clearInterval(chronoIntervalClockEngineInstance);
-        isPomoTimerRunning = false;
-        document.getElementById('pomodoroStatusLabel').innerText = "Active Status: Sequence Paused";
+        clearInterval(pomoTimerStateClockId);
+        pomoIsCurrentlyRunning = false;
+        document.getElementById("pomodoroStatusLabel").innerText = "Status: Sequence Paused";
+        document.getElementById("pomodoroStatusLabel").style.color = "var(--accent-warning)";
     }
 
     function resetPomodoroCoreCycle() {
-        clearInterval(chronoIntervalClockEngineInstance);
-        isPomoTimerRunning = false;
-        currentPomoSystemContextState = "focus";
-        let defaultFocusVal = parseInt(document.getElementById('pomoFocusTime').value) || 25;
-        numericalSecondsCountdownValue = defaultFocusVal * 60;
-        document.getElementById('pomoClockText').innerText = `${defaultFocusVal.toString().padStart(2, '0')}:00`;
-        document.getElementById('pomodoroStatusLabel').innerText = "Active Status: Sequence Idle";
+        clearInterval(pomoTimerStateClockId);
+        pomoIsCurrentlyRunning = false;
+        pomoCurrentActiveLoopState = "focus";
+        pomoRemainingSecondsValue = parseInt(document.getElementById("pomoFocusTime").value) * 60;
+        document.getElementById("pomodoroStatusLabel").innerText = "Status: Sequence Idle";
+        document.getElementById("pomodoroStatusLabel").style.color = "var(--text-muted)";
+        updatePomodoroInterfaceDisplayLogs();
     }
 
-    /* ==========================================================================
-       SECTION 5: MEMORY FLASHCARD PROCESSING MECHANISMS
-       ========================================================================== */
-    let memoryFlashcardCollectionArray = [];
-    let currentFlashcardPointerIndex = 0;
-    let metricTotalAttemptsCounter = 0;
-    let metricCorrectPassesCounter = 0;
-
-    if (localStorage.getItem('HYPERENGINE_FLASHCARDS')) {
-        try { memoryFlashcardCollectionArray = JSON.parse(localStorage.getItem('HYPERENGINE_FLASHCARDS')); } catch(e) { memoryFlashcardCollectionArray = []; }
+    function updatePomodoroInterfaceDisplayLogs() {
+        const computedMinutes = Math.floor(pomoRemainingSecondsValue / 60);
+        const computedSeconds = pomoRemainingSecondsValue % 60;
+        document.getElementById("pomoClockText").innerText = `${computedMinutes.toString().padStart(2, '0')}:${computedSeconds.toString().padStart(2, '0')}`;
     }
+
+    // --- EVALUATION FLASHCARD ARRAYS STACK ---
+    let globalFlashcardMemoryCollection = [];
+    let currentFlashcardActiveIndexTracker = 0;
 
     function appendCardToActiveStack() {
-        const queryValText = document.getElementById('fcFront').value.trim();
-        const resolutionValText = document.getElementById('fcBack').value.trim();
-        if (queryValText && resolutionValText) {
-            memoryFlashcardCollectionArray.push({ front: queryValText, back: resolutionValText });
-            localStorage.setItem('HYPERENGINE_FLASHCARDS', JSON.stringify(memoryFlashcardCollectionArray));
-            document.getElementById('fcFront').value = "";
-            document.getElementById('fcBack').value = "";
-            currentFlashcardPointerIndex = memoryFlashcardCollectionArray.length - 1;
-            refreshFlashcardWorkspaceLayoutViewports();
-        }
+        const frontTextValue = document.getElementById("fcFront").value;
+        const backTextValue = document.getElementById("fcBack").value;
+        if(!frontTextValue || !backTextValue) return alert("Fields cannot be empty strings.");
+
+        globalFlashcardMemoryCollection.push({ front: frontTextValue, back: backTextValue, passedCount: 0, failedCount: 0 });
+        document.getElementById("fcFront").value = "";
+        document.getElementById("fcBack").value = "";
+        
+        currentFlashcardActiveIndexTracker = globalFlashcardMemoryCollection.length - 1;
+        refreshFlashcardStackTelemetryLog();
     }
 
-    function refreshFlashcardWorkspaceLayoutViewports() {
-        const telemetryDisplayElement = document.getElementById('fcTelemetryLine');
-        if (memoryFlashcardCollectionArray.length === 0) {
-            telemetryDisplayElement.innerText = "Storage Matrix: Empty Local Database Array";
-            document.getElementById('displayFrontText').innerText = "No operations inside memory array.";
-            document.getElementById('displayBackText').innerText = "Enter configurations above.";
+    function refreshFlashcardStackTelemetryLog() {
+        const labelIndicator = document.getElementById("fcTelemetryLine");
+        if(globalFlashcardMemoryCollection.length === 0) {
+            labelIndicator.innerText = "Storage Matrix: Empty";
             return;
         }
-        telemetryDisplayElement.innerText = `Deck Depth: ${memoryFlashcardCollectionArray.length} Items | Active Index Pointer: Card #${currentFlashcardPointerIndex + 1} | Accuracy Profile: ${metricCorrectPassesCounter}/${metricTotalAttemptsCounter}`;
-        document.getElementById('cardViewportBox').classList.remove('is-flipped');
-        document.getElementById('displayFrontText').innerText = memoryFlashcardCollectionArray[currentFlashcardPointerIndex].front;
-        document.getElementById('displayBackText').innerText = memoryFlashcardCollectionArray[currentFlashcardPointerIndex].back;
+        labelIndicator.innerText = `Index pointer: [${currentFlashcardActiveIndexTracker + 1} / ${globalFlashcardMemoryCollection.length}]`;
+        document.getElementById("cardViewportBox").classList.remove("is-flipped");
+        document.getElementById("displayFrontText").innerText = globalFlashcardMemoryCollection[currentFlashcardActiveIndexTracker].front;
+        document.getElementById("displayBackText").innerText = globalFlashcardMemoryCollection[currentFlashcardActiveIndexTracker].back;
     }
 
-    function navigateFlashcardStack(navigationDirectionStepInteger) {
-        if (memoryFlashcardCollectionArray.length === 0) return;
-        currentFlashcardPointerIndex += navigationDirectionStepInteger;
-        if (currentFlashcardPointerIndex < 0) currentFlashcardPointerIndex = memoryFlashcardCollectionArray.length - 1;
-        if (currentFlashcardPointerIndex >= memoryFlashcardCollectionArray.length) currentFlashcardPointerIndex = 0;
-        refreshFlashcardWorkspaceLayoutViewports();
-    }
-
-    function recordCardEvaluationScore(isPassFlag) {
-        if (memoryFlashcardCollectionArray.length === 0) return;
-        metricTotalAttemptsCounter++;
-        if (isPassFlag) metricCorrectPassesCounter++;
-        navigateFlashcardStack(1);
+    function navigateFlashcardStack(directionalVectorStep) {
+        if(globalFlashcardMemoryCollection.length === 0) return;
+        currentFlashcardActiveIndexTracker += directionalVectorStep;
+        if(currentFlashcardActiveIndexTracker < 0) currentFlashcardActiveIndexTracker = globalFlashcardMemoryCollection.length - 1;
+        if(currentFlashcardActiveIndexTracker >= globalFlashcardMemoryCollection.length) currentFlashcardActiveIndexTracker = 0;
+        refreshFlashcardStackTelemetryLog();
     }
 
     function shuffleFlashcardSequence() {
-        if (memoryFlashcardCollectionArray.length < 2) return;
-        memoryFlashcardCollectionArray.sort(() => Math.random() - 0.5);
-        currentFlashcardPointerIndex = 0;
-        refreshFlashcardWorkspaceLayoutViewports();
+        if(globalFlashcardMemoryCollection.length < 2) return;
+        globalFlashcardMemoryCollection.sort(() => Math.random() - 0.5);
+        currentFlashcardActiveIndexTracker = 0;
+        refreshFlashcardStackTelemetryLog();
     }
 
-    refreshFlashcardWorkspaceLayoutViewports();
+    function recordCardEvaluationScore(validationBooleanResult) {
+        if(globalFlashcardMemoryCollection.length === 0) return;
+        if(validationBooleanResult) {
+            globalFlashcardMemoryCollection[currentFlashcardActiveIndexTracker].passedCount++;
+        } else {
+            globalFlashcardMemoryCollection[currentFlashcardActiveIndexTracker].failedCount++;
+        }
+        navigateFlashcardStack(1);
+    }
 
-    /* ==========================================================================
-       SECTION 6: TRANSCRIPT EXTRAPOLATION MATRIX UTILITIES
-       ========================================================================== */
+    // --- ACADEMIC TRANSCRIPT GPA LEDGER COMPLEX ---
     function insertNewGpaRowElement() {
-        const structuralContainerBoxNode = document.getElementById('gpaCourseRowsContainer');
-        const processingChildWrapperDivNode = document.createElement('div');
-        processingChildWrapperDivNode.style = "display:flex; gap:0.5rem; margin-bottom:0.5rem;";
-        processingChildWrapperDivNode.innerHTML = `
+        const structuralRowWrapper = document.createElement("div");
+        structuralRowWrapper.style.display = "flex";
+        structuralRowWrapper.style.gap = "0.5rem";
+        structuralRowWrapper.style.marginBottom = "0.5rem";
+        structuralRowWrapper.innerHTML = `
             <input type="text" placeholder="Course title identification..." style="flex:2; margin:0;">
             <input type="number" placeholder="Credits" class="gpa-credits-field" style="flex:0.8; margin:0;" min="1">
             <select class="gpa-points-field" style="flex:1; margin:0;">
@@ -950,299 +906,246 @@
                 <option value="0.0">Grade: F (0.0 Points)</option>
             </select>
         `;
-        structuralContainerBoxNode.appendChild(processingChildWrapperDivNode);
+        document.getElementById("gpaCourseRowsContainer").appendChild(structuralRowWrapper);
     }
 
     function executeTranscriptGpaCompilation() {
-        const creditsInputDomNodesCollection = document.querySelectorAll('.gpa-credits-field');
-        const pointsSelectDomNodesCollection = document.querySelectorAll('.gpa-points-field');
-        let calculatedTotalQualityPointsAccumulator = 0.0;
-        let cumulativeCreditsCountAccumulator = 0;
+        const absoluteCreditInputFields = document.querySelectorAll(".gpa-credits-field");
+        const absolutePointsDropdownFields = document.querySelectorAll(".gpa-points-field");
+        
+        let cumulativeCalculatedPointsProduct = 0.0;
+        let totalAllocatedCreditHoursCount = 0;
 
-        for (let idx = 0; idx < creditsInputDomNodesCollection.length; idx++) {
-            let numericCreditVal = parseFloat(creditsInputDomNodesCollection[idx].value);
-            let pointGradeMappingVal = parseFloat(pointsSelectDomNodesCollection[idx].value);
-            if (!isNaN(numericCreditVal) && numericCreditVal > 0) {
-                calculatedTotalQualityPointsAccumulator += (numericCreditVal * pointGradeMappingVal);
-                cumulativeCreditsCountAccumulator += numericCreditVal;
+        for(let loopIndex = 0; loopIndex < absoluteCreditInputFields.length; loopIndex++) {
+            const rowCreditValue = parseFloat(absoluteCreditInputFields[loopIndex].value);
+            const rowGradePointScaleValue = parseFloat(absolutePointsDropdownFields[loopIndex].value);
+
+            if(!isNaN(rowCreditValue) && rowCreditValue > 0) {
+                totalAllocatedCreditHoursCount += rowCreditValue;
+                cumulativeCalculatedPointsProduct += (rowCreditValue * rowGradePointScaleValue);
             }
         }
 
-        const resultingGpaIndexScoreValue = cumulativeCreditsAttemptedValue = cumulativeCreditsCountAccumulator > 0 
-            ? (calculatedTotalQualityPointsAccumulator / cumulativeCreditsCountAccumulator).toFixed(3) 
-            : "0.000";
-
-        document.getElementById('gpaOutputLogs').innerHTML = `<b>[Compilation Success Matrix Summary]:</b>\nTotal Core Volume Credits Processed: ${cumulativeCreditsCountAccumulator} Credits\nQuality Accumulation Matrix Points: ${calculatedTotalQualityPointsAccumulator.toFixed(2)}\nComputed Final Cumulative Scale Rating: <span style="color:var(--accent-success); font-weight:bold;">${resultingGpaIndexScoreValue} Cumulative GPA</span>`;
+        const calculatedFinalTranscriptGpaIndex = totalAllocatedCreditHoursCount > 0 ? (cumulativeCalculatedPointsProduct / totalAllocatedCreditHoursCount).toFixed(3) : "0.000";
+        document.getElementById("gpaOutputLogs").innerHTML = `🧮 [Matrix Calculation Complete]:\n---------------------------------\nTotal Registered Credit Hours: ${totalAllocatedCreditHoursCount}\nCalculated Cumulative Point Index: ${calculatedFinalTranscriptGpaIndex}`;
     }
 
-    /* ==========================================================================
-       SECTION 7: LEXICAL TRANSFORM MARKDOWN SANDBOX WORKSPACE
-       ========================================================================== */
+    // --- REALTIME LEXICAL MARKDOWN PARSING ENGINE ---
     function executeLiveMarkdownParsing() {
-        const rawNoteStringInput = document.getElementById('noteInput').value;
-        const noteTelemetryLabelNode = document.getElementById('mdTelemetryText');
+        const rawTextAreaMarkdownPayload = document.getElementById("noteInput").value;
+        const targetOutputDisplayArea = document.getElementById("notePreviewArea");
         
-        let calculatedWordTokensCount = rawNoteStringInput.trim() === "" ? 0 : rawNoteStringInput.trim().split(/\s+/).length;
-        noteTelemetryLabelNode.innerText = `Telemetry Matrix: ${calculatedWordTokensCount} Word Text Tokens | ${rawNoteStringInput.length} Structural Characters`;
+        const characterArrayWordsArray = rawTextAreaMarkdownPayload.trim().split(/\s+/);
+        const aggregatedWordCount = rawTextAreaMarkdownPayload.trim() === "" ? 0 : characterArrayWordsArray.length;
+        document.getElementById("mdTelemetryText").innerText = `Telemetry: ${aggregatedWordCount} total words detected.`;
 
-        let rawParsedHtmlStringValue = rawNoteStringInput
+        // Direct architectural pattern mapping for standard markdown strings
+        let compiledHtmlStructureString = rawTextAreaMarkdownPayload
             .replace(/^# (.*$)/gim, '<h1>$1</h1>')
             .replace(/^## (.*$)/gim, '<h2>$1</h2>')
             .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-            .replace(/^\* (.*$)/gim, '<ul><li>$1</li></ul>')
-            .replace(/^- (.*$)/gim, '<ul><li>$1</li></ul>')
             .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
             .replace(/\*(.*)\*/gim, '<em>$1</em>')
-            .replace(/`(.*)`/gim, '<code style="background:#05060b; padding:2px 4px; border-radius:4px;">$1</code>');
+            .replace(/^\s*-\s*(.*$)/gim, '<ul><li>$1</li></ul>')
+            .replace(/\n$/gim, '<br />');
 
-        document.getElementById('notePreviewArea').innerHTML = rawParsedHtmlStringValue;
+        targetOutputDisplayArea.innerHTML = compiledHtmlStructureString;
     }
 
     function triggerMarkdownFileDownload() {
-        const contentMarkdownPayloadString = document.getElementById('noteInput').value;
-        const textBlobArtifact = new Blob([contentMarkdownPayloadString], { type: "text/markdown;charset=utf-8" });
-        const temporaryAnchorElement = document.createElement("a");
-        temporaryAnchorElement.href = URL.createObjectURL(textBlobArtifact);
-        temporaryAnchorElement.download = "StructuralCompilationNoteAsset.md";
-        document.body.appendChild(temporaryAnchorElement);
-        temporaryAnchorElement.click();
-        document.body.removeChild(temporaryAnchorElement);
+        const rawNoteTextData = document.getElementById("noteInput").value;
+        const textBlobContainer = new Blob([rawNoteTextData], {type: "text/markdown;charset=utf-8"});
+        const systemVirtualDownloadLinkElement = document.createElement("a");
+        systemVirtualDownloadLinkElement.href = URL.createObjectURL(textBlobContainer);
+        systemVirtualDownloadLinkElement.download = "hyperengine_notes_export.md";
+        systemVirtualDownloadLinkElement.click();
     }
 
-    /* ==========================================================================
-       SECTION 8: TASK STRATIFICATION MATRIX WORKFLOW
-       ========================================================================= */
-    let objectWorkflowTaskCollectionArray = [];
-    if (localStorage.getItem('HYPERENGINE_TASKS')) {
-        try { objectWorkflowTaskCollectionArray = JSON.parse(localStorage.getItem('HYPERENGINE_TASKS')); } catch(e) { objectWorkflowTaskCollectionArray = []; }
-    }
-
+    // --- LOCAL SYSTEM DATA REPOSITORY TASK MATRIX BOARD ---
     function insertTaskMatrixItem() {
-        const textTaskTitleDescription = document.getElementById('taskInputTitle').value.trim();
-        const priorityTagMappingSelectorValue = document.getElementById('taskPrioritySelect').value;
-        if (!textTaskTitleDescription) return;
+        const inputHeaderString = document.getElementById("taskInputTitle").value;
+        const prioritySelectionString = document.getElementById("taskPrioritySelect").value;
+        if(!inputHeaderString) return;
 
-        objectWorkflowTaskCollectionArray.push({
-            uniqueTimestampIdentifier: Date.now(),
-            titleStringPayload: textTaskTitleDescription,
-            importanceRankTag: priorityTagMappingSelectorValue
-        });
+        const boardRenderContainer = document.getElementById("taskDashboardRenderArea");
+        const compositeTaskRowItemWrapper = document.createElement("div");
+        compositeTaskRowItemWrapper.className = "task-item";
+        
+        let customBorderColorAssignment = "var(--accent-core)";
+        if(prioritySelectionString.includes("Critical")) customBorderColorAssignment = "var(--accent-danger)";
+        if(prioritySelectionString.includes("Secondary")) customBorderColorAssignment = "var(--accent-warning)";
+        
+        compositeTaskRowItemWrapper.style.borderLeftColor = customBorderColorAssignment;
+        compositeTaskRowItemWrapper.innerHTML = `
+            <div>
+                <span style="font-weight:bold; font-size:0.8rem; margin-right:0.5rem; color:${customBorderColorAssignment};">${prioritySelectionString}</span>
+                <span>${inputHeaderString}</span>
+            </div>
+            <button class="action-button" style="width:auto; padding:0.4rem 0.8rem; background:var(--accent-danger);" onclick="this.parentElement.remove()">Resolve</button>
+        `;
 
-        localStorage.setItem('HYPERENGINE_TASKS', JSON.stringify(objectWorkflowTaskCollectionArray));
-        document.getElementById('taskInputTitle').value = "";
-        renderActiveWorkflowDashboardMatrix();
+        boardRenderContainer.appendChild(compositeTaskRowItemWrapper);
+        document.getElementById("taskInputTitle").value = "";
     }
 
-    function purgeTaskMatrixItem(targetTimestampIdKey) {
-        objectWorkflowTaskCollectionArray = objectWorkflowTaskCollectionArray.filter(taskItem => taskItem.uniqueTimestampIdentifier !== targetTimestampIdKey);
-        localStorage.setItem('HYPERENGINE_TASKS', JSON.stringify(objectWorkflowTaskCollectionArray));
-        renderActiveWorkflowDashboardMatrix();
-    }
-
-    function renderActiveWorkflowDashboardMatrix() {
-        const dashboardDisplayContainerNode = document.getElementById('taskDashboardRenderArea');
-        dashboardDisplayContainerNode.innerHTML = "";
-
-        objectWorkflowTaskCollectionArray.forEach(taskRecord => {
-            let rowWrapperLayoutDivNode = document.createElement('div');
-            let colorLeftBorderAccentLine = "var(--accent-core)";
-            if (taskRecord.importanceRankTag.includes('Critical')) colorLeftBorderAccentLine = "var(--accent-danger)";
-            if (taskRecord.importanceRankTag.includes('Secondary')) colorLeftBorderAccentLine = "var(--accent-warning)";
-            if (taskRecord.importanceRankTag.includes('Low-Tier')) colorLeftBorderAccentLine = "var(--accent-success)";
-
-            rowWrapperLayoutDivNode.style = `display:flex; justify-content:space-between; align-items:center; background:var(--bg-master); padding:0.75rem 1rem; border-radius:6px; border-left:4px solid ${colorLeftBorderAccentLine}; border-top:1px solid var(--border-thin); border-right:1px solid var(--border-thin); border-bottom:1px solid var(--border-thin);`;
-            rowWrapperLayoutDivNode.innerHTML = `
-                <div>
-                    <span style="font-size:0.75rem; background:var(--bg-secondary); padding:2px 6px; border-radius:4px; margin-right:0.5rem; font-family:var(--font-mono); font-weight:bold; border:1px solid var(--border-bright);">${taskRecord.importanceRankTag}</span>
-                    <span>${taskRecord.titleStringPayload}</span>
-                </div>
-                <button onclick="purgeTaskMatrixItem(${taskRecord.uniqueTimestampIdentifier})" style="background:none; border:none; color:var(--accent-danger); cursor:pointer; font-weight:bold; font-size:1.1rem; padding:0 0.25rem;">✕</button>
-            `;
-            dashboardDisplayContainerNode.appendChild(rowWrapperLayoutDivNode);
-        });
-    }
-    renderActiveWorkflowDashboardMatrix();
-
-    /* ==========================================================================
-       SECTION 9: SYSTEM PIPELINE UTILITIES
-       ========================================================================== */
+    // --- HIGH-ENTROPY KEY STRING GENERATOR ---
     function executeSystemPasswordGeneration() {
-        const targetCharacterLength = parseInt(document.getElementById('keyTargetLength').value) || 16;
-        const uppercasePool = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        const lowercasePool = "abcdefghijklmnopqrstuvwxyz";
-        const numericPool = "0123456789";
-        const symbolPool = "!@#$%^&*()_+-=[]{}|;:,./?";
+        const totalTargetLengthValue = parseInt(document.getElementById("keyTargetLength").value);
+        const activeArraysMapFlags = {
+            upper: document.getElementById("chkUpper").checked,
+            lower: document.getElementById("chkLower").checked,
+            numeric: document.getElementById("chkNum").checked,
+            symbolic: document.getElementById("chkSym").checked
+        };
 
-        let charactersCharacterPoolTemplateString = "";
-        if (document.getElementById('chkUpper').checked) charactersCharacterPoolTemplateString += uppercasePool;
-        if (document.getElementById('chkLower').checked) charactersCharacterPoolTemplateString += lowercasePool;
-        if (document.getElementById('chkNum').checked) charactersCharacterPoolTemplateString += numericPool;
-        if (document.getElementById('chkSym').checked) charactersCharacterPoolTemplateString += symbolPool;
+        let seedCharacterPoolString = "";
+        if(activeArraysMapFlags.upper) seedCharacterPoolString += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        if(activeArraysMapFlags.lower) seedCharacterPoolString += "abcdefghijklmnopqrstuvwxyz";
+        if(activeArraysMapFlags.numeric) seedCharacterPoolString += "0123456789";
+        if(activeArraysMapFlags.symbolic) seedCharacterPoolString += "!@#$%^&*()_+-=[]{}|;:,.<>?";
 
-        if (!charactersCharacterPoolTemplateString) {
-            document.getElementById('keyStringOutput').innerText = "Rule Constraint Exception Error: Check at least one dataset source.";
+        if(seedCharacterPoolString === "") {
+            document.getElementById("keyStringOutput").innerText = "⚠️ [Configuration Error]: Select an array pool.";
             return;
         }
 
-        let completeKeyOutputArray = "";
-        for (let iterationIndex = 0; iterationIndex < targetCharacterLength; iterationIndex++) {
-            let randomIndexPointer = Math.floor(Math.random() * charactersCharacterPoolTemplateString.length);
-            completeKeyOutputArray += charactersCharacterPoolTemplateString.charAt(randomIndexPointer);
+        let compiledKeyOutputString = "";
+        for (let iterationCounter = 0; iterationCounter < totalTargetLengthValue; iterationCounter++) {
+            const systemCryptographicRandomIndexValue = Math.floor(Math.random() * seedCharacterPoolString.length);
+            compiledKeyOutputString += seedCharacterPoolString.charAt(systemCryptographicRandomIndexValue);
         }
-        document.getElementById('keyStringOutput').innerText = completeKeyOutputArray;
+        document.getElementById("keyStringOutput").innerText = compiledKeyOutputString;
     }
 
-    function executeBase64ProcessingLoop(shouldPerformEncodingDirectionFlag) {
-        const dataPayloadTextString = document.getElementById('b64DataPayload').value;
-        const outputDisplayTerminalNode = document.getElementById('b64TerminalResult');
+    // --- BASE64 CIPHER CORE LOGIC ---
+    function executeBase64ProcessingLoop(isEncodingDirectionMode) {
+        const inputStringPayload = document.getElementById("b64DataPayload").value;
+        const targetResultDisplayTerminal = document.getElementById("b64TerminalResult");
+
         try {
-            if (shouldPerformEncodingDirectionFlag) {
-                outputDisplayTerminalNode.innerText = btoa(dataPayloadTextString);
+            if(isEncodingDirectionMode) {
+                targetResultDisplayTerminal.innerText = btoa(unescape(encodeURIComponent(inputStringPayload)));
             } else {
-                outputDisplayTerminalNode.innerText = atob(dataPayloadTextString);
+                targetResultDisplayTerminal.innerText = decodeURIComponent(escape(atob(inputStringPayload)));
             }
-        } catch(err) {
-            outputDisplayTerminalNode.innerText = "[Pipeline Parse Exception Error]: Incoming byte characters map outside correct Base64 structures.";
+        } catch(systemParsingKernelExceptionError) {
+            targetResultDisplayTerminal.innerText = `❌ [Transform Pipeline Error]: Invalid payload syntax handling bounds. Check system input structure.`;
         }
     }
 
+    // --- OFFSCREEN CANVAS DYNAMIC RESIZER PIPELINE ---
     function executeTargetCanvasImageResize() {
-        const structuralUploadedFileSourceRef = document.getElementById('resizerFileInput').files[0];
-        const requestedTargetPixelWidthValue = parseInt(document.getElementById('resizeTargetX').value);
-        const requestedTargetPixelHeightValue = parseInt(document.getElementById('resizeTargetY').value);
-        if (!structuralUploadedFileSourceRef) { alert("Source payload asset undefined."); return; }
+        const targetSourceUploadImageElement = document.getElementById("rasterResizeViewPreview");
+        const targetedPixelBoundsWidth = parseInt(document.getElementById("resizeTargetX").value);
+        const targetedPixelBoundsHeight = parseInt(document.getElementById("resizeTargetY").value);
+        
+        if(!targetSourceUploadImageElement.src) return alert("Source frame allocation array missing.");
 
-        const virtualImageObjNode = new Image();
-        virtualImageObjNode.src = URL.createObjectURL(structuralUploadedFileSourceRef);
-        virtualImageObjNode.onload = function() {
-            const bufferCanvasElement = document.createElement('canvas');
-            bufferCanvasElement.width = requestedTargetPixelWidthValue;
-            bufferCanvasElement.height = requestedTargetPixelHeightValue;
-            
-            const bufferCanvasRenderingContext = bufferCanvasElement.getContext('2d');
-            bufferCanvasRenderingContext.drawImage(virtualImageObjNode, 0, 0, requestedTargetPixelWidthValue, requestedTargetPixelHeightValue);
-            
-            document.getElementById('resizerOutputPreviewImage').src = bufferCanvasElement.toDataURL('image/jpeg', 0.85);
-            document.getElementById('resizerOutputBlock').style.display = 'block';
-        };
+        const executionWorkspaceCanvasNode = document.createElement("canvas");
+        executionWorkspaceCanvasNode.width = targetedPixelBoundsWidth;
+        executionWorkspaceCanvasNode.height = targetedPixelBoundsHeight;
+        
+        const coordinateContextRenderer = executionWorkspaceCanvasNode.getContext("2d");
+        coordinateContextRenderer.drawImage(targetSourceUploadImageElement, 0, 0, targetedPixelBoundsWidth, targetedPixelBoundsHeight);
+
+        const targetDestinationDisplayElement = document.getElementById("resizerOutputPreviewImage");
+        targetDestinationDisplayElement.src = executionWorkspaceCanvasNode.toDataURL("image/png");
+        document.getElementById("resizerOutputBlock").style.display = "block";
     }
 
-    function executeCanvasStitchingLayerMerge() {
-        const fileInputObj0 = document.getElementById('mergerFileInput1').files[0];
-        const fileInputObj1 = document.getElementById('mergerFileInput2').files[0];
-        const layoutOrientationAxisSetting = document.getElementById('mergeOrientationType').value;
-        if (!fileInputObj0 || !fileInputObj1) { alert("Stitching configuration parameters insufficient."); return; }
+    // --- DYNAMIC LAYER IMAGE INTERPOLATION STITCH MERGER ---
+    function executeCanvasImageStitchMerge() {
+        const baseLayerTrackAElement = document.getElementById("previewMerge1");
+        const baseLayerTrackBElement = document.getElementById("previewMerge2");
+        const structuralLayoutAxisDirection = document.getElementById("mergeOrientation").value;
 
-        const elementImageLayer0 = new Image();
-        const elementImageLayer1 = new Image();
-        elementImageLayer0.src = URL.createObjectURL(fileInputObj0);
-        elementImageLayer0.onload = function() {
-            elementImageLayer1.src = URL.createObjectURL(fileInputObj1);
-            elementImageLayer1.onload = function() {
-                const compoundingBufferCanvasNode = document.createElement('canvas');
-                if (layoutOrientationAxisSetting === 'vertical') {
-                    compoundingBufferCanvasNode.width = Math.max(elementImageLayer0.width, elementImageLayer1.width);
-                    compoundingBufferCanvasNode.height = elementImageLayer0.height + elementImageLayer1.height;
-                } else {
-                    compoundingBufferCanvasNode.width = elementImageLayer0.width + elementImageLayer1.width;
-                    compoundingBufferCanvasNode.height = Math.max(elementImageLayer0.height, elementImageLayer1.height);
-                }
+        if(!baseLayerTrackAElement.src || !baseLayerTrackBElement.src) return alert("Both layers must contain valid raster maps.");
 
-                const compoundingContextRef = compoundingBufferCanvasNode.getContext('2d');
-                compoundingContextRef.drawImage(elementImageLayer0, 0, 0);
-                if (layoutOrientationAxisSetting === 'vertical') {
-                    compoundingContextRef.drawImage(elementImageLayer1, 0, elementImageLayer0.height);
-                } else {
-                    compoundingContextRef.drawImage(elementImageLayer1, elementImageLayer0.width, 0);
-                }
+        const processingCanvasNode = document.createElement("canvas");
+        const targetRenderingContext = processingCanvasNode.getContext("2d");
 
-                document.getElementById('mergerOutputPreviewImage').src = compoundingBufferCanvasNode.toDataURL('image/png');
-                document.getElementById('mergerOutputBlock').style.display = 'block';
-            };
-        };
+        if(structuralLayoutAxisDirection === 'vertical') {
+            processingCanvasNode.width = Math.max(baseLayerTrackAElement.naturalWidth, baseLayerTrackBElement.naturalWidth);
+            processingCanvasNode.height = baseLayerTrackAElement.naturalHeight + baseLayerTrackBElement.naturalHeight;
+            
+            targetRenderingContext.drawImage(baseLayerTrackAElement, 0, 0);
+            targetRenderingContext.drawImage(baseLayerTrackBElement, 0, baseLayerTrackAElement.naturalHeight);
+        } else {
+            processingCanvasNode.width = baseLayerTrackAElement.naturalWidth + baseLayerTrackBElement.naturalWidth;
+            processingCanvasNode.height = Math.max(baseLayerTrackAElement.naturalHeight, baseLayerTrackBElement.naturalHeight);
+            
+            targetRenderingContext.drawImage(baseLayerTrackAElement, 0, 0);
+            targetRenderingContext.drawImage(baseLayerTrackBElement, baseLayerTrackAElement.naturalWidth, 0);
+        }
+
+        const terminalStitchOutputTargetImage = document.getElementById("mergerOutputPreviewImage");
+        terminalStitchOutputTargetImage.src = processingCanvasNode.toDataURL("image/png");
+        document.getElementById("mergerOutputBlock").style.display = "block";
     }
 
-    function executePdfDeconstructionRasterExtraction() {
-        const internalUploadedDocumentFile = document.getElementById('pdfSourceFileUploader').files[0];
-        if (!internalUploadedDocumentFile) return;
+    // --- LOCAL VECTOR-TO-RASTER PDF STUDIO DECONSTRUCTOR ---
+    function executePdfPageImageDeconstruction() {
+        const targetInputFileRawHandle = document.getElementById("pdfDeconstructFileInput").files[0];
+        const statusLogsTerminalNode = document.getElementById("pdfDeconstructLogs");
+        const interfaceRenderOutputContainer = document.getElementById("pdfDeconstructOutputArea");
 
-        const dataBlobFileReaderInstance = new FileReader();
-        dataBlobFileReaderInstance.onload = function() {
-            const rawTypedArrayByteSequenceBuffer = new Uint8Array(this.result);
-            pdfjsLib.getDocument(rawTypedArrayByteSequenceBuffer).promise.then(compiledPdfDocumentObject => {
-                const targetOutputWrapperDisplayGridNode = document.getElementById('pdfExtractedRenderGridContainer');
-                targetOutputWrapperDisplayGridNode.innerHTML = "";
+        if(!targetInputFileRawHandle) return alert("Select a local target PDF container.");
+        
+        statusLogsTerminalNode.innerText = "⏳ Initializing PDF.js Core Matrix Extractors...";
+        interfaceRenderOutputContainer.innerHTML = "";
 
-                for (let pageNum = 1; pageNum <= compiledPdfDocumentObject.numPages; pageNum++) {
-                    compiledPdfDocumentObject.getPage(pageNum).then(individualPageObj => {
-                        const targetViewportScaleConfiguration = individualPageObj.getViewport({ scale: 1.5 });
-                        const dynamicProcessingCanvas = document.createElement('canvas');
-                        dynamicProcessingCanvas.height = targetViewportScaleConfiguration.height;
-                        dynamicProcessingCanvas.width = targetViewportScaleConfiguration.width;
+        const localFileReaderInstance = new FileReader();
+        localFileReaderInstance.onload = function() {
+            const rawTypedArrayByteContent = new Uint8Array(this.result);
+            
+            pdfjsLib.getDocument(rawTypedArrayByteContent).promise.then(function(loadedPdfDocumentObjectInstance) {
+                statusLogsTerminalNode.innerText = `✅ Loaded Vector File. Page Allocation Matrix Detected: ${loadedPdfDocumentObjectInstance.numPages} frames. Processing Page 1 Render Layer...`;
+                
+                // Extract and render initial target vector page structure onto local image framework
+                loadedPdfDocumentObjectInstance.getPage(1).then(function(targetPdfPageNodeInstance) {
+                    const operationalViewportConfig = targetPdfPageNodeInstance.getViewport({scale: 1.5});
+                    const renderWorkspaceCanvasNode = document.createElement("canvas");
+                    const internalContextRenderer2D = renderWorkspaceCanvasNode.getContext("2d");
+                    
+                    renderWorkspaceCanvasNode.width = operationalViewportConfig.width;
+                    renderWorkspaceCanvasNode.height = operationalViewportConfig.height;
 
-                        const renderContextParametersSpecification = {
-                            canvasContext: dynamicProcessingCanvas.getContext('2d'),
-                            viewport: targetViewportScaleConfiguration
-                        };
-
-                        individualPageObj.render(renderContextParametersSpecification).promise.then(() => {
-                            const dataUrlPngString = dynamicProcessingCanvas.toDataURL('image/png');
-                            const layoutPreviewRowWrapperNode = document.createElement('div');
-                            layoutPreviewRowWrapperNode.className = 'processing-result-block';
-                            layoutPreviewRowWrapperNode.style.display = 'block';
-
-                            layoutPreviewRowWrapperNode.innerHTML = `
-                                <label style="color:var(--accent-info);">Extracted Document Page Layer Vector #${pageNum}:</label>
-                                <img src="${dataUrlPngString}" class="processing-result-preview" alt="Page Frame Rendering">
-                                <button class="action-button" style="background:var(--accent-info);" onclick="const targetLink = document.createElement('a'); targetLink.href='${dataUrlPngString}'; targetLink.download='extracted_page_${pageNum}.png'; targetLink.click();">Download Page Layout Frame #${pageNum}</button>
-                            `;
-                            targetOutputWrapperDisplayGridNode.appendChild(layoutPreviewRowWrapperNode);
-                        });
+                    const activeRenderExecutionPackageTask = targetPdfPageNodeInstance.render({
+                        canvasContext: internalContextRenderer2D,
+                        viewport: operationalViewportConfig
                     });
-                }
+
+                    activeRenderExecutionPackageTask.promise.then(function() {
+                        const targetGeneratedImageFrameElement = document.createElement("img");
+                        targetGeneratedImageFrameElement.src = renderWorkspaceCanvasNode.toDataURL("image/png");
+                        targetGeneratedImageFrameElement.className = "processing-result-preview";
+                        interfaceRenderOutputContainer.appendChild(targetGeneratedImageFrameElement);
+                        statusLogsTerminalNode.innerText = "🎉 Successfully processed vector target layer to layout frame stack.";
+                    });
+                });
             });
         };
-        dataBlobFileReaderInstance.readAsArrayBuffer(internalUploadedDocumentFile);
+        localFileReaderInstance.readAsArrayBuffer(targetInputFileRawHandle);
     }
 
-    function executeTextToPdfDocumentCompilation() {
-        const { jsPDF } = window.jspdf;
-        const structuralDocEngineCompilerInstance = new jsPDF();
-        const targetRawContentPayloadString = document.getElementById('pdfSourceTextPayload').value;
-        if (!targetRawContentPayloadString) return;
-
-        const arraySplitsCollection = structuralDocEngineCompilerInstance.splitTextToSize(targetRawContentPayloadString, 180);
-        let currentYAxisCoordinateTracker = 15;
+    // --- CLIENT SIDE PDF DOCUMENT ARRAYS COMPILER ---
+    function executeTextPdfDocumentCompilation() {
+        const targetedFilenameStringValue = document.getElementById("pdfTextOutName").value;
+        const mainDocumentTextParagraphContent = document.getElementById("pdfTextOutBody").value;
         
-        for (let idx = 0; idx < arraySplitsCollection.length; idx++) {
-            if (currentYAxisCoordinateTracker + 8 > structuralDocEngineCompilerInstance.internal.pageSize.height - 15) {
-                structuralDocEngineCompilerInstance.addPage();
-                currentYAxisCoordinateTracker = 15;
-            }
-            structuralDocEngineCompilerInstance.text(arraySplitsCollection[idx], 15, currentYAxisCoordinateTracker);
-            currentYAxisCoordinateTracker += 8;
-        }
-        structuralDocEngineCompilerInstance.save('HyperEngine_Compiled_Document_Specification.pdf');
-    }
-
-    function generateNeuralImageSimulation() {
-        const rawArtDirectionPromptString = document.getElementById('imgPrompt').value.trim();
-        const selectedStyleTag = document.getElementById('imgStyle').value;
-        if (!rawArtDirectionPromptString) return;
-
-        document.getElementById('imgOutputContainer').style.display = 'none';
-        const targetCompoundedUrlEncodedString = `${rawArtDirectionPromptString}, ${selectedStyleTag} fidelity detail rendering layout setup`;
-        const securityProxyTargetQueryUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(targetCompoundedUrlEncodedString)}?width=750&height=450&nologo=true&seed=${Math.floor(Math.random() * 999999)}`;
-
-        const structuralImagePreloader = new Image();
-        structuralImagePreloader.crossOrigin = "anonymous";
-        structuralImagePreloader.src = securityProxyTargetQueryUrl;
-        structuralImagePreloader.onload = function() {
-            document.getElementById('imgFinalPreview').src = securityProxyTargetQueryUrl;
-            document.getElementById('imgOutputContainer').style.display = 'block';
-        };
+        const { jsPDF } = window.jspdf;
+        const singlePageDocumentInstance = new jsPDF();
+        
+        // Setup base margins and split lines for multi-line formatting text parameters
+        const targetedTextWidthMarginThreshold = 180;
+        const textProcessingRowsStringArray = singlePageDocumentInstance.splitTextToSize(mainDocumentTextParagraphContent, targetedTextWidthMarginThreshold);
+        
+        singlePageDocumentInstance.setFont("Helvetica", "normal");
+        singlePageDocumentInstance.setFontSize(11);
+        singlePageDocumentInstance.text(textProcessingRowsStringArray, 15, 20);
+        
+        singlePageDocumentInstance.save(targetedFilenameStringValue);
     }
 </script>
-
 </body>
 </html>
