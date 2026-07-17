@@ -27,8 +27,8 @@
         </div>
         <nav class="main-nav" role="navigation" aria-label="Main navigation">
           <a href="#cognitive-systems" class="nav-link active" data-section="systems">Systems</a>
+          <a href="#blog-section" class="nav-link" data-section="blog">Blog</a>
           <a href="#about" class="nav-link" data-section="about">About</a>
-          <a href="#settings" class="nav-link" data-section="settings">Settings</a>
         </nav>
       </div>
       <div class="system-status">
@@ -94,6 +94,20 @@
           </button>
         </div>
       </div>
+
+      <!-- Blog Section -->
+      <section id="blog-section" class="section-separator" style="margin-top:3rem;" aria-labelledby="blog-title">
+        <div class="separator-title" id="blog-title">📝 Blog & Content</div>
+        <div class="separator-line"></div>
+      </section>
+
+      <div style="margin-bottom:2rem;">
+        <button id="blogNewBtn" class="action-button primary" style="background:#5856d6;color:white;padding:10px 24px;border-radius:8px;border:none;cursor:pointer;font-size:16px;font-weight:500;">
+          ✍️ Write New Post
+        </button>
+      </div>
+
+      <div id="blogPostsList" style="display:grid;gap:12px;"></div>
 
       <!-- Usage Statistics Section -->
       <section class="section-separator" style="margin-top:3rem;" aria-labelledby="stats-title">
@@ -352,6 +366,57 @@
         </div>
 
         <pre id="audioOutput" class="output-terminal" hidden aria-label="Audio processing output"></pre>
+      </div>
+    </div>
+
+    <!-- Blog Edit Modal -->
+    <div id="blogEditModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="blogEditTitle" aria-hidden="true">
+      <div class="modal-window" tabindex="-1">
+        <button class="modal-dismiss" data-close aria-label="Close blog editor">&times;</button>
+        <h2 id="blogEditTitle" class="modal-title">✍️ Write Blog Post</h2>
+        
+        <input id="blogEditId" type="hidden">
+        
+        <fieldset class="modal-section">
+          <legend>Post Details</legend>
+          <div class="form-group">
+            <label for="blogEditTitle">Title</label>
+            <input id="blogEditTitle" type="text" placeholder="Enter post title..." style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:14px;box-sizing:border-box;">
+          </div>
+          <div class="form-group">
+            <label for="blogEditContent">Content</label>
+            <textarea id="blogEditContent" rows="8" placeholder="Write your post content here..." style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:14px;font-family:monospace;box-sizing:border-box;"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="blogEditTags">Tags (comma-separated)</label>
+            <input id="blogEditTags" type="text" placeholder="e.g., AI, Tutorial, News" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:14px;box-sizing:border-box;">
+          </div>
+        </fieldset>
+
+        <div class="modal-actions">
+          <button class="action-button primary" id="blogEditSaveBtn" aria-label="Save blog post">
+            💾 Save Post
+          </button>
+          <button class="action-button secondary" data-close aria-label="Cancel editing">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blog View Modal -->
+    <div id="blogViewModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="blogViewTitle" aria-hidden="true">
+      <div class="modal-window" tabindex="-1">
+        <button class="modal-dismiss" data-close aria-label="Close blog post">&times;</button>
+        <h2 id="blogViewTitle" class="modal-title"></h2>
+        <p id="blogViewDate" style="color:#666;font-size:13px;margin-bottom:8px;"></p>
+        <p id="blogViewTags" style="color:#888;font-size:13px;margin-bottom:16px;font-style:italic;"></p>
+        <div id="blogViewContent" style="line-height:1.8;color:#333;font-size:15px;"></div>
+        <div class="modal-actions">
+          <button class="action-button secondary" data-close aria-label="Close">
+            Close
+          </button>
+        </div>
       </div>
     </div>
 
