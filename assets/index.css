@@ -18,9 +18,43 @@
 *{box-sizing:border-box}
 body{background:var(--bg-master);color:var(--text-main);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding:2rem;line-height:1.5}
 .workspace-container{max-width:1200px;margin:0 auto}
-.app-header{background:linear-gradient(145deg,var(--bg-primary),var(--bg-secondary));border:1px solid var(--border-thin);border-radius:var(--radius-lg);padding:2rem;margin-bottom:2rem;box-shadow:0 8px 20px rgba(0,0,0,0.35)}
+.app-header{background:linear-gradient(145deg,var(--bg-primary),var(--bg-secondary));border:1px solid var(--border-thin);border-radius:var(--radius-lg);padding:2rem;margin-bottom:2rem;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
 .app-title{font-size:2rem;font-weight:800}
 .app-subtitle{color:var(--text-muted)}
+
+.header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.main-nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.nav-link:hover {
+  color: var(--text-main);
+  background: var(--bg-secondary);
+}
+
+.nav-link.active {
+  color: var(--accent-core);
+  border-color: var(--accent-core);
+  background: rgba(88, 86, 214, 0.1);
+}
+
 .section-separator{display:flex;align-items:center;gap:1rem;margin:2rem 0}
 .separator-title{color:var(--text-muted);font-weight:700;text-transform:uppercase;font-size:0.85rem}
 .separator-line{flex:1;height:1px;background:var(--border-thin)}
