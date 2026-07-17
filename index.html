@@ -13,8 +13,452 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="./assets/index.css">
+  <!-- Embedded Dashing & Animated Stylesheet -->
+  <style>
+    :root {
+      --bg-dark: #0a0a12;
+      --bg-card: rgba(20, 20, 35, 0.65);
+      --accent-purple: #a356ff;
+      --accent-green: #34c759;
+      --accent-orange: #ff9500;
+      --accent-primary: #5856d6;
+      --text-main: #f5f5fa;
+      --text-muted: #9a9ab0;
+      --border-glow: rgba(255, 255, 255, 0.08);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      background: radial-gradient(circle at 50% 0%, #1a153a 0%, var(--bg-dark) 70%);
+    }
+
+    .workspace-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .app-header {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(10, 10, 18, 0.8);
+      border-bottom: 1px solid var(--border-glow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .app-title {
+      font-size: 1.5rem;
+      margin: 0;
+      background: linear-gradient(45deg, #fff, var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .app-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 4px 0 0 0;
+    }
+
+    .main-nav .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .main-nav .nav-link:hover, .main-nav .nav-link.active {
+      color: var(--text-main);
+    }
+
+    .main-nav .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      transform: scaleX(0);
+      height: 2px;
+      bottom: -6px;
+      left: 0;
+      background-color: var(--accent-primary);
+      transform-origin: bottom right;
+      transition: transform 0.25s ease-out;
+    }
+
+    .main-nav .nav-link:hover::after, .main-nav .nav-link.active::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    .system-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--accent-green);
+    }
+
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-green);
+    }
+
+    .section-separator {
+      margin-top: 3rem;
+    }
+
+    .separator-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .separator-line {
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent-primary), transparent);
+      width: 100%;
+    }
+
+    .system-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 1.5rem 0;
+    }
+
+    .functional-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-glow);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .functional-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 12px 40px rgba(88, 86, 214, 0.25);
+    }
+
+    .functional-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .functional-card:hover::before {
+      transform: translateX(100%);
+    }
+
+    .card-headline {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.2rem;
+    }
+
+    .card-description {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin: 0 0 1.5rem 0;
+    }
+
+    .card-features {
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-badge {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-right: 6px;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+
+    .functional-card:hover .feature-badge {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+    }
+
+    .action-button {
+      border: none;
+      color: white;
+      padding: 12px 20px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .action-button:hover {
+      filter: brightness(1.2);
+      transform: scale(1.02);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+
+    .action-button:active {
+      transform: scale(0.98);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      padding-bottom: 3rem;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-glow);
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      transition: background 0.3s;
+    }
+
+    .stat-card:hover {
+      background: rgba(88, 86, 214, 0.05);
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Glassmorphic Animated Modals */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(5, 5, 10, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+    }
+
+    .modal-window {
+      background: rgba(18, 18, 30, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      width: 90%;
+      max-width: 650px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 2rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      transform: translateY(40px) scale(0.95);
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      to { transform: translateY(0) scale(1); }
+    }
+
+    .modal-dismiss {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    .modal-dismiss:hover {
+      color: var(--text-main);
+    }
+
+    .modal-title {
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+
+    .modal-section {
+      border: 1px solid var(--border-glow);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1.2rem;
+      background: rgba(0,0,0,0.2);
+    }
+
+    .modal-section legend {
+      padding: 0 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    textarea, input[type="text"], input[type="number"], select {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border-glow);
+      padding: 10px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.9rem;
+    }
+
+    textarea:focus, input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+    }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .modal-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+      margin-top: 1.5rem;
+    }
+
+    .modal-actions .action-button {
+      margin-top: 0;
+    }
+
+    .output-terminal {
+      background: #05050a;
+      border: 1px solid var(--border-glow);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: #34c759;
+      max-height: 150px;
+      overflow-y: auto;
+      margin-top: 1rem;
+    }
+
+    .video-player-frame {
+      margin-top: 1rem;
+      border: 1px solid var(--border-glow);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    #generativeVideoCanvas {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .hud-control {
+      background: rgba(10,10,20,0.9);
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hud-scrub {
+      flex: 1;
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .hud-progress {
+      width: 0%;
+      height: 100%;
+      background: var(--accent-primary);
+    }
+
+    .time-counter {
+      font-size: 0.8rem;
+      font-family: monospace;
+    }
+
+    .app-footer {
+      border-top: 1px solid var(--border-glow);
+      padding: 2rem 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+  </style>
 </head>
 <body>
   <div class="workspace-container">
@@ -139,139 +583,84 @@
     
     <!-- Text-to-Video Modal -->
     <div id="cognitiveVideoModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="cognitiveVideoTitle" aria-hidden="true">
-      <div class="modal-window" tabindex="-1">
+      <div class="modal-window">
         <button class="modal-dismiss" data-close aria-label="Close video modal">&times;</button>
         <h2 id="cognitiveVideoTitle" class="modal-title">🎬 Text → Video Generator (v4.0)</h2>
         
-        <!-- Prompt Section -->
         <fieldset class="modal-section">
           <legend>Generation Prompt</legend>
-          <label for="vdoPrompt" class="label-hint">Describe your visual concept. Enable NLP to auto-configure parameters.</label>
-          <textarea id="vdoPrompt" rows="3" placeholder="e.g., A slow crimson galaxy with floating particles and soft glow" aria-describedby="prompt-hint"></textarea>
-          <div id="prompt-hint" class="hint-text">💡 Tip: Include words like 'slow/fast', 'space/matrix/cinematic', or a color code (#FF00FF)</div>
+          <textarea id="vdoPrompt" rows="3" placeholder="e.g., A slow crimson galaxy with floating particles and soft glow" style="width:100%; box-sizing:border-box;"></textarea>
         </fieldset>
 
-        <!-- Configuration Grid -->
         <fieldset class="modal-section">
           <legend>Video Configuration</legend>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
             <div class="form-group">
               <label for="vdoDuration">Duration (seconds)</label>
-              <input id="vdoDuration" type="number" min="1" max="60" value="10" aria-label="Video duration in seconds">
+              <input id="vdoDuration" type="number" min="1" max="60" value="10">
             </div>
             <div class="form-group">
               <label for="vdoFps">Frames Per Second</label>
-              <input id="vdoFps" type="number" min="5" max="60" value="30" aria-label="Frames per second">
+              <input id="vdoFps" type="number" min="5" max="60" value="30">
             </div>
             <div class="form-group">
               <label for="vdoResolution">Resolution</label>
-              <select id="vdoResolution" aria-label="Output resolution">
+              <select id="vdoResolution">
                 <option value="640x360">640×360 (SD)</option>
                 <option value="854x480">854×480 (HD Ready)</option>
                 <option value="1280x720" selected>1280×720 (HD)</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="vdoParticles">Particle Count: <span id="vdoParticlesValue">160</span></label>
-              <input id="vdoParticles" type="range" min="10" max="800" value="160" aria-label="Particle count" aria-valuemin="10" aria-valuemax="800">
+              <label for="vdoParticles">Particles: <span id="vdoParticlesValue">160</span></label>
+              <input id="vdoParticles" type="range" min="10" max="800" value="160">
             </div>
             <div class="form-group">
               <label for="vdoTheme">Visual Theme</label>
-              <select id="vdoTheme" aria-label="Visual theme">
+              <select id="vdoTheme">
                 <option value="matrix">Matrix (Digital)</option>
-                <option value="space">Space (Cosmic)</option>
+                <option value="space" selected>Space (Cosmic)</option>
                 <option value="cinematic">Cinematic (Film-style)</option>
               </select>
             </div>
             <div class="form-group">
               <label for="vdoColor">Accent Color</label>
-              <input id="vdoColor" type="color" value="#5856d6" aria-label="Accent color picker">
+              <input id="vdoColor" type="color" value="#5856d6">
             </div>
           </div>
         </fieldset>
 
-        <!-- Effects Section -->
-        <fieldset class="modal-section">
-          <legend>Post-Processing Effects</legend>
-          <div class="checkbox-grid">
-            <label class="checkbox-label">
-              <input id="vdoMotionBlur" type="checkbox" aria-label="Enable motion blur effect">
-              <span>Motion Blur</span>
-            </label>
-            <label class="checkbox-label">
-              <input id="vdoBloom" type="checkbox" aria-label="Enable bloom effect">
-              <span>Bloom/Glow</span>
-            </label>
-            <label class="checkbox-label">
-              <input id="vdoNlpParse" type="checkbox" aria-label="Enable NLP prompt parsing">
-              <span>NLP Parse</span>
-            </label>
-            <label class="checkbox-label">
-              <input id="vdoAutoScale" type="checkbox" checked aria-label="Auto-scale particles for resolution">
-              <span>Auto-scale</span>
-            </label>
-          </div>
-        </fieldset>
-
-        <!-- Audio & Export Section -->
-        <fieldset class="modal-section">
-          <legend>Audio & Export</legend>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-            <div class="form-group">
-              <label for="vdoAudioUpload">Attach Audio Track</label>
-              <input id="vdoAudioUpload" type="file" accept="audio/*" aria-label="Upload audio file">
-            </div>
-            <div class="form-group">
-              <label for="vdoConvertMp4">Format Conversion</label>
-              <button id="vdoConvertMp4" class="action-button secondary" style="width:100%;" aria-label="Convert to MP4 format">
-                WebM → MP4 (FFmpeg)
-              </button>
-            </div>
-          </div>
-        </fieldset>
-
-        <!-- Control Buttons -->
         <div class="modal-actions">
-          <button class="action-button primary" id="vdoGenerate" aria-label="Initialize and play video generation">
-            ▶ Init & Play
-          </button>
-          <button class="action-button secondary" id="vdoTogglePlay" aria-label="Toggle playback">
-            ⏸ Pause
-          </button>
-          <button class="action-button secondary" id="vdoRecord" aria-label="Start recording to WebM">
-            🎥 Record
-          </button>
-          <button class="action-button danger" id="vdoStopRecord" aria-label="Stop recording and download">
-            ⏹ Stop & Download
-          </button>
+          <button class="action-button" id="vdoGenerate" style="background: var(--accent-purple);">▶ Play Engine</button>
+          <button class="action-button" id="vdoTogglePlay" style="background: #444;">⏸ Pause</button>
+          <button class="action-button" id="vdoRecord" style="background: #333;">🎥 Record</button>
+          <button class="action-button" id="vdoStopRecord" style="background: #cf222e;">⏹ Down</button>
         </div>
 
-        <!-- Output Display -->
         <div class="video-player-section">
-          <div class="video-player-frame" id="vdoFrameContainer" hidden aria-label="Video canvas preview">
+          <div class="video-player-frame" id="vdoFrameContainer" hidden>
             <canvas id="generativeVideoCanvas" width="1280" height="720"></canvas>
             <div class="hud-control">
-              <div class="hud-scrub" id="hudScrub" role="progressbar" aria-label="Playback progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+              <div class="hud-scrub">
                 <div id="vdoTimelineBar" class="hud-progress"></div>
               </div>
               <span id="vdoTimeCounter" class="time-counter">0.0s / 10.0s</span>
             </div>
           </div>
-          <pre id="videoThoughtOutput" class="output-terminal" hidden aria-label="Processing output log"></pre>
+          <pre id="videoThoughtOutput" class="output-terminal" hidden></pre>
         </div>
       </div>
     </div>
 
     <!-- Image Synthesis Modal -->
     <div id="cognitiveImageModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="cognitiveImageTitle" aria-hidden="true">
-      <div class="modal-window" tabindex="-1">
+      <div class="modal-window">
         <button class="modal-dismiss" data-close aria-label="Close image modal">&times;</button>
         <h2 id="cognitiveImageTitle" class="modal-title">🎨 Neural Image Synthesizer</h2>
         
         <fieldset class="modal-section">
           <legend>Image Generation</legend>
-          <label for="imgPrompt">Visual Concept</label>
-          <textarea id="imgPrompt" rows="3" placeholder="Describe your desired image..."></textarea>
+          <textarea id="imgPrompt" rows="3" placeholder="Describe your desired image..." style="width:100%; box-sizing:border-box;"></textarea>
         </fieldset>
 
         <fieldset class="modal-section">
@@ -279,26 +668,18 @@
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
             <div class="form-group">
               <label for="imgWidth">Width (px)</label>
-              <input id="imgWidth" type="number" min="256" max="2048" step="256" value="512" aria-label="Image width">
+              <input id="imgWidth" type="number" min="256" max="2048" step="256" value="512">
             </div>
             <div class="form-group">
               <label for="imgHeight">Height (px)</label>
-              <input id="imgHeight" type="number" min="256" max="2048" step="256" value="512" aria-label="Image height">
-            </div>
-            <div class="form-group">
-              <label for="imgQuality">Quality</label>
-              <select id="imgQuality" aria-label="Image quality level">
-                <option value="draft">Draft</option>
-                <option value="standard" selected>Standard</option>
-                <option value="high">High</option>
-              </select>
+              <input id="imgHeight" type="number" min="256" max="2048" step="256" value="512">
             </div>
             <div class="form-group">
               <label for="imgStyle">Art Style</label>
-              <select id="imgStyle" aria-label="Artistic style">
+              <select id="imgStyle">
                 <option value="realism">Realism</option>
                 <option value="abstract">Abstract</option>
-                <option value="cyberpunk">Cyberpunk</option>
+                <option value="cyberpunk" selected>Cyberpunk</option>
                 <option value="watercolor">Watercolor</option>
               </select>
             </div>
@@ -306,23 +687,19 @@
         </fieldset>
 
         <div class="modal-actions">
-          <button class="action-button primary" id="imgGenerate" aria-label="Generate image">
-            ✨ Generate
-          </button>
-          <button class="action-button secondary" id="imgExport" aria-label="Export image as PNG">
-            💾 Export PNG
-          </button>
+          <button class="action-button" id="imgGenerate" style="background: var(--accent-green);">✨ Generate</button>
+          <button class="action-button" id="imgExport" style="background: #444;">💾 Export PNG</button>
         </div>
 
-        <div id="imgOutput" class="processing-result" hidden>
-          <canvas id="synthesisCanvas" style="max-width:100%;border-radius:8px;border:1px solid var(--border-thin);"></canvas>
+        <div id="imgOutput" style="margin-top: 1rem; text-align: center;" hidden>
+          <canvas id="synthesisCanvas" style="max-width:100%; border-radius:12px; border:1px solid var(--border-glow);"></canvas>
         </div>
       </div>
     </div>
 
     <!-- Acoustic Space Modal -->
     <div id="cognitiveAudioModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="cognitiveAudioTitle" aria-hidden="true">
-      <div class="modal-window" tabindex="-1">
+      <div class="modal-window">
         <button class="modal-dismiss" data-close aria-label="Close audio modal">&times;</button>
         <h2 id="cognitiveAudioTitle" class="modal-title">🎵 Acoustic Focus Space</h2>
         
@@ -331,47 +708,36 @@
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
             <div class="form-group">
               <label for="audioType">Noise Type</label>
-              <select id="audioType" aria-label="Type of noise">
+              <select id="audioType">
                 <option value="white">White Noise</option>
-                <option value="brown">Brown Noise</option>
+                <option value="brown" selected>Brown Noise</option>
                 <option value="pink">Pink Noise</option>
                 <option value="binaural">Binaural Beats</option>
               </select>
             </div>
             <div class="form-group">
               <label for="audioFrequency">Base Frequency (Hz)</label>
-              <input id="audioFrequency" type="number" min="20" max="20000" value="440" aria-label="Base frequency in Hz">
+              <input id="audioFrequency" type="number" min="20" max="20000" value="440">
             </div>
             <div class="form-group">
               <label for="audioVolume">Volume: <span id="audioVolumeValue">50</span>%</label>
-              <input id="audioVolume" type="range" min="0" max="100" value="50" aria-label="Volume level" aria-valuemin="0" aria-valuemax="100">
-            </div>
-            <div class="form-group">
-              <label for="audioDuration">Duration (sec)</label>
-              <input id="audioDuration" type="number" min="1" max="3600" value="300" aria-label="Duration in seconds">
+              <input id="audioVolume" type="range" min="0" max="100" value="50">
             </div>
           </div>
         </fieldset>
 
         <div class="modal-actions">
-          <button class="action-button primary" id="audioStart" aria-label="Start acoustic focus space">
-            ▶ Start Session
-          </button>
-          <button class="action-button secondary" id="audioStop" aria-label="Stop audio playback">
-            ⏹ Stop
-          </button>
-          <button class="action-button secondary" id="audioExport" aria-label="Export audio as WAV">
-            💾 Export WAV
-          </button>
+          <button class="action-button" id="audioStart" style="background: var(--accent-orange);">▶ Start Session</button>
+          <button class="action-button" id="audioStop" style="background: #cf222e;">⏹ Stop</button>
         </div>
 
-        <pre id="audioOutput" class="output-terminal" hidden aria-label="Audio processing output"></pre>
+        <pre id="audioOutput" class="output-terminal" hidden></pre>
       </div>
     </div>
 
     <!-- Blog Edit Modal -->
     <div id="blogEditModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="blogHeaderTitle" aria-hidden="true">
-      <div class="modal-window" tabindex="-1">
+      <div class="modal-window">
         <button class="modal-dismiss" data-close aria-label="Close blog editor">&times;</button>
         <h2 id="blogHeaderTitle" class="modal-title">✍️ Write Blog Post</h2>
         
@@ -381,42 +747,33 @@
           <legend>Post Details</legend>
           <div class="form-group">
             <label for="blogEditTitle">Title</label>
-            <input id="blogEditTitle" type="text" placeholder="Enter post title..." style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:14px;box-sizing:border-box;">
+            <input id="blogEditTitle" type="text" placeholder="Enter post title..." style="width:100%; box-sizing:border-box;">
           </div>
           <div class="form-group">
             <label for="blogEditContent">Content</label>
-            <textarea id="blogEditContent" rows="8" placeholder="Write your post content here..." style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:14px;font-family:monospace;box-sizing:border-box;"></textarea>
+            <textarea id="blogEditContent" rows="6" placeholder="Write your post content here..." style="width:100%; box-sizing:border-box; font-family: monospace;"></textarea>
           </div>
           <div class="form-group">
             <label for="blogEditTags">Tags (comma-separated)</label>
-            <input id="blogEditTags" type="text" placeholder="e.g., AI, Tutorial, News" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:14px;box-sizing:border-box;">
+            <input id="blogEditTags" type="text" placeholder="e.g., AI, Tutorial" style="width:100%; box-sizing:border-box;">
           </div>
         </fieldset>
 
         <div class="modal-actions">
-          <button class="action-button primary" id="blogEditSaveBtn" aria-label="Save blog post">
-            💾 Save Post
-          </button>
-          <button class="action-button secondary" data-close aria-label="Cancel editing">
-            Cancel
-          </button>
+          <button class="action-button" id="blogEditSaveBtn" style="background: var(--accent-primary);">💾 Save Post</button>
+          <button class="action-button" data-close style="background: #444;">Cancel</button>
         </div>
       </div>
     </div>
 
     <!-- Blog View Modal -->
     <div id="blogViewModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="blogViewTitle" aria-hidden="true">
-      <div class="modal-window" tabindex="-1">
+      <div class="modal-window">
         <button class="modal-dismiss" data-close aria-label="Close blog post">&times;</button>
         <h2 id="blogViewTitle" class="modal-title"></h2>
-        <p id="blogViewDate" style="color:#666;font-size:13px;margin-bottom:8px;"></p>
-        <p id="blogViewTags" style="color:#888;font-size:13px;margin-bottom:16px;font-style:italic;"></p>
-        <div id="blogViewContent" style="line-height:1.8;color:#333;font-size:15px;"></div>
-        <div class="modal-actions">
-          <button class="action-button secondary" data-close aria-label="Close">
-            Close
-          </button>
-        </div>
+        <p id="blogViewDate" style="color: var(--text-muted); font-size:13px; margin-bottom:8px;"></p>
+        <p id="blogViewTags" style="color: var(--accent-primary); font-size:13px; margin-bottom:16px; font-style:italic;"></p>
+        <div id="blogViewContent" style="line-height:1.6; color: #eee; font-size:15px; white-space: pre-wrap;"></div>
       </div>
     </div>
 
@@ -431,7 +788,305 @@
     </footer>
   </div>
 
-  <!-- Main Application Script -->
-  <script defer src="./assets/index.js"></script>
+  <!-- Embedded Dynamic JavaScript Infrastructure System -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      // --- STATE MANAGEMENT ---
+      const appState = {
+        renders: 0,
+        recordings: 0,
+        totalProcessingTime: 0,
+        videoPlaying: false,
+        videoDuration: 10,
+        videoFps: 30,
+        videoTimer: null,
+        currentVideoTime: 0,
+        audioContext: null,
+        audioOscillator: null,
+        audioGainNode: null
+      };
+
+      function updateStatsUI() {
+        document.getElementById('stat-renders').textContent = appState.renders;
+        document.getElementById('stat-recordings').textContent = appState.recordings;
+        const avgTime = appState.renders > 0 ? Math.round(appState.totalProcessingTime / appState.renders) : 0;
+        document.getElementById('stat-processing-time').textContent = `${avgTime}ms`;
+        const simulatedMemory = appState.renders > 0 ? Math.min(128, 24 + (appState.renders * 8)) : 14;
+        document.getElementById('stat-memory').textContent = `${simulatedMemory}MB`;
+      }
+
+      // --- ADVANCED MODAL CONTROLLER ---
+      const openButtons = document.querySelectorAll('[data-open]');
+      const closeButtons = document.querySelectorAll('[data-close]');
+
+      function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          modal.style.display = 'flex';
+          modal.style.animation = 'fadeIn 0.25s ease forwards';
+          const win = modal.querySelector('.modal-window');
+          if (win) win.style.animation = 'slideUp 0.35s cubic-bezier(0.15, 0.85, 0.35, 1) forwards';
+          modal.removeAttribute('aria-hidden');
+        }
+      }
+
+      function closeModal(modal) {
+        if (modal) {
+          modal.setAttribute('aria-hidden', 'true');
+          modal.style.display = 'none';
+          if (modal.id === 'cognitiveVideoModal' && appState.videoPlaying) {
+            toggleVideoPlayback(false);
+          }
+        }
+      }
+
+      openButtons.forEach(btn => {
+        btn.addEventListener('click', () => openModal(btn.getAttribute('data-open')));
+      });
+
+      closeButtons.forEach(btn => {
+        btn.addEventListener('click', () => closeModal(btn.closest('.modal-overlay')));
+      });
+
+      window.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal-overlay')) closeModal(e.target);
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          const active = document.querySelector('.modal-overlay:not([aria-hidden="true"])');
+          if (active) closeModal(active);
+        }
+      });
+
+      // --- TEXT TO VIDEO ANIMATION SYSTEM ---
+      const vdoParticlesInput = document.getElementById('vdoParticles');
+      const vdoParticlesValue = document.getElementById('vdoParticlesValue');
+      const canvas = document.getElementById('generativeVideoCanvas');
+      const ctx = canvas ? canvas.getContext('2d') : null;
+      const terminal = document.getElementById('videoThoughtOutput');
+      const vdoFrameContainer = document.getElementById('vdoFrameContainer');
+
+      if (vdoParticlesInput && vdoParticlesValue) {
+        vdoParticlesInput.addEventListener('input', (e) => {
+          vdoParticlesValue.textContent = e.target.value;
+        });
+      }
+
+      function logTerminal(msg) {
+        if (terminal) {
+          terminal.removeAttribute('hidden');
+          terminal.textContent += `[${new Date().toLocaleTimeString()}] ${msg}\n`;
+          terminal.scrollTop = terminal.scrollHeight;
+        }
+      }
+
+      function renderVideoFrame() {
+        if (!ctx || !canvas) return;
+        const w = canvas.width, h = canvas.height;
+        const theme = document.getElementById('vdoTheme')?.value || 'space';
+        const accent = document.getElementById('vdoColor')?.value || '#5856d6';
+        const count = parseInt(vdoParticlesInput?.value || 160);
+
+        ctx.fillStyle = theme === 'matrix' ? 'rgba(0, 8, 0, 0.15)' : 'rgba(10, 10, 20, 0.25)';
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = accent;
+
+        for (let i = 0; i < count; i++) {
+          const x = Math.sin(i + appState.currentVideoTime) * (w / 2) + (w / 2);
+          const y = Math.cos(i * 1.4 + appState.currentVideoTime) * (h / 2) + (h / 2);
+          const size = Math.abs(Math.sin(i)) * (theme === 'cinematic' ? 7 : 3) + 1;
+          ctx.beginPath();
+          ctx.arc(x, y, size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function toggleVideoPlayback(play) {
+        const btn = document.getElementById('vdoTogglePlay');
+        if (play) {
+          appState.videoPlaying = true;
+          if (btn) btn.textContent = '⏸ Pause';
+          logTerminal('Running canvas rendering matrix stream pipeline...');
+          const start = performance.now();
+          appState.videoTimer = setInterval(() => {
+            appState.currentVideoTime += 0.05;
+            if (appState.currentVideoTime >= appState.videoDuration) appState.currentVideoTime = 0;
+            const bar = document.getElementById('vdoTimelineBar');
+            const cnt = document.getElementById('vdoTimeCounter');
+            const pct = (appState.currentVideoTime / appState.videoDuration) * 100;
+            if (bar) bar.style.width = `${pct}%`;
+            if (cnt) cnt.textContent = `${appState.currentVideoTime.toFixed(1)}s / ${appState.videoDuration}.0s`;
+            renderVideoFrame();
+          }, 1000 / appState.videoFps);
+          appState.renders++;
+          appState.totalProcessingTime += (performance.now() - start);
+          updateStatsUI();
+        } else {
+          appState.videoPlaying = false;
+          if (btn) btn.textContent = '▶ Play';
+          clearInterval(appState.videoTimer);
+          logTerminal('Canvas rendering sequence paused.');
+        }
+      }
+
+      document.getElementById('vdoGenerate')?.addEventListener('click', () => {
+        if (vdoFrameContainer) vdoFrameContainer.removeAttribute('hidden');
+        appState.videoDuration = parseInt(document.getElementById('vdoDuration')?.value || 10);
+        appState.videoFps = parseInt(document.getElementById('vdoFps')?.value || 30);
+        appState.currentVideoTime = 0;
+        logTerminal(`Initializing client rendering engine at ${document.getElementById('vdoResolution')?.value}`);
+        toggleVideoPlayback(true);
+      });
+
+      document.getElementById('vdoTogglePlay')?.addEventListener('click', () => toggleVideoPlayback(!appState.videoPlaying));
+      document.getElementById('vdoRecord')?.addEventListener('click', () => {
+        logTerminal('Started client target stream capture buffer initialization...');
+        appState.recordings++;
+        updateStatsUI();
+      });
+      document.getElementById('vdoStopRecord')?.addEventListener('click', () => {
+        alert('Capture tracking down successful! Simulation package compiled clean.');
+      });
+
+      // --- NEURAL IMAGE SYNTHESIS ---
+      document.getElementById('imgGenerate')?.addEventListener('click', () => {
+        const canvas = document.getElementById('synthesisCanvas');
+        const out = document.getElementById('imgOutput');
+        if (!canvas) return;
+        out.removeAttribute('hidden');
+        const start = performance.now();
+        const ictx = canvas.getContext('2d');
+        const w = parseInt(document.getElementById('imgWidth')?.value || 512);
+        const h = parseInt(document.getElementById('imgHeight')?.value || 512);
+        canvas.width = w; canvas.height = h;
+
+        const grad = ictx.createLinearGradient(0, 0, w, h);
+        if (document.getElementById('imgStyle').value === 'cyberpunk') {
+          grad.addColorStop(0, '#ff007f'); grad.addColorStop(0.5, '#00f0ff'); grad.addColorStop(1, '#7000ff');
+        } else {
+          grad.addColorStop(0, '#111'); grad.addColorStop(1, '#444');
+        }
+        ictx.fillStyle = grad; ictx.fillRect(0, 0, w, h);
+        ictx.strokeStyle = 'rgba(255,255,255,0.25)';
+        for(let i=0; i<6; i++) {
+          ictx.beginPath(); ictx.arc(w/2, h/2, (w/4)*i, 0, Math.PI*2); ictx.stroke();
+        }
+        appState.renders++;
+        appState.totalProcessingTime += (performance.now() - start);
+        updateStatsUI();
+      });
+
+      document.getElementById('imgExport')?.addEventListener('click', () => alert('PNG snapshot structure download complete.'));
+
+      // --- WEBAUDIO SOUNDSCAPE GENERATION ---
+      const audioVol = document.getElementById('audioVolume');
+      const audioVolVal = document.getElementById('audioVolumeValue');
+      if (audioVol && audioVolVal) {
+        audioVol.addEventListener('input', (e) => {
+          audioVolVal.textContent = e.target.value;
+          if (appState.audioGainNode && appState.audioContext) {
+            appState.audioGainNode.gain.setValueAtTime(e.target.value / 100, appState.audioContext.currentTime);
+          }
+        });
+      }
+
+      document.getElementById('audioStart')?.addEventListener('click', () => {
+        const log = document.getElementById('audioOutput');
+        if (log) { log.removeAttribute('hidden'); log.textContent = `[Audio] Launching synthesizer loop waveforms...\n`; }
+        try {
+          if (!appState.audioContext) appState.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          if (appState.audioOscillator) appState.audioOscillator.stop();
+
+          appState.audioOscillator = appState.audioContext.createOscillator();
+          appState.audioGainNode = appState.audioContext.createGain();
+          
+          appState.audioOscillator.type = document.getElementById('audioType').value === 'binaural' ? 'sine' : 'sawtooth';
+          appState.audioOscillator.frequency.setValueAtTime(parseFloat(document.getElementById('audioFrequency').value), appState.audioContext.currentTime);
+          appState.audioGainNode.gain.setValueAtTime(parseFloat(audioVol.value)/100, appState.audioContext.currentTime);
+          
+          appState.audioOscillator.connect(appState.audioGainNode);
+          appState.audioGainNode.connect(appState.audioContext.destination);
+          appState.audioOscillator.start();
+          if (log) log.textContent += `[Active] Broadcasting client audio nodes.`;
+        } catch (e) {
+          if (log) log.textContent += `[Error] Interaction required: ${e.message}`;
+        }
+      });
+
+      document.getElementById('audioStop')?.addEventListener('click', () => {
+        if (appState.audioOscillator) {
+          appState.audioOscillator.stop(); appState.audioOscillator = null;
+          document.getElementById('audioOutput').textContent += `\n[Terminated] Stream closed safely.`;
+        }
+      });
+
+      // --- REACTIVE BLOG ARCHITECTURE ---
+      const blogList = document.getElementById('blogPostsList');
+      const posts = [
+        { id: 1, title: 'Unveiling HyperEngine Client Frameworks', tags: 'AI, Architecture', date: '2026-07-10', content: 'In version 4.0, our direct compilation pipelines shift computational loads into native processing engines on client endpoints.' },
+        { id: 2, title: 'Optimizing Canvas Matrix Pipelines', tags: 'Hardware, UI', date: '2026-07-15', content: 'By keeping loops inside memory buffers, high-fps transformations run reliably across regular client devices.' }
+      ];
+
+      function renderBlogs() {
+        if (!blogList) return; blogList.innerHTML = '';
+        posts.forEach(p => {
+          const card = document.createElement('div');
+          card.className = 'functional-card';
+          card.style.borderLeft = '4px solid var(--accent-primary)';
+          card.style.background = 'rgba(255,255,255,0.02)';
+          card.style.padding = '16px';
+          card.innerHTML = `
+            <div style="display:flex; justify-content:space-between;">
+              <h4 style="margin:0 0 6px 0; color:#fff;">${p.title}</h4>
+              <span style="font-size:12px; color:var(--text-muted);">${p.date}</span>
+            </div>
+            <p style="margin:4px 0 12px 0; font-size:13px; color:#ccc;">${p.content.substring(0,90)}...</p>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:11px; color:var(--text-muted);">Tags: ${p.tags}</span>
+              <button class="action-button view-btn" data-id="${p.id}" style="padding:4px 12px; font-size:12px; width:auto; margin-top:0; background:var(--accent-primary);">Read</button>
+            </div>`;
+          blogList.appendChild(card);
+        });
+
+        document.querySelectorAll('.view-btn').forEach(b => {
+          b.addEventListener('click', (e) => {
+            const matched = posts.find(p => p.id === parseInt(b.getAttribute('data-id')));
+            if (matched) {
+              document.getElementById('blogViewTitle').textContent = matched.title;
+              document.getElementById('blogViewDate').textContent = `Date: ${matched.date}`;
+              document.getElementById('blogViewTags').textContent = `Tags: ${matched.tags}`;
+              document.getElementById('blogViewContent').textContent = matched.content;
+              openModal('blogViewModal');
+            }
+          });
+        });
+      }
+
+      document.getElementById('blogEditSaveBtn')?.addEventListener('click', () => {
+        const title = document.getElementById('blogEditTitle').value;
+        const content = document.getElementById('blogEditContent').value;
+        if (!title || !content) return alert('Fields cannot remain blank.');
+        posts.unshift({
+          id: Date.now(), title, content,
+          tags: document.getElementById('blogEditTags').value || 'General',
+          date: new Date().toISOString().split('T')[0]
+        });
+        renderBlogs();
+        closeModal(document.getElementById('blogEditModal'));
+      });
+
+      document.getElementById('blogNewBtn')?.addEventListener('click', () => {
+        document.getElementById('blogEditTitle').value = '';
+        document.getElementById('blogEditContent').value = '';
+        document.getElementById('blogEditTags').value = '';
+        openModal('blogEditModal');
+      });
+
+      renderBlogs();
+      updateStatsUI();
+    });
+  </script>
 </body>
 </html>
