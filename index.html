@@ -3,98 +3,370 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Sanjay Subedi HyperEngine v4.0 - Advanced client-side cognitive AI suite with video, image, and audio generation.">
+  <meta name="theme-color" content="#5856d6">
   <title>Sanjay Subedi HyperEngine v4.0 - Monolithic Cognitive AI Suite</title>
+  
+  <!-- External Scripts with Preload -->
+  <link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js">
+  <link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="./assets/index.css">
 </head>
 <body>
   <div class="workspace-container">
-    <header class="app-header">
-      <h1 class="app-title">Sanjay Subedi HyperEngine v4.0</h1>
-      <p class="app-subtitle">Monolithic suite compiling client-side cognitive generation platforms and utilities.</p>
+    <!-- Header Navigation -->
+    <header class="app-header" role="banner">
+      <div class="header-nav">
+        <div class="header-content">
+          <h1 class="app-title">Sanjay Subedi HyperEngine v4.0</h1>
+          <p class="app-subtitle">Monolithic suite compiling client-side cognitive generation platforms and utilities.</p>
+        </div>
+        <nav class="main-nav" role="navigation" aria-label="Main navigation">
+          <a href="#cognitive-systems" class="nav-link active" data-section="systems">Systems</a>
+          <a href="#about" class="nav-link" data-section="about">About</a>
+          <a href="#settings" class="nav-link" data-section="settings">Settings</a>
+        </nav>
+      </div>
+      <div class="system-status">
+        <span class="status-indicator online"></span>
+        <span class="status-text">All engines online</span>
+      </div>
     </header>
 
-    <section class="section-separator">
-      <div class="separator-title">🤖 Cognitive Media Systems</div>
-      <div class="separator-line"></div>
-    </section>
+    <!-- Main Content Section -->
+    <main role="main">
+      <!-- Cognitive Media Systems Section -->
+      <section id="cognitive-systems" class="section-separator" aria-labelledby="systems-title">
+        <div class="separator-title" id="systems-title">🤖 Cognitive Media Systems</div>
+        <div class="separator-line"></div>
+      </section>
 
-    <div class="system-grid">
-      <div class="functional-card" style="border-top:3px solid #a356ff;">
-        <div>
-          <h3 class="card-headline">Cognitive Text to Video AI</h3>
-          <p class="card-description">Prompt-driven generative canvas demo (client-side simulation).</p>
+      <div class="system-grid">
+        <!-- Text to Video Card -->
+        <div class="functional-card" data-engine="video" style="border-top:3px solid #a356ff;">
+          <div class="card-content">
+            <h3 class="card-headline">Cognitive Text to Video AI</h3>
+            <p class="card-description">Prompt-driven generative canvas demo with advanced particle physics and real-time rendering.</p>
+            <div class="card-features">
+              <span class="feature-badge">GPU Accelerated</span>
+              <span class="feature-badge">Multi-Theme</span>
+              <span class="feature-badge">Recording</span>
+            </div>
+          </div>
+          <button class="action-button" style="background:#a356ff;" data-open="cognitiveVideoModal" aria-label="Deploy video generation engine">
+            Deploy Video Engine
+          </button>
         </div>
-        <button class="action-button" style="background:#a356ff;" data-open="cognitiveVideoModal">Deploy Video Engine</button>
+
+        <!-- Image Synthesis Card -->
+        <div class="functional-card" data-engine="image" style="border-top:3px solid #34c759;">
+          <div class="card-content">
+            <h3 class="card-headline">Neural Image Synthesizer</h3>
+            <p class="card-description">Client-side image synthesis with advanced canvas rendering and real-time effects.</p>
+            <div class="card-features">
+              <span class="feature-badge">Canvas API</span>
+              <span class="feature-badge">Effects</span>
+              <span class="feature-badge">Export</span>
+            </div>
+          </div>
+          <button class="action-button" style="background:#34c759;" data-open="cognitiveImageModal" aria-label="Deploy image synthesis engine">
+            Deploy Image Engine
+          </button>
+        </div>
+
+        <!-- Acoustic Space Card -->
+        <div class="functional-card" data-engine="audio" style="border-top:3px solid #ff9500;">
+          <div class="card-content">
+            <h3 class="card-headline">Acoustic Focus Space</h3>
+            <p class="card-description">WebAudio-based generative soundscape with immersive noise synthesis (gesture required).</p>
+            <div class="card-features">
+              <span class="feature-badge">Web Audio</span>
+              <span class="feature-badge">Real-time</span>
+              <span class="feature-badge">Adaptive</span>
+            </div>
+          </div>
+          <button class="action-button" style="background:#ff9500;" data-open="cognitiveAudioModal" aria-label="Deploy acoustic engine">
+            Deploy Acoustic Space
+          </button>
+        </div>
       </div>
 
-      <div class="functional-card" style="border-top:3px solid #a356ff;">
-        <div>
-          <h3 class="card-headline">Neural Image Synthesizer</h3>
-          <p class="card-description">Client-side image synthesis demo using canvas.</p>
-        </div>
-        <button class="action-button" style="background:#a356ff;" data-open="cognitiveImageModal">Deploy Image Engine</button>
-      </div>
+      <!-- Usage Statistics Section -->
+      <section class="section-separator" style="margin-top:3rem;" aria-labelledby="stats-title">
+        <div class="separator-title" id="stats-title">📊 Session Statistics</div>
+        <div class="separator-line"></div>
+      </section>
 
-      <div class="functional-card" style="border-top:3px solid #a356ff;">
-        <div>
-          <h3 class="card-headline">Acoustic Focus Space</h3>
-          <p class="card-description">WebAudio-based noise generator (user gesture required to start audio).</p>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-renders">0</div>
+          <div class="stat-label">Total Renders</div>
         </div>
-        <button class="action-button" style="background:#a356ff;" data-open="cognitiveAudioModal">Deploy Acoustic Space</button>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-recordings">0</div>
+          <div class="stat-label">Recordings Made</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-processing-time">0ms</div>
+          <div class="stat-label">Avg Processing</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-memory">0MB</div>
+          <div class="stat-label">Memory Used</div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modals -->
+    
+    <!-- Text-to-Video Modal -->
+    <div id="cognitiveVideoModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="cognitiveVideoTitle" aria-hidden="true">
+      <div class="modal-window" tabindex="-1">
+        <button class="modal-dismiss" data-close aria-label="Close video modal">&times;</button>
+        <h2 id="cognitiveVideoTitle" class="modal-title">🎬 Text → Video Generator (v4.0)</h2>
+        
+        <!-- Prompt Section -->
+        <fieldset class="modal-section">
+          <legend>Generation Prompt</legend>
+          <label for="vdoPrompt" class="label-hint">Describe your visual concept. Enable NLP to auto-configure parameters.</label>
+          <textarea id="vdoPrompt" rows="3" placeholder="e.g., A slow crimson galaxy with floating particles and soft glow" aria-describedby="prompt-hint"></textarea>
+          <div id="prompt-hint" class="hint-text">💡 Tip: Include words like 'slow/fast', 'space/matrix/cinematic', or a color code (#FF00FF)</div>
+        </fieldset>
+
+        <!-- Configuration Grid -->
+        <fieldset class="modal-section">
+          <legend>Video Configuration</legend>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
+            <div class="form-group">
+              <label for="vdoDuration">Duration (seconds)</label>
+              <input id="vdoDuration" type="number" min="1" max="60" value="10" aria-label="Video duration in seconds">
+            </div>
+            <div class="form-group">
+              <label for="vdoFps">Frames Per Second</label>
+              <input id="vdoFps" type="number" min="5" max="60" value="30" aria-label="Frames per second">
+            </div>
+            <div class="form-group">
+              <label for="vdoResolution">Resolution</label>
+              <select id="vdoResolution" aria-label="Output resolution">
+                <option value="640x360">640×360 (SD)</option>
+                <option value="854x480">854×480 (HD Ready)</option>
+                <option value="1280x720" selected>1280×720 (HD)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="vdoParticles">Particle Count: <span id="vdoParticlesValue">160</span></label>
+              <input id="vdoParticles" type="range" min="10" max="800" value="160" aria-label="Particle count" aria-valuemin="10" aria-valuemax="800">
+            </div>
+            <div class="form-group">
+              <label for="vdoTheme">Visual Theme</label>
+              <select id="vdoTheme" aria-label="Visual theme">
+                <option value="matrix">Matrix (Digital)</option>
+                <option value="space">Space (Cosmic)</option>
+                <option value="cinematic">Cinematic (Film-style)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="vdoColor">Accent Color</label>
+              <input id="vdoColor" type="color" value="#5856d6" aria-label="Accent color picker">
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Effects Section -->
+        <fieldset class="modal-section">
+          <legend>Post-Processing Effects</legend>
+          <div class="checkbox-grid">
+            <label class="checkbox-label">
+              <input id="vdoMotionBlur" type="checkbox" aria-label="Enable motion blur effect">
+              <span>Motion Blur</span>
+            </label>
+            <label class="checkbox-label">
+              <input id="vdoBloom" type="checkbox" aria-label="Enable bloom effect">
+              <span>Bloom/Glow</span>
+            </label>
+            <label class="checkbox-label">
+              <input id="vdoNlpParse" type="checkbox" aria-label="Enable NLP prompt parsing">
+              <span>NLP Parse</span>
+            </label>
+            <label class="checkbox-label">
+              <input id="vdoAutoScale" type="checkbox" checked aria-label="Auto-scale particles for resolution">
+              <span>Auto-scale</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Audio & Export Section -->
+        <fieldset class="modal-section">
+          <legend>Audio & Export</legend>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+            <div class="form-group">
+              <label for="vdoAudioUpload">Attach Audio Track</label>
+              <input id="vdoAudioUpload" type="file" accept="audio/*" aria-label="Upload audio file">
+            </div>
+            <div class="form-group">
+              <label for="vdoConvertMp4">Format Conversion</label>
+              <button id="vdoConvertMp4" class="action-button secondary" style="width:100%;" aria-label="Convert to MP4 format">
+                WebM → MP4 (FFmpeg)
+              </button>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Control Buttons -->
+        <div class="modal-actions">
+          <button class="action-button primary" id="vdoGenerate" aria-label="Initialize and play video generation">
+            ▶ Init & Play
+          </button>
+          <button class="action-button secondary" id="vdoTogglePlay" aria-label="Toggle playback">
+            ⏸ Pause
+          </button>
+          <button class="action-button secondary" id="vdoRecord" aria-label="Start recording to WebM">
+            🎥 Record
+          </button>
+          <button class="action-button danger" id="vdoStopRecord" aria-label="Stop recording and download">
+            ⏹ Stop & Download
+          </button>
+        </div>
+
+        <!-- Output Display -->
+        <div class="video-player-section">
+          <div class="video-player-frame" id="vdoFrameContainer" hidden aria-label="Video canvas preview">
+            <canvas id="generativeVideoCanvas" width="1280" height="720"></canvas>
+            <div class="hud-control">
+              <div class="hud-scrub" id="hudScrub" role="progressbar" aria-label="Playback progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div id="vdoTimelineBar" class="hud-progress"></div>
+              </div>
+              <span id="vdoTimeCounter" class="time-counter">0.0s / 10.0s</span>
+            </div>
+          </div>
+          <pre id="videoThoughtOutput" class="output-terminal" hidden aria-label="Processing output log"></pre>
+        </div>
       </div>
     </div>
 
-    <!-- rest of the page omitted for brevity -->
-  </div>
+    <!-- Image Synthesis Modal -->
+    <div id="cognitiveImageModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="cognitiveImageTitle" aria-hidden="true">
+      <div class="modal-window" tabindex="-1">
+        <button class="modal-dismiss" data-close aria-label="Close image modal">&times;</button>
+        <h2 id="cognitiveImageTitle" class="modal-title">🎨 Neural Image Synthesizer</h2>
+        
+        <fieldset class="modal-section">
+          <legend>Image Generation</legend>
+          <label for="imgPrompt">Visual Concept</label>
+          <textarea id="imgPrompt" rows="3" placeholder="Describe your desired image..."></textarea>
+        </fieldset>
 
-  <!-- Text-to-Video Modal -->
-  <div id="cognitiveVideoModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="cognitiveVideoTitle">
-    <div class="modal-window" tabindex="-1">
-      <button class="modal-dismiss" data-close>&times;</button>
-      <h2 id="cognitiveVideoTitle">🎬 Text → Video (Upgraded)</h2>
+        <fieldset class="modal-section">
+          <legend>Image Settings</legend>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
+            <div class="form-group">
+              <label for="imgWidth">Width (px)</label>
+              <input id="imgWidth" type="number" min="256" max="2048" step="256" value="512" aria-label="Image width">
+            </div>
+            <div class="form-group">
+              <label for="imgHeight">Height (px)</label>
+              <input id="imgHeight" type="number" min="256" max="2048" step="256" value="512" aria-label="Image height">
+            </div>
+            <div class="form-group">
+              <label for="imgQuality">Quality</label>
+              <select id="imgQuality" aria-label="Image quality level">
+                <option value="draft">Draft</option>
+                <option value="standard" selected>Standard</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="imgStyle">Art Style</label>
+              <select id="imgStyle" aria-label="Artistic style">
+                <option value="realism">Realism</option>
+                <option value="abstract">Abstract</option>
+                <option value="cyberpunk">Cyberpunk</option>
+                <option value="watercolor">Watercolor</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
 
-      <label for="vdoPrompt">Prompt</label>
-      <textarea id="vdoPrompt" rows="3" placeholder="A slow crimson galaxy with floating particles and soft glow"></textarea>
+        <div class="modal-actions">
+          <button class="action-button primary" id="imgGenerate" aria-label="Generate image">
+            ✨ Generate
+          </button>
+          <button class="action-button secondary" id="imgExport" aria-label="Export image as PNG">
+            💾 Export PNG
+          </button>
+        </div>
 
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;">
-        <label>Duration (sec)<input id="vdoDuration" type="number" min="1" max="60" value="10"></label>
-        <label>FPS<input id="vdoFps" type="number" min="5" max="60" value="30"></label>
-        <label>Resolution<select id="vdoResolution"><option value="640x360">640×360</option><option value="854x480">854×480</option><option value="1280x720">1280×720</option></select></label>
-
-        <label>Particles<input id="vdoParticles" type="range" min="10" max="800" value="160"></label>
-        <label>Theme<select id="vdoTheme"><option value="matrix">Matrix</option><option value="space">Space</option><option value="cinematic">Cinematic</option></select></label>
-        <label>Accent Color<input id="vdoColor" type="color" value="#5856d6"></label>
-
-        <label>Motion Blur<input id="vdoMotionBlur" type="checkbox"></label>
-        <label>Bloom<input id="vdoBloom" type="checkbox"></label>
-        <label>NLP Parse<input id="vdoNlpParse" type="checkbox" title="Enable prompt-to-parameter parsing"></label>
-
-        <label>Audio Track<input id="vdoAudioUpload" type="file" accept="audio/*"></label>
-        <label>Auto-scale Particles<input id="vdoAutoScale" type="checkbox" checked></label>
-        <label>Convert to MP4<button id="vdoConvertMp4" class="action-button" style="width:100%">Convert (FFmpeg.wasm)</button></label>
-      </div>
-
-      <div style="display:flex;gap:8px;margin-top:12px;">
-        <button class="action-button" id="vdoGenerate">Init & Play</button>
-        <button class="action-button" id="vdoTogglePlay">Pause</button>
-        <button class="action-button" id="vdoRecord">Record (WebM)</button>
-        <button class="action-button danger" id="vdoStopRecord">Stop & Download</button>
-      </div>
-
-      <pre id="videoThoughtOutput" class="output-terminal" hidden></pre>
-
-      <div class="video-player-frame" id="vdoFrameContainer" hidden>
-        <canvas id="generativeVideoCanvas" width="640" height="360"></canvas>
-        <div class="hud-control">
-          <div class="hud-scrub" id="hudScrub"><div id="vdoTimelineBar" class="hud-progress"></div></div>
-          <span id="vdoTimeCounter">0.0s / 10.0s</span>
+        <div id="imgOutput" class="processing-result" hidden>
+          <canvas id="synthesisCanvas" style="max-width:100%;border-radius:8px;border:1px solid var(--border-thin);"></canvas>
         </div>
       </div>
     </div>
+
+    <!-- Acoustic Space Modal -->
+    <div id="cognitiveAudioModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="cognitiveAudioTitle" aria-hidden="true">
+      <div class="modal-window" tabindex="-1">
+        <button class="modal-dismiss" data-close aria-label="Close audio modal">&times;</button>
+        <h2 id="cognitiveAudioTitle" class="modal-title">🎵 Acoustic Focus Space</h2>
+        
+        <fieldset class="modal-section">
+          <legend>Soundscape Configuration</legend>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
+            <div class="form-group">
+              <label for="audioType">Noise Type</label>
+              <select id="audioType" aria-label="Type of noise">
+                <option value="white">White Noise</option>
+                <option value="brown">Brown Noise</option>
+                <option value="pink">Pink Noise</option>
+                <option value="binaural">Binaural Beats</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="audioFrequency">Base Frequency (Hz)</label>
+              <input id="audioFrequency" type="number" min="20" max="20000" value="440" aria-label="Base frequency in Hz">
+            </div>
+            <div class="form-group">
+              <label for="audioVolume">Volume: <span id="audioVolumeValue">50</span>%</label>
+              <input id="audioVolume" type="range" min="0" max="100" value="50" aria-label="Volume level" aria-valuemin="0" aria-valuemax="100">
+            </div>
+            <div class="form-group">
+              <label for="audioDuration">Duration (sec)</label>
+              <input id="audioDuration" type="number" min="1" max="3600" value="300" aria-label="Duration in seconds">
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="modal-actions">
+          <button class="action-button primary" id="audioStart" aria-label="Start acoustic focus space">
+            ▶ Start Session
+          </button>
+          <button class="action-button secondary" id="audioStop" aria-label="Stop audio playback">
+            ⏹ Stop
+          </button>
+          <button class="action-button secondary" id="audioExport" aria-label="Export audio as WAV">
+            💾 Export WAV
+          </button>
+        </div>
+
+        <pre id="audioOutput" class="output-terminal" hidden aria-label="Audio processing output"></pre>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer" role="contentinfo">
+      <p>Sanjay Subedi HyperEngine v4.0 | Cognitive AI Suite | All features run client-side for privacy.</p>
+      <div class="footer-meta">
+        <span>Last Updated: 2026</span>
+        <span>•</span>
+        <span>Status: Production</span>
+      </div>
+    </footer>
   </div>
 
+  <!-- Main Application Script -->
   <script defer src="./assets/index.js"></script>
 </body>
 </html>
