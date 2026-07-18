@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - Sign In</title>
+    <!-- Load the official Supabase library CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #0f172a;
+            color: white;
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-card {
+            background-color: #1e293b;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        h2 {
+            margin-bottom: 24px;
+            font-size: 1.8rem;
+            color: #5856d6;
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #334155;
+            background-color: #0f172a;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus {
+            border-color: #5856d6;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #5856d6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .login-btn:hover {
+            background: #4745b4;
+        }
+        .error-msg {
+            color: #ef4444;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h2>Admin Portal</h2>
+        <form id="login-form">
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" required placeholder="admin@sanjaysubedi.com.np">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="login-btn">Log In</button>
+            <div id="error" class="error-msg"></div>
+        </form>
+    </div>
+
+    <script>
+        // 1. Initialize connection with your specific Supabase Vault setup
+        const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co"; 
+        const SUPABASE_ANON_KEY = "sb_publishable_yelUjdpmB3gkdKB-8qpvbQ_SCCTHh_R";
+        const supabase = _supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // 2. Handle Login Submission
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('error');
+            
+            errorDiv.style.display = "none";
+
+            // Securely transmit check request over encrypted network channel
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
+
+            if (error) {
+                errorDiv.innerText = error.message;
+                errorDiv.style.display = "block";
+            } else {
+                alert("Access Granted! Logging you in...");
+                // Redirect browser into your secure private dashboard workspace folder next
+                window.location.href = "/admin/dashboard.html";
+            }
+        });
+    </script>
+</body>
+</html>
