@@ -108,6 +108,79 @@
 
         document.getElementById('blog-form').addEventListener('submit', async (e) => {
             e.preventDefault();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Manage Blogs</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #0f172a; color: white; font-family: system-ui, sans-serif; padding: 40px 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: #1e293b; padding: 30px; border-radius: 12px; border: 1px solid #334155; }
+        h1, h2 { color: #5856d6; margin-bottom: 20px; }
+        input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 4px; }
+        .publish-btn { width: 100%; padding: 12px; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #334155; }
+        .delete-btn { background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome Back, Sanjay!</h1>
+        
+        <h2>Create New Post</h2>
+        <form id="blog-form">
+            <input type="text" id="title" placeholder="Blog Title" required>
+            <input type="text" id="slug" placeholder="blog-url-slug" required>
+            <textarea id="content" placeholder="Write your blog content here..." rows="5" required></textarea>
+            <button type="submit" class="publish-btn">Publish Post</button>
+        </form>
+
+        <h2>Manage Posts</h2>
+        <table id="posts-table">
+            <thead><tr><th>Title</th><th>Actions</th></tr></thead>
+            <tbody id="posts-body"></tbody>
+        </table>
+    </div>
+
+    <script>
+        const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzb2Nwa3VpZGN3a2poenpqdW5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzMjIxODAsImV4cCI6MjA5OTg5ODE4MH0.46k4OxJi5hQdqD0NBTcxrtArsD9XfB4jyYOWgh2yBo0";
+        
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Security: Redirect if not logged in
+        (async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) window.location.href = "/admin/index.html";
+        })();
+
+        // Fetch and display posts
+        async function loadPosts() {
+            const { data, error } = await supabaseClient.from('blogs').select('id, title');
+            if (error) return;
+            const body = document.getElementById('posts-body');
+            body.innerHTML = data.map(post => `
+                <tr>
+                    <td>${post.title}</td>
+                    <td><button class="delete-btn" onclick="deletePost('${post.id}')">Delete</button></td>
+                </tr>
+            `).join('');
+        }
+
+        // Delete post
+        async function deletePost(id) {
+            if (!confirm('Are you sure?')) return;
+            await supabaseClient.from('blogs').delete().eq('id', id);
+            loadPosts();
+        }
+
+        // Publish post
+        document.getElementById('blog-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
             const { error } = await supabaseClient.from('blogs').insert([{ 
                 title: document.getElementById('title').value, 
                 slug: document.getElementById('slug').value, 
@@ -118,8 +191,11 @@
             else {
                 alert("Blog Published!");
                 document.getElementById('blog-form').reset();
+                loadPosts();
             }
         });
+
+        loadPosts();
     </script>
 </body>
 </html>
