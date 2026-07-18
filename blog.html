@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanjay's Blog</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: sans-serif; background: #0f172a; color: white; padding: 40px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .blog-post { background: #1e293b; padding: 25px; margin-bottom: 25px; border-radius: 12px; border: 1px solid #334155; }
+        h1 { color: #5856d6; margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Latest Posts</h1>
+        <div id="posts">Loading...</div>
+    </div>
+
+    <script>
+        const supabase = window.supabase.createClient(
+            "https://zsocpkuidcwkjhzzjuni.supabase.co",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzb2Nwa3VpZGN3a2poenpqdW5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzMjIxODAsImV4cCI6MjA5OTg5ODE4MH0.46k4OxJi5hQdqD0NBTcxrtArsD9XfB4jyYOWgh2yBo0"
+        );
+
+        async function loadBlogs() {
+            const { data, error } = await supabase.from('blogs').select('*');
+            const container = document.getElementById('posts');
+            if (data) {
+                container.innerHTML = data.map(b => `
+                    <div class="blog-post">
+                        <h3>${b.title}</h3>
+                        <p>${b.content}</p>
+                    </div>
+                `).join('');
+            }
+        }
+        loadBlogs();
+    </script>
+</body>
+</html>
