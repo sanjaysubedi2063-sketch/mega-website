@@ -106,7 +106,7 @@
         // 1. Initialize connection with your specific Supabase Vault setup
         const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co"; 
         const SUPABASE_ANON_KEY = "sb_publishable_yelUjdpmB3gkdKB-8qpvbQ_SCCTHh_R";
-        const supabase = _supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // 2. Handle Login Submission
         document.getElementById('login-form').addEventListener('submit', async function(e) {
