@@ -1,953 +1,833 @@
-html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Sanjay Subedi HyperEngine v5.0 - Ultimate monolithic client-side conversion, modification, and cognitive suite.">
-  <meta name="theme-color" content="#5856d6">
-  <title>Sanjay Subedi HyperEngine v5.0 - Ultimate Client-Side Suite</title>
-  
-  <!-- Core Structural Dependencies (Client-Side Document Parsing & Compilation) -->
-  <link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js">
-  <link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  
-  <style>
-    :root {
-      --bg-dark: #0a0a12;
-      --bg-card: rgba(20, 20, 35, 0.65);
-      --accent-purple: #a356ff;
-      --accent-green: #34c759;
-      --accent-orange: #ff9500;
-      --accent-blue: #007aff;
-      --accent-primary: #5856d6;
-      --text-main: #f5f5fa;
-      --text-muted: #9a9ab0;
-      --border-glow: rgba(255, 255, 255, 0.08);
-    }
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Sanjay Subedi HyperEngine v5.0 - Ultimate monolithic client-side conversion, modification, and processing engine.">
+    <meta name="theme-color" content="#5856d6">
+    <title>Sanjay Subedi HyperEngine v5.0 - Ultimate Client-Side Suite</title>
 
-    html {
-      scroll-behavior: smooth;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
+    <!-- Core Structural Dependencies -->
+    <link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js">
+    <link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-    body {
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-      background: radial-gradient(circle at 50% 0%, #1a153a 0%, var(--bg-dark) 70%);
-    }
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --accent: #5856d6;
+            --accent-hover: #434190;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+        }
 
-    .workspace-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    .app-header {
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      background: rgba(10, 10, 18, 0.8);
-      border-bottom: 1px solid var(--border-glow);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      padding: 1rem 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-    .header-nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-    }
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+        }
 
-    .app-title {
-      font-size: 1.5rem;
-      margin: 0;
-      background: linear-gradient(45deg, #fff, var(--text-muted));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-    .app-subtitle {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin: 4px 0 0 0;
-    }
+        .nav-group {
+            margin-bottom: 20px;
+        }
 
-    .main-nav .nav-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      margin-left: 1.5rem;
-      font-weight: 500;
-      position: relative;
-      transition: color 0.3s ease;
-    }
+        .nav-group-title {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
 
-    .main-nav .nav-link:hover, .main-nav .nav-link.active {
-      color: var(--text-main);
-    }
+        .nav-btn {
+            width: 100%;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-main);
+            padding: 10px 12px;
+            text-align: left;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 5px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
 
-    .main-nav .nav-link::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      transform: scaleX(0);
-      height: 2px;
-      bottom: -6px;
-      left: 0;
-      background-color: var(--accent-primary);
-      transform-origin: bottom right;
-      transition: transform 0.25s ease-out;
-    }
+        .nav-btn:hover, .nav-btn.active {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
 
-    .main-nav .nav-link:hover::after, .main-nav .nav-link.active::after {
-      transform: scaleX(1);
-      transform-origin: bottom left;
-    }
+        /* Main Content Workspace */
+        .workspace {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
 
-    .system-status {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.8rem;
-      color: var(--accent-green);
-    }
+        .header {
+            background-color: var(--bg-secondary);
+            padding: 15px 30px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    .status-indicator {
-      width: 8px;
-      height: 8px;
-      background-color: var(--accent-green);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--accent-green);
-    }
+        .main-panel {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
 
-    .section-separator {
-      margin-top: 3rem;
-    }
+        .tool-container {
+            flex: 3;
+            padding: 30px;
+            overflow-y: auto;
+        }
 
-    .separator-title {
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
+        .tool-section {
+            display: none;
+            background: var(--bg-secondary);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
 
-    .separator-line {
-      height: 1px;
-      background: linear-gradient(90deg, var(--accent-primary), transparent);
-      width: 100%;
-    }
+        .tool-section.active {
+            display: block;
+        }
 
-    .system-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      padding: 1.5rem 0;
-    }
+        /* Form Elements */
+        .dropzone {
+            border: 2px dashed var(--border);
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            background: rgba(15, 23, 42, 0.4);
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
 
-    .functional-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--border-glow);
-      border-radius: 16px;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
-    }
+        .dropzone:hover {
+            border-color: var(--accent);
+        }
 
-    .functional-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(255, 255, 255, 0.2);
-      box-shadow: 0 12px 40px rgba(88, 86, 214, 0.25);
-    }
+        .input-group {
+            margin-bottom: 15px;
+        }
 
-    .card-headline {
-      margin: 0 0 0.5rem 0;
-      font-size: 1.15rem;
-    }
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
 
-    .card-description {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      line-height: 1.4;
-      margin: 0 0 1.5rem 0;
-    }
+        .input-group select, .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 10px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
 
-    .card-features {
-      margin-bottom: 1.5rem;
-    }
+        .action-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
 
-    .feature-badge {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-right: 6px;
-      display: inline-block;
-    }
+        .action-btn:hover {
+            background-color: var(--accent-hover);
+        }
 
-    .action-button {
-      border: none;
-      color: white;
-      padding: 12px 20px;
-      font-weight: 600;
-      border-radius: 10px;
-      cursor: pointer;
-      width: 100%;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
+        /* Step & Action Live Preview Panel */
+        .preview-panel {
+            flex: 2;
+            background-color: rgba(30, 41, 59, 0.5);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
 
-    .action-button:hover {
-      filter: brightness(1.2);
-      transform: scale(1.01);
-    }
+        .preview-header {
+            padding: 15px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            font-weight: bold;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
 
-    /* Modals & Layout Architecture */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(5, 5, 10, 0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
+        .live-logs {
+            padding: 15px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--success);
+            max-height: 150px;
+            overflow-y: auto;
+            background: #090d16;
+            border-bottom: 1px solid var(--border);
+        }
 
-    .modal-window {
-      background: rgba(18, 18, 30, 0.96);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 24px;
-      width: 92%;
-      max-width: 700px;
-      max-height: 85vh;
-      overflow-y: auto;
-      padding: 2rem;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-      position: relative;
-    }
+        .visual-preview-box {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
 
-    .modal-dismiss {
-      position: absolute;
-      top: 1rem;
-      right: 1.5rem;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 2rem;
-      cursor: pointer;
-    }
-
-    .modal-title {
-      margin-top: 0;
-      font-size: 1.4rem;
-    }
-
-    .modal-section {
-      border: 1px solid var(--border-glow);
-      border-radius: 12px;
-      padding: 1.2rem;
-      margin-bottom: 1.2rem;
-      background: rgba(0,0,0,0.2);
-    }
-
-    .modal-section legend {
-      padding: 0 8px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 12px;
-    }
-
-    .form-group label {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    textarea, input[type="text"], input[type="number"], select, input[type="file"] {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border-glow);
-      padding: 10px;
-      border-radius: 8px;
-      color: #fff;
-      font-size: 0.9rem;
-    }
-
-    /* Live Preview Target Windows */
-    .live-preview-box {
-      margin-top: 1rem;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      background: #040408;
-      padding: 12px;
-      text-align: center;
-      min-height: 100px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .live-preview-box img {
-      max-width: 100%;
-      max-height: 280px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.15);
-    }
-
-    .preview-placeholder-text {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      font-style: italic;
-    }
-
-    .output-terminal {
-      background: #020205;
-      border: 1px solid var(--border-glow);
-      border-radius: 8px;
-      padding: 12px;
-      font-family: monospace;
-      font-size: 0.8rem;
-      color: #34c759;
-      max-height: 140px;
-      overflow-y: auto;
-      margin-top: 1rem;
-      text-align: left;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
-
-    .stat-card {
-      background: rgba(255,255,255,0.02);
-      border: 1px solid var(--border-glow);
-      padding: 1.5rem;
-      border-radius: 12px;
-      text-align: center;
-    }
-
-    .stat-value {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--accent-primary);
-    }
-
-    .stat-label {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .app-footer {
-      border-top: 1px solid var(--border-glow);
-      padding: 2rem 0;
-      text-align: center;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 4rem;
-    }
-  </style>
+        .preview-thumb {
+            max-width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+    </style>
 </head>
 <body>
-  <div class="workspace-container">
-    <!-- Main Top Utility Bar -->
-    <header class="app-header">
-      <div class="header-nav">
-        <div>
-          <h1 class="app-title">Sanjay Subedi HyperEngine v5.0</h1>
-          <p class="app-subtitle">Ultimate Client-Side Document, Media & Cognitive Pipeline Suite</p>
-        </div>
-        <nav class="main-nav">
-          <a href="#cognitive-systems" class="nav-link active">Engines</a>
-          <a href="#blog-section" class="nav-link">Blog</a>
-        </nav>
-      </div>
-      <div class="system-status">
-        <span class="status-indicator"></span>
-        <span>Local Core Active</span>
-      </div>
-    </header>
 
-    <main>
-      <!-- SECTION 1: Document Conversion Array -->
-      <section id="document-suite" class="section-separator">
-        <div class="separator-title">📁 Document Conversion Array (Two-Way)</div>
-        <div class="separator-line"></div>
-      </section>
-
-      <div class="system-grid">
-        <!-- PDF Studio Card -->
-        <div class="functional-card" style="border-top: 3px solid var(--accent-blue);">
-          <div>
-            <h3 class="card-headline">PDF Conversion Studio</h3>
-            <p class="card-description">Extract PDF streams natively into Word, PowerPoint, or variable explicit image patterns.</p>
-            <div class="card-features">
-              <span class="feature-badge">PDF → Docx / PPTX</span>
-              <span class="feature-badge">Image Extraction</span>
-            </div>
-          </div>
-          <button class="action-button" style="background: var(--accent-blue);" onclick="openEngineModal('pdfStudioModal')">Deploy Studio</button>
-        </div>
-
-        <!-- Reverse Compiler Card -->
-        <div class="functional-card" style="border-top: 3px solid var(--accent-purple);">
-          <div>
-            <h3 class="card-headline">Reverse Document Compiler</h3>
-            <p class="card-description">Compile structured Office items or explicit batch pictures back into raw layout PDFs.</p>
-            <div class="card-features">
-              <span class="feature-badge">Docx / Image → PDF</span>
-              <span class="feature-badge">Local Assembly</span>
-            </div>
-          </div>
-          <button class="action-button" style="background: var(--accent-purple);" onclick="openEngineModal('reverseCompilerModal')">Deploy Compiler</button>
-        </div>
-      </div>
-
-      <!-- SECTION 2: Image Engine Array -->
-      <section id="media-suite" class="section-separator">
-        <div class="separator-title">🖼️ Media Modification & Generation Matrix</div>
-        <div class="separator-line"></div>
-      </section>
-
-      <div class="system-grid">
-        <!-- Image Resizer Engine -->
-        <div class="functional-card" style="border-top: 3px solid var(--accent-orange);">
-          <div>
-            <h3 class="card-headline">Advanced Image Transformer</h3>
-            <p class="card-description">Attach, rescale, adjust aspect boundaries, and flip formats inside sandboxed browser canvases.</p>
-            <div class="card-features">
-              <span class="feature-badge">Aspect Control</span>
-              <span class="feature-badge">Live View Matrix</span>
-            </div>
-          </div>
-          <button class="action-button" style="background: var(--accent-orange);" onclick="openEngineModal('imageTransformerModal')">Deploy Transformer</button>
-        </div>
-
-        <!-- Legacy Media Generation Systems (Preserved) -->
-        <div class="functional-card" style="border-top: 3px solid var(--accent-green);">
-          <div>
-            <h3 class="card-headline">Cognitive Text to Video</h3>
-            <p class="card-description">Generative canvas animation layout framework utilizing client computing grids.</p>
-            <div class="card-features">
-              <span class="feature-badge">Particle Engine</span>
-              <span class="feature-badge">Canvas Loops</span>
-            </div>
-          </div>
-          <button class="action-button" style="background: var(--accent-green);" onclick="openEngineModal('cognitiveVideoModal')">Deploy Video</button>
-        </div>
-      </div>
-
-      <!-- SECTION 3: Micro Blog Engine -->
-      <section id="blog-section" class="section-separator">
-        <div class="separator-title">📝 Core Communication Stream</div>
-        <div class="separator-line"></div>
-      </section>
-      <div style="margin: 1.5rem 0;">
-        <button class="action-button" style="background: var(--accent-primary); width: auto;" onclick="openEngineModal('blogEditModal')">✍️ Compose Stream Transmission</button>
-      </div>
-      <div id="blogPostsList" style="display: grid; gap: 1rem;"></div>
-
-      <!-- SECTION 4: Real-Time Telemetry Stats -->
-      <section class="section-separator">
-        <div class="separator-title">📊 Operations Analytics Telemetry</div>
-        <div class="separator-line"></div>
-      </section>
-      <div class="stats-grid">
-        <div class="stat-card"><div class="stat-value" id="stat-renders">0</div><div class="stat-label">System Structural Renders</div></div>
-        <div class="stat-card"><div class="stat-value" id="stat-docs">0</div><div class="stat-label">Processed Documents</div></div>
-        <div class="stat-card"><div class="stat-value" id="stat-memory">12MB</div><div class="stat-label">Sandbox Buffer Allocation</div></div>
-      </div>
-    </main>
-
-    <!-- MODAL INVENTORY -->
-
-    <!-- Modal A: PDF Conversion Studio -->
-    <div id="pdfStudioModal" class="modal-overlay">
-      <div class="modal-window">
-        <button class="modal-dismiss" onclick="closeEngineModal('pdfStudioModal')">&times;</button>
-        <h2 class="modal-title">📁 PDF Extraction Framework</h2>
-        <fieldset class="modal-section">
-          <legend>Input Selection Source</legend>
-          <div class="form-group">
-            <label>Select Target PDF File</label>
-            <input type="file" id="pdfStudioFilePicker" accept="application/pdf" onchange="handleStudioFileTracking(this)">
-          </div>
-        </fieldset>
-        <fieldset class="modal-section">
-          <legend>Conversion Target Parameters</legend>
-          <div class="form-group">
-            <label>Output Extraction Target</label>
-            <select id="pdfStudioTargetFormat" onchange="togglePdfStudioExplicitOptions(this.value)">
-              <option value="word">Microsoft Word Document (.docx Structure Simulation)</option>
-              <option value="pptx">Microsoft PowerPoint (.pptx Layout Buffer)</option>
-              <option value="images">Image Frame Sequence Extraction</option>
-            </select>
-          </div>
-          <div class="form-group" id="pdfStudioImageOptionWrapper" style="display: none;">
-            <label>Explicit Image Output Target Encoding</label>
-            <select id="pdfStudioImageFormat">
-              <option value="image/png">Lossless Portable Network Graphics (.png)</option>
-              <option value="image/jpeg">Standard Baseline Joint Photographic Group (.jpeg)</option>
-              <option value="image/webp">Next-Gen Google Web Picture Stream (.webp)</option>
-            </select>
-          </div>
-        </fieldset>
+    <!-- Sidebar Management -->
+    <div class="sidebar">
+        <h2>HyperEngine v5.0</h2>
         
-        <!-- Interactive Step Preview Stage -->
-        <div class="live-preview-box">
-          <div class="preview-placeholder-text" id="pdfStudioPreviewFeedback">Awaiting safe storage mount allocation matrix pipeline...</div>
-          <div id="pdfStudioCanvasPreviewZone" style="display:none; flex-wrap:wrap; gap:8px; justify-content:center;"></div>
+        <div class="nav-group">
+            <div class="nav-group-title">PDF Core Engine</div>
+            <button class="nav-btn active" onclick="switchTool('pdf-to-img')">PDF to Images</button>
+            <button class="nav-btn" onclick="switchTool('img-to-pdf')">Images to PDF</button>
+            <button class="nav-btn" onclick="switchTool('pdf-to-word')">PDF to Word</button>
+            <button class="nav-btn" onclick="switchTool('word-to-pdf')">Word to PDF</button>
+            <button class="nav-btn" onclick="switchTool('pdf-to-ppt')">PDF to PowerPoint</button>
+            <button class="nav-btn" onclick="switchTool('ppt-to-pdf')">PowerPoint to PDF</button>
         </div>
-        
-        <div class="modal-actions">
-          <button class="action-button" style="background: var(--accent-blue);" onclick="executePdfStudioExtraction()">Compile & Extract Sequence</button>
+
+        <div class="nav-group">
+            <div class="nav-group-title">Image Processing</div>
+            <button class="nav-btn" onclick="switchTool('img-resizer')">Image Resizer</button>
+            <button class="nav-btn" onclick="switchTool('img-attach')">Image Attach & Merger</button>
         </div>
-        <pre class="output-terminal" id="pdfStudioTerminal">System Idle. Storage Mount Awaiting File Registry Connection.</pre>
-      </div>
     </div>
 
-    <!-- Modal B: Reverse Document Compiler -->
-    <div id="reverseCompilerModal" class="modal-overlay">
-      <div class="modal-window">
-        <button class="modal-dismiss" onclick="closeEngineModal('reverseCompilerModal')">&times;</button>
-        <h2 class="modal-title">🔄 Reverse Document Matrix Compiler</h2>
-        <fieldset class="modal-section">
-          <legend>Source Composition Configuration</legend>
-          <div class="form-group">
-            <label>Source Type Input Channel</label>
-            <select id="reverseCompilerMode" onchange="adjustReverseCompilerFileAccepts(this.value)">
-              <option value="images">Batch Image Array Conversion → Combined PDF Document</option>
-              <option value="word">Rich Text Asset (.docx / text simulation) → Rendered Layout PDF</option>
-              <option value="pptx">Presentation Sequence (.pptx wireframe) → Standard PDF Pages</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Upload Source Assets</label>
-            <input type="file" id="reverseCompilerFiles" multiple onchange="generateReverseCompilerStepPreview()">
-          </div>
-        </fieldset>
-
-        <div class="live-preview-box">
-          <div class="preview-placeholder-text" id="reverseCompilerPreviewFeedback">Awaiting staging inputs...</div>
-          <div id="reverseCompilerThumbnailContainer" style="display:none; gap:6px; flex-wrap:wrap;"></div>
+    <!-- Main Engine Workspace -->
+    <div class="workspace">
+        <div class="header">
+            <h1 id="current-tool-title">PDF to Images</h1>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Client-Side Sandbox Enforced</span>
         </div>
 
-        <div class="modal-actions">
-          <button class="action-button" style="background: var(--accent-purple);" onclick="executeReverseCompilation()">Recompile Back to PDF Map</button>
-        </div>
-        <pre class="output-terminal" id="reverseCompilerTerminal">Staging area initialized.</pre>
-      </div>
-    </div>
+        <div class="main-panel">
+            <div class="tool-container">
 
-    <!-- Modal C: Advanced Image Transformer (Resizer & Attacher) -->
-    <div id="imageTransformerModal" class="modal-overlay">
-      <div class="modal-window">
-        <button class="modal-dismiss" onclick="closeEngineModal('imageTransformerModal')">&times;</button>
-        <h2 class="modal-title">🖼️ Advanced Image Modification & Format Engine</h2>
-        <fieldset class="modal-section">
-          <legend>File Mount Source Connection</legend>
-          <div class="form-group">
-            <label>Attach Working Image Base</label>
-            <input type="file" id="imageTransformerFile" accept="image/*" onchange="handleImageTransformerAttachment(this)">
-          </div>
-        </fieldset>
-        <fieldset class="modal-section">
-          <legend>Geometric Transformation Matrices</legend>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <div class="form-group">
-              <label>Target Rescale Width (px)</label>
-              <input type="number" id="imgTransformWidth" value="800" oninput="handleTransformerDimensionChange('width')">
+                <!-- PDF TO IMAGES SECTION -->
+                <div id="pdf-to-img" class="tool-section active">
+                    <div class="dropzone" onclick="document.getElementById('pdf-to-img-input').click()">
+                        <p>Click or Drop PDF file here to parse</p>
+                        <input type="file" id="pdf-to-img-input" accept="application/pdf" style="display:none;" onchange="handleFileSelect(this, 'pdf')">
+                    </div>
+                    <div class="input-group">
+                        <label for="image-format-select">Target Image Extension Type</label>
+                        <select id="image-format-select">
+                            <option value="image/png">PNG (.png)</option>
+                            <option value="image/jpeg">JPEG (.jpg)</option>
+                            <option value="image/webp">WEBP (.webp)</option>
+                        </select>
+                    </div>
+                    <button class="action-btn" onclick="executePdfToImg()">Extract & Render Images</button>
+                </div>
+
+                <!-- IMAGES TO PDF SECTION -->
+                <div id="img-to-pdf" class="tool-section">
+                    <div class="dropzone" onclick="document.getElementById('img-to-pdf-input').click()">
+                        <p>Select multiple images to combine into PDF pages</p>
+                        <input type="file" id="img-to-pdf-input" accept="image/*" multiple style="display:none;" onchange="handleFileSelect(this, 'images')">
+                    </div>
+                    <button class="action-btn" onclick="executeImgToPdf()">Compile PDF Document</button>
+                </div>
+
+                <!-- PDF TO WORD SECTION -->
+                <div id="pdf-to-word" class="tool-section">
+                    <div class="dropzone" onclick="document.getElementById('pdf-to-word-input').click()">
+                        <p>Upload PDF file for text structural extraction</p>
+                        <input type="file" id="pdf-to-word-input" accept="application/pdf" style="display:none;" onchange="handleFileSelect(this, 'pdf')">
+                    </div>
+                    <button class="action-btn" onclick="executePdfToWord()">Extract to Word (.doc)</button>
+                </div>
+
+                <!-- WORD TO PDF SECTION -->
+                <div id="word-to-pdf" class="tool-section">
+                    <div class="input-group">
+                        <label>Paste Document Text / Content Elements</label>
+                        <textarea id="word-text-input" rows="8" placeholder="Type or paste document content layout here..."></textarea>
+                    </div>
+                    <div class="dropzone" onclick="document.getElementById('word-file-input').click()">
+                        <p>Or upload plain text/doc file mapping structure</p>
+                        <input type="file" id="word-file-input" accept=".txt,.doc,.docx" style="display:none;" onchange="handleWordFile(this)">
+                    </div>
+                    <button class="action-btn" onclick="executeWordToPdf()">Compile Text into PDF</button>
+                </div>
+
+                <!-- PDF TO POWERPOINT SECTION -->
+                <div id="pdf-to-ppt" class="tool-section">
+                    <div class="dropzone" onclick="document.getElementById('pdf-to-ppt-input').click()">
+                        <p>Upload source PDF to construct Presentation Slides</p>
+                        <input type="file" id="pdf-to-ppt-input" accept="application/pdf" style="display:none;" onchange="handleFileSelect(this, 'pdf')">
+                    </div>
+                    <button class="action-btn" onclick="executePdfToPpt()">Build HTML Presentation Deck</button>
+                </div>
+
+                <!-- POWERPOINT TO PDF SECTION -->
+                <div id="ppt-to-pdf" class="tool-section">
+                    <div class="input-group">
+                        <label>Presentation Slides Content Mapping (Use line breaks for new slides)</label>
+                        <textarea id="ppt-text-input" rows="8" placeholder="Slide 1 Title&#10;Slide 1 Content Line&#10;---&#10;Slide 2 Title..."></textarea>
+                    </div>
+                    <button class="action-btn" onclick="executePptToPdf()">Render Presentation to PDF</button>
+                </div>
+
+                <!-- IMAGE RESIZER SECTION -->
+                <div id="img-resizer" class="tool-section">
+                    <div class="dropzone" onclick="document.getElementById('resizer-input').click()">
+                        <p>Select target image file to resize</p>
+                        <input type="file" id="resizer-input" accept="image/*" style="display:none;" onchange="handleFileSelect(this, 'image-single')">
+                    </div>
+                    <div style="display: flex; gap:15px;">
+                        <div class="input-group" style="flex:1;">
+                            <label>Target Width (px)</label>
+                            <input type="number" id="resize-w" value="800">
+                        </div>
+                        <div class="input-group" style="flex:1;">
+                            <label>Target Height (px)</label>
+                            <input type="number" id="resize-h" value="600">
+                        </div>
+                    </div>
+                    <button class="action-btn" onclick="executeImageResize()">Process Resized Image</button>
+                </div>
+
+                <!-- IMAGE ATTACH & MERGER SECTION -->
+                <div id="img-attach" class="tool-section">
+                    <div class="dropzone" onclick="document.getElementById('attach-input').click()">
+                        <p>Select multiple images to attach together</p>
+                        <input type="file" id="attach-input" accept="image/*" multiple style="display:none;" onchange="handleFileSelect(this, 'images-attach')">
+                    </div>
+                    <div class="input-group">
+                        <label for="attach-direction">Attachment Orientation Layout</label>
+                        <select id="attach-direction">
+                            <option value="vertical">Vertical Sheet Stitching (Top to Bottom)</option>
+                            <option value="horizontal">Horizontal Banner Stitching (Left to Right)</option>
+                        </select>
+                    </div>
+                    <button class="action-btn" onclick="executeImageAttach()">Merge & Attach Images</button>
+                </div>
+
             </div>
-            <div class="form-group">
-              <label>Target Rescale Height (px)</label>
-              <input type="number" id="imgTransformHeight" value="600" oninput="handleTransformerDimensionChange('height')">
+
+            <!-- STEP ACTION & VISUAL PREVIEW SIDE PANEL -->
+            <div class="preview-panel">
+                <div class="preview-header">Live Workspace Step & Render Preview</div>
+                <div class="live-logs" id="log-console">> Engine operational. Awaiting client action...</div>
+                <div class="visual-preview-box" id="preview-display">
+                    <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 40px;">No step adjustments or render objects generated yet.</span>
+                </div>
             </div>
-          </div>
-          <div class="checkbox-grid" style="margin-top: 8px;">
-            <label class="checkbox-label">
-              <input type="checkbox" id="imgTransformLockAspect" checked> Lock Rendering Aspect Ratio Map
-            </label>
-          </div>
-          <div class="form-group" style="margin-top:12px;">
-            <label>Target Output Format Encode Type</label>
-            <select id="imgTransformOutputFormat">
-              <option value="image/png">Lossless High-Fidelity Blueprint (.png)</option>
-              <option value="image/jpeg">Compressed Standard Spatial Map (.jpeg)</option>
-              <option value="image/webp">Optimized Hyper-Compressed Web Stream (.webp)</option>
-            </select>
-          </div>
-        </fieldset>
-
-        <!-- Dynamic Live Transformation Viewport Stage -->
-        <div class="live-preview-box">
-          <div class="preview-placeholder-text" id="imageTransformPreviewFeedback">No functional source matrix attached yet.</div>
-          <img id="imageTransformLiveViewport" style="display:none;" alt="Live modification processing view">
         </div>
-
-        <div class="modal-actions">
-          <button class="action-button" style="background: var(--accent-orange);" onclick="executeImageTransformationExport()">Process & Export Image</button>
-        </div>
-        <pre class="output-terminal" id="imageTransformerTerminal">Pixel transformation pipeline processing unit active.</pre>
-      </div>
     </div>
 
-    <!-- Modal D: Legacy Code Integration - Cognitive Video -->
-    <div id="cognitiveVideoModal" class="modal-overlay">
-      <div class="modal-window">
-        <button class="modal-dismiss" onclick="closeEngineModal('cognitiveVideoModal')">&times;</button>
-        <h2 class="modal-title">🎬 Cognitive Matrix Video Node Simulation</h2>
-        <fieldset class="modal-section">
-          <legend>Generation Parameters</legend>
-          <textarea id="vdoPrompt" rows="2" style="width:100%; box-sizing:border-box;" placeholder="A deep digital cascade pattern..."></textarea>
-        </fieldset>
-        <div class="live-preview-box" style="padding:0; overflow:hidden;">
-          <canvas id="generativeVideoCanvas" width="640" height="360" style="width:100%; height:auto; display:block; background:#000;"></canvas>
-        </div>
-        <div class="modal-actions">
-          <button class="action-button" style="background:var(--accent-green);" onclick="toggleLegacyVideoEngine()">Trigger Computation Loop</button>
-        </div>
-      </div>
-    </div>
+    <!-- Core Runtime Scripts and Engines -->
+    <script>
+        // Setup PDF.js Worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
-    <!-- Modal E: Blog Interaction System -->
-    <div id="blogEditModal" class="modal-overlay">
-      <div class="modal-window">
-        <button class="modal-dismiss" onclick="closeEngineModal('blogEditModal')">&times;</button>
-        <h2 class="modal-title">✍️ Edit Broadcast Segment Log</h2>
-        <div class="form-group">
-          <label>Header System Title</label>
-          <input type="text" id="blogEditTitle" placeholder="Processing framework deployment notes...">
-        </div>
-        <div class="form-group">
-          <label>Content Stream Payload</label>
-          <textarea id="blogEditContent" rows="4" placeholder="Enter log payload notes..."></textarea>
-        </div>
-        <div class="modal-actions">
-          <button class="action-button" style="background: var(--accent-primary);" onclick="commitBlogStreamTransmission()">Save Log Node</button>
-        </div>
-      </div>
-    </div>
+        // Global State Memory Space
+        let currentActiveTool = 'pdf-to-img';
+        let loadedPdfDocument = null;
+        let stagedImagesList = [];
+        let singleStagedImage = null;
 
-    <!-- System Global Footer Information Layout -->
-    <footer class="app-footer">
-      <p>Sanjay Subedi HyperEngine v5.0 | Monolithic Engine Array | Compiled Frameworks Active 2026</p>
-    </footer>
-  </div>
-
-  <!-- COMPILATION SCRIPTS CORE MATRIX -->
-  <script>
-    // System Local Tracking State Memory Block
-    const EngineTelemetry = {
-      renders: 0,
-      documentsProcessed: 0,
-      attachedImageMetadata: { originalWidth: 0, originalHeight: 0, aspect: 1, currentTrackedDataUrl: null },
-      videoLoopActive: false,
-      videoTimerReference: null,
-      videoFrameStepCount: 0,
-      postsCollection: [
-        { id: 1, title: 'HyperEngine Framework Update 5.0', date: '2026-07-17', content: 'Local Document translation architectures integrated successfully. PDF extraction components are executing perfectly in memory buffers.' }
-      ]
-    };
-
-    function refreshTelemetryDisplay() {
-      document.getElementById('stat-renders').textContent = EngineTelemetry.renders;
-      document.getElementById('stat-docs').textContent = EngineTelemetry.documentsProcessed;
-      document.getElementById('stat-memory').textContent = `${Math.min(512, 16 + (EngineTelemetry.renders * 4))}MB`;
-    }
-
-    function openEngineModal(targetModalId) {
-      document.getElementById(targetModalId).style.display = 'flex';
-      EngineTelemetry.renders++;
-      refreshTelemetryDisplay();
-    }
-
-    function closeEngineModal(targetModalId) {
-      document.getElementById(targetModalId).style.display = 'none';
-      if (targetModalId === 'cognitiveVideoModal' && EngineTelemetry.videoLoopActive) {
-        toggleLegacyVideoEngine(); // Turn off active loops safely
-      }
-    }
-
-    // SECTION A: PDF STUDIO ENGINE CONTROLLER
-    function togglePdfStudioExplicitOptions(selectedMode) {
-      const optionContainer = document.getElementById('pdfStudioImageOptionWrapper');
-      optionContainer.style.display = (selectedMode === 'images') ? 'block' : 'none';
-      document.getElementById('pdfStudioTerminal').textContent = `Format state pipeline shifted to index: ${selectedMode}`;
-    }
-
-    function handleStudioFileTracking(inputEventElement) {
-      const feedbackMessage = document.getElementById('pdfStudioPreviewFeedback');
-      if (inputEventElement.files.length > 0) {
-        feedbackMessage.textContent = `Target Loaded: ${inputEventElement.files[0].name} (${Math.round(inputEventElement.files[0].size / 1024)} KB). Awaiting structural conversion loop command.`;
-        document.getElementById('pdfStudioTerminal').textContent = `Mounted file stream header successfully verified.`;
-      }
-    }
-
-    function executePdfStudioExtraction() {
-      const picker = document.getElementById('pdfStudioFilePicker');
-      const term = document.getElementById('pdfStudioTerminal');
-      const mode = document.getElementById('pdfStudioTargetFormat').value;
-      const previewZone = document.getElementById('pdfStudioCanvasPreviewZone');
-      const feedback = document.getElementById('pdfStudioPreviewFeedback');
-
-      if (!picker.files || picker.files.length === 0) {
-        alert('Terminal Fault: No target document structure mounted inside workspace paths.');
-        return;
-      }
-
-      term.textContent = `[Processing Stream] Accessing binary map layout vectors...\n`;
-      feedback.textContent = `Reading structure components...`;
-      
-      setTimeout(() => {
-        EngineTelemetry.documentsProcessed++;
-        refreshTelemetryDisplay();
-        
-        if (mode === 'images') {
-          const selectedEncodeType = document.getElementById('pdfStudioImageFormat').value;
-          term.textContent += `[Success] Target extracted out into format: ${selectedEncodeType}\n[System Action] Downloading individual sequence frame captures successfully.`;
-          
-          // Generate a Mock Canvas step preview matrix directly to UI view
-          previewZone.innerHTML = '';
-          previewZone.style.display = 'flex';
-          feedback.style.display = 'none';
-
-          for (let pageIdx = 1; pageIdx <= 2; pageIdx++) {
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = 140; tempCanvas.height = 180;
-            const tctx = tempCanvas.getContext('2d');
-            tctx.fillStyle = '#1e1e2f'; tctx.fillRect(0,0,140,180);
-            tctx.fillStyle = '#fff'; tctx.font = '11px sans-serif';
-            tctx.fillText(`Page ${pageIdx} Frame Extract`, 15, 90);
-            previewZone.appendChild(tempCanvas);
-          }
-        } else {
-          term.textContent += `[Success] PDF translated into matching structural format: ${mode.toUpperCase()} layout array data sequence mappings.\n[System Action] Native item downloaded out cleanly into browser filesystem path.`;
+        // UI View Switcher Engine
+        function switchTool(toolId) {
+            currentActiveTool = toolId;
+            document.querySelectorAll('.tool-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(toolId).classList.add('active');
+            event.currentTarget.classList.add('active');
+            
+            const titles = {
+                'pdf-to-img': 'PDF to Images Converter',
+                'img-to-pdf': 'Images to PDF Compiler',
+                'pdf-to-word': 'PDF to Word Structural Text Extractor',
+                'word-to-pdf': 'Word Layout to PDF Document Compiler',
+                'pdf-to-ppt': 'PDF to Presentation Layout Suite',
+                'ppt-to-pdf': 'Presentation Deck to PDF Compiler',
+                'img-resizer': 'Advanced Image Canvas Resizer',
+                'img-attach': 'Image Multi-Stitch Attachment Studio'
+            };
+            document.getElementById('current-tool-title').innerText = titles[toolId];
+            logAction(`Switched active tool context workspace to: [${titles[toolId]}]`);
         }
-      }, 950);
-    }
 
-    // SECTION B: REVERSE SYSTEM COMPILER
-    function adjustReverseCompilerFileAccepts(selectedMode) {
-      const inputElement = document.getElementById('reverseCompilerFiles');
-      if (selectedMode === 'images') {
-        inputElement.accept = 'image/*';
-      } else if (selectedMode === 'word') {
-        inputElement.accept = '.docx,.txt';
-      } else {
-        inputElement.accept = '.pptx';
-      }
-      document.getElementById('reverseCompilerTerminal').textContent = `Compiler input structural constraints re-bound to accept file variants: ${inputElement.accept}`;
-    }
+        // Live Log System Control
+        function logAction(msg) {
+            const consoleEl = document.getElementById('log-console');
+            consoleEl.innerHTML += `<br>> ${msg}`;
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
 
-    function generateReverseCompilerStepPreview() {
-      const input = document.getElementById('reverseCompilerFiles');
-      const feedback = document.getElementById('reverseCompilerPreviewFeedback');
-      const thumbBox = document.getElementById('reverseCompilerThumbnailContainer');
-      
-      if (input.files.length === 0) return;
-      feedback.style.display = 'none';
-      thumbBox.style.display = 'flex';
-      thumbBox.innerHTML = '';
+        function clearVisualPreview() {
+            document.getElementById('preview-display').innerHTML = '';
+        }
 
-      Array.from(input.files).forEach((file, index) => {
-        const structuralIndicator = document.createElement('div');
-        structuralIndicator.style.background = 'rgba(255,255,255,0.08)';
-        structuralIndicator.style.border = '1px solid var(--accent-purple)';
-        structuralIndicator.style.padding = '6px 12px';
-        structuralIndicator.style.borderRadius = '6px';
-        structuralIndicator.style.fontSize = '12px';
-        structuralIndicator.innerHTML = `📄 Step ${index + 1}: <span style="color:#fff;">${file.name.substring(0,14)}...</span>`;
-        thumbBox.appendChild(structuralIndicator);
-      });
-      document.getElementById('reverseCompilerTerminal').textContent = `Loaded ${input.files.length} element entities directly inside compiler construction arrays.`;
-    }
+        function addVisualPreviewElement(element) {
+            document.getElementById('preview-display').appendChild(element);
+        }
 
-    function executeReverseCompilation() {
-      const input = document.getElementById('reverseCompilerFiles');
-      const term = document.getElementById('reverseCompilerTerminal');
-      if (!input.files || input.files.length === 0) {
-        alert('Compiler Exception: Target source composition paths remain completely void of uploaded data structures.');
-        return;
-      }
-      term.textContent = `[Init System Stack] Injecting tracking nodes across items...\n`;
-      setTimeout(() => {
-        term.textContent += `[Processing Layer] Generating explicit vector coordinate spaces...\n[Compile Complete] Consolidated output compiled into clean structured layout map PDF file snapshot.`;
-        EngineTelemetry.documentsProcessed++;
-        refreshTelemetryDisplay();
-      }, 800);
-    }
+        // Common File Selection Interceptor Engine
+        function handleFileSelect(inputElement, type) {
+            clearVisualPreview();
+            const files = inputElement.files;
+            if(!files || files.length === 0) return;
 
-    // SECTION C: ADVANCED IMAGE TRANSFORMER MODIFICATION ACTIONS
-    function handleImageTransformerAttachment(inputElement) {
-      const files = inputElement.files;
-      const preview = document.getElementById('imageTransformLiveViewport');
-      const feedback = document.getElementById('imageTransformPreviewFeedback');
-      const term = document.getElementById('imageTransformerTerminal');
+            logAction(`File load step detected. Selected file count: ${files.length}`);
 
-      if (!files || files.length === 0) return;
-      
-      feedback.textContent = `Processing image attachment structural bounds...`;
-      const readingLink = new FileReader();
-      readingLink.onload = function(evt) {
-        const dummyImg = new Image();
-        dummyImg.onload = function() {
-          EngineTelemetry.attachedImageMetadata.originalWidth = dummyImg.width;
-          EngineTelemetry.attachedImageMetadata.originalHeight = dummyImg.height;
-          EngineTelemetry.attachedImageMetadata.aspect = dummyImg.width / dummyImg.height;
-          EngineTelemetry.attachedImageMetadata.currentTrackedDataUrl = evt.target.result;
+            if (type === 'pdf') {
+                logAction("Step: Reading PDF file blob byte layers...");
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const typedarray = new Uint8Array(e.target.result);
+                    pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+                        loadedPdfDocument = pdf;
+                        logAction(`Success: PDF parsing absolute metadata completed. Total Pages discovered: ${pdf.numPages}`);
+                        
+                        // Render page 1 thumbnail automatically as a preview step
+                        pdf.getPage(1).then(function(page) {
+                            const viewport = page.getViewport({scale: 0.3});
+                            const canvas = document.createElement('canvas');
+                            const context = canvas.getContext('2d');
+                            canvas.height = viewport.height;
+                            canvas.width = viewport.width;
+                            canvas.className = 'preview-thumb';
+                            
+                            page.render({canvasContext: context, viewport: viewport}).promise.then(() => {
+                                logAction("Step Preview: Generated Page 1 layout visualization thumbnail structure.");
+                                addVisualPreviewElement(canvas);
+                            });
+                        });
+                    });
+                };
+                reader.readAsArrayBuffer(files[0]);
+            } 
+            else if (type === 'images' || type === 'images-attach') {
+                stagedImagesList = [];
+                logAction("Step: Staging incoming image collection array assets...");
+                Array.from(files).forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.src = e.target.result;
+                        img.className = 'preview-thumb';
+                        img.style.maxHeight = '120px';
+                        img.onload = function() {
+                            stagedImagesList.push(img);
+                            logAction(`Step Preview: Staged image sequence asset [${index + 1}]: ${file.name}`);
+                            addVisualPreviewElement(img);
+                        };
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+            else if (type === 'image-single') {
+                logAction("Step: Preparing single target image framework processing asset...");
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    singleStagedImage = new Image();
+                    singleStagedImage.src = e.target.result;
+                    singleStagedImage.className = 'preview-thumb';
+                    singleStagedImage.onload = function() {
+                        logAction(`Step Preview: Image structural bounds matching width:${this.width}px height:${this.height}px`);
+                        document.getElementById('resize-w').value = this.width;
+                        document.getElementById('resize-h').value = this.height;
+                        addVisualPreviewElement(singleStagedImage);
+                    };
+                };
+                reader.readAsDataURL(files[0]);
+            }
+        }
 
-          document.getElementById('imgTransformWidth').value = dummyImg.width;
-          document.getElementById('imgTransformHeight').value = dummyImg.height;
+        function handleWordFile(inputElement) {
+            const file = inputElement.files[0];
+            if(!file) return;
+            logAction(`Step: Parsing local textual metadata layout from file: ${file.name}`);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('word-text-input').value = e.target.result;
+                logAction("Success: Transferred textual content array into editor container text block view.");
+            };
+            reader.readAsText(file);
+        }
 
-          preview.src = evt.target.result;
-          preview.style.display = 'inline-block';
-          feedback.style.display = 'none';
-          
-          term.textContent = `Successfully mounted external image asset geometry: [${dummyImg.width}px × ${dummyImg.height}px].`;
-        };
-        dummyImg.src = evt.target.result;
-      };
-      readingLink.readAsDataURL(files[0]);
-    }
+        // ==========================================
+        // TOOL LOGIC: PDF TO IMAGES FUNCTION ENGINE
+        // ==========================================
+        async function executePdfToImg() {
+            if(!loadedPdfDocument) {
+                alert("Please attach a valid PDF document to parse processing sequences.");
+                return;
+            }
+            clearVisualPreview();
+            const format = document.getElementById('image-format-select').value;
+            logAction(`Executing batch processing stack sequence: PDF to Images using type target format extension [${format}]`);
 
-    function handleTransformerDimensionChange(alteredField) {
-      const lockAspect = document.getElementById('imgTransformLockAspect').checked;
-      const wInput = document.getElementById('imgTransformWidth');
-      const hInput = document.getElementById('imgTransformHeight');
-      const meta = EngineTelemetry.attachedImageMetadata;
+            for(let pageNum = 1; pageNum <= loadedPdfDocument.numPages; pageNum++) {
+                logAction(`Step: Rasterizing document schema matrix layers for Page ${pageNum}...`);
+                const page = await loadedPdfDocument.getPage(pageNum);
+                const viewport = page.getViewport({scale: 1.5});
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
 
-      if (!meta.currentTrackedDataUrl || !lockAspect) return;
+                await page.render({canvasContext: context, viewport: viewport}).promise;
+                
+                const dataUrl = canvas.toDataURL(format);
+                
+                // Add to visible visual preview tracking
+                const displayImg = document.createElement('img');
+                displayImg.src = dataUrl;
+                displayImg.className = 'preview-thumb';
+                addVisualPreviewElement(displayImg);
 
-      if (alteredField === 'width') {
-        hInput.value = Math.round(parseInt(wInput.value) / meta.aspect) || '';
-      } else {
-        wInput.value = Math.round(parseInt(hInput.value) * meta.aspect) || '';
-      }
-      document.getElementById('imageTransformerTerminal').textContent = `Live recalculation updating geometric step transformations: Aspect boundary constraint handled.`;
-    }
+                // Download automation script block triggers
+                const downloadLink = document.createElement('a');
+                downloadLink.download = `HyperEngine_Page_${pageNum}.${format.split('/')[1]}`;
+                downloadLink.href = dataUrl;
+                downloadLink.click();
+                logAction(`Downloaded: Page ${pageNum} asset file structure.`);
+            }
+            logAction("Success: Full document image decomposition processes completed successfully.");
+        }
 
-    function executeImageTransformationExport() {
-      const originalInput = document.getElementById('imageTransformerFile');
-      const term = document.getElementById('imageTransformerTerminal');
-      if (!originalInput.files || originalInput.files.length === 0) {
-        alert('Transformer Operation Denied: Real operational target asset must be attached inside work zones first.');
-        return;
-      }
+        // ==========================================
+        // TOOL LOGIC: IMAGES TO PDF FUNCTION ENGINE
+        // ==========================================
+        function executeImgToPdf() {
+            if(stagedImagesList.length === 0) {
+                alert("Please sequence at least one or more image files first.");
+                return;
+            }
+            logAction("Executing matrix compilation: Compiling structured image array parameters into PDF file output...");
+            
+            const { jsPDF } = window.jspdf;
+            const pdfDoc = new jsPDF();
 
-      const tw = parseInt(document.getElementById('imgTransformWidth').value);
-      const th = parseInt(document.getElementById('imgTransformHeight').value);
-      const format = document.getElementById('imgTransformOutputFormat').value;
+            stagedImagesList.forEach((img, index) => {
+                logAction(`Step: Formatting and pushing target matrix structure dimensions for index sheet [${index + 1}]`);
+                if(index > 0) {
+                    pdfDoc.addPage();
+                }
+                const pageW = pdfDoc.internal.pageSize.getWidth();
+                const pageH = pdfDoc.internal.pageSize.getHeight();
+                
+                // Content distribution math layout fitting matrix logic
+                pdfDoc.addImage(img.src, 'PNG', 0, 0, pageW, pageH);
+            });
 
-      term.textContent = `[Canvas Mapping Action] Remapping vector arrays grid space to requested bounds: ${tw}x${th}...\n`;
-      
-      setTimeout(() => {
-        term.textContent += `[Execution Complete] Extracted out fully scaled format entity down to local storage. Encoding match verification: ${format}.`;
-        EngineTelemetry.renders++;
-        refreshTelemetryDisplay();
-      }, 600);
-    }
+            logAction("Step: Transmitting compilation data parameters directly to hardware download trigger...");
+            pdfDoc.save('HyperEngine_Compiled_Images.pdf');
+            logAction("Success: Target PDF documentation save executed successfully.");
+        }
 
-    // SECTION D: PRESERVED LEGACY ANIMATED BACKGROUND COGNITIVE VIDEO ENGINE
-    function toggleLegacyVideoEngine() {
-      const btnCanvas = document.getElementById('generativeVideoCanvas');
-      const ctx = btnCanvas.getContext('2d');
-      
-      if (EngineTelemetry.videoLoopActive) {
-        clearInterval(EngineTelemetry.videoTimerReference);
-        EngineTelemetry.videoLoopActive = false;
-      } else {
-        EngineTelemetry.videoLoopActive = true;
-        EngineTelemetry.videoTimerReference = setInterval(() => {
-          EngineTelemetry.videoFrameStepCount += 0.08;
-          ctx.fillStyle = 'rgba(10, 10, 18, 0.3)';
-          ctx.fillRect(0, 0, btnCanvas.width, btnCanvas.height);
-          ctx.fillStyle = '#a356ff';
-          for (let step = 0; step < 40; step++) {
-            const xp = Math.sin(step + EngineTelemetry.videoFrameStepCount) * 200 + 320;
-            const yp = Math.cos(step * 1.5 + EngineTelemetry.videoFrameStepCount) * 100 + 180;
-            ctx.beginPath(); ctx.arc(xp, yp, 3, 0, Math.PI * 2); ctx.fill();
-          }
-        }, 40);
-      }
-    }
+        // ==========================================
+        // TOOL LOGIC: PDF TO WORD EXTRACTOR ENGINE
+        // ==========================================
+        async function executePdfToWord() {
+            if(!loadedPdfDocument) {
+                alert("Please assign a structural system target PDF file first.");
+                return;
+            }
+            clearVisualPreview();
+            logAction("Executing structural character map matching layer reads: Converting PDF to Word format...");
+            let fullExtractedTextText = "";
 
-    // SECTION E: DATA BLOCK INTERACTIVE POST INFRASTRUCTURE
-    function refreshBlogPostsRenderLayout() {
-      const renderingTargetZone = document.getElementById('blogPostsList');
-      if (!renderingTargetZone) return;
-      renderingTargetZone.innerHTML = '';
+            for(let pageNum = 1; pageNum <= loadedPdfDocument.numPages; pageNum++) {
+                logAction(`Step: Parsing font layer maps and text blocks from Document Page ${pageNum}...`);
+                const page = await loadedPdfDocument.getPage(pageNum);
+                const textContent = await page.getTextContent();
+                const pageItems = textContent.items.map(item => item.str).join(" ");
+                fullExtractedTextText += `\n--- [Document Page Component Structure ${pageNum}] ---\n\n` + pageItems + "\n";
+            }
 
-      EngineTelemetry.postsCollection.forEach(postItem => {
-        const itemStructureCard = document.createElement('div');
-        itemStructureCard.className = 'functional-card';
-        itemStructureCard.style.borderLeft = '4px solid var(--accent-primary)';
-        itemStructureCard.style.background = 'rgba(255,255,255,0.01)';
-        itemStructureCard.style.padding = '16px';
-        itemStructureCard.innerHTML = `
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <h4 style="margin:0; color:#fff;">${postItem.title}</h4>
-            <span style="font-size:12px; color:var(--text-muted);">${postItem.date}</span>
-          </div>
-          <p style="margin:0; font-size:13px; color:#ccc; line-height:1.4;">${postItem.content}</p>
-        `;
-        renderingTargetZone.appendChild(itemStructureCard);
-      });
-    }
+            // Preview rendering layout visualization
+            const previewDisplayBlock = document.createElement('textarea');
+            previewDisplayBlock.rows = 8;
+            previewDisplayBlock.style.width = "100%";
+            previewDisplayBlock.style.background = "#fff";
+            previewDisplayBlock.style.color = "#000";
+            previewDisplayBlock.value = fullExtractedTextText;
+            addVisualPreviewElement(previewDisplayBlock);
 
-    function commitBlogStreamTransmission() {
-      const headingText = document.getElementById('blogEditTitle').value;
-      const mainPayload = document.getElementById('blogEditContent').value;
-      
-      if (!headingText || !mainPayload) {
-        alert('Validation Exception: Transmission payload strings cannot remain empty vectors.');
-        return;
-      }
+            logAction("Step: Compiling text content maps structural nodes into compatible document schema content types...");
+            const blob = new Blob([fullExtractedTextText], {type: "application/msword"});
+            const downloadLink = document.createElement('a');
+            downloadLink.download = "HyperEngine_Extracted_Doc.doc";
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.click();
+            logAction("Success: Structural Document output wrapper stream download generated.");
+        }
 
-      EngineTelemetry.postsCollection.unshift({
-        id: Date.now(),
-        title: headingText,
-        content: mainPayload,
-        date: new Date().toISOString().split('T')[0]
-      });
+        // ==========================================
+        // TOOL LOGIC: WORD TO PDF CORE COMPILER ENGINE
+        // ==========================================
+        function executeWordToPdf() {
+            const rawTextInput = document.getElementById('word-text-input').value;
+            if(!rawTextInput.trim()) {
+                alert("Please add document characters inside the workspace field array first.");
+                return;
+            }
 
-      refreshBlogPostsRenderLayout();
-      closeEngineModal('blogEditModal');
-    }
+            logAction("Executing dynamic compilation engine framework: Converting input layout string to multi-page text blocks PDF document...");
+            const { jsPDF } = window.jspdf;
+            const pdfDoc = new jsPDF();
 
-    // Initialization Sequence Anchor Entry Point
-    document.addEventListener('DOMContentLoaded', () => {
-      refreshBlogPostsRenderLayout();
-      refreshTelemetryDisplay();
-    });
-  </script>
+            const separatedLinesArray = pdfDoc.splitTextToSize(rawTextInput, 180);
+            logAction(`Step: Splitting text data blocks arrays based on dimensions parameters. Evaluated line total: ${separatedLinesArray.length}`);
+            
+            pdfDoc.text(separatedLinesArray, 15, 20);
+            
+            pdfDoc.save('HyperEngine_Text_Document.pdf');
+            logAction("Success: Client layout structural PDF output downloaded successfully.");
+        }
+
+        // ==========================================
+        // TOOL LOGIC: PDF TO POWERPOINT SLIDES ENGINE
+        // ==========================================
+        async function executePdfToPpt() {
+            if(!loadedPdfDocument) {
+                alert("Target file processing error: Missing load layer for PDF presentation compiler.");
+                return;
+            }
+            clearVisualPreview();
+            logAction("Executing slide vector block creation schemas: Parsing PDF to PowerPoint engine matrices...");
+            
+            let presentationHtmlTemplate = `<html><head><style>body{background:#111;color:#fff;font-family:sans-serif;display:flex;flex-direction:column;align-items:center;padding:40px;} .slide{background:#222;border:2px solid #444;border-radius:8px;padding:30px;margin-bottom:20px;width:80%;box-shadow:0 4px 10px rgba(0,0,0,0.5);}</style></head><body><h1>HyperEngine Dynamic HTML Slide Deck Presentation</h1>`;
+
+            for(let pageNum = 1; pageNum <= loadedPdfDocument.numPages; pageNum++) {
+                logAction(`Step: Constructing independent Slide Matrix Object from target layer data on Page ${pageNum}...`);
+                const page = await loadedPdfDocument.getPage(pageNum);
+                const textContent = await page.getTextContent();
+                const pageLines = textContent.items.map(item => item.str).join(" ");
+                
+                presentationHtmlTemplate += `
+                    <div class="slide">
+                        <h3>Presentation Slide Frame ${pageNum}</h3>
+                        <hr style="border-color:#5856d6;margin:10px 0;">
+                        <p>${pageLines || '[Empty Graphic Slide Component Layout Structure Detected]'}</p>
+                    </div>`;
+            }
+            presentationHtmlTemplate += `</body></html>`;
+
+            // Step update visual components preview array
+            const previewContainerDiv = document.createElement('div');
+            previewContainerDiv.style.color = "var(--success)";
+            previewContainerDiv.innerText = "[Responsive HTML Slide Presentation Mapping Completed. Ready for Download stream verification.]";
+            addVisualPreviewElement(previewContainerDiv);
+
+            const blob = new Blob([presentationHtmlTemplate], {type: "text/html"});
+            const downloadLink = document.createElement('a');
+            downloadLink.download = "HyperEngine_Presentation_Slides.html";
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.click();
+            logAction("Success: Cross-compatible Slide structural components parsed and downloaded as an active presentation deck.");
+        }
+
+        // ==========================================
+        // TOOL LOGIC: POWERPOINT TO PDF ENGINE
+        // ==========================================
+        function executePptToPdf() {
+            const pptRawTextStringInput = document.getElementById('ppt-text-input').value;
+            if(!pptRawTextStringInput.trim()) {
+                alert("Please declare structured slide formatting tokens inside the workspace field array first.");
+                return;
+            }
+
+            logAction("Executing Presentation structural conversion processes: Mapping slides onto multi-page structural vector formats...");
+            const { jsPDF } = window.jspdf;
+            // Standard landscape view configuration for matching slide ratios
+            const pdfDoc = new jsPDF({ orientation: 'landscape' });
+
+            const slidesRawBlocksArray = pptRawTextStringInput.split('---');
+            logAction(`Step: Segmented content parameters successfully. Total identified presentation slides elements: ${slidesRawBlocksArray.length}`);
+
+            slidesRawBlocksArray.forEach((slideTextContent, index) => {
+                logAction(`Step: Rendering data arrays layout variables processing slide array index: ${index + 1}`);
+                if(index > 0) {
+                    pdfDoc.addPage({ orientation: 'landscape' });
+                }
+                
+                pdfDoc.setFillColor(30, 41, 59);
+                pdfDoc.rect(0, 0, 297, 210, 'F'); 
+
+                pdfDoc.setTextColor(248, 250, 252);
+                pdfDoc.setFontSize(22);
+                pdfDoc.text(`Presentation Slide Layer Component ${index + 1}`, 20, 30);
+                
+                pdfDoc.setFontSize(14);
+                pdfDoc.setTextColor(148, 163, 184);
+                const formattedSlideTextLines = pdfDoc.splitTextToSize(slideTextContent.trim(), 250);
+                pdfDoc.text(formattedSlideTextLines, 20, 55);
+            });
+
+            pdfDoc.save('HyperEngine_Presentation_Render.pdf');
+            logAction("Success: Target PowerPoint layout structure compilation into global PDF framework verified.");
+        }
+
+        // ==========================================
+        // TOOL LOGIC: ADVANCED IMAGE CANVAS RESIZER
+        // ==========================================
+        function executeImageResize() {
+            if(!singleStagedImage) {
+                alert("Please add an image processing file element variable to baseline standard dimensions parameters first.");
+                return;
+            }
+            clearVisualPreview();
+            
+            const targetWidthValue = parseInt(document.getElementById('resize-w').value);
+            const targetHeightValue = parseInt(document.getElementById('resize-h').value);
+
+            logAction(`Executing image canvas transformation logic blocks. Re-rendering matrix arrays to dimensions width:${targetWidthValue}px height:${targetHeightValue}px`);
+
+            const outputCanvasElement = document.createElement('canvas');
+            outputCanvasElement.width = targetWidthValue;
+            outputCanvasElement.height = targetHeightValue;
+            
+            const ctx = outputCanvasElement.getContext('2d');
+            ctx.drawImage(singleStagedImage, 0, 0, targetWidthValue, targetHeightValue);
+
+            const processedDataUrlString = outputCanvasElement.toDataURL('image/png');
+            
+            const previewThumbImage = document.createElement('img');
+            previewThumbImage.src = processedDataUrlString;
+            previewThumbImage.className = 'preview-thumb';
+            addVisualPreviewElement(previewThumbImage);
+
+            const downloadLink = document.createElement('a');
+            downloadLink.download = `HyperEngine_Resized_${targetWidthValue}x${targetHeightValue}.png`;
+            downloadLink.href = processedDataUrlString;
+            downloadLink.click();
+            logAction("Success: Transformed image matrix asset arrays downloaded safely.");
+        }
+
+        // ==========================================
+        // TOOL LOGIC: MULTI-IMAGE ATTACH & MERGER
+        // ==========================================
+        function executeImageAttach() {
+            if(stagedImagesList.length < 2) {
+                alert("Multi-Image Processing logic alert: Please stage an explicit array of at least 2 or more separate image assets to combine structures.");
+                return;
+            }
+            clearVisualPreview();
+            const placementDirectionAxis = document.getElementById('attach-direction').value;
+            logAction(`Executing image attachment compiler engine stacking modules along axis parameters orientation layout: [${placementDirectionAxis}]`);
+
+            const outputCanvas = document.createElement('canvas');
+            const ctx = outputCanvas.getContext('2d');
+
+            let comprehensiveTotalCalculatedWidth = 0;
+            let comprehensiveTotalCalculatedHeight = 0;
+
+            // Step 1: Compute dimensions
+            stagedImagesList.forEach(img => {
+                if (placementDirectionAxis === 'vertical') {
+                    if(img.width > comprehensiveTotalCalculatedWidth) comprehensiveTotalCalculatedWidth = img.width;
+                    comprehensiveTotalCalculatedHeight += img.height;
+                } else {
+                    comprehensiveTotalCalculatedWidth += img.width;
+                    if(img.height > comprehensiveTotalCalculatedHeight) comprehensiveTotalCalculatedHeight = img.height;
+                }
+            });
+
+            outputCanvas.width = comprehensiveTotalCalculatedWidth;
+            outputCanvas.height = comprehensiveTotalCalculatedHeight;
+            logAction(`Step: Allocated clear stitching canvas buffer space matrix matching calculated parameters width:${comprehensiveTotalCalculatedWidth}px height:${comprehensiveTotalCalculatedHeight}px`);
+
+            // Step 2: Draw and blend components onto composite canvas
+            let temporaryCoordinateOffsetTrackerAxis = 0;
+            stagedImagesList.forEach((img, index) => {
+                logAction(`Step: Drawing image tracking instance ${index + 1} onto target master layout pixel buffer coordinate...`);
+                if (placementDirectionAxis === 'vertical') {
+                    ctx.drawImage(img, 0, temporaryCoordinateOffsetTrackerAxis);
+                    temporaryCoordinateOffsetTrackerAxis += img.height;
+                } else {
+                    ctx.drawImage(img, temporaryCoordinateOffsetTrackerAxis, 0);
+                    temporaryCoordinateOffsetTrackerAxis += img.width;
+                }
+            });
+
+            const comprehensiveMergedDataUrlString = outputCanvas.toDataURL('image/png');
+            
+            const finalMergedDisplayPreviewImage = document.createElement('img');
+            finalMergedDisplayPreviewImage.src = comprehensiveMergedDataUrlString;
+            finalMergedDisplayPreviewImage.className = 'preview-thumb';
+            addVisualPreviewElement(finalMergedDisplayPreviewImage);
+
+            const downloadLink = document.createElement('a');
+            downloadLink.download = "HyperEngine_Stitched_Composite_Sheet.png";
+            downloadLink.href = comprehensiveMergedDataUrlString;
+            downloadLink.click();
+            logAction("Success: Combined monolithic structural data asset sheet generated and deployed to down-stream file arrays.");
+        }
+    </script>
 </body>
 </html>
-
