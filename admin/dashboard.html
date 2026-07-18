@@ -53,20 +53,26 @@
                     <td>${post.title}</td>
                     <td>${post.status || 'draft'}</td>
                     <td>
-                        <button class="edit-btn" onclick="editPost('${post.id}', '${post.title}', '${post.slug}', '${post.category || ''}', '${post.status || 'draft'}', \`${(post.content || '').replace(/'/g, "\\'")}\`)">Edit</button>
+                        <button class="edit-btn" onclick="prepareEdit('${post.id}')" 
+                                data-title="${post.title}" 
+                                data-slug="${post.slug}" 
+                                data-category="${post.category || ''}" 
+                                data-status="${post.status || 'draft'}" 
+                                data-content="${encodeURIComponent(post.content || '')}">Edit</button>
                         <button class="delete-btn" onclick="deletePost('${post.id}')">Delete</button>
                     </td>
                 </tr>
             `).join('');
         }
 
-        function editPost(id, title, slug, category, status, content) {
+        function prepareEdit(id) {
+            const btn = document.querySelector(`button[onclick="prepareEdit('${id}')"]`);
             document.getElementById('edit-id').value = id;
-            document.getElementById('title').value = title;
-            document.getElementById('slug').value = slug;
-            document.getElementById('category').value = category;
-            document.getElementById('status').value = status;
-            document.getElementById('content').value = content;
+            document.getElementById('title').value = btn.dataset.title;
+            document.getElementById('slug').value = btn.dataset.slug;
+            document.getElementById('category').value = btn.dataset.category;
+            document.getElementById('status').value = btn.dataset.status;
+            document.getElementById('content').value = decodeURIComponent(btn.dataset.content);
             document.getElementById('form-title').innerText = "Edit post";
             document.getElementById('submit-btn').innerText = "Update post";
             window.scrollTo(0, 0);
