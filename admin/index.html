@@ -7,86 +7,17 @@
     <!-- Load the official Supabase library CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background-color: #0f172a;
-            color: white;
-            font-family: system-ui, -apple-system, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .login-card {
-            background-color: #1e293b;
-            padding: 40px;
-            border-radius: 12px;
-            border: 1px solid #334155;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-        }
-        h2 {
-            margin-bottom: 24px;
-            font-size: 1.8rem;
-            color: #5856d6;
-            text-align: center;
-        }
-        .input-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-        input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid #334155;
-            background-color: #0f172a;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        input:focus {
-            border-color: #5856d6;
-        }
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            background: #5856d6;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 10px;
-        }
-        .login-btn:hover {
-            background: #4745b4;
-        }
-        .error-msg {
-            color: #ef4444;
-            font-size: 0.85rem;
-            margin-top: 15px;
-            display: none;
-            text-align: center;
-            background-color: rgba(239, 68, 68, 0.1);
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            line-height: 1.4;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #0f172a; color: white; font-family: system-ui, -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .login-card { background-color: #1e293b; padding: 40px; border-radius: 12px; border: 1px solid #334155; width: 100%; max-width: 400px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); }
+        h2 { margin-bottom: 24px; font-size: 1.8rem; color: #5856d6; text-align: center; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #94a3b8; font-size: 0.9rem; }
+        input { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #334155; background-color: #0f172a; color: white; font-size: 1rem; outline: none; transition: border-color 0.2s; }
+        input:focus { border-color: #5856d6; }
+        .login-btn { width: 100%; padding: 12px; background: #5856d6; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
+        .login-btn:hover { background: #4745b4; }
+        .error-msg { color: #ef4444; font-size: 0.85rem; margin-top: 15px; display: none; text-align: center; background-color: rgba(239, 68, 68, 0.1); padding: 10px; border-radius: 6px; border: 1px solid rgba(239, 68, 68, 0.2); line-height: 1.4; }
     </style>
 </head>
 <body>
@@ -109,8 +40,6 @@
 
     <script>
         const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co"; 
-        
-        // Updated with the anon public JWT key
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzb2Nwa3VpZGN3a2poenpqdW5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzMjIxODAsImV4cCI6MjA5OTg5ODE4MH0.46k4OxJi5hQdqD0NBTcxrtArsD9XfB4jyYOWgh2yBo0";
         
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -130,8 +59,10 @@
             });
 
             if (error) {
-                errorDiv.innerHTML = `<strong>Status Code:</strong> ${error.status || 'Network Block'} <br> 
-                                      <strong>Details:</strong> ${error.message}`;
+                // Captures and displays the exact backend failure reason
+                console.error("Supabase Auth Error:", error);
+                errorDiv.innerHTML = `<strong>Error Code:</strong> ${error.code || 'Unknown'}<br>
+                                      <strong>Message:</strong> ${error.message}`;
                 errorDiv.style.display = "block";
             } else {
                 alert("Access Granted! Logging you in...");
