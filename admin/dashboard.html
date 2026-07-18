@@ -4,62 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Write Blogs</title>
+    <!-- Load Supabase v2 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background-color: #0f172a;
-            color: white;
-            font-family: system-ui, -apple-system, sans-serif;
-            padding: 40px 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #1e293b;
-            padding: 40px;
-            border-radius: 12px;
-            border: 1px solid #334155;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-        }
-        h1 { 
-            color: #5856d6; 
-            margin-bottom: 10px; 
-            font-size: 2rem;
-        }
-        .sub { 
-            color: #94a3b8; 
-            margin-bottom: 30px; 
-            font-size: 1rem;
-        }
-        .editor-box {
-            border: 2px dashed #334155;
-            padding: 50px 20px;
-            text-align: center;
-            color: #64748b;
-            border-radius: 8px;
-            background-color: #0f172a;
-        }
-        .editor-box h3 {
-            color: #10b981;
-            margin-bottom: 8px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #0f172a; color: white; font-family: system-ui, -apple-system, sans-serif; padding: 40px 20px; }
+        .container { max-width: 800px; margin: 0 auto; background-color: #1e293b; padding: 40px; border-radius: 12px; border: 1px solid #334155; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); }
+        h1 { color: #5856d6; margin-bottom: 10px; font-size: 2rem; }
+        .sub { color: #94a3b8; margin-bottom: 30px; font-size: 1rem; }
+        .editor-box { border: 1px solid #334155; padding: 30px; border-radius: 8px; background-color: #0f172a; }
+        input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 4px; }
+        .publish-btn { width: 100%; padding: 12px; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .publish-btn:hover { background: #059669; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>Welcome Back, Sanjay!</h1>
-        <p class="sub">This is your private workspace dashboard. Public visitors cannot see this view without logging in.</p>
+        <p class="sub">Use the form below to publish new content to your site.</p>
         
         <div class="editor-box">
-            <h3>📝 Next Step: Add Blog Editor Form</h3>
-            <p>Once we confirm your login authentication works, we will replace this container with a visual text editor panel to write and publish your posts!</p>
+            <form id="blog-form">
+                <input type="text" id="title" placeholder="Blog Title" required>
+                <input type="text" id="slug" placeholder="blog-url-slug" required>
+                <textarea id="content" placeholder="Write your blog content here..." rows="10" required></textarea>
+                <button type="submit" class="publish-btn">Publish Post</button>
+            </form>
         </div>
     </div>
 
+    <script>
+        const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzb2Nwa3VpZGN3a2poenpqdW5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzMjIxODAsImV4cCI6MjA5OTg5ODE4MH0.46k4OxJi5hQdqD0NBTcxrtArsD9XfB4jyYOWgh2yBo0";
+        
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Security: Check if user is actually logged in
+        supabaseClient.auth.getSession().then(({ data }) => {
+            if (!data.session) {
+                window.location.href = "/admin/"; // Redirect to login if not authenticated
+            }
+        });
+
+        document.getElementById('blog-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const { data, error } = await supabaseClient.from('blogs').insert([
+                { 
+                    title: document.getElementById('title').value, 
+                    slug: document.getElementById('slug').value, 
+                    content: document.getElementById('content').value 
+                }
+            ]);
+
+            if (error) {
+                alert("Error saving blog: " + error.message);
+            } else {
+                alert("Blog Published Successfully!");
+                document.getElementById('blog-form').reset();
+            }
+        });
+    </script>
 </body>
 </html>
