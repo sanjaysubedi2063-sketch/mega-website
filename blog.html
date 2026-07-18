@@ -16,16 +16,18 @@
     <div id="blog-container">Loading...</div>
 
     <script>
-        // REPLACE THESE WITH YOUR ACTUAL KEYS FROM SUPABASE SETTINGS
+        // Configuration
         const SUPABASE_URL = 'https://zsocpkuidcwkjhzzjuni.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzb2Nwa3VpZGN3a2poenpqdW5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzMjIxODAsImV4cCI6MjA5OTg5ODE4MH0.46k4OxJi5hQdqD0NBTcxrtArsD9XfB4jyYOWgh2yBo0';
 
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // Initialize with a different variable name to avoid conflict
+        const sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         async function fetchPosts() {
             const container = document.getElementById('blog-container');
             try {
-                const { data, error } = await supabase
+                // Use sbClient here
+                const { data, error } = await sbClient
                     .from('posts')
                     .select('*');
 
@@ -45,8 +47,8 @@
                     container.appendChild(postDiv);
                 });
             } catch (err) {
-                console.error('Error fetching posts:', err);
-                container.innerText = 'Failed to load posts.';
+                console.error('Error:', err);
+                container.innerText = 'Failed to load posts. Check console.';
             }
         }
 
