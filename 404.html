@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Play a Game!</title>
+    <style>
+        body { background-color: #0f172a; color: white; font-family: sans-serif; text-align: center; padding-top: 50px; overflow: hidden; }
+        h1 { color: #5856d6; font-size: 3rem; margin-bottom: 10px; }
+        p { color: #94a3b8; margin-bottom: 30px; }
+        #game-box { position: relative; width: 100vw; height: 50vh; }
+        .score { font-size: 1.5rem; color: #10b981; font-weight: bold; }
+        #target { position: absolute; padding: 12px 24px; background: #5856d6; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: all 0.1s ease; }
+        .home-btn { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #334155; color: white; text-decoration: none; border-radius: 6px; }
+    </style>
+</head>
+<body>
+
+    <h1>Oops! 404 Error</h1>
+    <p>You stumbled onto a broken link... But don't leave yet! Try to click the button below:</p>
+    <div class="score">Score: <span id="score-val">0</span></div>
+
+    <div id="game-box">
+        <button id="target" onmouseover="moveButton()" onclick="hitButton()">Click Me!</button>
+    </div>
+
+    <a href="https://sanjaysubedi.com.np/" class="home-btn">Go Back Home</a>
+
+    <script>
+        let score = 0;
+        const btn = document.getElementById('target');
+        
+        function moveButton() {
+            // Makes the button run away when the mouse hovers over it!
+            const x = Math.random() * (window.innerWidth - 150);
+            const y = Math.random() * (window.innerHeight * 0.4);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        function hitButton() {
+            score++;
+            document.getElementById('score-val').innerText = score;
+            alert("Wow, you actually caught it! Point added 🎉");
+            moveButton();
+        }
+        
+        // Initial position
+        moveButton();
+    </script>
+</body>
+</html>
