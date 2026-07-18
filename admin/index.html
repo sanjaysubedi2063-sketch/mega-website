@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Portal - Sign In</title>
-    <!-- Use the specific v2 version of Supabase -->
+    <!-- Load the official Supabase v2 library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        .login-card { background-color: #1e293b; padding: 40px; border-radius: 12px; border: 1px solid #334155; width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        h2 { margin-bottom: 24px; color: #5856d6; text-align: center; }
+        body { background-color: #0f172a; color: white; font-family: system-ui, -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .login-card { background-color: #1e293b; padding: 40px; border-radius: 12px; border: 1px solid #334155; width: 100%; max-width: 400px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); }
+        h2 { margin-bottom: 24px; color: #5856d6; text-align: center; font-size: 1.5rem; }
         .input-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 8px; color: #94a3b8; font-size: 0.9rem; }
-        input { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; }
-        .login-btn { width: 100%; padding: 12px; background: #5856d6; color: white; border: none; border-radius: 6px; cursor: pointer; }
-        .error-msg { color: #ef4444; font-size: 0.85rem; margin-top: 15px; display: none; padding: 10px; border: 1px solid rgba(239, 68, 68, 0.2); background: rgba(239, 68, 68, 0.1); }
+        input { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #334155; background-color: #0f172a; color: white; font-size: 1rem; }
+        .login-btn { width: 100%; padding: 12px; background: #5856d6; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .login-btn:hover { background: #4745b4; }
+        .error-msg { color: #ef4444; font-size: 0.85rem; margin-top: 15px; display: none; padding: 10px; border: 1px solid rgba(239, 68, 68, 0.2); background-color: rgba(239, 68, 68, 0.1); border-radius: 6px; }
     </style>
 </head>
 <body>
@@ -24,11 +25,11 @@
         <h2>Admin Portal</h2>
         <form id="login-form">
             <div class="input-group">
-                <label>Email Address</label>
+                <label for="email">Email Address</label>
                 <input type="email" id="email" required>
             </div>
             <div class="input-group">
-                <label>Password</label>
+                <label for="password">Password</label>
                 <input type="password" id="password" required>
             </div>
             <button type="submit" class="login-btn">Log In</button>
@@ -37,31 +38,35 @@
     </div>
 
     <script>
-        // Use your Project URL and the JWT anon key you provided
+        // Configuration
         const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzb2Nwa3VpZGN3a2poenpqdW5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzMjIxODAsImV4cCI6MjA5OTg5ODE4MH0.46k4OxJi5hQdqD0NBTcxrtArsD9XfB4jyYOWgh2yBo0";
 
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Initialize Supabase correctly from the window object
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
+        const loginForm = document.getElementById('login-form');
+        const errorDiv = document.getElementById('error');
+
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('error');
             
             errorDiv.style.display = "none";
             
-            try {
-                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-                
-                if (error) throw error;
-                
-                alert("Login successful!");
-                window.location.href = "/admin/dashboard.html";
-            } catch (err) {
-                console.error(err);
-                errorDiv.innerText = err.message;
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
+
+            if (error) {
+                console.error("Login failed:", error.message);
+                errorDiv.innerText = error.message;
                 errorDiv.style.display = "block";
+            } else {
+                window.location.href = "/admin/dashboard.html";
             }
         });
     </script>
