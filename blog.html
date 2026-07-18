@@ -29,14 +29,60 @@
             const container = document.getElementById('posts');
             if (data) {
                 container.innerHTML = data.map(b => `
-                    <div class="blog-post">
-                        <h3>${b.title}</h3>
-                        <p>${b.content}</p>
-                    </div>
-                `).join('');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanjay's Blog</title>
+    <!-- Include Supabase Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: sans-serif; background: #0f172a; color: #f8fafc; padding: 40px; }
+        .post { background: #1e293b; padding: 20px; margin-bottom: 20px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Latest Posts</h1>
+    <div id="blog-container">Loading...</div>
+
+    <script>
+        // 1. Initialize Supabase ONLY ONCE
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
+        const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // 2. Fetch function
+        async function fetchPosts() {
+            try {
+                const { data, error } = await supabase
+                    .from('posts') // Ensure this matches your table name
+                    .select('*');
+
+                if (error) throw error;
+
+                const container = document.getElementById('blog-container');
+                container.innerHTML = ''; // Clear loading text
+
+                if (data.length === 0) {
+                    container.innerHTML = '<p>No posts found.</p>';
+                    return;
+                }
+
+                data.forEach(post => {
+                    const postDiv = document.createElement('div');
+                    postDiv.className = 'post';
+                    postDiv.innerHTML = `<h3>${post.title}</h3><p>${post.content}</p>`;
+                    container.appendChild(postDiv);
+                });
+            } catch (err) {
+                console.error('Error fetching posts:', err);
+                document.getElementById('blog-container').innerText = 'Failed to load posts.';
             }
         }
-        loadBlogs();
+
+        // Run on load
+        fetchPosts();
     </script>
 </body>
 </html>
