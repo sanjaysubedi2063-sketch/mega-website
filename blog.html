@@ -28,7 +28,7 @@
             try {
                 // Use sbClient here
                 const { data, error } = await sbClient
-                    .from('posts')
+                    .from('blogs')
                     .select('*');
 
                 if (error) throw error;
