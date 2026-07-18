@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Portal - Sign In</title>
-    <!-- Load the official Supabase library CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Admin Dashboard - Write Blogs</title>
     <style>
         * {
             box-sizing: border-box;
@@ -16,131 +14,52 @@
             background-color: #0f172a;
             color: white;
             font-family: system-ui, -apple-system, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            padding: 40px 20px;
         }
-        .login-card {
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
             background-color: #1e293b;
             padding: 40px;
             border-radius: 12px;
             border: 1px solid #334155;
-            width: 100%;
-            max-width: 400px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
         }
-        h2 {
-            margin-bottom: 24px;
-            font-size: 1.8rem;
-            color: #5856d6;
+        h1 { 
+            color: #5856d6; 
+            margin-bottom: 10px; 
+            font-size: 2rem;
+        }
+        .sub { 
+            color: #94a3b8; 
+            margin-bottom: 30px; 
+            font-size: 1rem;
+        }
+        .editor-box {
+            border: 2px dashed #334155;
+            padding: 50px 20px;
             text-align: center;
-        }
-        .input-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-        input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid #334155;
+            color: #64748b;
+            border-radius: 8px;
             background-color: #0f172a;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
         }
-        input:focus {
-            border-color: #5856d6;
-        }
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            background: #5856d6;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 10px;
-        }
-        .login-btn:hover {
-            background: #4745b4;
-        }
-        .error-msg {
-            color: #ef4444;
-            font-size: 0.85rem;
-            margin-top: 15px;
-            display: none;
-            text-align: center;
-            background-color: rgba(239, 68, 68, 0.1);
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            line-height: 1.4;
+        .editor-box h3 {
+            color: #10b981;
+            margin-bottom: 8px;
         }
     </style>
 </head>
 <body>
 
-    <div class="login-card">
-        <h2>Admin Portal</h2>
-        <form id="login-form">
-            <div class="input-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" required placeholder="admin@sanjaysubedi.com.np">
-            </div>
-            <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" required placeholder="••••••••">
-            </div>
-            <button type="submit" class="login-btn">Log In</button>
-            <div id="error" class="error-msg"></div>
-        </form>
+    <div class="container">
+        <h1>Welcome Back, Sanjay!</h1>
+        <p class="sub">This is your private workspace dashboard. Public visitors cannot see this view without logging in.</p>
+        
+        <div class="editor-box">
+            <h3>📝 Next Step: Add Blog Editor Form</h3>
+            <p>Once we confirm your login authentication works, we will replace this container with a visual text editor panel to write and publish your posts!</p>
+        </div>
     </div>
 
-    <script>
-        // 1. Initialize connection with your specific Supabase Vault setup
-        const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co"; 
-        const SUPABASE_ANON_KEY = "sb_publishable_yelUjdpmB3gkdKB-8qpvbQ_SCCTHh_R";
-        
-        // FIXED: Using window.supabase ensures the script connects flawlessly without looping errors
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // 2. Handle Login Submission
-        document.getElementById('login-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('error');
-            
-            errorDiv.style.display = "none";
-
-            // Submit login safely to Supabase Auth handler
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password,
-            });
-
-            if (error) {
-                // FIXED: Displays the precise status code and error string on your page layout
-                errorDiv.innerHTML = `<strong>Status Code:</strong> ${error.status || 'Network Block'} <br> 
-                                      <strong>Details:</strong> ${error.message}`;
-                errorDiv.style.display = "block";
-            } else {
-                alert("Access Granted! Logging you in...");
-                window.location.href = "/admin/dashboard.html";
-            }
-        });
-    </script>
 </body>
 </html>
