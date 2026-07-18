@@ -78,9 +78,14 @@
         .error-msg {
             color: #ef4444;
             font-size: 0.85rem;
-            margin-top: 12px;
+            margin-top: 15px;
             display: none;
             text-align: center;
+            background-color: rgba(239, 68, 68, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            line-height: 1.4;
         }
     </style>
 </head>
@@ -107,7 +112,7 @@
         const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co"; 
         const SUPABASE_ANON_KEY = "sb_publishable_yelUjdpmB3gkdKB-8qpvbQ_SCCTHh_R";
         
-        // Fix: Use window.supabase to safely reference the loaded script
+        // FIXED: Using window.supabase ensures the script connects flawlessly without looping errors
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // 2. Handle Login Submission
@@ -120,13 +125,16 @@
             
             errorDiv.style.display = "none";
 
+            // Submit login safely to Supabase Auth handler
             const { data, error } = await supabase.auth.signInWithPassword({
                 email: email,
                 password: password,
             });
 
             if (error) {
-                errorDiv.innerText = error.message;
+                // FIXED: Displays the precise status code and error string on your page layout
+                errorDiv.innerHTML = `<strong>Status Code:</strong> ${error.status || 'Network Block'} <br> 
+                                      <strong>Details:</strong> ${error.message}`;
                 errorDiv.style.display = "block";
             } else {
                 alert("Access Granted! Logging you in...");
