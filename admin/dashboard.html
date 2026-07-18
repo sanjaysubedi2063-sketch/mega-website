@@ -4,34 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Write Blogs</title>
-    <!-- Load Supabase v2 -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: #0f172a; color: white; font-family: system-ui, -apple-system, sans-serif; padding: 40px 20px; }
-        .container { max-width: 800px; margin: 0 auto; background-color: #1e293b; padding: 40px; border-radius: 12px; border: 1px solid #334155; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); }
-        h1 { color: #5856d6; margin-bottom: 10px; font-size: 2rem; }
-        .sub { color: #94a3b8; margin-bottom: 30px; font-size: 1rem; }
-        .editor-box { border: 1px solid #334155; padding: 30px; border-radius: 8px; background-color: #0f172a; }
-        input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: #1e293b; border: 1px solid #334155; color: white; border-radius: 4px; }
+        body { background-color: #0f172a; color: white; font-family: system-ui, sans-serif; padding: 40px 20px; }
+        .container { max-width: 800px; margin: 0 auto; background-color: #1e293b; padding: 40px; border-radius: 12px; border: 1px solid #334155; }
+        h1 { color: #5856d6; margin-bottom: 20px; }
+        input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 4px; }
         .publish-btn { width: 100%; padding: 12px; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .publish-btn:hover { background: #059669; }
     </style>
 </head>
 <body>
-
     <div class="container">
         <h1>Welcome Back, Sanjay!</h1>
-        <p class="sub">Use the form below to publish new content to your site.</p>
-        
-        <div class="editor-box">
-            <form id="blog-form">
-                <input type="text" id="title" placeholder="Blog Title" required>
-                <input type="text" id="slug" placeholder="blog-url-slug" required>
-                <textarea id="content" placeholder="Write your blog content here..." rows="10" required></textarea>
-                <button type="submit" class="publish-btn">Publish Post</button>
-            </form>
-        </div>
+        <form id="blog-form">
+            <input type="text" id="title" placeholder="Blog Title" required>
+            <input type="text" id="slug" placeholder="blog-url-slug" required>
+            <textarea id="content" placeholder="Write your blog content here..." rows="10" required></textarea>
+            <button type="submit" class="publish-btn">Publish Post</button>
+        </form>
     </div>
 
     <script>
@@ -40,28 +31,17 @@
         
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Security: Check if user is actually logged in
-        supabaseClient.auth.getSession().then(({ data }) => {
-            if (!data.session) {
-                window.location.href = "/admin/"; // Redirect to login if not authenticated
-            }
-        });
-
         document.getElementById('blog-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            const { data, error } = await supabaseClient.from('blogs').insert([
-                { 
-                    title: document.getElementById('title').value, 
-                    slug: document.getElementById('slug').value, 
-                    content: document.getElementById('content').value 
-                }
-            ]);
+            const { error } = await supabaseClient.from('blogs').insert([{ 
+                title: document.getElementById('title').value, 
+                slug: document.getElementById('slug').value, 
+                content: document.getElementById('content').value 
+            }]);
 
-            if (error) {
-                alert("Error saving blog: " + error.message);
-            } else {
-                alert("Blog Published Successfully!");
+            if (error) alert("Error: " + error.message);
+            else {
+                alert("Blog Published!");
                 document.getElementById('blog-form').reset();
             }
         });
