@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - WordPress Style</title>
+    <title>Admin Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -21,38 +21,29 @@
 <body>
     <div class="container">
         <h1>Welcome back, Sanjay!</h1>
-        
         <h2 id="form-title">Create new post</h2>
         <form id="blog-form">
             <input type="hidden" id="edit-id">
             <input type="text" id="title" placeholder="Blog title" required>
             <input type="text" id="slug" placeholder="blog-url-slug" required>
-            <input type="text" id="category" placeholder="Category (e.g. coding)">
+            <input type="text" id="category" placeholder="Category">
             <select id="status">
                 <option value="draft">Draft</option>
                 <option value="published">Published</option>
             </select>
-            <textarea id="content" placeholder="Write your blog content here..." rows="5" required></textarea>
+            <textarea id="content" placeholder="Write content..." rows="5" required></textarea>
             <button type="submit" class="publish-btn" id="submit-btn">Publish post</button>
         </form>
-
         <h2>Manage posts</h2>
         <table id="posts-table">
             <thead><tr><th>Title</th><th>Status</th><th>Actions</th></tr></thead>
             <tbody id="posts-body"></tbody>
         </table>
     </div>
-
     <script>
         const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzb2Nwa3VpZGN3a2poenpqdW5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzMjIxODAsImV4cCI6MjA5OTg5ODE4MH0.46k4OxJi5hQdqD0NBTcxrtArsD9XfB4jyYOWgh2yBo0";
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // Security: Redirect unauthorized users
-        (async () => {
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            if (!session) window.location.href = "/admin/index.html";
-        })();
 
         async function loadPosts() {
             const { data } = await supabaseClient.from('blogs').select('*');
@@ -62,7 +53,7 @@
                     <td>${post.title}</td>
                     <td>${post.status || 'draft'}</td>
                     <td>
-                        <button class="edit-btn" onclick="editPost('${post.id}', '${post.title}', '${post.slug}', '${post.category || ''}', '${post.status || 'draft'}', \`${post.content ? post.content.replace(/'/g, "\\'") : ''}\`)">Edit</button>
+                        <button class="edit-btn" onclick="editPost('${post.id}', '${post.title}', '${post.slug}', '${post.category || ''}', '${post.status || 'draft'}', \`${(post.content || '').replace(/'/g, "\\'")}\`)">Edit</button>
                         <button class="delete-btn" onclick="deletePost('${post.id}')">Delete</button>
                     </td>
                 </tr>
@@ -91,15 +82,11 @@
                 status: document.getElementById('status').value,
                 content: document.getElementById('content').value
             };
-
             if (id) {
                 await supabaseClient.from('blogs').update(postData).eq('id', id);
-                alert("Post Updated!");
             } else {
                 await supabaseClient.from('blogs').insert([postData]);
-                alert("Post Published!");
             }
-            
             document.getElementById('blog-form').reset();
             document.getElementById('edit-id').value = '';
             document.getElementById('form-title').innerText = "Create new post";
@@ -108,12 +95,11 @@
         });
 
         async function deletePost(id) {
-            if (confirm('Are you sure?')) {
+            if (confirm('Delete this post?')) {
                 await supabaseClient.from('blogs').delete().eq('id', id);
                 loadPosts();
             }
         }
-
         loadPosts();
     </script>
 </body>
