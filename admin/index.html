@@ -108,14 +108,13 @@
     </div>
 
     <script>
-        // 1. Initialize connection with your specific Supabase parameters
         const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co"; 
         const SUPABASE_ANON_KEY = "sb_publishable_yelUjdpmB3gkdKB-8qpvbQ_SCCTHh_R";
         
-        // FIXED: Using window.supabase ensures the script initializes properly without variable collision loops
+        // Connects to the loaded library script safely
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // 2. Handle Login Submission
+        // Handle Login Submission
         document.getElementById('login-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -125,14 +124,13 @@
             
             errorDiv.style.display = "none";
 
-            // Securely transmit authentication request
             const { data, error } = await supabase.auth.signInWithPassword({
                 email: email,
                 password: password,
             });
 
             if (error) {
-                // FIXED: Displays technical status codes and details cleanly on the interface
+                // Displays the explicit numeric status code on your screen
                 errorDiv.innerHTML = `<strong>Status Code:</strong> ${error.status || 'Network Block'} <br> 
                                       <strong>Details:</strong> ${error.message}`;
                 errorDiv.style.display = "block";
