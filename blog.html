@@ -4,38 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sanjay's Blog</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        body { font-family: sans-serif; background: #0f172a; color: white; padding: 40px; }
-        .container { max-width: 800px; margin: 0 auto; }
-        .blog-post { background: #1e293b; padding: 25px; margin-bottom: 25px; border-radius: 12px; border: 1px solid #334155; }
-        h1 { color: #5856d6; margin-bottom: 30px; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Latest Posts</h1>
-        <div id="posts">Loading...</div>
-    </div>
-
-    <script>
-        const supabase = window.supabase.createClient(
-            "https://zsocpkuidcwkjhzzjuni.supabase.co",
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzb2Nwa3VpZGN3a2poenpqdW5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzMjIxODAsImV4cCI6MjA5OTg5ODE4MH0.46k4OxJi5hQdqD0NBTcxrtArsD9XfB4jyYOWgh2yBo0"
-        );
-
-        async function loadBlogs() {
-            const { data, error } = await supabase.from('blogs').select('*');
-            const container = document.getElementById('posts');
-            if (data) {
-                container.innerHTML = data.map(b => `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanjay's Blog</title>
-    <!-- Include Supabase Client Library -->
+    <!-- Supabase Client Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: sans-serif; background: #0f172a; color: #f8fafc; padding: 40px; }
@@ -47,24 +16,24 @@
     <div id="blog-container">Loading...</div>
 
     <script>
-        // 1. Initialize Supabase ONLY ONCE
-        const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
-        const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+        // REPLACE THESE WITH YOUR ACTUAL KEYS FROM SUPABASE SETTINGS
+        const SUPABASE_URL = 'https://zsocpkuidcwkjhzzjuni.supabase.co';
+        const SUPABASE_KEY = 'YOUR_ANON_PUBLIC_KEY_HERE';
+
         const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // 2. Fetch function
         async function fetchPosts() {
+            const container = document.getElementById('blog-container');
             try {
                 const { data, error } = await supabase
-                    .from('posts') // Ensure this matches your table name
+                    .from('posts')
                     .select('*');
 
                 if (error) throw error;
 
-                const container = document.getElementById('blog-container');
-                container.innerHTML = ''; // Clear loading text
+                container.innerHTML = ''; 
 
-                if (data.length === 0) {
+                if (!data || data.length === 0) {
                     container.innerHTML = '<p>No posts found.</p>';
                     return;
                 }
@@ -77,11 +46,10 @@
                 });
             } catch (err) {
                 console.error('Error fetching posts:', err);
-                document.getElementById('blog-container').innerText = 'Failed to load posts.';
+                container.innerText = 'Failed to load posts.';
             }
         }
 
-        // Run on load
         fetchPosts();
     </script>
 </body>
