@@ -109,12 +109,12 @@
 
     <script>
         const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co"; 
-        const SUPABASE_ANON_KEY = "sb_publishable_yelUjdpmB3gkdKB-8qpvbQ_SCCTHh_R";
         
-        // Connects to the loaded library script safely
+        // Updated with the anon public JWT key
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzb2Nwa3VpZGN3a2poenpqdW5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzMjIxODAsImV4cCI6MjA5OTg5ODE4MH0.46k4OxJi5hQdqD0NBTcxrtArsD9XfB4jyYOWgh2yBo0";
+        
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Handle Login Submission
         document.getElementById('login-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -130,7 +130,6 @@
             });
 
             if (error) {
-                // Displays the explicit numeric status code on your screen
                 errorDiv.innerHTML = `<strong>Status Code:</strong> ${error.status || 'Network Block'} <br> 
                                       <strong>Details:</strong> ${error.message}`;
                 errorDiv.style.display = "block";
