@@ -103,10 +103,12 @@
     </div>
 
     <script>
-        // 1. Initialize connection with your specific Supabase Vault setup
+        // 1. Initialize connection with your clean project URL
         const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co"; 
         const SUPABASE_ANON_KEY = "sb_publishable_yelUjdpmB3gkdKB-8qpvbQ_SCCTHh_R";
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        // Fix: Use window.supabase to safely reference the loaded script
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // 2. Handle Login Submission
         document.getElementById('login-form').addEventListener('submit', async function(e) {
@@ -118,7 +120,6 @@
             
             errorDiv.style.display = "none";
 
-            // Securely transmit check request over encrypted network channel
             const { data, error } = await supabase.auth.signInWithPassword({
                 email: email,
                 password: password,
@@ -129,7 +130,6 @@
                 errorDiv.style.display = "block";
             } else {
                 alert("Access Granted! Logging you in...");
-                // Redirect browser into your secure private dashboard workspace folder next
                 window.location.href = "/admin/dashboard.html";
             }
         });
