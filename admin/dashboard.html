@@ -53,15 +53,27 @@
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         const quill = new Quill('#editor', { theme: 'snow' });
 
-        // Image Upload Logic
+        // Corrected Image Upload Logic
         document.getElementById('image-upload').addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
-            const fileExt = file.name.split('.').pop();
-            const fileName = `${Math.random()}.${fileExt}`;
             
-            const { data, error } = await supabaseClient.storage.from('BLOG-IMAGES').upload(fileName, file);
-            if (error) { alert('Upload error: ' + error.message); return; }
+            // Sanitize file name
+            const timestamp = Date.now();
+            const fileName = `${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
+            
+            const { data, error } = await supabaseClient.storage
+                .from('BLOG-IMAGES') // Exact bucket name
+                .upload(fileName, file, {
+                    contentType: file.type,
+                    upsert: true
+                });
+
+            if (error) { 
+                console.error('Upload error details:', error);
+                alert('Upload error: ' + error.message); 
+                return; 
+            }
             
             const { data: urlData } = supabaseClient.storage.from('BLOG-IMAGES').getPublicUrl(fileName);
             const range = quill.getSelection();
