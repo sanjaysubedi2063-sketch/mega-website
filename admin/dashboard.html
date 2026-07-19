@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <!-- Favicon fix -->
+    <!-- Favicon fix to stop 404 errors -->
     <link rel="icon" href="data:,">
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -41,13 +41,17 @@
         const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co";
         const SUPABASE_ANON_KEY = "YOUR_ANON_KEY_HERE";
         
-        // Safe Initialization Pattern
+        // Singleton pattern: This prevents the "already declared" error
         if (!window.supabaseClient) {
             window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         }
         const supabase = window.supabaseClient;
         
-        const quill = new Quill('#editor', { theme: 'snow' });
+        // Initialize Quill only once
+        if (!window.quillInstance) {
+            window.quillInstance = new Quill('#editor', { theme: 'snow' });
+        }
+        const quill = window.quillInstance;
 
         // Handle Image Upload
         document.getElementById('image-upload').addEventListener('change', async (e) => {
