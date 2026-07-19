@@ -4,127 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+    <!-- Use correct Supabase CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: #0f172a; color: white; font-family: system-ui, sans-serif; padding: 40px 20px; }
-        .container { max-width: 900px; margin: 0 auto; background-color: #1e293b; padding: 30px; border-radius: 12px; border: 1px solid #334155; }
-        h1, h2 { color: #5856d6; margin-bottom: 20px; }
-        input, select { width: 100%; padding: 12px; margin-bottom: 15px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 4px; }
-        #editor { height: 200px; background: white; color: black; margin-bottom: 15px; border-radius: 4px; }
-        .publish-btn { width: 100%; padding: 12px; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .edit-btn { background: #3b82f6; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
-        .delete-btn { background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #334155; }
+        body { background-color: #0f172a; color: white; font-family: system-ui, sans-serif; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background-color: #1e293b; padding: 30px; border-radius: 12px; }
+        #editor { height: 200px; background: white; color: black; margin-bottom: 15px; }
+        input, select { width: 100%; padding: 10px; margin-bottom: 10px; background: #0f172a; border: 1px solid #334155; color: white; }
+        .publish-btn { background: #10b981; color: white; border: none; padding: 12px; cursor: pointer; width: 100%; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Welcome back, Sanjay!</h1>
+        <h1>Admin Dashboard</h1>
         <form id="blog-form">
-            <input type="hidden" id="edit-id">
-            <input type="text" id="title" placeholder="Blog title" required>
-            <input type="text" id="slug" placeholder="blog-url-slug" required>
-            <input type="text" id="category" placeholder="Category">
-            <select id="status">
-                <option value="draft">Draft</option>
-                <option value="published">Published</option>
-            </select>
-            <label>Insert Image:</label>
+            <input type="text" id="title" placeholder="Title" required>
             <input type="file" id="image-upload" accept="image/*">
             <div id="editor"></div>
-            <button type="submit" class="publish-btn" id="submit-btn">Publish post</button>
+            <button type="submit" class="publish-btn">Publish</button>
         </form>
-
-        <h2>Manage posts</h2>
-        <input type="text" id="search-input" placeholder="Search by title..." onkeyup="filterPosts()">
-        <table id="posts-table">
-            <thead><tr><th>Title</th><th>Actions</th></tr></thead>
-            <tbody id="posts-body"></tbody>
-        </table>
     </div>
 
     <script>
         const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzb2Nwa3VpZGN3a2poenpqdW5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzMjIxODAsImV4cCI6MjA5OTg5ODE4MH0.46k4OxJi5hQdqD0NBTcxrtArsD9XfB4jyYOWgh2yBo0";
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         const quill = new Quill('#editor', { theme: 'snow' });
 
-        // Corrected Image Upload Logic
+        // DIAGNOSTIC: Run this once to see if your code can see your bucket
+        supabase.storage.listBuckets().then(res => {
+            console.log("Available Buckets:", res.data);
+            if (!res.data || !res.data.find(b => b.name === 'BLOG-IMAGES')) {
+                console.error("CRITICAL: Bucket 'BLOG-IMAGES' not found by API!");
+            }
+        });
+
         document.getElementById('image-upload').addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
-            
-            // Sanitize file name
-            const timestamp = Date.now();
-            const fileName = `${timestamp}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
-            
-            const { data, error } = await supabaseClient.storage
-                .from('BLOG-IMAGES') // Exact bucket name
-                .upload(fileName, file, {
-                    contentType: file.type,
-                    upsert: true
-                });
 
-            if (error) { 
-                console.error('Upload error details:', error);
-                alert('Upload error: ' + error.message); 
-                return; 
+            try {
+                // Use the exact bucket name confirmed by the listBuckets diagnostic
+                const { data, error } = await supabase.storage
+                    .from('BLOG-IMAGES') 
+                    .upload(`${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`, file, {
+                        contentType: file.type,
+                        upsert: true
+                    });
+
+                if (error) throw error;
+
+                const { data: { publicUrl } } = supabase.storage.from('BLOG-IMAGES').getPublicUrl(data.path);
+                const range = quill.getSelection();
+                quill.insertEmbed(range ? range.index : 0, 'image', publicUrl);
+            } catch (err) {
+                console.error("Detailed Storage Error:", err);
+                alert("Upload failed: " + err.message);
             }
-            
-            const { data: urlData } = supabaseClient.storage.from('BLOG-IMAGES').getPublicUrl(fileName);
-            const range = quill.getSelection();
-            quill.insertEmbed(range ? range.index : 0, 'image', urlData.publicUrl);
         });
-
-        async function loadPosts() {
-            const { data } = await supabaseClient.from('blogs').select('*');
-            document.getElementById('posts-body').innerHTML = (data || []).map(post => `
-                <tr>
-                    <td>${post.title}</td>
-                    <td>
-                        <button class="edit-btn" onclick="prepareEdit('${post.id}')" 
-                                data-title="${post.title}" data-slug="${post.slug}" data-category="${post.category || ''}" 
-                                data-status="${post.status || 'draft'}" data-content='${encodeURIComponent(post.content || '')}'>Edit</button>
-                        <button class="delete-btn" onclick="deletePost('${post.id}')">Delete</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function prepareEdit(id) {
-            const btn = document.querySelector(`button[onclick="prepareEdit('${id}')"]`);
-            document.getElementById('edit-id').value = id;
-            document.getElementById('title').value = btn.dataset.title;
-            document.getElementById('slug').value = btn.dataset.slug;
-            document.getElementById('category').value = btn.dataset.category;
-            document.getElementById('status').value = btn.dataset.status;
-            quill.root.innerHTML = decodeURIComponent(btn.dataset.content);
-            window.scrollTo(0, 0);
-        }
-
-        document.getElementById('blog-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('edit-id').value;
-            const postData = {
-                title: document.getElementById('title').value,
-                slug: document.getElementById('slug').value,
-                category: document.getElementById('category').value,
-                status: document.getElementById('status').value,
-                content: quill.root.innerHTML
-            };
-            if (id) { await supabaseClient.from('blogs').update(postData).eq('id', id); } 
-            else { await supabaseClient.from('blogs').insert([postData]); }
-            location.reload();
-        });
-
-        async function deletePost(id) {
-            if (confirm('Delete?')) { await supabaseClient.from('blogs').delete().eq('id', id); loadPosts(); }
-        }
-        loadPosts();
     </script>
 </body>
 </html>
