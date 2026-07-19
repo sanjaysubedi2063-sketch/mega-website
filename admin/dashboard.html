@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Quill Rich Text Editor CSS/JS -->
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <style>
@@ -25,7 +24,6 @@
 <body>
     <div class="container">
         <h1>Welcome back, Sanjay!</h1>
-        <h2 id="form-title">Create new post</h2>
         <form id="blog-form">
             <input type="hidden" id="edit-id">
             <input type="text" id="title" placeholder="Blog title" required>
@@ -35,19 +33,16 @@
                 <option value="draft">Draft</option>
                 <option value="published">Published</option>
             </select>
+            <label>Insert Image:</label>
+            <input type="file" id="image-upload" accept="image/*">
             <div id="editor"></div>
             <button type="submit" class="publish-btn" id="submit-btn">Publish post</button>
         </form>
 
         <h2>Manage posts</h2>
         <input type="text" id="search-input" placeholder="Search by title..." onkeyup="filterPosts()">
-        <select id="filter-category" onchange="filterPosts()">
-            <option value="">All Categories</option>
-            <option value="coding">Coding</option>
-            <option value="news">News</option>
-        </select>
         <table id="posts-table">
-            <thead><tr><th>Title</th><th>Category</th><th>Status</th><th>Actions</th></tr></thead>
+            <thead><tr><th>Title</th><th>Actions</th></tr></thead>
             <tbody id="posts-body"></tbody>
         </table>
     </div>
@@ -58,14 +53,26 @@
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         const quill = new Quill('#editor', { theme: 'snow' });
 
+        // Image Upload Logic
+        document.getElementById('image-upload').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Math.random()}.${fileExt}`;
+            
+            const { data, error } = await supabaseClient.storage.from('blog-images').upload(fileName, file);
+            if (error) { alert('Upload error: ' + error.message); return; }
+            
+            const { data: urlData } = supabaseClient.storage.from('blog-images').getPublicUrl(fileName);
+            const range = quill.getSelection();
+            quill.insertEmbed(range ? range.index : 0, 'image', urlData.publicUrl);
+        });
+
         async function loadPosts() {
             const { data } = await supabaseClient.from('blogs').select('*');
-            const body = document.getElementById('posts-body');
-            body.innerHTML = (data || []).map(post => `
-                <tr data-category="${(post.category || '').toLowerCase()}">
+            document.getElementById('posts-body').innerHTML = (data || []).map(post => `
+                <tr>
                     <td>${post.title}</td>
-                    <td>${post.category || ''}</td>
-                    <td>${post.status || 'draft'}</td>
                     <td>
                         <button class="edit-btn" onclick="prepareEdit('${post.id}')" 
                                 data-title="${post.title}" data-slug="${post.slug}" data-category="${post.category || ''}" 
@@ -84,19 +91,7 @@
             document.getElementById('category').value = btn.dataset.category;
             document.getElementById('status').value = btn.dataset.status;
             quill.root.innerHTML = decodeURIComponent(btn.dataset.content);
-            document.getElementById('form-title').innerText = "Edit post";
-            document.getElementById('submit-btn').innerText = "Update post";
             window.scrollTo(0, 0);
-        }
-
-        function filterPosts() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const catFilter = document.getElementById('filter-category').value.toLowerCase();
-            document.querySelectorAll('#posts-body tr').forEach(row => {
-                const title = row.cells[0].innerText.toLowerCase();
-                const cat = row.dataset.category;
-                row.style.display = (title.includes(searchTerm) && (catFilter === "" || cat === catFilter)) ? '' : 'none';
-            });
         }
 
         document.getElementById('blog-form').addEventListener('submit', async (e) => {
@@ -111,13 +106,11 @@
             };
             if (id) { await supabaseClient.from('blogs').update(postData).eq('id', id); } 
             else { await supabaseClient.from('blogs').insert([postData]); }
-            document.getElementById('blog-form').reset();
-            quill.root.innerHTML = '';
-            loadPosts();
+            location.reload();
         });
 
         async function deletePost(id) {
-            if (confirm('Delete this post?')) { await supabaseClient.from('blogs').delete().eq('id', id); loadPosts(); }
+            if (confirm('Delete?')) { await supabaseClient.from('blogs').delete().eq('id', id); loadPosts(); }
         }
         loadPosts();
     </script>
