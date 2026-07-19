@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+    <!-- Favicon fix -->
+    <link rel="icon" href="data:,">
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Quill Editor -->
@@ -35,20 +37,25 @@
     </div>
 
     <script>
-        // Replace with your actual Project URL and Key
-        const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co/rest/v1/";
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzb2Nwa3VpZGN3a2poenpqdW5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzMjIxODAsImV4cCI6MjA5OTg5ODE4MH0.46k4OxJi5hQdqD0NBTcxrtArsD9XfB4jyYOWgh2yBo0";
+        // Configuration
+        const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co";
+        const SUPABASE_ANON_KEY = "YOUR_ANON_KEY_HERE";
         
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Safe Initialization Pattern
+        if (!window.supabaseClient) {
+            window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        }
+        const supabase = window.supabaseClient;
+        
         const quill = new Quill('#editor', { theme: 'snow' });
 
-        // Handle Image Upload to 'blog-images' bucket
+        // Handle Image Upload
         document.getElementById('image-upload').addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
 
             const { data, error } = await supabase.storage
-                .from('blog-images') // Must match the lowercase bucket name
+                .from('blog-images')
                 .upload(`${Date.now()}_${file.name}`, file);
 
             if (error) return alert("Upload error: " + error.message);
