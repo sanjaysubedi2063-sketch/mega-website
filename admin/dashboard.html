@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+    <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Quill Editor -->
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <style>
         body { background-color: #0f172a; color: white; font-family: system-ui, sans-serif; padding: 20px; }
         .container { max-width: 900px; margin: 0 auto; background-color: #1e293b; padding: 30px; border-radius: 12px; }
         #editor { height: 200px; background: white; color: black; margin-bottom: 15px; }
-        input, select { width: 100%; padding: 10px; margin-bottom: 10px; background: #0f172a; border: 1px solid #334155; color: white; }
-        .publish-btn { background: #10b981; color: white; border: none; padding: 12px; cursor: pointer; width: 100%; }
+        input, select { width: 100%; padding: 10px; margin-bottom: 10px; background: #0f172a; border: 1px solid #334155; color: white; border-radius: 4px; }
+        .publish-btn { background: #10b981; color: white; border: none; padding: 12px; cursor: pointer; width: 100%; border-radius: 4px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -20,42 +22,62 @@
         <h1>Admin Dashboard</h1>
         <form id="blog-form">
             <input type="text" id="title" placeholder="Title" required>
+            <input type="text" id="slug" placeholder="Slug (e.g., my-first-post)" required>
+            <input type="text" id="category" placeholder="Category">
+            <select id="status">
+                <option value="draft">Draft</option>
+                <option value="published">Published</option>
+            </select>
             <input type="file" id="image-upload" accept="image/*">
             <div id="editor"></div>
-            <button type="submit" class="publish-btn">Publish</button>
+            <button type="submit" class="publish-btn">Publish Post</button>
         </form>
     </div>
 
     <script>
-        // Use a unique name for your client to avoid redeclaration errors
-        const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co";
+        // Replace with your actual Project URL and Key
+        const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co/rest/v1/";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzb2Nwa3VpZGN3a2poenpqdW5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzMjIxODAsImV4cCI6MjA5OTg5ODE4MH0.46k4OxJi5hQdqD0NBTcxrtArsD9XfB4jyYOWgh2yBo0";
         
-        // Ensure this is only declared once
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         const quill = new Quill('#editor', { theme: 'snow' });
 
+        // Handle Image Upload to 'blog-images' bucket
         document.getElementById('image-upload').addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
 
-            try {
-                // Using the specific bucket name 'BLOG-IMAGES' as confirmed in your console
-                const { data, error } = await supabaseClient.storage
-                    .from('BLOG-IMAGES') 
-                    .upload(`${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`, file, {
-                        contentType: file.type,
-                        upsert: true
-                    });
+            const { data, error } = await supabase.storage
+                .from('blog-images') // Must match the lowercase bucket name
+                .upload(`${Date.now()}_${file.name}`, file);
 
-                if (error) throw error;
+            if (error) return alert("Upload error: " + error.message);
 
-                const { data: { publicUrl } } = supabaseClient.storage.from('BLOG-IMAGES').getPublicUrl(data.path);
-                const range = quill.getSelection();
-                quill.insertEmbed(range ? range.index : 0, 'image', publicUrl);
-            } catch (err) {
-                console.error("Upload failed:", err);
-                alert("Upload failed: " + err.message);
+            const { data: { publicUrl } } = supabase.storage.from('blog-images').getPublicUrl(data.path);
+            const range = quill.getSelection();
+            quill.insertEmbed(range ? range.index : 0, 'image', publicUrl);
+        });
+
+        // Handle Form Submission
+        document.getElementById('blog-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const postData = {
+                title: document.getElementById('title').value,
+                slug: document.getElementById('slug').value,
+                category: document.getElementById('category').value,
+                status: document.getElementById('status').value,
+                content: quill.root.innerHTML
+            };
+
+            const { error } = await supabase.from('blogs').insert([postData]);
+
+            if (error) {
+                alert("Error saving post: " + error.message);
+            } else {
+                alert("Post published successfully!");
+                document.getElementById('blog-form').reset();
+                quill.setContents([]);
             }
         });
     </script>
