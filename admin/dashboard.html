@@ -60,10 +60,10 @@
             const fileExt = file.name.split('.').pop();
             const fileName = `${Math.random()}.${fileExt}`;
             
-            const { data, error } = await supabaseClient.storage.from('blog-images').upload(fileName, file);
+            const { data, error } = await supabaseClient.storage.from('BLOG-IMAGES').upload(fileName, file);
             if (error) { alert('Upload error: ' + error.message); return; }
             
-            const { data: urlData } = supabaseClient.storage.from('blog-images').getPublicUrl(fileName);
+            const { data: urlData } = supabaseClient.storage.from('BLOG-IMAGES').getPublicUrl(fileName);
             const range = quill.getSelection();
             quill.insertEmbed(range ? range.index : 0, 'image', urlData.publicUrl);
         });
