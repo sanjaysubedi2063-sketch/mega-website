@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <!-- Use correct Supabase CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
@@ -28,26 +27,21 @@
     </div>
 
     <script>
+        // Use a unique name for your client to avoid redeclaration errors
         const SUPABASE_URL = "https://zsocpkuidcwkjhzzjuni.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzb2Nwa3VpZGN3a2poenpqdW5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzMjIxODAsImV4cCI6MjA5OTg5ODE4MH0.46k4OxJi5hQdqD0NBTcxrtArsD9XfB4jyYOWgh2yBo0";
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        // Ensure this is only declared once
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         const quill = new Quill('#editor', { theme: 'snow' });
-
-        // DIAGNOSTIC: Run this once to see if your code can see your bucket
-        supabase.storage.listBuckets().then(res => {
-            console.log("Available Buckets:", res.data);
-            if (!res.data || !res.data.find(b => b.name === 'BLOG-IMAGES')) {
-                console.error("CRITICAL: Bucket 'BLOG-IMAGES' not found by API!");
-            }
-        });
 
         document.getElementById('image-upload').addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
 
             try {
-                // Use the exact bucket name confirmed by the listBuckets diagnostic
-                const { data, error } = await supabase.storage
+                // Using the specific bucket name 'BLOG-IMAGES' as confirmed in your console
+                const { data, error } = await supabaseClient.storage
                     .from('BLOG-IMAGES') 
                     .upload(`${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`, file, {
                         contentType: file.type,
@@ -56,11 +50,11 @@
 
                 if (error) throw error;
 
-                const { data: { publicUrl } } = supabase.storage.from('BLOG-IMAGES').getPublicUrl(data.path);
+                const { data: { publicUrl } } = supabaseClient.storage.from('BLOG-IMAGES').getPublicUrl(data.path);
                 const range = quill.getSelection();
                 quill.insertEmbed(range ? range.index : 0, 'image', publicUrl);
             } catch (err) {
-                console.error("Detailed Storage Error:", err);
+                console.error("Upload failed:", err);
                 alert("Upload failed: " + err.message);
             }
         });
