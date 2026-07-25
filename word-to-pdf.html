@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Convert Microsoft Word documents into clean, professional PDF files directly in your web browser securely.">
+    <meta name="description"
+        content="Convert Microsoft Word documents into clean, professional PDF files directly in your web browser securely.">
     <meta name="theme-color" content="#5856d6">
-    <title>Word to PDF Converter Online - Fast & Secure Document Conversion</title>
-    
-    <!-- Mammoth.js for converting .docx into styled HTML structure -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-    <!-- html2pdf.js for robust multi-page PDF rendering & download -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <title>Word to PDF Converter – Fast & Secure (Client‑Side)</title>
+
+    <!-- 3rd‑party libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"
+        integrity="sha512-1ZK+PpU/7eF5qQwU/6ZbZJk1i5K1VhGxH9fZ3sRZtS9E7V+S9H9EJ5lX1bFv8F9p5sYcH6QkV+o3n7K5aZx2Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+        integrity="sha512-6p/8g0g5o+P9V6GfYc8D6mK4M6yF8X7zQdK9N5fB4xJwE+VgJ1X4R2yJ9tD3t8UoO9+V1I5Q4ZtJ6Z1E5Y8VQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <style>
         :root {
@@ -22,31 +27,192 @@
             --text-muted: #94a3b8;
             --border: #334155;
             --success: #10b981;
+            --error: #ef4444;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-primary); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
-        .sidebar { width: 280px; background-color: var(--bg-secondary); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
-        .sidebar h2 { font-size: 1.2rem; margin-bottom: 20px; color: var(--text-main); padding-bottom: 10px; border-bottom: 2px solid var(--accent); text-transform: uppercase; letter-spacing: 1px; }
-        .nav-group { margin-bottom: 20px; }
-        .nav-group-title { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; font-weight: bold; }
-        .nav-btn { width: 100%; background: transparent; border: 1px solid transparent; color: var(--text-main); padding: 10px 12px; text-align: left; border-radius: 6px; cursor: pointer; margin-bottom: 5px; transition: all 0.2s ease; font-size: 0.9rem; display: flex; align-items: center; text-decoration: none; }
-        .nav-btn:hover, .nav-btn.active { background-color: var(--accent); border-color: var(--accent); }
-        .workspace { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-        .header { background-color: var(--bg-secondary); padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-        .main-panel { flex: 1; display: flex; overflow: hidden; }
-        .tool-container { flex: 3; padding: 30px; overflow-y: auto; }
-        .tool-section { background: var(--bg-secondary); padding: 25px; border-radius: 8px; border: 1px solid var(--border); }
-        .dropzone { border: 2px dashed var(--border); padding: 40px 20px; text-align: center; border-radius: 8px; cursor: pointer; background: rgba(15, 23, 42, 0.4); margin-bottom: 20px; transition: border-color 0.3s ease; }
-        .dropzone:hover { border-color: var(--accent); }
-        .action-btn { background-color: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; transition: background 0.2s; }
-        .action-btn:hover { background-color: var(--accent-hover); }
-        .action-btn:disabled { background-color: var(--border); cursor: not-allowed; }
-        .preview-panel { flex: 2; background-color: rgba(30, 41, 59, 0.5); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
-        .preview-header { padding: 15px; background: var(--bg-secondary); border-bottom: 1px solid var(--border); font-weight: bold; font-size: 0.95rem; }
-        .live-logs { padding: 15px; font-family: monospace; font-size: 0.85rem; color: var(--success); max-height: 120px; overflow-y: auto; background: #090d16; border-bottom: 1px solid var(--border); }
-        .visual-preview-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
-        
-        /* Document preview styling */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* -----------------------------------------------------------------
+           Layout
+        ----------------------------------------------------------------- */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-group {
+            margin-bottom: 20px;
+        }
+
+        .nav-group-title {
+            font-size: .8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .nav-btn {
+            width: 100%;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-main);
+            padding: 10px 12px;
+            text-align: left;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 5px;
+            transition: all .2s ease;
+            font-size: .9rem;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .workspace {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--bg-secondary);
+            padding: 15px 30px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-panel {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .tool-container {
+            flex: 3;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .tool-section {
+            background: var(--bg-secondary);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .dropzone {
+            border: 2px dashed var(--border);
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            background: rgba(15, 23, 42, .4);
+            margin-bottom: 20px;
+            transition: border-color .3s ease;
+        }
+
+        .dropzone:hover {
+            border-color: var(--accent);
+        }
+
+        .action-btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+            transition: background .2s;
+        }
+
+        .action-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .action-btn:disabled {
+            background: var(--border);
+            cursor: not-allowed;
+        }
+
+        .preview-panel {
+            flex: 2;
+            background: rgba(30, 41, 59, .5);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .preview-header {
+            padding: 15px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            font-weight: bold;
+            font-size: .95rem;
+        }
+
+        .live-logs {
+            padding: 15px;
+            font-family: monospace;
+            font-size: .85rem;
+            color: var(--success);
+            max-height: 120px;
+            overflow-y: auto;
+            background: #090d16;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .visual-preview-box {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Document preview styling (inside the live preview) */
         #document-preview-render {
             background: #ffffff;
             color: #1e293b;
@@ -54,117 +220,52 @@
             max-width: 700px;
             padding: 30px;
             border-radius: 4px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, .3);
             font-size: 14px;
             line-height: 1.6;
         }
-        #document-preview-render p { margin-bottom: 12px; }
-        #document-preview-render h1, #document-preview-render h2, #document-preview-render h3 { margin-top: 15px; margin-bottom: 10px; color: #0f172a; }
-        #document-preview-render table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
-        #document-preview-render th, #document-preview-render td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
-    </style>
-</head>
-<body>
-    <div class="sidebar">
-        <h2>HyperEngine v5.0</h2>
-        <div class="nav-group">
-            <div class="nav-group-title">Navigation</div>
-            <a href="index.html" class="nav-btn">← Back to Dashboard</a>
-            <a href="word-to-pdf.html" class="nav-btn active">Word to PDF</a>
-        </div>
-    </div>
-    <div class="workspace">
-        <div class="header">
-            <h1>Word to PDF Converter</h1>
-            <span style="font-size: 0.85rem; color: var(--text-muted);">Client-Side Safe Execution</span>
-        </div>
-        <div class="main-panel">
-            <div class="tool-container">
-                <div class="tool-section">
-                    <div class="dropzone" onclick="document.getElementById('word-pdf-input').click()">
-                        <p>Upload Microsoft Word document (.docx)</p>
-                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Click to browse files</p>
-                        <input type="file" id="word-pdf-input" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display:none;" onchange="handleFileSelect(this)">
-                    </div>
-                    <button id="convert-btn" class="action-btn" onclick="executeWordToPdf()" disabled>Convert & Download PDF Document</button>
-                </div>
-            </div>
-            <div class="preview-panel">
-                <div class="preview-header">Live Document Structure Preview</div>
-                <div class="live-logs" id="log-console">&gt; Tool initialized. Ready for file upload.</div>
-                <div class="visual-preview-box" id="preview-display">
-                    <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 40px;">No document loaded yet.</span>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Hidden export container engineered specifically for html2pdf page layout computation -->
-    <div id="pdf-export-staging" style="display:none; position: absolute; left: -9999px; width: 750px; background: #ffffff; color: #1e293b; padding: 40px; font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 14px; line-height: 1.6;"></div>
-
-    <script>
-        let stagedFileName = "";
-        let isFileLoaded = false;
-
-        function logAction(msg) {
-            const consoleEl = document.getElementById('log-console');
-            if (consoleEl) { consoleEl.innerHTML += `<br>&gt; ${msg}`; consoleEl.scrollTop = consoleEl.scrollHeight; }
+        #document-preview-render p {
+            margin-bottom: 12px;
         }
 
-        async function handleFileSelect(inputElement) {
-            const file = inputElement.files[0];
-            if(!file) return;
-            stagedFileName = file.name;
-            logAction(`Loaded Word file: ${file.name}`);
-
-            const reader = new FileReader();
-            reader.onload = async function(event) {
-                const arrayBuffer = event.target.result;
-
-                try {
-                    // Extract clean, formatted HTML preserving layout structure using Mammoth
-                    const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
-                    const htmlContent = result.value;
-
-                    // Display live preview container
-                    const previewBox = document.getElementById('preview-display');
-                    previewBox.innerHTML = `<div id="document-preview-render">${htmlContent}</div>`;
-
-                    // Populate export staging container
-                    document.getElementById('pdf-export-staging').innerHTML = `
-                        <h1 style="font-size: 22px; font-weight: bold; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; color: #0f172a;">${file.name}</h1>
-                        ${htmlContent}
-                    `;
-
-                    isFileLoaded = true;
-                    document.getElementById('convert-btn').removeAttribute('disabled');
-                    logAction("Success: Document parsed and structured for conversion.");
-                } catch (err) {
-                    logAction("Error parsing document: " + err.message);
-                }
-            };
-            reader.readAsArrayBuffer(file);
+        #document-preview-render h1,
+        #document-preview-render h2,
+        #document-preview-render h3 {
+            margin-top: 15px;
+            margin-bottom: 10px;
+            color: #0f172a;
         }
 
-        function executeWordToPdf() {
-            if(!isFileLoaded) { alert("Please upload a Word document file first."); return; }
-            logAction("Compiling document into multi-page PDF format...");
-
-            const element = document.getElementById('pdf-export-staging');
-            const opt = {
-                margin:       10,
-                filename:     stagedFileName.replace(/\.[^/.]+$/, "") + ".pdf",
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, letterRendering: true, windowWidth: 800 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            html2pdf().from(element).set(opt).save().then(() => {
-                logAction("Success: PDF generated and downloaded securely.");
-            }).catch(err => {
-                logAction("PDF compilation error: " + err);
-            });
+        #document-preview-render table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
         }
-    </script>
-</body>
-</html>
+
+        #document-preview-render th,
+        #document-preview-render td {
+            border: 1px solid #cbd5e1;
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* Hidden staging container (used only by html2pdf) */
+        .pdf-staging {
+            display: none;
+            position: absolute;
+            left: -9999px;
+            width: 750px;
+            background: #ffffff;
+            color: #1e293b;
+            padding: 40px;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Loading overlay */
+        #loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23
