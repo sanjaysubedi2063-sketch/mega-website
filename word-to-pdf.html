@@ -7,9 +7,10 @@
     <meta name="theme-color" content="#5856d6">
     <title>Word to PDF Converter - Fast & Secure (Client-Side)</title>
     
-    <!-- Stable CDN dependencies -->
+    <!-- Dependencies: Mammoth for .docx parsing, html2canvas & jsPDF for bulletproof PDF generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
         :root {
@@ -41,7 +42,7 @@
         .action-btn:hover { background-color: var(--accent-hover); }
         .action-btn:disabled { background-color: var(--border); cursor: not-allowed; opacity: 0.7; }
         .preview-panel { flex: 2; background-color: rgba(30, 41, 59, 0.5); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
-        .preview-header { padding: 15px; background: var(--bg-secondary); border-bottom: 1px solid var(--border); font-weight: bold; font-size: 0.95rem; }
+        .preview-header { padding: 15px; background: var(--bg-secondary); border-bottom: 1px solid var(--border); font-weight: bold; font-size: 0.95rem; display: flex; justify-content: space-between; align-items: center; }
         .live-logs { padding: 15px; font-family: monospace; font-size: 0.85rem; color: var(--success); max-height: 120px; overflow-y: auto; background: #090d16; border-bottom: 1px solid var(--border); }
         .visual-preview-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
         
@@ -88,7 +89,10 @@
                 </div>
             </div>
             <div class="preview-panel">
-                <div class="preview-header">Live Document Structure Preview</div>
+                <div class="preview-header">
+                    <span>Live Document Structure Preview</span>
+                    <span id="file-size-badge" style="font-size: 0.75rem; background: var(--accent); padding: 2px 8px; border-radius: 4px; display: none;">Size: 0 KB</span>
+                </div>
                 <div class="live-logs" id="log-console">&gt; Tool initialized. Ready for file upload.</div>
                 <div class="visual-preview-box" id="preview-display">
                     <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 40px;">No document loaded yet.</span>
@@ -97,8 +101,8 @@
         </div>
     </div>
 
-    <!-- Hidden staging element with proper dimensions for html2pdf rendering -->
-    <div id="pdf-export-staging" style="position: absolute; opacity: 0; pointer-events: none; width: 794px; background: #ffffff; color: #1e293b; padding: 40px; font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 14px; line-height: 1.6;"></div>
+    <!-- Render container built right inside the visible DOM pane to eliminate blank page generation -->
+    <div id="pdf-render-target" style="position: absolute; left: -9999px; top: 0; width: 794px; background: #ffffff; color: #1e293b; padding: 40px; font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 14px; line-height: 1.6;"></div>
 
     <script>
         let stagedFileName = "";
@@ -107,6 +111,15 @@
         function logAction(msg) {
             const consoleEl = document.getElementById('log-console');
             if (consoleEl) { consoleEl.innerHTML += `<br>&gt; ${msg}`; consoleEl.scrollTop = consoleEl.scrollHeight; }
+        }
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
         }
 
         async function handleFileSelect(inputElement) {
@@ -123,20 +136,20 @@
                     const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
                     const htmlContent = result.value;
 
-                    // Render live preview inside visible panel
+                    // Display live preview inside UI container
                     const previewBox = document.getElementById('preview-display');
                     previewBox.innerHTML = `<div id="document-preview-render">${htmlContent}</div>`;
 
-                    // Populate staging container
-                    const stagingEl = document.getElementById('pdf-export-staging');
-                    stagingEl.innerHTML = `
+                    // Populate target container for rendering
+                    const targetEl = document.getElementById('pdf-render-target');
+                    targetEl.innerHTML = `
                         <h1 style="font-size: 24px; font-weight: bold; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; color: #0f172a;">${file.name}</h1>
                         ${htmlContent}
                     `;
 
                     isFileLoaded = true;
                     document.getElementById('convert-btn').removeAttribute('disabled');
-                    logAction("Success: Document parsed and structured for conversion.");
+                    logAction("Success: Document parsed successfully.");
                 } catch (err) {
                     logAction("Error parsing document: " + err.message);
                 } finally {
@@ -148,22 +161,63 @@
 
         async function executeWordToPdf() {
             if(!isFileLoaded) { alert("Please upload a Word document file first."); return; }
-            logAction("Compiling document into multi-page PDF format...");
+            logAction("Rendering visual canvas for multi-page export...");
 
-            const element = document.getElementById('pdf-export-staging');
-            const opt = {
-                margin:       10,
-                filename:     stagedFileName.replace(/\.[^/.]+$/, "") + ".pdf",
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, letterRendering: true, windowWidth: 800 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
+            const element = document.getElementById('pdf-render-target');
+            
             try {
-                await html2pdf().from(element).set(opt).save();
-                logAction("Success: PDF generated and downloaded securely.");
+                // Generate clean canvas capture using html2canvas directly
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    windowWidth: 800
+                });
+
+                const imgData = canvas.toDataURL('image/jpeg', 0.98);
+                
+                // Initialize jsPDF (A4 size dimensions in mm)
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                
+                const imgWidth = pageWidth;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                let heightLeft = imgHeight;
+                let position = 0;
+
+                // Multi-page slicing loop
+                pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                // Calculate exact file size of the generated PDF blob
+                const pdfBlob = pdf.output('blob');
+                const formattedSize = formatBytes(pdfBlob.size);
+                
+                // Display file size badge on UI
+                const sizeBadge = document.getElementById('file-size-badge');
+                sizeBadge.innerText = `Size: ${formattedSize}`;
+                sizeBadge.style.display = 'inline-block';
+                
+                logAction(`Success: PDF compiled. Calculated file storage size: ${formattedSize}`);
+
+                // Trigger secure download
+                const downloadName = stagedFileName.replace(/\.[^/.]+$/, "") + ".pdf";
+                pdf.save(downloadName);
+                logAction(`Success: Download triggered for "${downloadName}".`);
+
             } catch (err) {
-                logAction("PDF compilation error: " + err);
+                logAction("PDF compilation error: " + err.message);
             }
         }
     </script>
