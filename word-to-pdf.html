@@ -3,12 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Convert Microsoft Word documents into clean, professional PDF files directly in your web browser securely.">
+    <meta name="description" content="High-fidelity Word to PDF Converter preserving document layouts directly in your browser.">
     <meta name="theme-color" content="#5856d6">
-    <title>Word to PDF Converter - Fast & Secure (Client-Side)</title>
+    <title>Word to PDF Converter - High Fidelity</title>
     
-    <!-- Dependencies -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <!-- Using docx-preview to render exact Word layouts natively in browser DOM -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://unpkg.com/docx-preview@0.1.25/dist/docx-preview.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -46,29 +47,18 @@
         .live-logs { padding: 15px; font-family: monospace; font-size: 0.85rem; color: var(--success); max-height: 120px; overflow-y: auto; background: #090d16; border-bottom: 1px solid var(--border); }
         .visual-preview-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
         
-        /* Strict document styling matching standard Word layout boundaries */
+        /* Native Word Document Container wrapper matching exact Word pagination layout */
         #document-preview-render {
             background: #ffffff;
-            color: #0f172a;
+            color: #000000;
             width: 100%;
             max-width: 750px;
-            padding: 50px;
+            min-height: 800px;
+            padding: 20px;
             border-radius: 4px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            font-size: 14px;
-            line-height: 1.6;
-            font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
             text-align: left;
         }
-        #document-preview-render h1 { font-size: 24px; font-weight: bold; margin-top: 20px; margin-bottom: 15px; color: #000000; border-bottom: 2px solid #cbd5e1; padding-bottom: 6px; }
-        #document-preview-render h2 { font-size: 18px; font-weight: bold; margin-top: 18px; margin-bottom: 10px; color: #1e293b; }
-        #document-preview-render h3 { font-size: 15px; font-weight: bold; margin-top: 14px; margin-bottom: 8px; color: #334155; }
-        #document-preview-render p { margin-bottom: 12px; text-align: justify; }
-        #document-preview-render ul, #document-preview-render ol { margin-bottom: 12px; padding-left: 25px; }
-        #document-preview-render li { margin-bottom: 4px; }
-        #document-preview-render table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 15px; }
-        #document-preview-render th, #document-preview-render td { border: 1px solid #94a3b8; padding: 8px 12px; text-align: left; }
-        #document-preview-render th { background-color: #f1f5f9; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -83,14 +73,14 @@
     <div class="workspace">
         <div class="header">
             <h1>Word to PDF Converter</h1>
-            <span style="font-size: 0.85rem; color: var(--text-muted);">Client-Side Safe Execution</span>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Client-Side High Fidelity</span>
         </div>
         <div class="main-panel">
             <div class="tool-container">
                 <div class="tool-section">
                     <div class="dropzone" onclick="document.getElementById('word-pdf-input').click()">
                         <p>Upload Microsoft Word document (.docx)</p>
-                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Click to browse files</p>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Click to browse files (Supports complex layouts & TOC)</p>
                         <input type="file" id="word-pdf-input" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display:none;" onchange="handleFileSelect(this)">
                     </div>
                     <button id="convert-btn" class="action-btn" onclick="executeWordToPdf()" disabled>Convert & Download PDF Document</button>
@@ -98,7 +88,7 @@
             </div>
             <div class="preview-panel">
                 <div class="preview-header">
-                    <span>Live Document Structure Preview</span>
+                    <span>Native Word Document View</span>
                     <span id="file-size-badge" style="font-size: 0.75rem; background: var(--accent); padding: 2px 8px; border-radius: 4px; display: none;">Size: 0 KB</span>
                 </div>
                 <div class="live-logs" id="log-console">&gt; Tool initialized. Ready for file upload.</div>
@@ -111,7 +101,7 @@
 
     <script>
         let stagedFileName = "";
-        let isFileLoaded = false;
+        let loadedArrayBuffer = null;
 
         function logAction(msg) {
             const consoleEl = document.getElementById('log-console');
@@ -135,36 +125,28 @@
 
             const reader = new FileReader();
             reader.onload = async function(event) {
-                const arrayBuffer = event.target.result;
+                loadedArrayBuffer = event.target.result;
 
                 try {
-                    // Custom options to maintain clean semantic structure matching Word styles
-                    const options = {
-                        styleMap: [
-                            "p[style-name='Heading 1'] => h1:fresh",
-                            "p[style-name='Heading 2'] => h2:fresh",
-                            "p[style-name='Heading 3'] => h3:fresh",
-                            "r[style-name='Strong'] => strong"
-                        ]
-                    };
-
-                    const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer }, options);
-                    const htmlContent = result.value;
-
-                    // Render preview using the styled document grid
                     const previewBox = document.getElementById('preview-display');
-                    previewBox.innerHTML = `
-                        <div id="document-preview-render">
-                            <h1 style="font-size: 22px; font-weight: bold; margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; color: #000000;">${file.name}</h1>
-                            ${htmlContent}
-                        </div>
-                    `;
+                    previewBox.innerHTML = `<div id="document-preview-render"></div>`;
+                    
+                    const renderContainer = document.getElementById('document-preview-render');
+                    
+                    // Render exact Word structure natively using docx-preview library
+                    await docx.renderAsync(loadedArrayBuffer, renderContainer, null, {
+                        inWrapper: true,
+                        ignoreWidth: false,
+                        ignoreHeight: false,
+                        ignoreFonts: false,
+                        breakPages: true,
+                        useBase64URL: true
+                    });
 
-                    isFileLoaded = true;
                     document.getElementById('convert-btn').removeAttribute('disabled');
-                    logAction("Success: Document mapped and styled accurately.");
+                    logAction("Success: Word layout rendered with original styling.");
                 } catch (err) {
-                    logAction("Error parsing document: " + err.message);
+                    logAction("Error rendering document layout: " + err.message);
                 } finally {
                     inputElement.value = '';
                 }
@@ -173,8 +155,8 @@
         }
 
         async function executeWordToPdf() {
-            if(!isFileLoaded) { alert("Please upload a Word document file first."); return; }
-            logAction("Capturing styled canvas and compiling multi-page PDF...");
+            if(!loadedArrayBuffer) { alert("Please upload a Word document file first."); return; }
+            logAction("Compiling high-fidelity document canvas into PDF pages...");
 
             const element = document.getElementById('document-preview-render');
             
@@ -217,7 +199,7 @@
                 sizeBadge.innerText = `Size: ${formattedSize}`;
                 sizeBadge.style.display = 'inline-block';
                 
-                logAction(`Success: PDF generated. Final file size: ${formattedSize}`);
+                logAction(`Success: PDF compiled. File storage size: ${formattedSize}`);
 
                 const downloadName = stagedFileName.replace(/\.[^/.]+$/, "") + ".pdf";
                 pdf.save(downloadName);
