@@ -1,23 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>PDF to Images Converter - Extract Pages as JPG or PNG</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Extract individual pages from any PDF document and convert them into high-resolution JPG or PNG images securely in your browser.">
+    <meta name="theme-color" content="#5856d6">
+    <title>PDF to Images Converter - Sanjay Subedi Converter</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --accent: #5856d6;
+            --accent-hover: #434190;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-primary); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+        .sidebar { width: 280px; background-color: var(--bg-secondary); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
+        .sidebar h2 { font-size: 1.2rem; margin-bottom: 20px; color: var(--text-main); padding-bottom: 10px; border-bottom: 2px solid var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+        .nav-group { margin-bottom: 20px; }
+        .nav-group-title { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; font-weight: bold; }
+        .nav-btn { width: 100%; background: transparent; border: 1px solid transparent; color: var(--text-main); padding: 10px 12px; text-align: left; border-radius: 6px; cursor: pointer; margin-bottom: 5px; transition: all 0.2s ease; font-size: 0.9rem; display: flex; align-items: center; text-decoration: none; }
+        .nav-btn:hover, .nav-btn.active { background-color: var(--accent); border-color: var(--accent); }
+        .workspace { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .header { background-color: var(--bg-secondary); padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .main-panel { flex: 1; display: flex; overflow: hidden; }
+        .tool-container { flex: 3; padding: 30px; overflow-y: auto; }
+        .tool-section { background: var(--bg-secondary); padding: 25px; border-radius: 8px; border: 1px solid var(--border); }
+        .dropzone { border: 2px dashed var(--border); padding: 40px 20px; text-align: center; border-radius: 8px; cursor: pointer; background: rgba(15, 23, 42, 0.4); margin-bottom: 20px; transition: border-color 0.3s ease; }
+        .dropzone:hover { border-color: var(--accent); }
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 6px; font-size: 0.9rem; color: var(--text-muted); }
+        .input-group select { width: 100%; padding: 10px; background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-main); border-radius: 6px; font-size: 0.95rem; }
+        .action-btn { background-color: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+        .action-btn:hover { background-color: var(--accent-hover); }
+        .preview-panel { flex: 2; background-color: rgba(30, 41, 59, 0.5); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
+        .preview-header { padding: 15px; background: var(--bg-secondary); border-bottom: 1px solid var(--border); font-weight: bold; font-size: 0.95rem; }
+        .live-logs { padding: 15px; font-family: monospace; font-size: 0.85rem; color: var(--success); max-height: 150px; overflow-y: auto; background: #090d16; border-bottom: 1px solid var(--border); }
+        .visual-preview-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .preview-thumb { max-width: 100%; max-height: 180px; border: 1px solid var(--border); border-radius: 4px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+    </style>
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="pdf-to-images.html">PDF to Images</a>
-    </nav>
-    <main>
-        <h1>PDF to Images Converter</h1>
-        <p>Upload your PDF file and extract each page as high-quality image files instantly.</p>
-        <!-- Your tool interactive workspace elements here -->
-    </main>
-    <section>
-        <h2>How to Convert PDF Pages to Images</h2>
-        <p>Turn complex PDF pages into clear image formats like JPEG or PNG. This client-side utility extracts layouts accurately while keeping your files safely contained on your local device.</p>
-    </section>
+    <div class="sidebar">
+        <h2>HyperEngine v5.0</h2>
+        <div class="nav-group">
+            <div class="nav-group-title">Navigation</div>
+            <a href="index.html" class="nav-btn">← Back to Dashboard</a>
+            <a href="pdf-to-images.html" class="nav-btn active">PDF to Images</a>
+        </div>
+    </div>
+    <div class="workspace">
+        <div class="header">
+            <h1>PDF to Images Converter</h1>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Client-Side Safe Execution</span>
+        </div>
+        <div class="main-panel">
+            <div class="tool-container">
+                <div class="tool-section">
+                    <div class="dropzone" onclick="document.getElementById('pdf-img-input').click()">
+                        <p>Upload your PDF file to extract pages into image files</p>
+                        <input type="file" id="pdf-img-input" accept="application/pdf" style="display:none;" onchange="handleFileSelect(this)">
+                    </div>
+                    <div class="input-group">
+                        <label>Image Output Format</label>
+                        <select id="image-format">
+                            <option value="image/png">PNG (High Quality Lossless)</option>
+                            <option value="image/jpeg">JPEG (Compressed)</option>
+                        </select>
+                    </div>
+                    <button class="action-btn" onclick="executePdfToImages()">Convert & Download All Pages</button>
+                </div>
+            </div>
+            <div class="preview-panel">
+                <div class="preview-header">Live Step & Render Preview</div>
+                <div class="live-logs" id="log-console">&gt; PDF to Images tool initialized. Upload a PDF.</div>
+                <div class="visual-preview-box" id="preview-display">
+                    <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 40px;">No preview generated yet.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+        let loadedPdfDoc = null;
+
+        function logAction(msg) {
+            const consoleEl = document.getElementById('log-console');
+            if (consoleEl) { consoleEl.innerHTML += `<br>&gt; ${msg}`; consoleEl.scrollTop = consoleEl.scrollHeight; }
+        }
+
+        function handleFileSelect(inputElement) {
+            const file = inputElement.files[0];
+            if(!file) return;
+            logAction(`Loading PDF: ${file.name}`);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const typedarray = new Uint8Array(e.target.result);
+                pdfjsLib.getDocument(typedarray).promise.then(pdf => {
+                    loadedPdfDoc = pdf;
+                    logAction(`PDF loaded successfully. Pages available: ${pdf.numPages}`);
+                });
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        async function executePdfToImages() {
+            if(!loadedPdfDoc) { alert("Please select a PDF document first."); return; }
+            logAction("Rendering pages to canvas frames...");
+            const previewBox = document.getElementById('preview-display');
+            previewBox.innerHTML = '';
+
+            const format = document.getElementById('image-format').value;
+            const extension = format === 'image/png' ? 'png' : 'jpg';
+
+            for(let i = 1; i <= loadedPdfDoc.numPages; i++) {
+                const page = await loadedPdfDoc.getPage(i);
+                const viewport = page.getViewport({ scale: 1.5 });
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                await page.render({ canvasContext: context, viewport: viewport }).promise;
+                const dataUrl = canvas.toDataURL(format);
+
+                const img = document.createElement('img');
+                img.src = dataUrl;
+                img.className = 'preview-thumb';
+                previewBox.appendChild(img);
+
+                const downloadLink = document.createElement('a');
+                downloadLink.download = `Page_${i}.${extension}`;
+                downloadLink.href = dataUrl;
+                downloadLink.click();
+                logAction(`Rendered and downloaded Page ${i}`);
+            }
+            logAction("Success: All pages converted to images.");
+        }
+    </script>
 </body>
 </html>
