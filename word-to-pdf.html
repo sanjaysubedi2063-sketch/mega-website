@@ -3,13 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Convert Microsoft Word documents into pixel-perfect PDF files directly in your web browser securely.">
+    <meta name="description" content="Convert Microsoft Word documents into clean, professional PDF files directly in your web browser securely.">
     <meta name="theme-color" content="#5856d6">
     <title>Word to PDF Converter Online - Fast & Secure Document Conversion</title>
     
-    <!-- docx-preview & html2pdf libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/docx-preview@0.1.20/dist/docx-preview.min.js"></script>
+    <!-- Mammoth.js for converting .docx into styled HTML structure -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <!-- html2pdf.js for robust multi-page PDF rendering & download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
@@ -38,22 +38,30 @@
         .tool-section { background: var(--bg-secondary); padding: 25px; border-radius: 8px; border: 1px solid var(--border); }
         .dropzone { border: 2px dashed var(--border); padding: 40px 20px; text-align: center; border-radius: 8px; cursor: pointer; background: rgba(15, 23, 42, 0.4); margin-bottom: 20px; transition: border-color 0.3s ease; }
         .dropzone:hover { border-color: var(--accent); }
-        .action-btn { background-color: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+        .action-btn { background-color: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; transition: background 0.2s; }
         .action-btn:hover { background-color: var(--accent-hover); }
+        .action-btn:disabled { background-color: var(--border); cursor: not-allowed; }
         .preview-panel { flex: 2; background-color: rgba(30, 41, 59, 0.5); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
         .preview-header { padding: 15px; background: var(--bg-secondary); border-bottom: 1px solid var(--border); font-weight: bold; font-size: 0.95rem; }
         .live-logs { padding: 15px; font-family: monospace; font-size: 0.85rem; color: var(--success); max-height: 120px; overflow-y: auto; background: #090d16; border-bottom: 1px solid var(--border); }
         .visual-preview-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
         
+        /* Document preview styling */
         #document-preview-render {
             background: #ffffff;
-            color: #000000;
+            color: #1e293b;
             width: 100%;
             max-width: 700px;
-            padding: 20px;
+            padding: 30px;
             border-radius: 4px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            font-size: 14px;
+            line-height: 1.6;
         }
+        #document-preview-render p { margin-bottom: 12px; }
+        #document-preview-render h1, #document-preview-render h2, #document-preview-render h3 { margin-top: 15px; margin-bottom: 10px; color: #0f172a; }
+        #document-preview-render table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        #document-preview-render th, #document-preview-render td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
     </style>
 </head>
 <body>
@@ -75,14 +83,15 @@
                 <div class="tool-section">
                     <div class="dropzone" onclick="document.getElementById('word-pdf-input').click()">
                         <p>Upload Microsoft Word document (.docx)</p>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Click to browse files</p>
                         <input type="file" id="word-pdf-input" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display:none;" onchange="handleFileSelect(this)">
                     </div>
-                    <button class="action-btn" onclick="executeWordToPdf()">Convert & Download PDF Document</button>
+                    <button id="convert-btn" class="action-btn" onclick="executeWordToPdf()" disabled>Convert & Download PDF Document</button>
                 </div>
             </div>
             <div class="preview-panel">
-                <div class="preview-header">Live Word Document View</div>
-                <div class="live-logs" id="log-console">&gt; Word to PDF tool initialized. Upload a .docx file.</div>
+                <div class="preview-header">Live Document Structure Preview</div>
+                <div class="live-logs" id="log-console">&gt; Tool initialized. Ready for file upload.</div>
                 <div class="visual-preview-box" id="preview-display">
                     <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 40px;">No document loaded yet.</span>
                 </div>
@@ -90,8 +99,8 @@
         </div>
     </div>
 
-    <!-- Hidden full-width container used to cleanly compile multi-page PDFs without cropping or blanks -->
-    <div id="pdf-export-staging" style="display:none; position: absolute; left: -9999px; width: 800px; background: #ffffff; color: #000000; padding: 40px;"></div>
+    <!-- Hidden export container engineered specifically for html2pdf page layout computation -->
+    <div id="pdf-export-staging" style="display:none; position: absolute; left: -9999px; width: 750px; background: #ffffff; color: #1e293b; padding: 40px; font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 14px; line-height: 1.6;"></div>
 
     <script>
         let stagedFileName = "";
@@ -112,38 +121,34 @@
             reader.onload = async function(event) {
                 const arrayBuffer = event.target.result;
 
-                const previewContainer = document.createElement('div');
-                previewContainer.id = "document-preview-render";
-
-                const exportContainer = document.createElement('div');
-                exportContainer.style.background = "#ffffff";
-                exportContainer.style.color = "#000000";
-                exportContainer.style.padding = "20px";
-                exportContainer.style.width = "750px";
-
-                document.getElementById('preview-display').innerHTML = "";
-                document.getElementById('preview-display').appendChild(previewContainer);
-
-                document.getElementById('pdf-export-staging').innerHTML = "";
-                document.getElementById('pdf-export-staging').appendChild(exportContainer);
-
                 try {
-                    // Render into both preview UI and hidden export container simultaneously
-                    await docx.renderAsync(arrayBuffer, previewContainer);
-                    await docx.renderAsync(arrayBuffer, exportContainer);
-                    
+                    // Extract clean, formatted HTML preserving layout structure using Mammoth
+                    const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
+                    const htmlContent = result.value;
+
+                    // Display live preview container
+                    const previewBox = document.getElementById('preview-display');
+                    previewBox.innerHTML = `<div id="document-preview-render">${htmlContent}</div>`;
+
+                    // Populate export staging container
+                    document.getElementById('pdf-export-staging').innerHTML = `
+                        <h1 style="font-size: 22px; font-weight: bold; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; color: #0f172a;">${file.name}</h1>
+                        ${htmlContent}
+                    `;
+
                     isFileLoaded = true;
-                    logAction("Success: Word layout rendered completely across all pages.");
+                    document.getElementById('convert-btn').removeAttribute('disabled');
+                    logAction("Success: Document parsed and structured for conversion.");
                 } catch (err) {
-                    logAction("Error rendering document layout: " + err.message);
+                    logAction("Error parsing document: " + err.message);
                 }
             };
             reader.readAsArrayBuffer(file);
         }
 
         function executeWordToPdf() {
-            if(!isFileLoaded) { alert("Please upload and render a Word document file first."); return; }
-            logAction("Compiling layout and generating multi-page PDF file...");
+            if(!isFileLoaded) { alert("Please upload a Word document file first."); return; }
+            logAction("Compiling document into multi-page PDF format...");
 
             const element = document.getElementById('pdf-export-staging');
             const opt = {
@@ -155,9 +160,9 @@
             };
 
             html2pdf().from(element).set(opt).save().then(() => {
-                logAction("Success: Clean multi-page PDF generated and downloaded.");
+                logAction("Success: PDF generated and downloaded securely.");
             }).catch(err => {
-                logAction("PDF generation error: " + err);
+                logAction("PDF compilation error: " + err);
             });
         }
     </script>
