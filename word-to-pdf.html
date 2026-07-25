@@ -7,13 +7,9 @@
     <meta name="theme-color" content="#5856d6">
     <title>Word to PDF Converter - Fast & Secure (Client-Side)</title>
     
-    <!-- 3rd-party libraries with subresource integrity -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js" 
-            integrity="sha512-1ZK+PPu/7ef5qQWU/6ZbzJk1i5K1VhGxH9fZ3sRZtS9H9EJ51X1bfV8fP5sYCh6QKv+o3n7K5aZx2Q==" 
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" 
-            integrity="sha512-8pG0g0P9V6GfyC8D6MK4m6fYF8X7zQdK9N5fB4xJWE+vGJ1X4R2y39tD3t8Uo09+V1I5Q4ZtJ6Z1E5Y8VQ==" 
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Stable CDN script dependencies without broken integrity hashes -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root {
@@ -101,8 +97,8 @@
         </div>
     </div>
 
-    <!-- Hidden export container optimized for html2pdf conversion -->
-    <div id="pdf-export-staging" style="display:none; position: absolute; left: -9999px; width: 750px; background: #ffffff; color: #1e293b; padding: 40px; font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 14px; line-height: 1.6;"></div>
+    <!-- Export staging container positioned off-screen instead of display:none so html2pdf can read it -->
+    <div id="pdf-export-staging" style="position: absolute; left: -9999px; top: 0; width: 750px; background: #ffffff; color: #1e293b; padding: 40px; font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 14px; line-height: 1.6;"></div>
 
     <script>
         let stagedFileName = "";
@@ -127,11 +123,11 @@
                     const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
                     const htmlContent = result.value;
 
-                    // Display live preview
+                    // Display live preview inside UI container
                     const previewBox = document.getElementById('preview-display');
                     previewBox.innerHTML = `<div id="document-preview-render">${htmlContent}</div>`;
 
-                    // Populate staging container for PDF generation
+                    // Populate export container
                     document.getElementById('pdf-export-staging').innerHTML = `
                         <h1 style="font-size: 22px; font-weight: bold; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; color: #0f172a;">${file.name}</h1>
                         ${htmlContent}
@@ -142,6 +138,9 @@
                     logAction("Success: Document parsed and structured for conversion.");
                 } catch (err) {
                     logAction("Error parsing document: " + err.message);
+                } finally {
+                    // Reset input value so identical files can be uploaded again if needed
+                    inputElement.value = '';
                 }
             };
             reader.readAsArrayBuffer(file);
