@@ -1,23 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Images to PDF Converter - Combine JPG & PNG into PDF Online</title>
-    <meta name="description" content="Convert and merge multiple JPG, PNG, and image files into a single high-quality PDF document instantly inside your browser.">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Combine multiple images into a professional PDF document instantly in your browser securely.">
+    <meta name="theme-color" content="#5856d6">
+    <title>Images to PDF Compiler - Sanjay Subedi Converter</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --accent: #5856d6;
+            --accent-hover: #434190;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-primary); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+        .sidebar { width: 280px; background-color: var(--bg-secondary); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
+        .sidebar h2 { font-size: 1.2rem; margin-bottom: 20px; color: var(--text-main); padding-bottom: 10px; border-bottom: 2px solid var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+        .nav-group { margin-bottom: 20px; }
+        .nav-group-title { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; font-weight: bold; }
+        .nav-btn { width: 100%; background: transparent; border: 1px solid transparent; color: var(--text-main); padding: 10px 12px; text-align: left; border-radius: 6px; cursor: pointer; margin-bottom: 5px; transition: all 0.2s ease; font-size: 0.9rem; display: flex; align-items: center; text-decoration: none; }
+        .nav-btn:hover, .nav-btn.active { background-color: var(--accent); border-color: var(--accent); }
+        .workspace { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .header { background-color: var(--bg-secondary); padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .main-panel { flex: 1; display: flex; overflow: hidden; }
+        .tool-container { flex: 3; padding: 30px; overflow-y: auto; }
+        .tool-section { background: var(--bg-secondary); padding: 25px; border-radius: 8px; border: 1px solid var(--border); }
+        .dropzone { border: 2px dashed var(--border); padding: 40px 20px; text-align: center; border-radius: 8px; cursor: pointer; background: rgba(15, 23, 42, 0.4); margin-bottom: 20px; transition: border-color 0.3s ease; }
+        .dropzone:hover { border-color: var(--accent); }
+        .action-btn { background-color: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+        .action-btn:hover { background-color: var(--accent-hover); }
+        .preview-panel { flex: 2; background-color: rgba(30, 41, 59, 0.5); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
+        .preview-header { padding: 15px; background: var(--bg-secondary); border-bottom: 1px solid var(--border); font-weight: bold; font-size: 0.95rem; }
+        .live-logs { padding: 15px; font-family: monospace; font-size: 0.85rem; color: var(--success); max-height: 150px; overflow-y: auto; background: #090d16; border-bottom: 1px solid var(--border); }
+        .visual-preview-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .preview-thumb { max-width: 100%; max-height: 120px; border: 1px solid var(--border); border-radius: 4px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+    </style>
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="images-to-pdf.html">Images to PDF</a>
-    </nav>
-    <main>
-        <h1>Images to PDF Converter</h1>
-        <p>Select multiple images to arrange, reorder, and compile them into a unified PDF file instantly.</p>
-        <!-- Your tool interactive workspace elements here -->
-    </main>
-    <section>
-        <h2>How to Combine Images into a PDF</h2>
-        <p>Easily turn your image collections into professional PDF documents without installing any software. All conversions occur locally in your browser, guaranteeing total privacy and immediate processing speeds.</p>
-    </section>
+    <div class="sidebar">
+        <h2>HyperEngine v5.0</h2>
+        <div class="nav-group">
+            <div class="nav-group-title">Navigation</div>
+            <a href="index.html" class="nav-btn">← Back to Dashboard</a>
+            <a href="images-to-pdf.html" class="nav-btn active">Images to PDF</a>
+        </div>
+    </div>
+    <div class="workspace">
+        <div class="header">
+            <h1>Images to PDF Compiler</h1>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Client-Side Safe Execution</span>
+        </div>
+        <div class="main-panel">
+            <div class="tool-container">
+                <div class="tool-section">
+                    <div class="dropzone" onclick="document.getElementById('img-to-pdf-input').click()">
+                        <p>Select multiple images to combine into PDF pages</p>
+                        <input type="file" id="img-to-pdf-input" accept="image/*" multiple style="display:none;" onchange="handleFileSelect(this)">
+                    </div>
+                    <button class="action-btn" onclick="executeImgToPdf()">Compile & Download PDF Document</button>
+                </div>
+            </div>
+            <div class="preview-panel">
+                <div class="preview-header">Live Step & Render Preview</div>
+                <div class="live-logs" id="log-console">&gt; Images to PDF tool initialized. Select images.</div>
+                <div class="visual-preview-box" id="preview-display">
+                    <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 40px;">No preview generated yet.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let stagedImagesList = [];
+
+        function logAction(msg) {
+            const consoleEl = document.getElementById('log-console');
+            if (consoleEl) { consoleEl.innerHTML += `<br>&gt; ${msg}`; consoleEl.scrollTop = consoleEl.scrollHeight; }
+        }
+
+        function handleFileSelect(inputElement) {
+            const previewBox = document.getElementById('preview-display');
+            previewBox.innerHTML = '';
+            stagedImagesList = [];
+            const files = inputElement.files;
+            if(!files || files.length === 0) return;
+
+            Array.from(files).forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.className = 'preview-thumb';
+                    img.onload = function() {
+                        stagedImagesList.push(img);
+                        logAction(`Staged image [${index + 1}]: ${file.name}`);
+                        previewBox.appendChild(img);
+                    };
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function executeImgToPdf() {
+            if(stagedImagesList.length === 0) { alert("Please select at least one image first."); return; }
+            logAction("Compiling images into PDF document...");
+            const { jsPDF } = window.jspdf;
+            const pdfDoc = new jsPDF();
+
+            stagedImagesList.forEach((img, index) => {
+                if(index > 0) pdfDoc.addPage();
+                const pageW = pdfDoc.internal.pageSize.getWidth();
+                const pageH = pdfDoc.internal.pageSize.getHeight();
+                pdfDoc.addImage(img.src, 'PNG', 0, 0, pageW, pageH);
+            });
+
+            pdfDoc.save('Compiled_Images.pdf');
+            logAction("Success: PDF document compiled and downloaded.");
+        }
+    </script>
 </body>
 </html>
