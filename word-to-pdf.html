@@ -7,9 +7,10 @@
     <meta name="theme-color" content="#5856d6">
     <title>Word to PDF Converter Online - Fast & Secure Document Conversion</title>
     
-    <!-- docx-preview library -->
+    <!-- docx-preview & html2pdf libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/docx-preview@0.1.20/dist/docx-preview.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root {
@@ -53,21 +54,6 @@
             border-radius: 4px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
-
-        /* Print styling rules to ensure clean PDF export output via browser print */
-        @media print {
-            body * { visibility: hidden; }
-            #document-preview-render, #document-preview-render * { visibility: visible; }
-            #document-preview-render {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                max-width: none;
-                box-shadow: none;
-                padding: 0;
-            }
-        }
     </style>
 </head>
 <body>
@@ -104,7 +90,11 @@
         </div>
     </div>
 
+    <!-- Hidden full-width container used to cleanly compile multi-page PDFs without cropping or blanks -->
+    <div id="pdf-export-staging" style="display:none; position: absolute; left: -9999px; width: 800px; background: #ffffff; color: #000000; padding: 40px;"></div>
+
     <script>
+        let stagedFileName = "";
         let isFileLoaded = false;
 
         function logAction(msg) {
@@ -115,6 +105,7 @@
         async function handleFileSelect(inputElement) {
             const file = inputElement.files[0];
             if(!file) return;
+            stagedFileName = file.name;
             logAction(`Loaded Word file: ${file.name}`);
 
             const reader = new FileReader();
@@ -124,11 +115,23 @@
                 const previewContainer = document.createElement('div');
                 previewContainer.id = "document-preview-render";
 
+                const exportContainer = document.createElement('div');
+                exportContainer.style.background = "#ffffff";
+                exportContainer.style.color = "#000000";
+                exportContainer.style.padding = "20px";
+                exportContainer.style.width = "750px";
+
                 document.getElementById('preview-display').innerHTML = "";
                 document.getElementById('preview-display').appendChild(previewContainer);
 
+                document.getElementById('pdf-export-staging').innerHTML = "";
+                document.getElementById('pdf-export-staging').appendChild(exportContainer);
+
                 try {
+                    // Render into both preview UI and hidden export container simultaneously
                     await docx.renderAsync(arrayBuffer, previewContainer);
+                    await docx.renderAsync(arrayBuffer, exportContainer);
+                    
                     isFileLoaded = true;
                     logAction("Success: Word layout rendered completely across all pages.");
                 } catch (err) {
@@ -140,11 +143,22 @@
 
         function executeWordToPdf() {
             if(!isFileLoaded) { alert("Please upload and render a Word document file first."); return; }
-            logAction("Opening print engine to save document as PDF...");
-            
-            // Triggers browser print dialog where user selects "Save as PDF"
-            window.print();
-            logAction("Success: Print dialog invoked. Select 'Save as PDF'.");
+            logAction("Compiling layout and generating multi-page PDF file...");
+
+            const element = document.getElementById('pdf-export-staging');
+            const opt = {
+                margin:       10,
+                filename:     stagedFileName.replace(/\.[^/.]+$/, "") + ".pdf",
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, letterRendering: true, windowWidth: 800 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().from(element).set(opt).save().then(() => {
+                logAction("Success: Clean multi-page PDF generated and downloaded.");
+            }).catch(err => {
+                logAction("PDF generation error: " + err);
+            });
         }
     </script>
 </body>
