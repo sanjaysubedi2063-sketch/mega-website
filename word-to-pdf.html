@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#5856d6">
     <title>Word to PDF Converter - Fast & Secure (Client-Side)</title>
     
-    <!-- Dependencies: Mammoth for .docx parsing, html2canvas & jsPDF for bulletproof PDF generation -->
+    <!-- Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -46,21 +46,29 @@
         .live-logs { padding: 15px; font-family: monospace; font-size: 0.85rem; color: var(--success); max-height: 120px; overflow-y: auto; background: #090d16; border-bottom: 1px solid var(--border); }
         .visual-preview-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
         
+        /* Strict document styling matching standard Word layout boundaries */
         #document-preview-render {
             background: #ffffff;
-            color: #1e293b;
+            color: #0f172a;
             width: 100%;
-            max-width: 700px;
-            padding: 30px;
+            max-width: 750px;
+            padding: 50px;
             border-radius: 4px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             font-size: 14px;
             line-height: 1.6;
+            font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+            text-align: left;
         }
-        #document-preview-render p { margin-bottom: 12px; }
-        #document-preview-render h1, #document-preview-render h2, #document-preview-render h3 { margin-top: 15px; margin-bottom: 10px; color: #0f172a; }
-        #document-preview-render table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
-        #document-preview-render th, #document-preview-render td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+        #document-preview-render h1 { font-size: 24px; font-weight: bold; margin-top: 20px; margin-bottom: 15px; color: #000000; border-bottom: 2px solid #cbd5e1; padding-bottom: 6px; }
+        #document-preview-render h2 { font-size: 18px; font-weight: bold; margin-top: 18px; margin-bottom: 10px; color: #1e293b; }
+        #document-preview-render h3 { font-size: 15px; font-weight: bold; margin-top: 14px; margin-bottom: 8px; color: #334155; }
+        #document-preview-render p { margin-bottom: 12px; text-align: justify; }
+        #document-preview-render ul, #document-preview-render ol { margin-bottom: 12px; padding-left: 25px; }
+        #document-preview-render li { margin-bottom: 4px; }
+        #document-preview-render table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 15px; }
+        #document-preview-render th, #document-preview-render td { border: 1px solid #94a3b8; padding: 8px 12px; text-align: left; }
+        #document-preview-render th { background-color: #f1f5f9; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -101,9 +109,6 @@
         </div>
     </div>
 
-    <!-- Render container built right inside the visible DOM pane to eliminate blank page generation -->
-    <div id="pdf-render-target" style="position: absolute; left: -9999px; top: 0; width: 794px; background: #ffffff; color: #1e293b; padding: 40px; font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 14px; line-height: 1.6;"></div>
-
     <script>
         let stagedFileName = "";
         let isFileLoaded = false;
@@ -133,23 +138,31 @@
                 const arrayBuffer = event.target.result;
 
                 try {
-                    const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
+                    // Custom options to maintain clean semantic structure matching Word styles
+                    const options = {
+                        styleMap: [
+                            "p[style-name='Heading 1'] => h1:fresh",
+                            "p[style-name='Heading 2'] => h2:fresh",
+                            "p[style-name='Heading 3'] => h3:fresh",
+                            "r[style-name='Strong'] => strong"
+                        ]
+                    };
+
+                    const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer }, options);
                     const htmlContent = result.value;
 
-                    // Display live preview inside UI container
+                    // Render preview using the styled document grid
                     const previewBox = document.getElementById('preview-display');
-                    previewBox.innerHTML = `<div id="document-preview-render">${htmlContent}</div>`;
-
-                    // Populate target container for rendering
-                    const targetEl = document.getElementById('pdf-render-target');
-                    targetEl.innerHTML = `
-                        <h1 style="font-size: 24px; font-weight: bold; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; color: #0f172a;">${file.name}</h1>
-                        ${htmlContent}
+                    previewBox.innerHTML = `
+                        <div id="document-preview-render">
+                            <h1 style="font-size: 22px; font-weight: bold; margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; color: #000000;">${file.name}</h1>
+                            ${htmlContent}
+                        </div>
                     `;
 
                     isFileLoaded = true;
                     document.getElementById('convert-btn').removeAttribute('disabled');
-                    logAction("Success: Document parsed successfully.");
+                    logAction("Success: Document mapped and styled accurately.");
                 } catch (err) {
                     logAction("Error parsing document: " + err.message);
                 } finally {
@@ -161,22 +174,20 @@
 
         async function executeWordToPdf() {
             if(!isFileLoaded) { alert("Please upload a Word document file first."); return; }
-            logAction("Rendering visual canvas for multi-page export...");
+            logAction("Capturing styled canvas and compiling multi-page PDF...");
 
-            const element = document.getElementById('pdf-render-target');
+            const element = document.getElementById('document-preview-render');
             
             try {
-                // Generate clean canvas capture using html2canvas directly
                 const canvas = await html2canvas(element, {
                     scale: 2,
                     useCORS: true,
                     logging: false,
-                    windowWidth: 800
+                    letterRendering: true
                 });
 
                 const imgData = canvas.toDataURL('image/jpeg', 0.98);
                 
-                // Initialize jsPDF (A4 size dimensions in mm)
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 
@@ -189,7 +200,6 @@
                 let heightLeft = imgHeight;
                 let position = 0;
 
-                // Multi-page slicing loop
                 pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
                 heightLeft -= pageHeight;
 
@@ -200,21 +210,18 @@
                     heightLeft -= pageHeight;
                 }
 
-                // Calculate exact file size of the generated PDF blob
                 const pdfBlob = pdf.output('blob');
                 const formattedSize = formatBytes(pdfBlob.size);
                 
-                // Display file size badge on UI
                 const sizeBadge = document.getElementById('file-size-badge');
                 sizeBadge.innerText = `Size: ${formattedSize}`;
                 sizeBadge.style.display = 'inline-block';
                 
-                logAction(`Success: PDF compiled. Calculated file storage size: ${formattedSize}`);
+                logAction(`Success: PDF generated. Final file size: ${formattedSize}`);
 
-                // Trigger secure download
                 const downloadName = stagedFileName.replace(/\.[^/.]+$/, "") + ".pdf";
                 pdf.save(downloadName);
-                logAction(`Success: Download triggered for "${downloadName}".`);
+                logAction(`Success: Download started for "${downloadName}".`);
 
             } catch (err) {
                 logAction("PDF compilation error: " + err.message);
