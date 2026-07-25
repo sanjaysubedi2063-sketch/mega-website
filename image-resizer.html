@@ -1,24 +1,350 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Free Online Image Canvas Resizer - Resize JPG & PNG Instantly</title>
-    <meta name="description" content="Resize image canvas dimensions (Width & Height in pixels) for JPG and PNG files instantly using a secure client-side browser tool.">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Free Online Image Canvas Resizer - Resize JPG and PNG instantly in your browser securely.">
+    <meta name="theme-color" content="#5856d6">
+    <title>Free Online Image Canvas Resizer - Sanjay Subedi Converter</title>
+
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --accent: #5856d6;
+            --accent-hover: #434190;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-group {
+            margin-bottom: 20px;
+        }
+
+        .nav-group-title {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .nav-btn {
+            width: 100%;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-main);
+            padding: 10px 12px;
+            text-align: left;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 5px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .workspace {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: var(--bg-secondary);
+            padding: 15px 30px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-panel {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .tool-container {
+            flex: 3;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .tool-section {
+            background: var(--bg-secondary);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .dropzone {
+            border: 2px dashed var(--border);
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            background: rgba(15, 23, 42, 0.4);
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .dropzone:hover {
+            border-color: var(--accent);
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .action-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .action-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .preview-panel {
+            flex: 2;
+            background-color: rgba(30, 41, 59, 0.5);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .preview-header {
+            padding: 15px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .live-logs {
+            padding: 15px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--success);
+            max-height: 150px;
+            overflow-y: auto;
+            background: #090d16;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .visual-preview-box {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .preview-thumb {
+            max-width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+    </style>
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="image-resizer.html">Image Resizer</a>
-    </nav>
-    <main>
-        <h1>Advanced Online Image Canvas Resizer</h1>
-        <p>Target Width (px): <input type="number" id="width" value="800"></p>
-        <p>Target Height (px): <input type="number" id="height" value="600"></p>
-        <button id="process-btn">Process Resized Image</button>
-    </main>
-    <section>
-        <h2>How to Use the Image Resizer</h2>
-        <p>Our online image resizer allows you to change pixel dimensions of JPEG and PNG files directly within your browser sandbox, keeping your private photos completely secure on your own hardware.</p>
-    </section>
+
+    <div class="sidebar">
+        <h2>HyperEngine v5.0</h2>
+        <div class="nav-group">
+            <div class="nav-group-title">Navigation</div>
+            <a href="index.html" class="nav-btn">← Back to Dashboard</a>
+            <a href="image-resizer.html" class="nav-btn active">Image Resizer</a>
+        </div>
+    </div>
+
+    <div class="workspace">
+        <div class="header">
+            <h1>Advanced Online Image Canvas Resizer</h1>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Client-Side Safe Execution</span>
+        </div>
+
+        <div class="main-panel">
+            <div class="tool-container">
+                <div class="tool-section">
+                    <div class="dropzone" onclick="document.getElementById('resizer-input').click()">
+                        <p>Click or Drop target image file here to resize</p>
+                        <input type="file" id="resizer-input" accept="image/*" style="display:none;" onchange="handleFileSelect(this)">
+                    </div>
+                    <div style="display: flex; gap:15px;">
+                        <div class="input-group" style="flex:1;">
+                            <label>Target Width (px)</label>
+                            <input type="number" id="resize-w" value="800">
+                        </div>
+                        <div class="input-group" style="flex:1;">
+                            <label>Target Height (px)</label>
+                            <input type="number" id="resize-h" value="600">
+                        </div>
+                    </div>
+                    <button class="action-btn" onclick="executeImageResize()">Process & Download Resized Image</button>
+                </div>
+            </div>
+
+            <div class="preview-panel">
+                <div class="preview-header">Live Step & Render Preview</div>
+                <div class="live-logs" id="log-console">&gt; Resizer tool initialized. Upload an image to start.</div>
+                <div class="visual-preview-box" id="preview-display">
+                    <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 40px;">No preview generated yet.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let singleStagedImage = null;
+
+        function logAction(msg) {
+            const consoleEl = document.getElementById('log-console');
+            if (consoleEl) {
+                consoleEl.innerHTML += `<br>&gt; ${msg}`;
+                consoleEl.scrollTop = consoleEl.scrollHeight;
+            }
+        }
+
+        function clearVisualPreview() {
+            const previewBox = document.getElementById('preview-display');
+            if (previewBox) previewBox.innerHTML = '';
+        }
+
+        function addVisualPreviewElement(element) {
+            const previewBox = document.getElementById('preview-display');
+            if (previewBox) previewBox.appendChild(element);
+        }
+
+        function handleFileSelect(inputElement) {
+            clearVisualPreview();
+            const file = inputElement.files[0];
+            if(!file) return;
+
+            logAction(`Loading file: ${file.name}`);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                singleStagedImage = new Image();
+                singleStagedImage.src = e.target.result;
+                singleStagedImage.className = 'preview-thumb';
+                singleStagedImage.onload = function() {
+                    logAction(`Original Dimensions - Width: ${this.width}px, Height: ${this.height}px`);
+                    document.getElementById('resize-w').value = this.width;
+                    document.getElementById('resize-h').value = this.height;
+                    addVisualPreviewElement(singleStagedImage);
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function executeImageResize() {
+            if(!singleStagedImage) {
+                alert("Please upload an image file first.");
+                return;
+            }
+            clearVisualPreview();
+            
+            const targetWidth = parseInt(document.getElementById('resize-w').value);
+            const targetHeight = parseInt(document.getElementById('resize-h').value);
+
+            logAction(`Resizing canvas to width: ${targetWidth}px, height: ${targetHeight}px...`);
+
+            const outputCanvas = document.createElement('canvas');
+            outputCanvas.width = targetWidth;
+            outputCanvas.height = targetHeight;
+            
+            const ctx = outputCanvas.getContext('2d');
+            ctx.drawImage(singleStagedImage, 0, 0, targetWidth, targetHeight);
+
+            const processedDataUrl = outputCanvas.toDataURL('image/png');
+            
+            const previewImg = document.createElement('img');
+            previewImg.src = processedDataUrl;
+            previewImg.className = 'preview-thumb';
+            addVisualPreviewElement(previewImg);
+
+            const downloadLink = document.createElement('a');
+            downloadLink.download = `Resized_${targetWidth}x${targetHeight}.png`;
+            downloadLink.href = processedDataUrl;
+            downloadLink.click();
+            logAction("Success: Resized image successfully processed and downloaded.");
+        }
+    </script>
 </body>
 </html>
