@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Sanjay Subedi Converter - Ultimate monolithic client-side conversion, modification, and processing engine.">
+    <meta name="description" content="Sanjay Subedi Converter - Ultimate client-side conversion, modification, and processing engine.">
     <meta name="theme-color" content="#5856d6">
     <title>Sanjay Subedi Converter v5.0 - Ultimate Client-Side Suite</title>
 
@@ -247,23 +247,19 @@
         
         <div class="nav-group">
             <div class="nav-group-title">PDF Core Engine</div>
-            <a href="pdf-to-images.html" class="nav-btn">PDF to Images</a>
-            <a href="images-to-pdf.html" class="nav-btn">Images to PDF</a>
-            <a href="pdf-to-word.html" class="nav-btn">PDF to Word</a>
-            <a href="word-to-pdf.html" class="nav-btn">Word to PDF</a>
-            <a href="pdf-to-powerpoint.html" class="nav-btn">PDF to PowerPoint</a>
-            <a href="powerpoint-to-pdf.html" class="nav-btn">PowerPoint to PDF</a>
+            <button class="nav-btn active" onclick="switchTool('home-dashboard', this)">Home Dashboard</button>
+            <button class="nav-btn" onclick="switchTool('pdf-to-img', this)">PDF to Images</button>
+            <button class="nav-btn" onclick="switchTool('img-to-pdf', this)">Images to PDF</button>
+            <button class="nav-btn" onclick="switchTool('pdf-to-word', this)">PDF to Word</button>
+            <button class="nav-btn" onclick="switchTool('word-to-pdf', this)">Word to PDF</button>
+            <button class="nav-btn" onclick="switchTool('pdf-to-ppt', this)">PDF to PowerPoint</button>
+            <button class="nav-btn" onclick="switchTool('ppt-to-pdf', this)">PowerPoint to PDF</button>
         </div>
 
         <div class="nav-group">
             <div class="nav-group-title">Image Processing</div>
-            <a href="image-resizer.html" class="nav-btn">Image Resizer</a>
-            <a href="image-merge.html" class="nav-btn">Image Attach & Merger</a>
-        </div>
-
-        <div class="nav-group">
-            <div class="nav-group-title">Navigation</div>
-            <a href="blog.html" class="nav-btn">View Blog</a>
+            <button class="nav-btn" onclick="switchTool('img-resizer', this)">Image Resizer</button>
+            <button class="nav-btn" onclick="switchTool('img-attach', this)">Image Attach & Merger</button>
         </div>
     </div>
 
@@ -281,11 +277,11 @@
                 <div id="home-dashboard" class="tool-section active">
                     <h2 style="margin-bottom: 15px;">Welcome to Sanjay Subedi Converter Suite</h2>
                     <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
-                        Select any tool from the sidebar navigation menu above to perform fast, secure, client-side document conversions, image resizing, and file merging directly within your browser window. No server uploads required.
+                        Select any tool from the sidebar navigation menu on the left to perform fast, secure, client-side document conversions, image resizing, and file merging directly within your browser window. No server uploads required.
                     </p>
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-                        <a href="pdf-to-word.html" class="action-btn" style="text-align: center; text-decoration: none; display: block;">Open PDF to Word Tool</a>
-                        <a href="image-resizer.html" class="action-btn" style="text-align: center; text-decoration: none; display: block;">Open Image Resizer Tool</a>
+                        <button class="action-btn" onclick="switchTool('pdf-to-word', document.querySelector('[onclick*=\'pdf-to-word\']'))">Open PDF to Word Tool</button>
+                        <button class="action-btn" onclick="switchTool('img-resizer', document.querySelector('[onclick*=\'img-resizer\']'))">Open Image Resizer Tool</button>
                     </div>
                 </div>
 
@@ -395,7 +391,7 @@
             <!-- STEP ACTION & VISUAL PREVIEW SIDE PANEL -->
             <div class="preview-panel">
                 <div class="preview-header">Live Workspace Step & Render Preview</div>
-                <div class="live-logs" id="log-console">> Engine operational. Select a tool link on the sidebar to get started.</div>
+                <div class="live-logs" id="log-console">&gt; Engine operational. Select a tool on the sidebar to get started.</div>
                 <div class="visual-preview-box" id="preview-display">
                     <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 40px;">No step adjustments or render objects generated yet.</span>
                 </div>
@@ -405,27 +401,53 @@
 
     <!-- Core Runtime Scripts and Engines -->
     <script>
-        // Setup PDF.js Worker
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+        // Setup PDF.js Worker Safely
+        if (typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+        }
 
         // Global State Memory Space
         let loadedPdfDocument = null;
         let stagedImagesList = [];
         let singleStagedImage = null;
 
+        // Tool Switching Switcher Logic
+        function switchTool(toolId, btnElement) {
+            document.querySelectorAll('.tool-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            const targetSection = document.getElementById(toolId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+            if (btnElement) {
+                btnElement.classList.add('active');
+                document.getElementById('current-tool-title').innerText = btnElement.innerText;
+            }
+            logAction(`Switched active workspace view to: ${toolId}`);
+        }
+
         // Live Log System Control
         function logAction(msg) {
             const consoleEl = document.getElementById('log-console');
-            consoleEl.innerHTML += `<br>> ${msg}`;
-            consoleEl.scrollTop = consoleEl.scrollHeight;
+            if (consoleEl) {
+                consoleEl.innerHTML += `<br>&gt; ${msg}`;
+                consoleEl.scrollTop = consoleEl.scrollHeight;
+            }
         }
 
         function clearVisualPreview() {
-            document.getElementById('preview-display').innerHTML = '';
+            const previewBox = document.getElementById('preview-display');
+            if (previewBox) previewBox.innerHTML = '';
         }
 
         function addVisualPreviewElement(element) {
-            document.getElementById('preview-display').appendChild(element);
+            const previewBox = document.getElementById('preview-display');
+            if (previewBox) previewBox.appendChild(element);
         }
 
         // Common File Selection Interceptor Engine
@@ -441,25 +463,28 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const typedarray = new Uint8Array(e.target.result);
-                    pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
-                        loadedPdfDocument = pdf;
-                        logAction(`Success: PDF parsing absolute metadata completed. Total Pages discovered: ${pdf.numPages}`);
-                        
-                        // Render page 1 thumbnail automatically as a preview step
-                        pdf.getPage(1).then(function(page) {
-                            const viewport = page.getViewport({scale: 0.3});
-                            const canvas = document.createElement('canvas');
-                            const context = canvas.getContext('2d');
-                            canvas.height = viewport.height;
-                            canvas.width = viewport.width;
-                            canvas.className = 'preview-thumb';
+                    if (typeof pdfjsLib !== 'undefined') {
+                        pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+                            loadedPdfDocument = pdf;
+                            logAction(`Success: PDF parsing absolute metadata completed. Total Pages discovered: ${pdf.numPages}`);
                             
-                            page.render({canvasContext: context, viewport: viewport}).promise.then(() => {
-                                logAction("Step Preview: Generated Page 1 layout visualization thumbnail structure.");
-                                addVisualPreviewElement(canvas);
+                            pdf.getPage(1).then(function(page) {
+                                const viewport = page.getViewport({scale: 0.3});
+                                const canvas = document.createElement('canvas');
+                                const context = canvas.getContext('2d');
+                                canvas.height = viewport.height;
+                                canvas.width = viewport.width;
+                                canvas.className = 'preview-thumb';
+                                
+                                page.render({canvasContext: context, viewport: viewport}).promise.then(() => {
+                                    logAction("Step Preview: Generated Page 1 layout visualization thumbnail structure.");
+                                    addVisualPreviewElement(canvas);
+                                });
                             });
+                        }).catch(err => {
+                            logAction(`Error parsing PDF: ${err.message}`);
                         });
-                    });
+                    }
                 };
                 reader.readAsArrayBuffer(files[0]);
             } 
@@ -491,8 +516,10 @@
                     singleStagedImage.className = 'preview-thumb';
                     singleStagedImage.onload = function() {
                         logAction(`Step Preview: Image structural bounds matching width:${this.width}px height:${this.height}px`);
-                        document.getElementById('resize-w').value = this.width;
-                        document.getElementById('resize-h').value = this.height;
+                        const wInput = document.getElementById('resize-w');
+                        const hInput = document.getElementById('resize-h');
+                        if (wInput) wInput.value = this.width;
+                        if (hInput) hInput.value = this.height;
                         addVisualPreviewElement(singleStagedImage);
                     };
                 };
@@ -506,7 +533,8 @@
             logAction(`Step: Parsing local textual metadata layout from file: ${file.name}`);
             const reader = new FileReader();
             reader.onload = function(e) {
-                document.getElementById('word-text-input').value = e.target.result;
+                const textInput = document.getElementById('word-text-input');
+                if (textInput) textInput.value = e.target.result;
                 logAction("Success: Transferred textual content array into editor container text block view.");
             };
             reader.readAsText(file);
@@ -521,7 +549,8 @@
                 return;
             }
             clearVisualPreview();
-            const format = document.getElementById('image-format-select').value;
+            const formatEl = document.getElementById('image-format-select');
+            const format = formatEl ? formatEl.value : 'image/png';
             logAction(`Executing batch processing stack sequence: PDF to Images using type target format extension [${format}]`);
 
             for(let pageNum = 1; pageNum <= loadedPdfDocument.numPages; pageNum++) {
@@ -537,13 +566,11 @@
                 
                 const dataUrl = canvas.toDataURL(format);
                 
-                // Add to visible visual preview tracking
                 const displayImg = document.createElement('img');
                 displayImg.src = dataUrl;
                 displayImg.className = 'preview-thumb';
                 addVisualPreviewElement(displayImg);
 
-                // Download automation script block triggers
                 const downloadLink = document.createElement('a');
                 downloadLink.download = `HyperEngine_Page_${pageNum}.${format.split('/')[1]}`;
                 downloadLink.href = dataUrl;
@@ -563,23 +590,24 @@
             }
             logAction("Executing matrix compilation: Compiling structured image array parameters into PDF file output...");
             
-            const { jsPDF } = window.jspdf;
-            const pdfDoc = new jsPDF();
+            if (window.jspdf) {
+                const { jsPDF } = window.jspdf;
+                const pdfDoc = new jsPDF();
 
-            stagedImagesList.forEach((img, index) => {
-                logAction(`Step: Formatting and pushing target matrix structure dimensions for index sheet [${index + 1}]`);
-                if(index > 0) {
-                    pdfDoc.addPage();
-                }
-                const pageW = pdfDoc.internal.pageSize.getWidth();
-                const pageH = pdfDoc.internal.pageSize.getHeight();
-                
-                pdfDoc.addImage(img.src, 'PNG', 0, 0, pageW, pageH);
-            });
+                stagedImagesList.forEach((img, index) => {
+                    logAction(`Step: Formatting and pushing target matrix structure dimensions for index sheet [${index + 1}]`);
+                    if(index > 0) {
+                        pdfDoc.addPage();
+                    }
+                    const pageW = pdfDoc.internal.pageSize.getWidth();
+                    const pageH = pdfDoc.internal.pageSize.getHeight();
+                    
+                    pdfDoc.addImage(img.src, 'PNG', 0, 0, pageW, pageH);
+                });
 
-            logAction("Step: Transmitting compilation data parameters directly to hardware download trigger...");
-            pdfDoc.save('HyperEngine_Compiled_Images.pdf');
-            logAction("Success: Target PDF documentation save executed successfully.");
+                pdfDoc.save('HyperEngine_Compiled_Images.pdf');
+                logAction("Success: Target PDF documentation save executed successfully.");
+            }
         }
 
         // ==========================================
@@ -610,7 +638,6 @@
             previewDisplayBlock.value = fullExtractedTextText;
             addVisualPreviewElement(previewDisplayBlock);
 
-            logAction("Step: Compiling text content maps structural nodes into compatible document schema content types...");
             const blob = new Blob([fullExtractedTextText], {type: "application/msword"});
             const downloadLink = document.createElement('a');
             downloadLink.download = "HyperEngine_Extracted_Doc.doc";
@@ -623,23 +650,25 @@
         // TOOL LOGIC: WORD TO PDF CORE COMPILER ENGINE
         // ==========================================
         function executeWordToPdf() {
-            const rawTextInput = document.getElementById('word-text-input').value;
+            const rawTextInputEl = document.getElementById('word-text-input');
+            const rawTextInput = rawTextInputEl ? rawTextInputEl.value : '';
             if(!rawTextInput.trim()) {
                 alert("Please add document characters inside the workspace field array first.");
                 return;
             }
 
             logAction("Executing dynamic compilation engine framework: Converting input layout string to multi-page text blocks PDF document...");
-            const { jsPDF } = window.jspdf;
-            const pdfDoc = new jsPDF();
+            if (window.jspdf) {
+                const { jsPDF } = window.jspdf;
+                const pdfDoc = new jsPDF();
 
-            const separatedLinesArray = pdfDoc.splitTextToSize(rawTextInput, 180);
-            logAction(`Step: Splitting text data blocks arrays based on dimensions parameters. Evaluated line total: ${separatedLinesArray.length}`);
-            
-            pdfDoc.text(separatedLinesArray, 15, 20);
-            
-            pdfDoc.save('HyperEngine_Text_Document.pdf');
-            logAction("Success: Client layout structural PDF output downloaded successfully.");
+                const separatedLinesArray = pdfDoc.splitTextToSize(rawTextInput, 180);
+                logAction(`Step: Splitting text data blocks arrays based on dimensions parameters. Evaluated line total: ${separatedLinesArray.length}`);
+                
+                pdfDoc.text(separatedLinesArray, 15, 20);
+                pdfDoc.save('HyperEngine_Text_Document.pdf');
+                logAction("Success: Client layout structural PDF output downloaded successfully.");
+            }
         }
 
         // ==========================================
@@ -687,40 +716,43 @@
         // TOOL LOGIC: POWERPOINT TO PDF ENGINE
         // ==========================================
         function executePptToPdf() {
-            const pptRawTextStringInput = document.getElementById('ppt-text-input').value;
+            const pptRawTextStringInputEl = document.getElementById('ppt-text-input');
+            const pptRawTextStringInput = pptRawTextStringInputEl ? pptRawTextStringInputEl.value : '';
             if(!pptRawTextStringInput.trim()) {
                 alert("Please declare structured slide formatting tokens inside the workspace field array first.");
                 return;
             }
 
             logAction("Executing Presentation structural conversion processes: Mapping slides onto multi-page structural vector formats...");
-            const { jsPDF } = window.jspdf;
-            const pdfDoc = new jsPDF({ orientation: 'landscape' });
+            if (window.jspdf) {
+                const { jsPDF } = window.jspdf;
+                const pdfDoc = new jsPDF({ orientation: 'landscape' });
 
-            const slidesRawBlocksArray = pptRawTextStringInput.split('---');
-            logAction(`Step: Segmented content parameters successfully. Total identified presentation slides elements: ${slidesRawBlocksArray.length}`);
+                const slidesRawBlocksArray = pptRawTextStringInput.split('---');
+                logAction(`Step: Segmented content parameters successfully. Total identified presentation slides elements: ${slidesRawBlocksArray.length}`);
 
-            slidesRawBlocksArray.forEach((slideTextContent, index) => {
-                logAction(`Step: Rendering data arrays layout variables processing slide array index: ${index + 1}`);
-                if(index > 0) {
-                    pdfDoc.addPage({ orientation: 'landscape' });
-                }
-                
-                pdfDoc.setFillColor(30, 41, 59);
-                pdfDoc.rect(0, 0, 297, 210, 'F'); 
+                slidesRawBlocksArray.forEach((slideTextContent, index) => {
+                    logAction(`Step: Rendering data arrays layout variables processing slide array index: ${index + 1}`);
+                    if(index > 0) {
+                        pdfDoc.addPage({ orientation: 'landscape' });
+                    }
+                    
+                    pdfDoc.setFillColor(30, 41, 59);
+                    pdfDoc.rect(0, 0, 297, 210, 'F'); 
 
-                pdfDoc.setTextColor(248, 250, 252);
-                pdfDoc.setFontSize(22);
-                pdfDoc.text(`Presentation Slide Layer Component ${index + 1}`, 20, 30);
-                
-                pdfDoc.setFontSize(14);
-                pdfDoc.setTextColor(148, 163, 184);
-                const formattedSlideTextLines = pdfDoc.splitTextToSize(slideTextContent.trim(), 250);
-                pdfDoc.text(formattedSlideTextLines, 20, 55);
-            });
+                    pdfDoc.setTextColor(248, 250, 252);
+                    pdfDoc.setFontSize(22);
+                    pdfDoc.text(`Presentation Slide Layer Component ${index + 1}`, 20, 30);
+                    
+                    pdfDoc.setFontSize(14);
+                    pdfDoc.setTextColor(148, 163, 184);
+                    const formattedSlideTextLines = pdfDoc.splitTextToSize(slideTextContent.trim(), 250);
+                    pdfDoc.text(formattedSlideTextLines, 20, 55);
+                });
 
-            pdfDoc.save('HyperEngine_Presentation_Render.pdf');
-            logAction("Success: Target PowerPoint layout structure compilation into global PDF framework verified.");
+                pdfDoc.save('HyperEngine_Presentation_Render.pdf');
+                logAction("Success: Target PowerPoint layout structure compilation into global PDF framework verified.");
+            }
         }
 
         // ==========================================
@@ -733,8 +765,10 @@
             }
             clearVisualPreview();
             
-            const targetWidthValue = parseInt(document.getElementById('resize-w').value);
-            const targetHeightValue = parseInt(document.getElementById('resize-h').value);
+            const wInput = document.getElementById('resize-w');
+            const hInput = document.getElementById('resize-h');
+            const targetWidthValue = wInput ? parseInt(wInput.value) : 800;
+            const targetHeightValue = hInput ? parseInt(hInput.value) : 600;
 
             logAction(`Executing image canvas transformation logic blocks. Re-rendering matrix arrays to dimensions width:${targetWidthValue}px height:${targetHeightValue}px`);
 
@@ -750,6 +784,7 @@
             const previewThumbImage = document.createElement('img');
             previewThumbImage.src = processedDataUrlString;
             previewThumbImage.className = 'preview-thumb';
+            addVisualpreviewElement = (el) => document.getElementById('preview-display').appendChild(el);
             addVisualPreviewElement(previewThumbImage);
 
             const downloadLink = document.createElement('a');
@@ -768,7 +803,8 @@
                 return;
             }
             clearVisualPreview();
-            const placementDirectionAxis = document.getElementById('attach-direction').value;
+            const directionEl = document.getElementById('attach-direction');
+            const placementDirectionAxis = directionEl ? directionEl.value : 'vertical';
             logAction(`Executing image attachment compiler engine stacking modules along axis parameters orientation layout: [${placementDirectionAxis}]`);
 
             const outputCanvas = document.createElement('canvas');
