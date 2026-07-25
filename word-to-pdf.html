@@ -3,14 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Convert Microsoft Word documents (DOC, DOCX) into clean, professional PDF files directly in your web browser securely.">
+    <meta name="description" content="Convert Microsoft Word documents into pixel-perfect PDF files directly in your web browser securely.">
     <meta name="theme-color" content="#5856d6">
     <title>Word to PDF Converter Online - Fast & Secure Document Conversion</title>
     
-    <!-- jsPDF Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- Mammoth.js Library for parsing .docx files -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <!-- docx-preview library for faithful Word rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docx-preview@0.1.20/dist/docx-preview.min.js"></script>
+    <!-- html2pdf.js for exporting exact visual structure to PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root {
@@ -42,8 +43,19 @@
         .action-btn:hover { background-color: var(--accent-hover); }
         .preview-panel { flex: 2; background-color: rgba(30, 41, 59, 0.5); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
         .preview-header { padding: 15px; background: var(--bg-secondary); border-bottom: 1px solid var(--border); font-weight: bold; font-size: 0.95rem; }
-        .live-logs { padding: 15px; font-family: monospace; font-size: 0.85rem; color: var(--success); max-height: 150px; overflow-y: auto; background: #090d16; border-bottom: 1px solid var(--border); }
-        .visual-preview-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .live-logs { padding: 15px; font-family: monospace; font-size: 0.85rem; color: var(--success); max-height: 120px; overflow-y: auto; background: #090d16; border-bottom: 1px solid var(--border); }
+        .visual-preview-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
+        
+        #document-preview-render {
+            background: #ffffff;
+            color: #000000;
+            width: 100%;
+            max-width: 700px;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            overflow-x: auto;
+        }
     </style>
 </head>
 <body>
@@ -71,88 +83,82 @@
                 </div>
             </div>
             <div class="preview-panel">
-                <div class="preview-header">Live Step & Render Preview</div>
-                <div class="live-logs" id="log-console">&gt; Word to PDF tool initialized. Upload Word document.</div>
+                <div class="preview-header">Live Word Document View</div>
+                <div class="live-logs" id="log-console">&gt; Word to PDF tool initialized. Upload a .docx file.</div>
                 <div class="visual-preview-box" id="preview-display">
-                    <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">No document text parsed yet.</span>
+                    <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 40px;">No document loaded yet.</span>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Hidden staging container used for layout-accurate rendering during PDF compilation -->
+    <div id="pdf-export-staging" style="display:none; position: absolute; left: -9999px; width: 800px; background: white; color: black; padding: 40px;"></div>
+
     <script>
-        let stagedWordFile = null;
-        let extractedWordText = "";
+        let stagedArrayBuffer = null;
+        let stagedFileName = "";
 
         function logAction(msg) {
             const consoleEl = document.getElementById('log-console');
             if (consoleEl) { consoleEl.innerHTML += `<br>&gt; ${msg}`; consoleEl.scrollTop = consoleEl.scrollHeight; }
         }
 
-        function handleFileSelect(inputElement) {
+        async function handleFileSelect(inputElement) {
             const file = inputElement.files[0];
             if(!file) return;
-            stagedWordFile = file;
+            stagedFileName = file.name;
             logAction(`Loaded Word file: ${file.name}`);
 
-            const previewBox = document.getElementById('preview-display');
-            previewBox.innerHTML = `<div style="padding: 15px; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 6px; width: 100%;">
-                <p style="color: var(--text-main); font-weight: bold; margin-bottom: 5px;">${file.name}</p>
-                <p style="color: var(--text-muted); font-size: 0.85rem;">Size: ${(file.size / 1024).toFixed(2)} KB</p>
-            </div>`;
-
-            // Parse document text instantly using Mammoth.js
             const reader = new FileReader();
-            reader.onload = function(event) {
-                const arrayBuffer = event.target.result;
-                mammoth.extractRawText({ arrayBuffer: arrayBuffer })
-                    .then(result => {
-                        extractedWordText = result.value;
-                        logAction("Success: Document text extracted from paragraphs.");
-                        previewBox.innerHTML += `<div style="margin-top: 10px; font-size: 0.8rem; color: var(--text-muted); max-height: 120px; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px;"><strong>Parsed Preview:</strong><br>${escapeHtml(extractedWordText.substring(0, 300))}...</div>`;
-                    })
-                    .catch(err => {
-                        logAction("Error parsing document: " + err.message);
-                    });
+            reader.onload = async function(event) {
+                stagedArrayBuffer = event.target.result;
+
+                // Render document layout visually in the preview panel using docx-preview
+                const previewContainer = document.createElement('div');
+                previewContainer.id = "document-preview-render";
+                
+                const exportContainer = document.createElement('div');
+                exportContainer.style.background = "#ffffff";
+                exportContainer.style.color = "#000000";
+                exportContainer.style.padding = "20px";
+                exportContainer.style.width = "750px";
+
+                document.getElementById('preview-display').innerHTML = "";
+                document.getElementById('preview-display').appendChild(previewContainer);
+
+                document.getElementById('pdf-export-staging').innerHTML = "";
+                document.getElementById('pdf-export-staging').appendChild(exportContainer);
+
+                try {
+                    await docx.renderAsync(stagedArrayBuffer, previewContainer);
+                    await docx.renderAsync(stagedArrayBuffer, exportContainer);
+                    logAction("Success: Word layout rendered with exact paragraph structure and spacing.");
+                } catch (err) {
+                    logAction("Error rendering document layout: " + err.message);
+                }
             };
             reader.readAsArrayBuffer(file);
         }
 
-        function escapeHtml(text) {
-            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        }
-
         function executeWordToPdf() {
-            if(!stagedWordFile) { alert("Please upload a Word document file first."); return; }
-            logAction("Generating PDF file with extracted document text...");
+            if(!stagedArrayBuffer) { alert("Please upload a Word document file first."); return; }
+            logAction("Compiling exact layout structure into PDF document...");
 
-            const { jsPDF } = window.jspdf;
-            const pdfDoc = new jsPDF();
+            const element = document.getElementById('pdf-export-staging');
+            const opt = {
+                margin:       10,
+                filename:     stagedFileName.replace(/\.[^/.]+$/, "") + ".pdf",
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
 
-            pdfDoc.setFont("helvetica", "bold");
-            pdfDoc.setFontSize(16);
-            pdfDoc.text(`Document: ${stagedWordFile.name}`, 20, 20);
-
-            pdfDoc.setFont("helvetica", "normal");
-            pdfDoc.setFontSize(10);
-            
-            // Split extracted text into lines that fit nicely inside standard page margins (approx 170mm wide)
-            const splitText = pdfDoc.splitTextToSize(extractedWordText || "No content found.", 170);
-            
-            let cursorY = 30;
-            const pageHeight = pdfDoc.internal.pageSize.getHeight();
-
-            // Loop through lines and handle multi-page pagination automatically
-            for (let i = 0; i < splitText.length; i++) {
-                if (cursorY > pageHeight - 20) {
-                    pdfDoc.addPage();
-                    cursorY = 20;
-                }
-                pdfDoc.text(splitText[i], 20, cursorY);
-                cursorY += 7; // line spacing
-            }
-
-            pdfDoc.save("Converted_Document.pdf");
-            logAction("Success: Word content successfully exported to PDF and downloaded.");
+            html2pdf().from(element).set(opt).save().then(() => {
+                logAction("Success: Pixel-perfect PDF generated and downloaded.");
+            }).catch(err => {
+                logAction("PDF generation error: " + err);
+            });
         }
     </script>
 </body>
