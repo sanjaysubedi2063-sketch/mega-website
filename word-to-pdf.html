@@ -3,14 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Convert Microsoft Word documents (DOC, DOCX) into clean, professional PDF files directly in your web browser securely.">
+    <meta name="description" content="Convert Microsoft Word documents into pixel-perfect PDF files directly in your web browser securely.">
     <meta name="theme-color" content="#5856d6">
     <title>Word to PDF Converter Online - Fast & Secure Document Conversion</title>
     
-    <!-- Mammoth.js for parsing Word docx into HTML -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-    <!-- html2pdf.js for faithful layout-to-PDF conversion -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- docx-preview library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docx-preview@0.1.20/dist/docx-preview.min.js"></script>
 
     <style>
         :root {
@@ -43,22 +42,32 @@
         .preview-panel { flex: 2; background-color: rgba(30, 41, 59, 0.5); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
         .preview-header { padding: 15px; background: var(--bg-secondary); border-bottom: 1px solid var(--border); font-weight: bold; font-size: 0.95rem; }
         .live-logs { padding: 15px; font-family: monospace; font-size: 0.85rem; color: var(--success); max-height: 120px; overflow-y: auto; background: #090d16; border-bottom: 1px solid var(--border); }
-        .visual-preview-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .visual-preview-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
         
-        /* Render container styling mimicking standard document layout formatting */
-        #document-render-container {
+        #document-preview-render {
             background: #ffffff;
-            color: #1e293b;
-            padding: 30px;
+            color: #000000;
+            width: 100%;
+            max-width: 700px;
+            padding: 20px;
             border-radius: 4px;
-            font-size: 14px;
-            line-height: 1.6;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            max-height: 100%;
-            overflow-y: auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
-        #document-render-container p { margin-bottom: 12px; }
-        #document-render-container h1, #document-render-container h2, #document-render-container h3 { margin-top: 15px; margin-bottom: 10px; color: #0f172a; }
+
+        /* Print styling rules to ensure clean PDF export output via browser print */
+        @media print {
+            body * { visibility: hidden; }
+            #document-preview-render, #document-preview-render * { visibility: visible; }
+            #document-preview-render {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                max-width: none;
+                box-shadow: none;
+                padding: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -86,76 +95,56 @@
                 </div>
             </div>
             <div class="preview-panel">
-                <div class="preview-header">Live Document Structure Preview</div>
-                <div class="live-logs" id="log-console">&gt; Word to PDF tool initialized. Upload Word document.</div>
+                <div class="preview-header">Live Word Document View</div>
+                <div class="live-logs" id="log-console">&gt; Word to PDF tool initialized. Upload a .docx file.</div>
                 <div class="visual-preview-box" id="preview-display">
-                    <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">No document uploaded yet.</span>
+                    <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 40px;">No document loaded yet.</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Hidden staging element used to generate faithful multi-page PDF output -->
-    <div id="pdf-export-staging" style="display:none; position: absolute; left: -9999px; width: 800px; background: white; color: black; padding: 40px; font-family: 'Segoe UI', Tahoma, sans-serif;"></div>
-
     <script>
-        let stagedWordFile = null;
+        let isFileLoaded = false;
 
         function logAction(msg) {
             const consoleEl = document.getElementById('log-console');
             if (consoleEl) { consoleEl.innerHTML += `<br>&gt; ${msg}`; consoleEl.scrollTop = consoleEl.scrollHeight; }
         }
 
-        function handleFileSelect(inputElement) {
+        async function handleFileSelect(inputElement) {
             const file = inputElement.files[0];
             if(!file) return;
-            stagedWordFile = file;
             logAction(`Loaded Word file: ${file.name}`);
 
             const reader = new FileReader();
-            reader.onload = function(event) {
+            reader.onload = async function(event) {
                 const arrayBuffer = event.target.result;
-                mammoth.convertToHtml({ arrayBuffer: arrayBuffer })
-                    .then(result => {
-                        const htmlContent = result.value;
-                        
-                        // Populate visible live preview box
-                        const previewBox = document.getElementById('preview-display');
-                        previewBox.innerHTML = `<div id="document-render-container">${htmlContent}</div>`;
-                        
-                        // Populate hidden export staging container
-                        document.getElementById('pdf-export-staging').innerHTML = `
-                            <h1 style="font-size: 24px; margin-bottom: 20px; border-bottom: 2px solid #ccc; padding-bottom: 10px;">${file.name}</h1>
-                            ${htmlContent}
-                        `;
-                        
-                        logAction("Success: Document elements and paragraphs rendered cleanly.");
-                    })
-                    .catch(err => {
-                        logAction("Error parsing document: " + err.message);
-                    });
+
+                const previewContainer = document.createElement('div');
+                previewContainer.id = "document-preview-render";
+
+                document.getElementById('preview-display').innerHTML = "";
+                document.getElementById('preview-display').appendChild(previewContainer);
+
+                try {
+                    await docx.renderAsync(arrayBuffer, previewContainer);
+                    isFileLoaded = true;
+                    logAction("Success: Word layout rendered completely across all pages.");
+                } catch (err) {
+                    logAction("Error rendering document layout: " + err.message);
+                }
             };
             reader.readAsArrayBuffer(file);
         }
 
         function executeWordToPdf() {
-            if(!stagedWordFile) { alert("Please upload a Word document file first."); return; }
-            logAction("Compiling layout structure into PDF document...");
-
-            const element = document.getElementById('pdf-export-staging');
-            const opt = {
-                margin:       10,
-                filename:     stagedWordFile.name.replace(/\.[^/.]+$/, "") + ".pdf",
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            html2pdf().from(element).set(opt).save().then(() => {
-                logAction("Success: Clean, well-spaced PDF generated and downloaded.");
-            }).catch(err => {
-                logAction("PDF generation error: " + err);
-            });
+            if(!isFileLoaded) { alert("Please upload and render a Word document file first."); return; }
+            logAction("Opening print engine to save document as PDF...");
+            
+            // Triggers browser print dialog where user selects "Save as PDF"
+            window.print();
+            logAction("Success: Print dialog invoked. Select 'Save as PDF'.");
         }
     </script>
 </body>
