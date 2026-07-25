@@ -7,7 +7,10 @@
     <meta name="theme-color" content="#5856d6">
     <title>Word to PDF Converter Online - Fast & Secure Document Conversion</title>
     
+    <!-- jsPDF Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Mammoth.js Library for parsing .docx files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 
     <style>
         :root {
@@ -40,7 +43,7 @@
         .preview-panel { flex: 2; background-color: rgba(30, 41, 59, 0.5); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
         .preview-header { padding: 15px; background: var(--bg-secondary); border-bottom: 1px solid var(--border); font-weight: bold; font-size: 0.95rem; }
         .live-logs { padding: 15px; font-family: monospace; font-size: 0.85rem; color: var(--success); max-height: 150px; overflow-y: auto; background: #090d16; border-bottom: 1px solid var(--border); }
-        .visual-preview-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .visual-preview-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
     </style>
 </head>
 <body>
@@ -61,8 +64,8 @@
             <div class="tool-container">
                 <div class="tool-section">
                     <div class="dropzone" onclick="document.getElementById('word-pdf-input').click()">
-                        <p>Upload Microsoft Word document (.doc, .docx)</p>
-                        <input type="file" id="word-pdf-input" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display:none;" onchange="handleFileSelect(this)">
+                        <p>Upload Microsoft Word document (.docx)</p>
+                        <input type="file" id="word-pdf-input" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display:none;" onchange="handleFileSelect(this)">
                     </div>
                     <button class="action-btn" onclick="executeWordToPdf()">Convert & Download PDF Document</button>
                 </div>
@@ -71,13 +74,14 @@
                 <div class="preview-header">Live Step & Render Preview</div>
                 <div class="live-logs" id="log-console">&gt; Word to PDF tool initialized. Upload Word document.</div>
                 <div class="visual-preview-box" id="preview-display">
-                    <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 40px;">No preview generated yet.</span>
+                    <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">No document text parsed yet.</span>
                 </div>
             </div>
         </div>
     </div>
     <script>
         let stagedWordFile = null;
+        let extractedWordText = "";
 
         function logAction(msg) {
             const consoleEl = document.getElementById('log-console');
@@ -91,33 +95,64 @@
             logAction(`Loaded Word file: ${file.name}`);
 
             const previewBox = document.getElementById('preview-display');
-            previewBox.innerHTML = `<div style="padding: 20px; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 6px; text-align: center; width: 100%;">
+            previewBox.innerHTML = `<div style="padding: 15px; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 6px; width: 100%;">
                 <p style="color: var(--text-main); font-weight: bold; margin-bottom: 5px;">${file.name}</p>
                 <p style="color: var(--text-muted); font-size: 0.85rem;">Size: ${(file.size / 1024).toFixed(2)} KB</p>
             </div>`;
+
+            // Parse document text instantly using Mammoth.js
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const arrayBuffer = event.target.result;
+                mammoth.extractRawText({ arrayBuffer: arrayBuffer })
+                    .then(result => {
+                        extractedWordText = result.value;
+                        logAction("Success: Document text extracted from paragraphs.");
+                        previewBox.innerHTML += `<div style="margin-top: 10px; font-size: 0.8rem; color: var(--text-muted); max-height: 120px; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px;"><strong>Parsed Preview:</strong><br>${escapeHtml(extractedWordText.substring(0, 300))}...</div>`;
+                    })
+                    .catch(err => {
+                        logAction("Error parsing document: " + err.message);
+                    });
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
 
         function executeWordToPdf() {
             if(!stagedWordFile) { alert("Please upload a Word document file first."); return; }
-            logAction("Processing text contents for document formatting...");
+            logAction("Generating PDF file with extracted document text...");
 
             const { jsPDF } = window.jspdf;
             const pdfDoc = new jsPDF();
 
             pdfDoc.setFont("helvetica", "bold");
-            pdfDoc.setFontSize(20);
-            pdfDoc.text("Word Document Export", 20, 20);
+            pdfDoc.setFontSize(16);
+            pdfDoc.text(`Document: ${stagedWordFile.name}`, 20, 20);
 
             pdfDoc.setFont("helvetica", "normal");
-            pdfDoc.setFontSize(12);
-            pdfDoc.text(`File Name: ${stagedWordFile.name}`, 20, 35);
-            pdfDoc.text("Compiled securely client-side via Sanjay Subedi Converter v5.0.", 20, 45);
+            pdfDoc.setFontSize(10);
+            
+            // Split extracted text into lines that fit nicely inside standard page margins (approx 170mm wide)
+            const splitText = pdfDoc.splitTextToSize(extractedWordText || "No content found.", 170);
+            
+            let cursorY = 30;
+            const pageHeight = pdfDoc.internal.pageSize.getHeight();
 
-            pdfDoc.line(20, 52, 190, 52);
-            pdfDoc.text("[Document Text Stream Layout]: Document structured layout compiled successfully.", 20, 70);
+            // Loop through lines and handle multi-page pagination automatically
+            for (let i = 0; i < splitText.length; i++) {
+                if (cursorY > pageHeight - 20) {
+                    pdfDoc.addPage();
+                    cursorY = 20;
+                }
+                pdfDoc.text(splitText[i], 20, cursorY);
+                cursorY += 7; // line spacing
+            }
 
             pdfDoc.save("Converted_Document.pdf");
-            logAction("Success: Word document converted to PDF and downloaded.");
+            logAction("Success: Word content successfully exported to PDF and downloaded.");
         }
     </script>
 </body>
