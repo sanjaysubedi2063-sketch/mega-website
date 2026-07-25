@@ -3,15 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Sanjay Subedi Converter - Ultimate client-side conversion, modification, and processing engine.">
+    <meta name="description" content="Sanjay Subedi Converter v5.0 - Ultimate secure, client-side browser document and image utility suite.">
     <meta name="theme-color" content="#5856d6">
     <title>Sanjay Subedi Converter v5.0 - Ultimate Client-Side Suite</title>
-
-    <!-- Core Structural Dependencies -->
-    <link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js">
-    <link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
         :root {
@@ -40,7 +34,6 @@
             overflow: hidden;
         }
 
-        /* Sidebar Navigation */
         .sidebar {
             width: 280px;
             background-color: var(--bg-secondary);
@@ -95,7 +88,6 @@
             border-color: var(--accent);
         }
 
-        /* Main Content Workspace */
         .workspace {
             flex: 1;
             display: flex;
@@ -114,744 +106,137 @@
 
         .main-panel {
             flex: 1;
-            display: flex;
-            overflow: hidden;
-        }
-
-        .tool-container {
-            flex: 3;
             padding: 30px;
             overflow-y: auto;
         }
 
-        .tool-section {
-            display: none;
-            background: var(--bg-secondary);
-            padding: 25px;
-            border-radius: 8px;
+        .hero-banner {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
             border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
         }
 
-        .tool-section.active {
-            display: block;
+        .hero-banner h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--text-main);
         }
 
-        /* Form Elements */
-        .dropzone {
-            border: 2px dashed var(--border);
-            padding: 40px 20px;
-            text-align: center;
+        .hero-banner p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .tool-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
             border-radius: 8px;
-            cursor: pointer;
-            background: rgba(15, 23, 42, 0.4);
-            margin-bottom: 20px;
-            transition: border-color 0.3s ease;
+            padding: 20px;
+            text-decoration: none;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, border-color 0.2s ease;
         }
 
-        .dropzone:hover {
+        .tool-card:hover {
+            transform: translateY(-3px);
             border-color: var(--accent);
         }
 
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .input-group select, .input-group input, .input-group textarea {
-            width: 100%;
-            padding: 10px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
+        .tool-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
             color: var(--text-main);
-            border-radius: 6px;
-            font-size: 0.95rem;
         }
 
-        .action-btn {
-            background-color: var(--accent);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.2s ease;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .action-btn:hover {
-            background-color: var(--accent-hover);
-        }
-
-        /* Step & Action Live Preview Panel */
-        .preview-panel {
-            flex: 2;
-            background-color: rgba(30, 41, 59, 0.5);
-            border-left: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .preview-header {
-            padding: 15px;
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border);
-            font-weight: bold;
-            font-size: 0.95rem;
-            letter-spacing: 0.5px;
-        }
-
-        .live-logs {
-            padding: 15px;
-            font-family: monospace;
+        .tool-card p {
             font-size: 0.85rem;
-            color: var(--success);
-            max-height: 150px;
-            overflow-y: auto;
-            background: #090d16;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .visual-preview-box {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .preview-thumb {
-            max-width: 100%;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            background: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            color: var(--text-muted);
+            line-height: 1.4;
         }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar Management -->
     <div class="sidebar">
         <h2>HyperEngine v5.0</h2>
-        
         <div class="nav-group">
-            <div class="nav-group-title">PDF Core Engine</div>
-            <button class="nav-btn active" onclick="switchTool('home-dashboard', this)">Home Dashboard</button>
-            <button class="nav-btn" onclick="switchTool('pdf-to-img', this)">PDF to Images</button>
-            <button class="nav-btn" onclick="switchTool('img-to-pdf', this)">Images to PDF</button>
-            <button class="nav-btn" onclick="switchTool('pdf-to-word', this)">PDF to Word</button>
-            <button class="nav-btn" onclick="switchTool('word-to-pdf', this)">Word to PDF</button>
-            <button class="nav-btn" onclick="switchTool('pdf-to-ppt', this)">PDF to PowerPoint</button>
-            <button class="nav-btn" onclick="switchTool('ppt-to-pdf', this)">PowerPoint to PDF</button>
+            <div class="nav-group-title">Dashboard</div>
+            <a href="index.html" class="nav-btn active">Main Hub</a>
         </div>
-
         <div class="nav-group">
-            <div class="nav-group-title">Image Processing</div>
-            <button class="nav-btn" onclick="switchTool('img-resizer', this)">Image Resizer</button>
-            <button class="nav-btn" onclick="switchTool('img-attach', this)">Image Attach & Merger</button>
+            <div class="nav-group-title">Document Tools</div>
+            <a href="word-to-pdf.html" class="nav-btn">Word to PDF</a>
+            <a href="pdf-to-word.html" class="nav-btn">PDF to Word</a>
+            <a href="powerpoint-to-pdf.html" class="nav-btn">PowerPoint to PDF</a>
+            <a href="pdf-to-powerpoint.html" class="nav-btn">PDF to PowerPoint</a>
+        </div>
+        <div class="nav-group">
+            <div class="nav-group-title">Image Tools</div>
+            <a href="image-resizer.html" class="nav-btn">Image Resizer</a>
+            <a href="image-merge.html" class="nav-btn">Image Attach & Merger</a>
+            <a href="images-to-pdf.html" class="nav-btn">Images to PDF</a>
+            <a href="pdf-to-images.html" class="nav-btn">PDF to Images</a>
         </div>
     </div>
 
-    <!-- Main Engine Workspace -->
     <div class="workspace">
         <div class="header">
-            <h1 id="current-tool-title">Sanjay Subedi Converter Suite</h1>
-            <span style="font-size: 0.85rem; color: var(--text-muted);">Client-Side Sandbox Enforced</span>
+            <h1>Dashboard Overview</h1>
+            <span style="font-size: 0.85rem; color: var(--success);">● Client-Side Secure Suite Online</span>
         </div>
 
         <div class="main-panel">
-            <div class="tool-container">
-
-                <!-- HOME LANDING / DASHBOARD SECTION -->
-                <div id="home-dashboard" class="tool-section active">
-                    <h2 style="margin-bottom: 15px;">Welcome to Sanjay Subedi Converter Suite</h2>
-                    <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
-                        Select any tool from the sidebar navigation menu on the left to perform fast, secure, client-side document conversions, image resizing, and file merging directly within your browser window. No server uploads required.
-                    </p>
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-                        <button class="action-btn" onclick="switchTool('pdf-to-word', document.querySelector('[onclick*=\'pdf-to-word\']'))">Open PDF to Word Tool</button>
-                        <button class="action-btn" onclick="switchTool('img-resizer', document.querySelector('[onclick*=\'img-resizer\']'))">Open Image Resizer Tool</button>
-                    </div>
-                </div>
-
-                <!-- PDF TO IMAGES SECTION -->
-                <div id="pdf-to-img" class="tool-section">
-                    <div class="dropzone" onclick="document.getElementById('pdf-to-img-input').click()">
-                        <p>Click or Drop PDF file here to parse</p>
-                        <input type="file" id="pdf-to-img-input" accept="application/pdf" style="display:none;" onchange="handleFileSelect(this, 'pdf')">
-                    </div>
-                    <div class="input-group">
-                        <label for="image-format-select">Target Image Extension Type</label>
-                        <select id="image-format-select">
-                            <option value="image/png">PNG (.png)</option>
-                            <option value="image/jpeg">JPEG (.jpg)</option>
-                            <option value="image/webp">WEBP (.webp)</option>
-                        </select>
-                    </div>
-                    <button class="action-btn" onclick="executePdfToImg()">Extract & Render Images</button>
-                </div>
-
-                <!-- IMAGES TO PDF SECTION -->
-                <div id="img-to-pdf" class="tool-section">
-                    <div class="dropzone" onclick="document.getElementById('img-to-pdf-input').click()">
-                        <p>Select multiple images to combine into PDF pages</p>
-                        <input type="file" id="img-to-pdf-input" accept="image/*" multiple style="display:none;" onchange="handleFileSelect(this, 'images')">
-                    </div>
-                    <button class="action-btn" onclick="executeImgToPdf()">Compile PDF Document</button>
-                </div>
-
-                <!-- PDF TO WORD SECTION -->
-                <div id="pdf-to-word" class="tool-section">
-                    <div class="dropzone" onclick="document.getElementById('pdf-to-word-input').click()">
-                        <p>Upload PDF file for text structural extraction</p>
-                        <input type="file" id="pdf-to-word-input" accept="application/pdf" style="display:none;" onchange="handleFileSelect(this, 'pdf')">
-                    </div>
-                    <button class="action-btn" onclick="executePdfToWord()">Extract to Word (.doc)</button>
-                </div>
-
-                <!-- WORD TO PDF SECTION -->
-                <div id="word-to-pdf" class="tool-section">
-                    <div class="input-group">
-                        <label>Paste Document Text / Content Elements</label>
-                        <textarea id="word-text-input" rows="8" placeholder="Type or paste document content layout here..."></textarea>
-                    </div>
-                    <div class="dropzone" onclick="document.getElementById('word-file-input').click()">
-                        <p>Or upload plain text/doc file mapping structure</p>
-                        <input type="file" id="word-file-input" accept=".txt,.doc,.docx" style="display:none;" onchange="handleWordFile(this)">
-                    </div>
-                    <button class="action-btn" onclick="executeWordToPdf()">Compile Text into PDF</button>
-                </div>
-
-                <!-- PDF TO POWERPOINT SECTION -->
-                <div id="pdf-to-ppt" class="tool-section">
-                    <div class="dropzone" onclick="document.getElementById('pdf-to-ppt-input').click()">
-                        <p>Upload source PDF to construct Presentation Slides</p>
-                        <input type="file" id="pdf-to-ppt-input" accept="application/pdf" style="display:none;" onchange="handleFileSelect(this, 'pdf')">
-                    </div>
-                    <button class="action-btn" onclick="executePdfToPpt()">Build HTML Presentation Deck</button>
-                </div>
-
-                <!-- POWERPOINT TO PDF SECTION -->
-                <div id="ppt-to-pdf" class="tool-section">
-                    <div class="input-group">
-                        <label>Presentation Slides Content Mapping (Use line breaks for new slides)</label>
-                        <textarea id="ppt-text-input" rows="8" placeholder="Slide 1 Title&#10;Slide 1 Content Line&#10;---&#10;Slide 2 Title..."></textarea>
-                    </div>
-                    <button class="action-btn" onclick="executePptToPdf()">Render Presentation to PDF</button>
-                </div>
-
-                <!-- IMAGE RESIZER SECTION -->
-                <div id="img-resizer" class="tool-section">
-                    <div class="dropzone" onclick="document.getElementById('resizer-input').click()">
-                        <p>Select target image file to resize</p>
-                        <input type="file" id="resizer-input" accept="image/*" style="display:none;" onchange="handleFileSelect(this, 'image-single')">
-                    </div>
-                    <div style="display: flex; gap:15px;">
-                        <div class="input-group" style="flex:1;">
-                            <label>Target Width (px)</label>
-                            <input type="number" id="resize-w" value="800">
-                        </div>
-                        <div class="input-group" style="flex:1;">
-                            <label>Target Height (px)</label>
-                            <input type="number" id="resize-h" value="600">
-                        </div>
-                    </div>
-                    <button class="action-btn" onclick="executeImageResize()">Process Resized Image</button>
-                </div>
-
-                <!-- IMAGE ATTACH & MERGER SECTION -->
-                <div id="img-attach" class="tool-section">
-                    <div class="dropzone" onclick="document.getElementById('attach-input').click()">
-                        <p>Select multiple images to attach together</p>
-                        <input type="file" id="attach-input" accept="image/*" multiple style="display:none;" onchange="handleFileSelect(this, 'images-attach')">
-                    </div>
-                    <div class="input-group">
-                        <label for="attach-direction">Attachment Orientation Layout</label>
-                        <select id="attach-direction">
-                            <option value="vertical">Vertical Sheet Stitching (Top to Bottom)</option>
-                            <option value="horizontal">Horizontal Banner Stitching (Left to Right)</option>
-                        </select>
-                    </div>
-                    <button class="action-btn" onclick="executeImageAttach()">Merge & Attach Images</button>
-                </div>
-
+            <div class="hero-banner">
+                <h1>Welcome to Sanjay Subedi Converter v5.0</h1>
+                <p>Select a conversion tool below to get started instantly with zero server uploads.</p>
             </div>
 
-            <!-- STEP ACTION & VISUAL PREVIEW SIDE PANEL -->
-            <div class="preview-panel">
-                <div class="preview-header">Live Workspace Step & Render Preview</div>
-                <div class="live-logs" id="log-console">&gt; Engine operational. Select a tool on the sidebar to get started.</div>
-                <div class="visual-preview-box" id="preview-display">
-                    <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 40px;">No step adjustments or render objects generated yet.</span>
-                </div>
+            <div class="tools-grid">
+                <a href="word-to-pdf.html" class="tool-card">
+                    <h3>Word to PDF</h3>
+                    <p>Convert Microsoft Word DOC and DOCX files into clean, professional PDF formats securely.</p>
+                </a>
+                <a href="pdf-to-word.html" class="tool-card">
+                    <h3>PDF to Word</h3>
+                    <p>Extract text structure and contents from PDF files into Word format instantly.</p>
+                </a>
+                <a href="powerpoint-to-pdf.html" class="tool-card">
+                    <h3>PowerPoint to PDF</h3>
+                    <p>Transform presentation slides (.ppt, .pptx) into secure PDF documents.</p>
+                </a>
+                <a href="pdf-to-powerpoint.html" class="tool-card">
+                    <h3>PDF to PowerPoint</h3>
+                    <p>Extract slide presentation structures from PDF documents effortlessly.</p>
+                </a>
+                <a href="image-resizer.html" class="tool-card">
+                    <h3>Image Resizer</h3>
+                    <p>Instantly scale and resize JPG and PNG image files with exact canvas pixel counts.</p>
+                </a>
+                <a href="image-merge.html" class="tool-card">
+                    <h3>Image Attach & Merger</h3>
+                    <p>Stack or place multiple images side-by-side into a single combined layout image.</p>
+                </a>
+                <a href="images-to-pdf.html" class="tool-card">
+                    <h3>Images to PDF</h3>
+                    <p>Compile a collection of separate image files into a single structured multi-page PDF.</p>
+                </a>
+                <a href="pdf-to-images.html" class="tool-card">
+                    <h3>PDF to Images</h3>
+                    <p>Extract individual pages from your PDF files directly into image formats.</p>
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- Core Runtime Scripts and Engines -->
-    <script>
-        // Setup PDF.js Worker Safely
-        if (typeof pdfjsLib !== 'undefined') {
-            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-        }
-
-        // Global State Memory Space
-        let loadedPdfDocument = null;
-        let stagedImagesList = [];
-        let singleStagedImage = null;
-
-        // Tool Switching Switcher Logic
-        function switchTool(toolId, btnElement) {
-            document.querySelectorAll('.tool-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            const targetSection = document.getElementById(toolId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
-            if (btnElement) {
-                btnElement.classList.add('active');
-                document.getElementById('current-tool-title').innerText = btnElement.innerText;
-            }
-            logAction(`Switched active workspace view to: ${toolId}`);
-        }
-
-        // Live Log System Control
-        function logAction(msg) {
-            const consoleEl = document.getElementById('log-console');
-            if (consoleEl) {
-                consoleEl.innerHTML += `<br>&gt; ${msg}`;
-                consoleEl.scrollTop = consoleEl.scrollHeight;
-            }
-        }
-
-        function clearVisualPreview() {
-            const previewBox = document.getElementById('preview-display');
-            if (previewBox) previewBox.innerHTML = '';
-        }
-
-        function addVisualPreviewElement(element) {
-            const previewBox = document.getElementById('preview-display');
-            if (previewBox) previewBox.appendChild(element);
-        }
-
-        // Common File Selection Interceptor Engine
-        function handleFileSelect(inputElement, type) {
-            clearVisualPreview();
-            const files = inputElement.files;
-            if(!files || files.length === 0) return;
-
-            logAction(`File load step detected. Selected file count: ${files.length}`);
-
-            if (type === 'pdf') {
-                logAction("Step: Reading PDF file blob byte layers...");
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const typedarray = new Uint8Array(e.target.result);
-                    if (typeof pdfjsLib !== 'undefined') {
-                        pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
-                            loadedPdfDocument = pdf;
-                            logAction(`Success: PDF parsing absolute metadata completed. Total Pages discovered: ${pdf.numPages}`);
-                            
-                            pdf.getPage(1).then(function(page) {
-                                const viewport = page.getViewport({scale: 0.3});
-                                const canvas = document.createElement('canvas');
-                                const context = canvas.getContext('2d');
-                                canvas.height = viewport.height;
-                                canvas.width = viewport.width;
-                                canvas.className = 'preview-thumb';
-                                
-                                page.render({canvasContext: context, viewport: viewport}).promise.then(() => {
-                                    logAction("Step Preview: Generated Page 1 layout visualization thumbnail structure.");
-                                    addVisualPreviewElement(canvas);
-                                });
-                            });
-                        }).catch(err => {
-                            logAction(`Error parsing PDF: ${err.message}`);
-                        });
-                    }
-                };
-                reader.readAsArrayBuffer(files[0]);
-            } 
-            else if (type === 'images' || type === 'images-attach') {
-                stagedImagesList = [];
-                logAction("Step: Staging incoming image collection array assets...");
-                Array.from(files).forEach((file, index) => {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const img = new Image();
-                        img.src = e.target.result;
-                        img.className = 'preview-thumb';
-                        img.style.maxHeight = '120px';
-                        img.onload = function() {
-                            stagedImagesList.push(img);
-                            logAction(`Step Preview: Staged image sequence asset [${index + 1}]: ${file.name}`);
-                            addVisualPreviewElement(img);
-                        };
-                    };
-                    reader.readAsDataURL(file);
-                });
-            }
-            else if (type === 'image-single') {
-                logAction("Step: Preparing single target image framework processing asset...");
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    singleStagedImage = new Image();
-                    singleStagedImage.src = e.target.result;
-                    singleStagedImage.className = 'preview-thumb';
-                    singleStagedImage.onload = function() {
-                        logAction(`Step Preview: Image structural bounds matching width:${this.width}px height:${this.height}px`);
-                        const wInput = document.getElementById('resize-w');
-                        const hInput = document.getElementById('resize-h');
-                        if (wInput) wInput.value = this.width;
-                        if (hInput) hInput.value = this.height;
-                        addVisualPreviewElement(singleStagedImage);
-                    };
-                };
-                reader.readAsDataURL(files[0]);
-            }
-        }
-
-        function handleWordFile(inputElement) {
-            const file = inputElement.files[0];
-            if(!file) return;
-            logAction(`Step: Parsing local textual metadata layout from file: ${file.name}`);
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const textInput = document.getElementById('word-text-input');
-                if (textInput) textInput.value = e.target.result;
-                logAction("Success: Transferred textual content array into editor container text block view.");
-            };
-            reader.readAsText(file);
-        }
-
-        // ==========================================
-        // TOOL LOGIC: PDF TO IMAGES FUNCTION ENGINE
-        // ==========================================
-        async function executePdfToImg() {
-            if(!loadedPdfDocument) {
-                alert("Please attach a valid PDF document to parse processing sequences.");
-                return;
-            }
-            clearVisualPreview();
-            const formatEl = document.getElementById('image-format-select');
-            const format = formatEl ? formatEl.value : 'image/png';
-            logAction(`Executing batch processing stack sequence: PDF to Images using type target format extension [${format}]`);
-
-            for(let pageNum = 1; pageNum <= loadedPdfDocument.numPages; pageNum++) {
-                logAction(`Step: Rasterizing document schema matrix layers for Page ${pageNum}...`);
-                const page = await loadedPdfDocument.getPage(pageNum);
-                const viewport = page.getViewport({scale: 1.5});
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-
-                await page.render({canvasContext: context, viewport: viewport}).promise;
-                
-                const dataUrl = canvas.toDataURL(format);
-                
-                const displayImg = document.createElement('img');
-                displayImg.src = dataUrl;
-                displayImg.className = 'preview-thumb';
-                addVisualPreviewElement(displayImg);
-
-                const downloadLink = document.createElement('a');
-                downloadLink.download = `HyperEngine_Page_${pageNum}.${format.split('/')[1]}`;
-                downloadLink.href = dataUrl;
-                downloadLink.click();
-                logAction(`Downloaded: Page ${pageNum} asset file structure.`);
-            }
-            logAction("Success: Full document image decomposition processes completed successfully.");
-        }
-
-        // ==========================================
-        // TOOL LOGIC: IMAGES TO PDF FUNCTION ENGINE
-        // ==========================================
-        function executeImgToPdf() {
-            if(stagedImagesList.length === 0) {
-                alert("Please sequence at least one or more image files first.");
-                return;
-            }
-            logAction("Executing matrix compilation: Compiling structured image array parameters into PDF file output...");
-            
-            if (window.jspdf) {
-                const { jsPDF } = window.jspdf;
-                const pdfDoc = new jsPDF();
-
-                stagedImagesList.forEach((img, index) => {
-                    logAction(`Step: Formatting and pushing target matrix structure dimensions for index sheet [${index + 1}]`);
-                    if(index > 0) {
-                        pdfDoc.addPage();
-                    }
-                    const pageW = pdfDoc.internal.pageSize.getWidth();
-                    const pageH = pdfDoc.internal.pageSize.getHeight();
-                    
-                    pdfDoc.addImage(img.src, 'PNG', 0, 0, pageW, pageH);
-                });
-
-                pdfDoc.save('HyperEngine_Compiled_Images.pdf');
-                logAction("Success: Target PDF documentation save executed successfully.");
-            }
-        }
-
-        // ==========================================
-        // TOOL LOGIC: PDF TO WORD EXTRACTOR ENGINE
-        // ==========================================
-        async function executePdfToWord() {
-            if(!loadedPdfDocument) {
-                alert("Please assign a structural system target PDF file first.");
-                return;
-            }
-            clearVisualPreview();
-            logAction("Executing structural character map matching layer reads: Converting PDF to Word format...");
-            let fullExtractedTextText = "";
-
-            for(let pageNum = 1; pageNum <= loadedPdfDocument.numPages; pageNum++) {
-                logAction(`Step: Parsing font layer maps and text blocks from Document Page ${pageNum}...`);
-                const page = await loadedPdfDocument.getPage(pageNum);
-                const textContent = await page.getTextContent();
-                const pageItems = textContent.items.map(item => item.str).join(" ");
-                fullExtractedTextText += `\n--- [Document Page Component Structure ${pageNum}] ---\n\n` + pageItems + "\n";
-            }
-
-            const previewDisplayBlock = document.createElement('textarea');
-            previewDisplayBlock.rows = 8;
-            previewDisplayBlock.style.width = "100%";
-            previewDisplayBlock.style.background = "#fff";
-            previewDisplayBlock.style.color = "#000";
-            previewDisplayBlock.value = fullExtractedTextText;
-            addVisualPreviewElement(previewDisplayBlock);
-
-            const blob = new Blob([fullExtractedTextText], {type: "application/msword"});
-            const downloadLink = document.createElement('a');
-            downloadLink.download = "HyperEngine_Extracted_Doc.doc";
-            downloadLink.href = URL.createObjectURL(blob);
-            downloadLink.click();
-            logAction("Success: Structural Document output wrapper stream download generated.");
-        }
-
-        // ==========================================
-        // TOOL LOGIC: WORD TO PDF CORE COMPILER ENGINE
-        // ==========================================
-        function executeWordToPdf() {
-            const rawTextInputEl = document.getElementById('word-text-input');
-            const rawTextInput = rawTextInputEl ? rawTextInputEl.value : '';
-            if(!rawTextInput.trim()) {
-                alert("Please add document characters inside the workspace field array first.");
-                return;
-            }
-
-            logAction("Executing dynamic compilation engine framework: Converting input layout string to multi-page text blocks PDF document...");
-            if (window.jspdf) {
-                const { jsPDF } = window.jspdf;
-                const pdfDoc = new jsPDF();
-
-                const separatedLinesArray = pdfDoc.splitTextToSize(rawTextInput, 180);
-                logAction(`Step: Splitting text data blocks arrays based on dimensions parameters. Evaluated line total: ${separatedLinesArray.length}`);
-                
-                pdfDoc.text(separatedLinesArray, 15, 20);
-                pdfDoc.save('HyperEngine_Text_Document.pdf');
-                logAction("Success: Client layout structural PDF output downloaded successfully.");
-            }
-        }
-
-        // ==========================================
-        // TOOL LOGIC: PDF TO POWERPOINT SLIDES ENGINE
-        // ==========================================
-        async function executePdfToPpt() {
-            if(!loadedPdfDocument) {
-                alert("Target file processing error: Missing load layer for PDF presentation compiler.");
-                return;
-            }
-            clearVisualPreview();
-            logAction("Executing slide vector block creation schemas: Parsing PDF to PowerPoint engine matrices...");
-            
-            let presentationHtmlTemplate = `<html><head><style>body{background:#111;color:#fff;font-family:sans-serif;display:flex;flex-direction:column;align-items:center;padding:40px;} .slide{background:#222;border:2px solid #444;border-radius:8px;padding:30px;margin-bottom:20px;width:80%;box-shadow:0 4px 10px rgba(0,0,0,0.5);}</style></head><body><h1>HyperEngine Dynamic HTML Slide Deck Presentation</h1>`;
-
-            for(let pageNum = 1; pageNum <= loadedPdfDocument.numPages; pageNum++) {
-                logAction(`Step: Constructing independent Slide Matrix Object from target layer data on Page ${pageNum}...`);
-                const page = await loadedPdfDocument.getPage(pageNum);
-                const textContent = await page.getTextContent();
-                const pageLines = textContent.items.map(item => item.str).join(" ");
-                
-                presentationHtmlTemplate += `
-                    <div class="slide">
-                        <h3>Presentation Slide Frame ${pageNum}</h3>
-                        <hr style="border-color:#5856d6;margin:10px 0;">
-                        <p>${pageLines || '[Empty Graphic Slide Component Layout Structure Detected]'}</p>
-                    </div>`;
-            }
-            presentationHtmlTemplate += `</body></html>`;
-
-            const previewContainerDiv = document.createElement('div');
-            previewContainerDiv.style.color = "var(--success)";
-            previewContainerDiv.innerText = "[Responsive HTML Slide Presentation Mapping Completed. Ready for Download stream verification.]";
-            addVisualPreviewElement(previewContainerDiv);
-
-            const blob = new Blob([presentationHtmlTemplate], {type: "text/html"});
-            const downloadLink = document.createElement('a');
-            downloadLink.download = "HyperEngine_Presentation_Slides.html";
-            downloadLink.href = URL.createObjectURL(blob);
-            downloadLink.click();
-            logAction("Success: Cross-compatible Slide structural components parsed and downloaded as an active presentation deck.");
-        }
-
-        // ==========================================
-        // TOOL LOGIC: POWERPOINT TO PDF ENGINE
-        // ==========================================
-        function executePptToPdf() {
-            const pptRawTextStringInputEl = document.getElementById('ppt-text-input');
-            const pptRawTextStringInput = pptRawTextStringInputEl ? pptRawTextStringInputEl.value : '';
-            if(!pptRawTextStringInput.trim()) {
-                alert("Please declare structured slide formatting tokens inside the workspace field array first.");
-                return;
-            }
-
-            logAction("Executing Presentation structural conversion processes: Mapping slides onto multi-page structural vector formats...");
-            if (window.jspdf) {
-                const { jsPDF } = window.jspdf;
-                const pdfDoc = new jsPDF({ orientation: 'landscape' });
-
-                const slidesRawBlocksArray = pptRawTextStringInput.split('---');
-                logAction(`Step: Segmented content parameters successfully. Total identified presentation slides elements: ${slidesRawBlocksArray.length}`);
-
-                slidesRawBlocksArray.forEach((slideTextContent, index) => {
-                    logAction(`Step: Rendering data arrays layout variables processing slide array index: ${index + 1}`);
-                    if(index > 0) {
-                        pdfDoc.addPage({ orientation: 'landscape' });
-                    }
-                    
-                    pdfDoc.setFillColor(30, 41, 59);
-                    pdfDoc.rect(0, 0, 297, 210, 'F'); 
-
-                    pdfDoc.setTextColor(248, 250, 252);
-                    pdfDoc.setFontSize(22);
-                    pdfDoc.text(`Presentation Slide Layer Component ${index + 1}`, 20, 30);
-                    
-                    pdfDoc.setFontSize(14);
-                    pdfDoc.setTextColor(148, 163, 184);
-                    const formattedSlideTextLines = pdfDoc.splitTextToSize(slideTextContent.trim(), 250);
-                    pdfDoc.text(formattedSlideTextLines, 20, 55);
-                });
-
-                pdfDoc.save('HyperEngine_Presentation_Render.pdf');
-                logAction("Success: Target PowerPoint layout structure compilation into global PDF framework verified.");
-            }
-        }
-
-        // ==========================================
-        // TOOL LOGIC: ADVANCED IMAGE CANVAS RESIZER
-        // ==========================================
-        function executeImageResize() {
-            if(!singleStagedImage) {
-                alert("Please add an image processing file element variable to baseline standard dimensions parameters first.");
-                return;
-            }
-            clearVisualPreview();
-            
-            const wInput = document.getElementById('resize-w');
-            const hInput = document.getElementById('resize-h');
-            const targetWidthValue = wInput ? parseInt(wInput.value) : 800;
-            const targetHeightValue = hInput ? parseInt(hInput.value) : 600;
-
-            logAction(`Executing image canvas transformation logic blocks. Re-rendering matrix arrays to dimensions width:${targetWidthValue}px height:${targetHeightValue}px`);
-
-            const outputCanvasElement = document.createElement('canvas');
-            outputCanvasElement.width = targetWidthValue;
-            outputCanvasElement.height = targetHeightValue;
-            
-            const ctx = outputCanvasElement.getContext('2d');
-            ctx.drawImage(singleStagedImage, 0, 0, targetWidthValue, targetHeightValue);
-
-            const processedDataUrlString = outputCanvasElement.toDataURL('image/png');
-            
-            const previewThumbImage = document.createElement('img');
-            previewThumbImage.src = processedDataUrlString;
-            previewThumbImage.className = 'preview-thumb';
-            addVisualpreviewElement = (el) => document.getElementById('preview-display').appendChild(el);
-            addVisualPreviewElement(previewThumbImage);
-
-            const downloadLink = document.createElement('a');
-            downloadLink.download = `HyperEngine_Resized_${targetWidthValue}x${targetHeightValue}.png`;
-            downloadLink.href = processedDataUrlString;
-            downloadLink.click();
-            logAction("Success: Transformed image matrix asset arrays downloaded safely.");
-        }
-
-        // ==========================================
-        // TOOL LOGIC: MULTI-IMAGE ATTACH & MERGER
-        // ==========================================
-        function executeImageAttach() {
-            if(stagedImagesList.length < 2) {
-                alert("Multi-Image Processing logic alert: Please stage an explicit array of at least 2 or more separate image assets to combine structures.");
-                return;
-            }
-            clearVisualPreview();
-            const directionEl = document.getElementById('attach-direction');
-            const placementDirectionAxis = directionEl ? directionEl.value : 'vertical';
-            logAction(`Executing image attachment compiler engine stacking modules along axis parameters orientation layout: [${placementDirectionAxis}]`);
-
-            const outputCanvas = document.createElement('canvas');
-            const ctx = outputCanvas.getContext('2d');
-
-            let comprehensiveTotalCalculatedWidth = 0;
-            let comprehensiveTotalCalculatedHeight = 0;
-
-            stagedImagesList.forEach(img => {
-                if (placementDirectionAxis === 'vertical') {
-                    if(img.width > comprehensiveTotalCalculatedWidth) comprehensiveTotalCalculatedWidth = img.width;
-                    comprehensiveTotalCalculatedHeight += img.height;
-                } else {
-                    comprehensiveTotalCalculatedWidth += img.width;
-                    if(img.height > comprehensiveTotalCalculatedHeight) comprehensiveTotalCalculatedHeight = img.height;
-                }
-            });
-
-            outputCanvas.width = comprehensiveTotalCalculatedWidth;
-            outputCanvas.height = comprehensiveTotalCalculatedHeight;
-            logAction(`Step: Allocated clear stitching canvas buffer space matrix matching calculated parameters width:${comprehensiveTotalCalculatedWidth}px height:${comprehensiveTotalCalculatedHeight}px`);
-
-            let temporaryCoordinateOffsetTrackerAxis = 0;
-            stagedImagesList.forEach((img, index) => {
-                logAction(`Step: Drawing image tracking instance ${index + 1} onto target master layout pixel buffer coordinate...`);
-                if (placementDirectionAxis === 'vertical') {
-                    ctx.drawImage(img, 0, temporaryCoordinateOffsetTrackerAxis);
-                    temporaryCoordinateOffsetTrackerAxis += img.height;
-                } else {
-                    ctx.drawImage(img, temporaryCoordinateOffsetTrackerAxis, 0);
-                    temporaryCoordinateOffsetTrackerAxis += img.width;
-                }
-            });
-
-            const comprehensiveMergedDataUrlString = outputCanvas.toDataURL('image/png');
-            
-            const finalMergedDisplayPreviewImage = document.createElement('img');
-            finalMergedDisplayPreviewImage.src = comprehensiveMergedDataUrlString;
-            finalMergedDisplayPreviewImage.className = 'preview-thumb';
-            addVisualPreviewElement(finalMergedDisplayPreviewImage);
-
-            const downloadLink = document.createElement('a');
-            downloadLink.download = "HyperEngine_Stitched_Composite_Sheet.png";
-            downloadLink.href = comprehensiveMergedDataUrlString;
-            downloadLink.click();
-            logAction("Success: Combined monolithic structural data asset sheet generated and deployed to down-stream file arrays.");
-        }
-    </script>
 </body>
 </html>
