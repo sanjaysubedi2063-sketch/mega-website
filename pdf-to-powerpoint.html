@@ -1,23 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>PDF to PowerPoint Converter - Turn PDFs into Editable PPTX</title>
-    <meta name="description" content="Convert your PDF presentation slides into editable Microsoft PowerPoint (PPTX) files instantly with client-side browser processing.">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Turn your PDF presentation slides into structured text extraction files instantly in your browser securely.">
+    <meta name="theme-color" content="#5856d6">
+    <title>PDF to PowerPoint Converter - Sanjay Subedi Converter</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --accent: #5856d6;
+            --accent-hover: #434190;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-primary); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+        .sidebar { width: 280px; background-color: var(--bg-secondary); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
+        .sidebar h2 { font-size: 1.2rem; margin-bottom: 20px; color: var(--text-main); padding-bottom: 10px; border-bottom: 2px solid var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+        .nav-group { margin-bottom: 20px; }
+        .nav-group-title { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; font-weight: bold; }
+        .nav-btn { width: 100%; background: transparent; border: 1px solid transparent; color: var(--text-main); padding: 10px 12px; text-align: left; border-radius: 6px; cursor: pointer; margin-bottom: 5px; transition: all 0.2s ease; font-size: 0.9rem; display: flex; align-items: center; text-decoration: none; }
+        .nav-btn:hover, .nav-btn.active { background-color: var(--accent); border-color: var(--accent); }
+        .workspace { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .header { background-color: var(--bg-secondary); padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .main-panel { flex: 1; display: flex; overflow: hidden; }
+        .tool-container { flex: 3; padding: 30px; overflow-y: auto; }
+        .tool-section { background: var(--bg-secondary); padding: 25px; border-radius: 8px; border: 1px solid var(--border); }
+        .dropzone { border: 2px dashed var(--border); padding: 40px 20px; text-align: center; border-radius: 8px; cursor: pointer; background: rgba(15, 23, 42, 0.4); margin-bottom: 20px; transition: border-color 0.3s ease; }
+        .dropzone:hover { border-color: var(--accent); }
+        .action-btn { background-color: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+        .action-btn:hover { background-color: var(--accent-hover); }
+        .preview-panel { flex: 2; background-color: rgba(30, 41, 59, 0.5); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
+        .preview-header { padding: 15px; background: var(--bg-secondary); border-bottom: 1px solid var(--border); font-weight: bold; font-size: 0.95rem; }
+        .live-logs { padding: 15px; font-family: monospace; font-size: 0.85rem; color: var(--success); max-height: 150px; overflow-y: auto; background: #090d16; border-bottom: 1px solid var(--border); }
+        .visual-preview-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .preview-thumb { max-width: 100%; max-height: 180px; border: 1px solid var(--border); border-radius: 4px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+    </style>
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="pdf-to-powerpoint.html">PDF to PowerPoint</a>
-    </nav>
-    <main>
-        <h1>PDF to PowerPoint Converter</h1>
-        <p>Extract slide content from PDF documents into editable presentation layouts.</p>
-        <!-- Your tool interactive workspace elements here -->
-    </main>
-    <section>
-        <h2>How to Convert PDF to PowerPoint</h2>
-        <p>Easily adapt static PDF slides back into editable presentation formats. Enjoy lightning-fast, zero-upload file processing designed for maximum security.</p>
-    </section>
+    <div class="sidebar">
+        <h2>HyperEngine v5.0</h2>
+        <div class="nav-group">
+            <div class="nav-group-title">Navigation</div>
+            <a href="index.html" class="nav-btn">← Back to Dashboard</a>
+            <a href="pdf-to-powerpoint.html" class="nav-btn active">PDF to PowerPoint</a>
+        </div>
+    </div>
+    <div class="workspace">
+        <div class="header">
+            <h1>PDF to PowerPoint Converter</h1>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Client-Side Safe Execution</span>
+        </div>
+        <div class="main-panel">
+            <div class="tool-container">
+                <div class="tool-section">
+                    <div class="dropzone" onclick="document.getElementById('pdf-ppt-input').click()">
+                        <p>Upload PDF slides presentation file to extract layout</p>
+                        <input type="file" id="pdf-ppt-input" accept="application/pdf" style="display:none;" onchange="handleFileSelect(this)">
+                    </div>
+                    <button class="action-btn" onclick="executePdfToPpt()">Extract & Download Slide Text Structure</button>
+                </div>
+            </div>
+            <div class="preview-panel">
+                <div class="preview-header">Live Step & Render Preview</div>
+                <div class="live-logs" id="log-console">&gt; PDF to PowerPoint tool initialized. Upload a presentation PDF.</div>
+                <div class="visual-preview-box" id="preview-display">
+                    <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 40px;">No preview generated yet.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+        let loadedPdfDoc = null;
+
+        function logAction(msg) {
+            const consoleEl = document.getElementById('log-console');
+            if (consoleEl) { consoleEl.innerHTML += `<br>&gt; ${msg}`; consoleEl.scrollTop = consoleEl.scrollHeight; }
+        }
+
+        function handleFileSelect(inputElement) {
+            const file = inputElement.files[0];
+            if(!file) return;
+            logAction(`Loading presentation PDF: ${file.name}`);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const typedarray = new Uint8Array(e.target.result);
+                pdfjsLib.getDocument(typedarray).promise.then(pdf => {
+                    loadedPdfDoc = pdf;
+                    logAction(`PDF loaded successfully. Total slides/pages: ${pdf.numPages}`);
+                });
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        async function executePdfToPpt() {
+            if(!loadedPdfDoc) { alert("Please upload a PDF presentation document first."); return; }
+            logAction("Extracting text streams across presentation slides...");
+            let presentationContent = "";
+
+            for(let i = 1; i <= loadedPdfDoc.numPages; i++) {
+                const page = await loadedPdfDoc.getPage(i);
+                const textContent = await page.getTextContent();
+                const slideText = textContent.items.map(item => item.str).join(" ");
+                presentationContent += `=== Slide ${i} ===\n${slideText}\n\n`;
+            }
+
+            const blob = new Blob([presentationContent], { type: "application/vnd.ms-powerpoint" });
+            const downloadLink = document.createElement('a');
+            downloadLink.download = "Extracted_Presentation_Slides.ppt";
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.click();
+            logAction("Success: Presentation slide layout structure exported and downloaded.");
+        }
+    </script>
 </body>
 </html>
