@@ -87,6 +87,7 @@
             font-size: 0.9rem;
             display: flex;
             align-items: center;
+            text-decoration: none;
         }
 
         .nav-btn:hover, .nav-btn.active {
@@ -246,38 +247,50 @@
         
         <div class="nav-group">
             <div class="nav-group-title">PDF Core Engine</div>
-            <button class="nav-btn active" onclick="switchTool('pdf-to-img')">PDF to Images</button>
-            <button class="nav-btn" onclick="switchTool('img-to-pdf')">Images to PDF</button>
-            <button class="nav-btn" onclick="switchTool('pdf-to-word')">PDF to Word</button>
-            <button class="nav-btn" onclick="switchTool('word-to-pdf')">Word to PDF</button>
-            <button class="nav-btn" onclick="switchTool('pdf-to-ppt')">PDF to PowerPoint</button>
-            <button class="nav-btn" onclick="switchTool('ppt-to-pdf')">PowerPoint to PDF</button>
+            <a href="pdf-to-images.html" class="nav-btn">PDF to Images</a>
+            <a href="images-to-pdf.html" class="nav-btn">Images to PDF</a>
+            <a href="pdf-to-word.html" class="nav-btn">PDF to Word</a>
+            <a href="word-to-pdf.html" class="nav-btn">Word to PDF</a>
+            <a href="pdf-to-powerpoint.html" class="nav-btn">PDF to PowerPoint</a>
+            <a href="powerpoint-to-pdf.html" class="nav-btn">PowerPoint to PDF</a>
         </div>
 
         <div class="nav-group">
             <div class="nav-group-title">Image Processing</div>
-            <button class="nav-btn" onclick="switchTool('img-resizer')">Image Resizer</button>
-            <button class="nav-btn" onclick="switchTool('img-attach')">Image Attach & Merger</button>
+            <a href="image-resizer.html" class="nav-btn">Image Resizer</a>
+            <a href="image-merge.html" class="nav-btn">Image Attach & Merger</a>
         </div>
 
         <div class="nav-group">
             <div class="nav-group-title">Navigation</div>
-            <button class="nav-btn" onclick="window.location.href='blog.html'">View Blog</button>
+            <a href="blog.html" class="nav-btn">View Blog</a>
         </div>
     </div>
 
     <!-- Main Engine Workspace -->
     <div class="workspace">
         <div class="header">
-            <h1 id="current-tool-title">PDF to Images</h1>
+            <h1 id="current-tool-title">Sanjay Subedi Converter Suite</h1>
             <span style="font-size: 0.85rem; color: var(--text-muted);">Client-Side Sandbox Enforced</span>
         </div>
 
         <div class="main-panel">
             <div class="tool-container">
 
+                <!-- HOME LANDING / DASHBOARD SECTION -->
+                <div id="home-dashboard" class="tool-section active">
+                    <h2 style="margin-bottom: 15px;">Welcome to Sanjay Subedi Converter Suite</h2>
+                    <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
+                        Select any tool from the sidebar navigation menu above to perform fast, secure, client-side document conversions, image resizing, and file merging directly within your browser window. No server uploads required.
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                        <a href="pdf-to-word.html" class="action-btn" style="text-align: center; text-decoration: none; display: block;">Open PDF to Word Tool</a>
+                        <a href="image-resizer.html" class="action-btn" style="text-align: center; text-decoration: none; display: block;">Open Image Resizer Tool</a>
+                    </div>
+                </div>
+
                 <!-- PDF TO IMAGES SECTION -->
-                <div id="pdf-to-img" class="tool-section active">
+                <div id="pdf-to-img" class="tool-section">
                     <div class="dropzone" onclick="document.getElementById('pdf-to-img-input').click()">
                         <p>Click or Drop PDF file here to parse</p>
                         <input type="file" id="pdf-to-img-input" accept="application/pdf" style="display:none;" onchange="handleFileSelect(this, 'pdf')">
@@ -382,7 +395,7 @@
             <!-- STEP ACTION & VISUAL PREVIEW SIDE PANEL -->
             <div class="preview-panel">
                 <div class="preview-header">Live Workspace Step & Render Preview</div>
-                <div class="live-logs" id="log-console">> Engine operational. Awaiting client action...</div>
+                <div class="live-logs" id="log-console">> Engine operational. Select a tool link on the sidebar to get started.</div>
                 <div class="visual-preview-box" id="preview-display">
                     <span style="color: var(--text-muted); font-size: 0.9rem; margin-top: 40px;">No step adjustments or render objects generated yet.</span>
                 </div>
@@ -396,33 +409,9 @@
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
         // Global State Memory Space
-        let currentActiveTool = 'pdf-to-img';
         let loadedPdfDocument = null;
         let stagedImagesList = [];
         let singleStagedImage = null;
-
-        // UI View Switcher Engine
-        function switchTool(toolId) {
-            currentActiveTool = toolId;
-            document.querySelectorAll('.tool-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-            
-            document.getElementById(toolId).classList.add('active');
-            event.currentTarget.classList.add('active');
-            
-            const titles = {
-                'pdf-to-img': 'PDF to Images Converter',
-                'img-to-pdf': 'Images to PDF Compiler',
-                'pdf-to-word': 'PDF to Word Structural Text Extractor',
-                'word-to-pdf': 'Word Layout to PDF Document Compiler',
-                'pdf-to-ppt': 'PDF to Presentation Layout Suite',
-                'ppt-to-pdf': 'Presentation Deck to PDF Compiler',
-                'img-resizer': 'Advanced Image Canvas Resizer',
-                'img-attach': 'Image Multi-Stitch Attachment Studio'
-            };
-            document.getElementById('current-tool-title').innerText = titles[toolId];
-            logAction(`Switched active tool context workspace to: [${titles[toolId]}]`);
-        }
 
         // Live Log System Control
         function logAction(msg) {
@@ -585,7 +574,6 @@
                 const pageW = pdfDoc.internal.pageSize.getWidth();
                 const pageH = pdfDoc.internal.pageSize.getHeight();
                 
-                // Content distribution math layout fitting matrix logic
                 pdfDoc.addImage(img.src, 'PNG', 0, 0, pageW, pageH);
             });
 
@@ -614,7 +602,6 @@
                 fullExtractedTextText += `\n--- [Document Page Component Structure ${pageNum}] ---\n\n` + pageItems + "\n";
             }
 
-            // Preview rendering layout visualization
             const previewDisplayBlock = document.createElement('textarea');
             previewDisplayBlock.rows = 8;
             previewDisplayBlock.style.width = "100%";
@@ -683,7 +670,6 @@
             }
             presentationHtmlTemplate += `</body></html>`;
 
-            // Step update visual components preview array
             const previewContainerDiv = document.createElement('div');
             previewContainerDiv.style.color = "var(--success)";
             previewContainerDiv.innerText = "[Responsive HTML Slide Presentation Mapping Completed. Ready for Download stream verification.]";
@@ -709,7 +695,6 @@
 
             logAction("Executing Presentation structural conversion processes: Mapping slides onto multi-page structural vector formats...");
             const { jsPDF } = window.jspdf;
-            // Standard landscape view configuration for matching slide ratios
             const pdfDoc = new jsPDF({ orientation: 'landscape' });
 
             const slidesRawBlocksArray = pptRawTextStringInput.split('---');
@@ -792,7 +777,6 @@
             let comprehensiveTotalCalculatedWidth = 0;
             let comprehensiveTotalCalculatedHeight = 0;
 
-            // Step 1: Compute dimensions
             stagedImagesList.forEach(img => {
                 if (placementDirectionAxis === 'vertical') {
                     if(img.width > comprehensiveTotalCalculatedWidth) comprehensiveTotalCalculatedWidth = img.width;
@@ -807,7 +791,6 @@
             outputCanvas.height = comprehensiveTotalCalculatedHeight;
             logAction(`Step: Allocated clear stitching canvas buffer space matrix matching calculated parameters width:${comprehensiveTotalCalculatedWidth}px height:${comprehensiveTotalCalculatedHeight}px`);
 
-            // Step 2: Draw and blend components onto composite canvas
             let temporaryCoordinateOffsetTrackerAxis = 0;
             stagedImagesList.forEach((img, index) => {
                 logAction(`Step: Drawing image tracking instance ${index + 1} onto target master layout pixel buffer coordinate...`);
