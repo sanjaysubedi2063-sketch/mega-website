@@ -60,6 +60,8 @@
         }
         #document-preview-render p { margin-bottom: 12px; }
         #document-preview-render h1 { font-size: 22px; font-weight: bold; margin-bottom: 15px; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; }
+        #document-preview-render h2 { font-size: 18px; font-weight: bold; margin-top: 15px; margin-bottom: 10px; }
+        #document-preview-render ul, #document-preview-render ol { margin-left: 20px; margin-bottom: 12px; }
     </style>
 </head>
 <body>
@@ -102,8 +104,9 @@
 
     <script>
         let stagedFileName = "";
-        let parsedDocumentContent = [];
+        let pdfContentDefinition = [];
         let generatedPdfBlob = null;
+        let isFileLoaded = false;
 
         function logAction(msg) {
             const consoleEl = document.getElementById('log-console');
@@ -119,6 +122,47 @@
             return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
         }
 
+        // Helper to convert DOM nodes into pdfMake-compatible JSON blocks
+        function parseHtmlNodeToPdfMake(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                return node.textContent;
+            }
+            if (node.nodeType !== Node.ELEMENT_NODE) {
+                return null;
+            }
+
+            const children = Array.from(node.childNodes).map(parseHtmlNodeToPdfMake).filter(c => c !== null && c !== "");
+
+            switch (node.tagName.toLowerCase()) {
+                case 'h1':
+                    return { text: children, fontSize: 18, bold: true, margin: [0, 15, 0, 8], color: '#0f172a' };
+                case 'h2':
+                    return { text: children, fontSize: 14, bold: true, margin: [0, 12, 0, 6], color: '#1e293b' };
+                case 'h3':
+                case 'h4':
+                    return { text: children, fontSize: 12, bold: true, margin: [0, 10, 0, 4], color: '#334155' };
+                case 'p':
+                    return { text: children, fontSize: 10.5, margin: [0, 0, 0, 8], color: '#334155', lineHeight: 1.3 };
+                case 'strong':
+                case 'b':
+                    return { text: children, bold: true };
+                case 'em':
+                case 'i':
+                    return { text: children, italics: true };
+                case 'ul':
+                    return { ul: children.map(c => typeof c === 'object' ? c : { text: c }), margin: [0, 0, 0, 8] };
+                case 'ol':
+                    return { ol: children.map(c => typeof c === 'object' ? c : { text: c }), margin: [0, 0, 0, 8] };
+                case 'li':
+                    return children;
+                case 'a':
+                    return { text: children, color: '#5856d6', decoration: 'underline' };
+                default:
+                    // Fallback container block
+                    return children.length === 1 ? children[0] : { text: children };
+            }
+        }
+
         async function handleFileSelect(inputElement) {
             const file = inputElement.files[0];
             if(!file) return;
@@ -130,42 +174,45 @@
                 const arrayBuffer = event.target.result;
 
                 try {
-                    const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
-                    const textLines = result.value.split('\n').filter(line => line.trim() !== '');
+                    // Extract rich HTML structure via Mammoth instead of raw text
+                    const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
+                    const htmlString = result.value;
 
-                    parsedDocumentContent = textLines.map(line => {
-                        if(line.length < 50 && (line.toLowerCase().includes('chapter') || line.toLowerCase().includes('project') || line.startsWith('1.') || line.startsWith('2.') || line.startsWith('3.'))) {
-                            return { text: line, fontSize: 16, bold: true, margin: [0, 15, 0, 5], color: '#0f172a' };
-                        }
-                        return { text: line, fontSize: 11, margin: [0, 0, 0, 8], color: '#334155' };
-                    });
-
-                    // Render preview
-                    const previewHtml = textLines.map(l => `<p>${l}</p>`).join('');
+                    // Render interactive preview in the UI box
                     document.getElementById('preview-display').innerHTML = `
                         <div id="document-preview-render">
                             <h1>${file.name}</h1>
-                            ${previewHtml}
+                            ${htmlString}
                         </div>
                     `;
 
-                    // Compile PDF definition securely to calculate exact size upfront
+                    // Parse the generated HTML into structured pdfMake nodes
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(htmlString, 'text/html');
+                    const bodyChildren = Array.from(doc.body.childNodes);
+                    
+                    pdfContentDefinition = bodyChildren
+                        .map(parseHtmlNodeToPdfMake)
+                        .filter(node => node !== null && (typeof node === 'string' ? node.trim() !== '' : true));
+
+                    // Add title block at the very top of the PDF definition
                     const docDefinition = {
                         content: [
-                            { text: file.name, fontSize: 20, bold: true, margin: [0, 0, 0, 15] },
-                            ...parsedDocumentContent
+                            { text: file.name, fontSize: 20, bold: true, margin: [0, 0, 0, 15], color: '#0f172a' },
+                            ...pdfContentDefinition
                         ],
                         defaultStyle: { font: 'Roboto' },
                         pageMargins: [40, 40, 40, 40]
                     };
 
+                    // Compile PDF blob to calculate size securely
                     pdfMake.createPdf(docDefinition).getBlob((blob) => {
                         generatedPdfBlob = blob;
                         const formattedSize = formatBytes(blob.size);
                         const sizeBadge = document.getElementById('file-size-badge');
                         sizeBadge.innerText = `Size: ${formattedSize}`;
                         sizeBadge.style.display = 'inline-block';
-                        logAction(`Success: Native vector PDF compiled. File size: ${formattedSize}`);
+                        logAction(`Success: Native vector PDF compiled with structure. File size: ${formattedSize}`);
                     });
 
                     isFileLoaded = true;
@@ -187,8 +234,8 @@
             
             const docDefinition = {
                 content: [
-                    { text: stagedFileName, fontSize: 20, bold: true, margin: [0, 0, 0, 15] },
-                    ...parsedDocumentContent
+                    { text: stagedFileName, fontSize: 20, bold: true, margin: [0, 0, 0, 15], color: '#0f172a' },
+                    ...pdfContentDefinition
                 ],
                 defaultStyle: { font: 'Roboto' },
                 pageMargins: [40, 40, 40, 40]
